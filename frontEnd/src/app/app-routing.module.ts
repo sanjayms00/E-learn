@@ -4,12 +4,9 @@ import { ClientComponent } from './pages/client/client.component';
 import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
-  {
-    path : '', 
-    component: ClientComponent,
-    // loadChildren: () => import('./pages/client/client-routing-module').then(m => m.ClientRoutingModule),
-  },
-  {path: 'admin', component: AdminComponent}
+  {path : '', component: ClientComponent},
+  {path : 'admin', component: AdminComponent},
+  //{ path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 @NgModule({
