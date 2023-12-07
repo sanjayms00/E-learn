@@ -32,7 +32,7 @@ export class AuthService {
   //adminlogin api call
   adminLoginService(adminLoginData: loginInterface): Observable<object>
   {
-    console.log('service', adminLoginData )
+    // console.log( adminLoginData )
     return this.http.post<{admin : adminInterface}>(`${constant.baseUrl}/admin/login`, adminLoginData)
   }
 

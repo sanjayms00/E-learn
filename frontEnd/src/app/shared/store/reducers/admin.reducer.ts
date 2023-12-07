@@ -1,10 +1,10 @@
 import { createReducer, on } from "@ngrx/store";
-import { initialState, initialStateInterface } from "../state/main.state";
+// import { initialState } from "../state/main.state";
 import { adminLoginSuccess } from "../actions/admin.action";
-import { state } from "@angular/animations";
+import { adminState } from "../state/admin.state";
 
-const _adminReducer = createReducer(initialState, on(
-    adminLoginSuccess, (state, action) => {
+const _adminReducer = createReducer(adminState, 
+    on(adminLoginSuccess, (state, action) => {
         console.log(state, action)
         return {
             ...state
@@ -14,6 +14,6 @@ const _adminReducer = createReducer(initialState, on(
 
 
 
-function admineducer(state: initialStateInterface, action: any){
+export function adminReducer(state: any, action: any){
     return _adminReducer(state, action)
 }

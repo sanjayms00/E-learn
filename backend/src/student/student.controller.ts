@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { StudentService } from './student.service';
 
 import { SignupDto } from './dto/signup.dto';
+import { loginDataInterface } from 'src/interfaces/common.interface';
 
 @Controller('student')
 export class StudentController {
@@ -13,6 +14,12 @@ export class StudentController {
     studentSignUp(@Body() studentData : SignupDto): Promise<{token : string}>
     {
         return this.studentService.signUp(studentData)
+    }
+
+    @Post('login')
+    studentLogin(@Body() studentData : loginDataInterface): Promise<{token : string}>
+    {   console.log("sudent data", studentData)
+        return this.studentService.login(studentData)
     }
 
     // @Get('')

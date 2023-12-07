@@ -4,7 +4,6 @@ export interface clientInterface {
     userName : string
 }
 
-
 export interface clientSignupInterface {
     fName : string;
     lName : string;

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,13 @@ import { AdminModule } from './pages/admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { adminReducer } from './shared/store/reducers/admin.reducer';
+import { clientReducer } from './shared/store/reducers/client.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { clientEffects } from './shared/store/effects/client.effect';
+import { adminEffects } from './shared/store/effects/admin.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -25,6 +32,9 @@ import { FormsModule } from '@angular/forms';
     ClientModule,
     AdminModule,
     HttpClientModule,
+    StoreModule.forRoot({admin : adminReducer, client: clientReducer}),
+    EffectsModule.forRoot([clientEffects, adminEffects]),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()})
   ],
   providers: [],
   bootstrap: [AppComponent]

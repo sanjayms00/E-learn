@@ -1,10 +1,11 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Student } from './schemas/student.schema';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { SignupDto } from './dto/signup.dto';
+import { loginDataInterface } from 'src/interfaces/common.interface';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class StudentService {
     {
         const {fName, lName, email } = signUpData
         
-        const isStudentExist = await this.studentModel.findOne({email})
+        const isStudentExist = await this.studentModel.findOne({email: email})
 
         if(isStudentExist){
             throw new ConflictException("Already registered")
@@ -40,6 +41,28 @@ export class StudentService {
           
     }
 
+    
+    async login(loginData: loginDataInterface) : Promise<{token : string}>
+    {
+        const { email, password } = loginData
+        
+        const student = await this.studentModel.findOne({email})
+
+        if(!student){
+            throw new NotFoundException("User not found")
+        } 
+
+        const isPasswordMatch = await bcrypt.compare(password, student.password)
+
+        if(!isPasswordMatch){
+            throw new UnauthorizedException("unauthorized user")
+        }
+
+        return {
+            token: await this.jwtService.signAsync({id: student._id}),
+        };
+          
+    }
 
 
 
