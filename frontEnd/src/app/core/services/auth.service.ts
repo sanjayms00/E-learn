@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { constant } from '../constant/constant';
 import { Observable } from 'rxjs';
-import { loginInterface } from 'src/app/shared/interface/common.interface';
-import { clientSignupInterface } from 'src/app/shared/interface/client.interface';
+import { SignUpInterface, loginInterface } from 'src/app/shared/interface/common.interface';
 import { adminInterface } from 'src/app/shared/interface/admin.interface';
 
 
@@ -23,17 +22,15 @@ export class AuthService {
   }
 
   //signup api call
-  registerStudent(signupData: clientSignupInterface): Observable<object>
+  studentSignUp(signupData: SignUpInterface): Observable<object>
   {
     return this.http.post<object>(`${constant.baseUrl}/student/signUp`, signupData)
   }
 
-
   //adminlogin api call
-  adminLoginService(adminLoginData: loginInterface): Observable<object>
+  adminLogin(adminLoginData: loginInterface): Observable<{token : string}>
   {
-    // console.log( adminLoginData )
-    return this.http.post<{admin : adminInterface}>(`${constant.baseUrl}/admin/login`, adminLoginData)
+    return this.http.post<{token : string}>(`${constant.baseUrl}/admin/login`, adminLoginData)
   }
 
 

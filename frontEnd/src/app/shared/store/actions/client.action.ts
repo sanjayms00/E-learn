@@ -1,6 +1,11 @@
 import { createAction, props } from "@ngrx/store";
-import { loginInterface } from "../../interface/common.interface";
+import { SignUpInterface, loginInterface } from "../../interface/common.interface";
 
-export const clientLogin = createAction('[Admin] client login', props<{loginData: loginInterface}>())
-export const clientLoginSuccess = createAction('[Admin] client login success', props<{token : string}>())
-export const clientLoginFailure = createAction('[Admin] aclientmin login failure')
+export const clientLogin = createAction('[Client] login', props<{loginData: loginInterface}>())
+export const clientLoginSuccess = createAction('[Client] login success', props<{token : string}>())
+export const clientLoginFailure = createAction('[Client] login failure')
+
+
+export const clientSignUp = createAction('[Client] SignUp', props<{signUpdata: SignUpInterface}>())
+export const clientSignUpSuccess = createAction('[Client] SignUp success', props<{token : string}>())
+export const clientSignUpFailure = createAction('[Client] SignUp failure')

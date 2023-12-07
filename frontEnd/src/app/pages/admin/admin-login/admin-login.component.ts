@@ -24,10 +24,7 @@ export class AdminLoginComponent {
 
   adminLoginSubmit(){
     const formData = this.adminLoginForm.getRawValue();
-    this.store.dispatch(adminLogin(formData))
-    // this.authService.adminLogin(formData).subscribe((res)=>{
-    //   console.log(res)
-    // })
+    this.store.dispatch(adminLogin({logindata : formData}))
   }
   
 

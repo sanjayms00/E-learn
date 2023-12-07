@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Store } from "@ngrx/store";
+import { clientInterface } from 'src/app/shared/interface/client.interface';
+import { clientSignUp } from 'src/app/shared/store/actions/client.action';
+import { SignUpInterface } from 'src/app/shared/interface/common.interface';
+
 
 @Component({
   selector: 'app-client-signup',
@@ -11,7 +16,10 @@ export class ClientSignupComponent implements OnInit {
 
   signUpForm !: FormGroup
 
-  constructor(private authservice: AuthService){}
+  constructor(
+    private authservice: AuthService,
+    private store: Store<{client: clientInterface}> 
+    ){}
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
@@ -24,8 +32,9 @@ export class ClientSignupComponent implements OnInit {
   }
 
   signUp(){
-    const formData = this.signUpForm.value;
-    this.authservice.registerStudent(formData).subscribe( res => console.log("returned",res))
+    const signUpdata: SignUpInterface = this.signUpForm.value;
+    // this.authservice.registerStudent(formData).subscribe( res => console.log("returned",res))
+    this.store.dispatch(clientSignUp({signUpdata}))
   }
 
 

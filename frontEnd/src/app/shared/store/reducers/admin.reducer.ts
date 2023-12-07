@@ -7,7 +7,8 @@ const _adminReducer = createReducer(adminState,
     on(adminLoginSuccess, (state, action) => {
         console.log(state, action)
         return {
-            ...state
+            ...state,
+            token: action.token
         }
     }
 ))

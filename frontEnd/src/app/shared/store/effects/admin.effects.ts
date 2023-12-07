@@ -14,14 +14,20 @@ export class adminEffects {
     
 
     _adminLogin$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(adminLogin),
-      exhaustMap((action) =>
-        this.authService.adminLoginService(action).pipe(
-          map(response => adminLoginSuccess({ token: '' })),
-          catchError(error => of(adminLoginFailure({ error : error.message })))
-        )
+      this.action$.pipe(
+        ofType(adminLogin),
+        exhaustMap((action) =>{
+          const data = action.logindata
+          return this.authService.adminLogin(data).pipe(
+            map((response: any) => {
+                  localStorage.setItem('adminToken', JSON.stringify(response.token));
+                  return adminLoginSuccess({token : response.token})
+              }),
+            catchError(error => {
+              console.log("login response error", error.messsage)
+              return of(error.message)
+          }))
+        })
       )
-    )
-  );
+    );
 }

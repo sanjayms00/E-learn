@@ -18,7 +18,7 @@ export class StudentService {
 
     async signUp(signUpData: SignupDto) : Promise<{token : string}>
     {
-        const {fName, lName, email } = signUpData
+        const {fName, lName, email, password } = signUpData
         
         const isStudentExist = await this.studentModel.findOne({email: email})
 
@@ -26,7 +26,7 @@ export class StudentService {
             throw new ConflictException("Already registered")
         }
 
-        const hashedPassword = await bcrypt.hash(signUpData.password, 10)    //salt
+        const hashedPassword = await bcrypt.hash(password, 10)    //salt
         
         const student = await this.studentModel.create({
             fName,
@@ -36,9 +36,8 @@ export class StudentService {
         })
 
         return {
-            token: await this.jwtService.signAsync({id: student._id}),
+            token: await this.jwtService.signAsync({id: student._id})
         };
-          
     }
 
     

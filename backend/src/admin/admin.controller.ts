@@ -14,11 +14,10 @@ export class AdminController {
 
     @Post('login')
     adminLogin(@Body() loginData: loginDataInterface){
-        console.log(loginData)
         return this.adminService.login(loginData)
     }
 
-    @Post('register')
+    @Post('register') 
     adminRegister(@Body() admindata : adminRegisterData){
         console.log(admindata)
         return this.adminService.register(admindata)
