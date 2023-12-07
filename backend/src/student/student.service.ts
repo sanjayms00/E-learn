@@ -1,50 +1,86 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Student } from 'src/schemas/student.schema';
+import { Student } from './schemas/student.schema';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+import { SignupDto } from './dto/signup.dto';
+
 
 @Injectable()
 export class StudentService {
     constructor(
         @InjectModel(Student.name) 
-        private studentModel: mongoose.Model<Student>
+        private studentModel: mongoose.Model<Student>,
+        private jwtService: JwtService
     ){}
 
-    async findAll(): Promise<Student[]>
+    async signUp(signUpData: SignupDto) : Promise<{token : string}>
     {
-        return await this.studentModel.find()
-    }
-
-    async createStudent(data: Student): Promise<Student>
-    {
-        const isValid = await this.studentModel.find({email : data.email})
-        if(isValid){
-            throw new ConflictException("Already registed")
-        }
+        const {fName, lName, email } = signUpData
         
-        return await this.studentModel.create(data)
-    }
+        const isStudentExist = await this.studentModel.findOne({email})
 
-    async findById(id : string): Promise<Student>
-    {
-        const student =  await this.studentModel.findById(id)
-
-        if(!student){
-            throw new NotFoundException("student not found")
+        if(isStudentExist){
+            throw new ConflictException("Already registered")
         }
 
-        return student
+        const hashedPassword = await bcrypt.hash(signUpData.password, 10)    //salt
+        
+        const student = await this.studentModel.create({
+            fName,
+            lName,
+            email,
+            password: hashedPassword
+        })
+
+        return {
+            token: await this.jwtService.signAsync({id: student._id}),
+        };
+          
     }
 
-    async updateById(id : string, data : Student): Promise<Student>
-    {
-        const student =  await this.studentModel.findByIdAndUpdate(id, data)
 
-        if(!student){
-            throw new NotFoundException("student not found")
-        }
 
-        return student
-    }
+
+
+
+
+    // async findAll(): Promise<Student[]>
+    // {
+    //     return await this.studentModel.find()
+    // }
+
+    // async createStudent(data: Student): Promise<Student>
+    // {
+    //     const isValid = await this.studentModel.find({email : data.email})
+    //     if(isValid){
+    //         throw new ConflictException("Already registed")
+    //     }
+        
+    //     return await this.studentModel.create(data)
+    // }
+
+    // async findById(id : string): Promise<Student>
+    // {
+    //     const student =  await this.studentModel.findById(id)
+
+    //     if(!student){
+    //         throw new NotFoundException("student not found")
+    //     }
+
+    //     return student
+    // }
+
+    // async updateById(id : string, data : Student): Promise<Student>
+    // {
+    //     const student =  await this.studentModel.findByIdAndUpdate(id, data)
+
+    //     if(!student){
+    //         throw new NotFoundException("student not found")
+    //     }
+
+    //     return student
+    // }
 
 }

@@ -5,13 +5,17 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { StuentListComponent } from './stuent-list/stuent-list.component';
+import { InstructorListComponent } from './instructor-list/instructor-list.component';
 
 
 
 @NgModule({
   declarations: [
     AdminLoginComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    StuentListComponent,
+    InstructorListComponent
   ],
   imports: [
     CommonModule,

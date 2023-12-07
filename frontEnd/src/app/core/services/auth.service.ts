@@ -25,16 +25,14 @@ export class AuthService {
   //signup api call
   registerStudent(signupData: clientSignupInterface): Observable<object>
   {
-    return this.http.post<object>(`${constant.baseUrl}/student/register`, signupData)
+    return this.http.post<object>(`${constant.baseUrl}/student/signUp`, signupData)
   }
 
 
-
-
-
   //adminlogin api call
-  adminLogin(adminLoginData: loginInterface): Observable<object>
+  adminLoginService(adminLoginData: loginInterface): Observable<object>
   {
+    console.log('service', adminLoginData )
     return this.http.post<{admin : adminInterface}>(`${constant.baseUrl}/admin/login`, adminLoginData)
   }
 

@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 @Schema({
     timestamps: true
 })
-class AdminSchema {
+export class Admin {
 
     @Prop()
     username : string
@@ -15,10 +15,8 @@ class AdminSchema {
     @Prop()
     password : string
 
-    @Prop()
-    token : string
 
 }
 
 
-export const adminSchema = SchemaFactory.createForClass(AdminSchema)
+export const adminSchema = SchemaFactory.createForClass(Admin)

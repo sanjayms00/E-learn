@@ -10,10 +10,11 @@ const routes: Routes = [
     path : '', 
     component: ClientComponent, 
     children: [
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: ClientHomeComponent},
       {path: 'signup', component: ClientSignupComponent},
       {path: 'login', component: ClientLoginComponent},
-      {path: '', redirectTo: '', pathMatch: 'full'}
+
     ]
   }
 ];

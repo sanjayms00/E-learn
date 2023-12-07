@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { Store } from '@ngrx/store';
+
+// import { clientLogin } from 'src/app/shared/store/actions/client.action';
 
 @Component({
   selector: 'app-client-login',
@@ -11,7 +13,9 @@ export class ClientLoginComponent {
   
   studentLogin !:FormGroup
 
-    constructor(private authService: AuthService ){}
+    constructor(
+      private store: Store 
+    ){}
 
 
   ngOnInit(): void {
@@ -23,8 +27,6 @@ export class ClientLoginComponent {
   
   login(){
     const loginData = this.studentLogin.value
-    this.authService.studentLogin(loginData).subscribe(res =>{
-      console.log("returned", res)
-    })
+    // this.store.dispatch(clientLogin({loginData}))
   }
 }
