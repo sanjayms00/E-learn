@@ -1,12 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Post('auth/login')
-  async login(@Body() loginData): Promise<object> {
-    return this.appService.findClient(loginData);
+  @Get()
+  getHello(): string {
+    return 'Hello from the general API!';
   }
 }

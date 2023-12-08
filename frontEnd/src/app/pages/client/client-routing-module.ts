@@ -1,14 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StudentLoginComponent } from './student-login/student-login.component';
+import { ClientComponent } from './client.component';
+import { ClientHomeComponent } from './client-home/client-home.component';
+import { ClientSignupComponent } from './client-signup/client-signup.component';
+import { ClientLoginComponent } from './client-login/client-login.component';
 
 const routes: Routes = [
-  {path : '', component: StudentLoginComponent },
-  {path : 'login', component: StudentLoginComponent },
+  {
+    path : '', 
+    component: ClientComponent, 
+    children: [
+      {path: '', component: ClientHomeComponent},
+      {path: 'home', component: ClientHomeComponent},
+      {path: 'signup', component: ClientSignupComponent},
+      {path: 'login', component: ClientLoginComponent},
+
+    ]
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class ClientRoutingModule { }
