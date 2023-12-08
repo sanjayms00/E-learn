@@ -4,7 +4,6 @@ import { HttpClient } from "@angular/common/http";
 import { constant } from '../constant/constant';
 import { Observable } from 'rxjs';
 import { SignUpInterface, loginInterface } from 'src/app/shared/interface/common.interface';
-import { adminInterface } from 'src/app/shared/interface/admin.interface';
 
 
 

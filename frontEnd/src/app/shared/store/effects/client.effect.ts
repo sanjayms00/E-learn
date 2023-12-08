@@ -3,7 +3,8 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "src/app/core/services/auth.service";
 
 import { exhaustMap, map, catchError, of } from 'rxjs'
-import { clientLogin, clientLoginSuccess, clientSignUp, clientSignUpSuccess } from "../actions/client.action";
+import { clientLogin, clientLoginFailure, clientLoginSuccess, clientSignUp, clientSignUpFailure, clientSignUpSuccess } from "../actions/client.action";
+import { Router } from "@angular/router";
 
 
 @Injectable()
@@ -11,7 +12,8 @@ export class clientEffects {
 
     constructor(
         private action$ : Actions,
-        private authService : AuthService 
+        private authService : AuthService,
+        private router: Router
     ){}
     
     _clientLogin$ = createEffect(() =>
@@ -21,12 +23,14 @@ export class clientEffects {
           const data = action.loginData
           return this.authService.studentLogin(data).pipe(
             map((response: any) => {
-                  localStorage.setItem('clientToken', JSON.stringify(response.token));
-                  return clientLoginSuccess({token : response.token})
-              }),
+              alert("success")
+              localStorage.setItem('clientToken', JSON.stringify(response.token));
+              this.router.navigateByUrl('/home')
+              return clientLoginSuccess({token : response.token})
+            }),
             catchError(error => {
-              console.log("login response error", error.messsage)
-              return of(error.message)
+              console.log(error.error.message)
+              return of(clientLoginFailure())
           }))
         })
       )
@@ -40,13 +44,16 @@ export class clientEffects {
           const data = action.signUpdata
           return this.authService.studentSignUp(data).pipe(
             map((response: any) => {
-                  localStorage.setItem('clientToken', JSON.stringify(response.token));
-                  return clientSignUpSuccess({token : response.token})
-              }),
+              alert("success")
+              localStorage.setItem('clientToken', JSON.stringify(response.token));
+              this.router.navigateByUrl('/home')
+              return clientSignUpSuccess({token : response.token})
+            }),
             catchError(error => {
-              console.log("login response error", error.messsage)
-              return of(error.message)
-          }))
+              console.log(error.error.message)
+              return of(clientSignUpFailure())
+            })
+          )
         })
       )
     );

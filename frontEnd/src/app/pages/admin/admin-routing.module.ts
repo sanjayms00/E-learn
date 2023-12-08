@@ -11,8 +11,9 @@ const adminRoutes: Routes = [
     path: '', 
     component: AdminComponent, 
     children: [
-      {path: 'dashboard', component: AdminHomeComponent},
       {path: 'login', component: AdminLoginComponent},
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
+      {path: 'dashboard', component: AdminHomeComponent},
       {path: 'students-list', component: StudentListComponent},
       {path: 'instructors-list', component: InstructorListComponent}
     ]

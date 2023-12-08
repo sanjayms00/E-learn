@@ -18,8 +18,8 @@ export class AdminLoginComponent {
     ){}
 
   adminLoginForm = this.fb.nonNullable.group({
-    email : ['admin@gmail.com', Validators.required],
-    password: ['123456', Validators.required]
+    email : ['', Validators.required],
+    password: ['', Validators.required]
   })
 
   adminLoginSubmit(){

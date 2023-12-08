@@ -20,8 +20,8 @@ export class ClientLoginComponent {
 
   ngOnInit(): void {
     this.studentLogin = new FormGroup({
-      email : new FormControl('badusha@gmail.com'),
-      password : new FormControl('123456')
+      email : new FormControl(''),
+      password : new FormControl('')
     })
   }
   
