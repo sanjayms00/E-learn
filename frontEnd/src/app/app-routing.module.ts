@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientComponent } from './pages/client/client.component';
-import { AdminComponent } from './pages/admin/admin.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 const routes: Routes = [
-  {path : '', component: ClientComponent},
-  {path : 'admin', component: AdminComponent},
-  // { path: '**', redirectTo: '/home', pathMatch: 'full' }
+  {
+    path : '', 
+    loadChildren: () => import('./pages/client/client.module').then((m) => m.ClientModule)
+  },
+  {
+    path : 'admin', 
+    loadChildren: () => import('./pages/admin/admin.module').then((m) => m.AdminModule)
+  },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

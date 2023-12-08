@@ -6,23 +6,21 @@ import { AdminComponent } from './admin.component';
 import { StudentListComponent } from './student-list/stuent-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
 
-
 const adminRoutes: Routes = [
   {
-    path: 'admin', 
+    path: '', 
     component: AdminComponent, 
     children: [
-      {path: 'dashboard', title: 'dashboard', component: AdminHomeComponent},
+      {path: 'dashboard', component: AdminHomeComponent},
       {path: 'login', component: AdminLoginComponent},
       {path: 'students-list', component: StudentListComponent},
-      {path: 'instructors-list', component: InstructorListComponent},
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
+      {path: 'instructors-list', component: InstructorListComponent}
     ]
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(adminRoutes)],
+  imports: [RouterModule.forChild(adminRoutes)],
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }

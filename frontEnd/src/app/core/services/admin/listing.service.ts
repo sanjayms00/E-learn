@@ -8,7 +8,7 @@ import { clientInterface } from "src/app/shared/interface/common.interface";
 @Injectable({
     providedIn: 'root'
 })
-export class studentListService {
+export class ListingService {
 
     constructor(
         private http: HttpClient
@@ -17,5 +17,10 @@ export class studentListService {
     getStudentList() : Observable<clientInterface[]>
     {
         return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/students`)
+    }
+
+    getInstructorList() : Observable<clientInterface[]>
+    {
+        return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
     }
 }

@@ -8,6 +8,10 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { StudentListComponent } from './student-list/stuent-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
 import { SearchBarComponent } from 'src/app/shared/components/search-bar/search-bar.component';
+import { AdminComponent } from './admin.component';
+import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
+import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+import { TableComponent } from 'src/app/shared/components/table/table.component';
 
 
 @NgModule({
@@ -16,7 +20,11 @@ import { SearchBarComponent } from 'src/app/shared/components/search-bar/search-
     AdminHomeComponent,
     StudentListComponent,
     InstructorListComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    AdminComponent,
+    AdminSidebarComponent,
+    AdminNavbarComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,

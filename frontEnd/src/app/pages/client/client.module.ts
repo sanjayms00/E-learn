@@ -12,7 +12,7 @@ import { ClientLoginComponent } from './client-login/client-login.component';
   declarations: [
     ClientLoginComponent,
     ClientSignupComponent,
-    ClientHomeComponent
+    ClientHomeComponent,
   ],
   imports: [
     CommonModule,

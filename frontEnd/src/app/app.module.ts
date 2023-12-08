@@ -18,17 +18,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { clientEffects } from './shared/store/effects/client.effect';
 import { adminEffects } from './shared/store/effects/admin.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AdminSidebarComponent } from './pages/admin/admin-sidebar/admin-sidebar.component';
-import { AdminNavbarComponent } from './pages/admin/admin-navbar/admin-navbar.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
-    AdminComponent,
-    AdminSidebarComponent,
-    AdminNavbarComponent,
-    
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
