@@ -7,6 +7,8 @@ import { adminSchema } from './schemas/admin.schema';
 import { JwtModule } from '@nestjs/jwt/dist';
 // import { ConfigService } from '@nestjs/config';
 import { jwtConstants } from 'src/constant/jwtConstant';
+import { StudentService } from 'src/student/student.service';
+import { studentSchema } from 'src/student/schemas/student.schema';
 
 @Module({
   imports: [
@@ -23,11 +25,12 @@ import { jwtConstants } from 'src/constant/jwtConstant';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '3d' },
     }),
-    MongooseModule.forFeature([{name : "Admin", schema: adminSchema}])
+    MongooseModule.forFeature([{name : "Admin", schema: adminSchema}]),
+    MongooseModule.forFeature([{name: "Student", schema: studentSchema}])
   ],
   controllers: [AdminController],
-  providers: [AdminService]
+  providers: [AdminService, StudentService]
 })
 export class AdminModule {}

@@ -28,7 +28,8 @@ export class AdminService {
         const admin = await this.adminModel.create({
             userName,
             email,
-            password: hashedPassword
+            password: hashedPassword, 
+            status: true
         })
 
         return {

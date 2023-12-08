@@ -23,7 +23,7 @@ import { jwtConstants } from 'src/constant/jwtConstant';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '3d' },
     }),
     MongooseModule.forFeature([{name: "Student", schema: studentSchema}])
   ],

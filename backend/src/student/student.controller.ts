@@ -4,7 +4,7 @@ import { StudentService } from './student.service';
 import { SignupDto } from './dto/signup.dto';
 import { loginDataInterface } from 'src/interfaces/common.interface';
 
-@Controller('student')
+@Controller('api/student')
 export class StudentController {
     
     constructor(private readonly studentService: StudentService){}

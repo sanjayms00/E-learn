@@ -32,7 +32,9 @@ export class StudentService {
             fName,
             lName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            instructor : false,
+            status: true
         })
 
         return {
@@ -40,7 +42,6 @@ export class StudentService {
         };
     }
 
-    
     async login(loginData: loginDataInterface) : Promise<{token : string}>
     {
         const { email, password } = loginData
@@ -62,16 +63,16 @@ export class StudentService {
         };
           
     }
+ 
+    async getIntructors(): Promise<Student[]>
+    {
+        return await this.studentModel.find({instructor : true}, {password: 0, __v:0})
+    }
 
-
-
-
-
-
-    // async findAll(): Promise<Student[]>
-    // {
-    //     return await this.studentModel.find()
-    // }
+    async getStudents(): Promise<Student[]>
+    {
+        return await this.studentModel.find({instructor : false}, {password: 0, __v:0})
+    }
 
     // async createStudent(data: Student): Promise<Student>
     // {

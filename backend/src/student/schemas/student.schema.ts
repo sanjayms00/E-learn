@@ -17,6 +17,12 @@ export class Student {
     @Prop({ required: true })
     password : string;
 
+    @Prop({ required: true })
+    instructor : boolean;
+
+    @Prop({ required: true })
+    status : boolean;
+
 }
 
 export const studentSchema =  SchemaFactory.createForClass(Student)

@@ -2,15 +2,22 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { adminRegisterData } from 'src/interfaces/admin.interface';
 import { loginDataInterface } from 'src/interfaces/common.interface';
 import { AdminService } from './admin.service';
+import { StudentService } from 'src/student/student.service';
+import { Student } from 'src/student/schemas/student.schema';
 
 
-@Controller('admin')
+@Controller('api/admin')
 export class AdminController {
 
     constructor(
-        private adminService: AdminService
+        private adminService: AdminService,
+        private studentService: StudentService
     ){}
 
+    @Get()
+    getAdmin(): string {
+        return 'Hello from the admin API!';
+    }
 
     @Post('login')
     adminLogin(@Body() loginData: loginDataInterface){
@@ -23,9 +30,15 @@ export class AdminController {
         return this.adminService.register(admindata)
     }
 
-    @Get('student-list')
-    getStudentList(){
-        return 
+    @Get('students')
+    getStudentList(): Promise<Student[]>
+    {
+        return this.studentService.getStudents()
+    }
+    @Get('instructors')
+    getInstructorsList(): Promise<Student[]>
+    {
+        return this.studentService.getIntructors()
     }
 
 }

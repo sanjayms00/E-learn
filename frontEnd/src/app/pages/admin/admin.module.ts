@@ -5,17 +5,18 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { StuentListComponent } from './stuent-list/stuent-list.component';
+import { StudentListComponent } from './student-list/stuent-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
-
+import { SearchBarComponent } from 'src/app/shared/components/search-bar/search-bar.component';
 
 
 @NgModule({
   declarations: [
     AdminLoginComponent,
     AdminHomeComponent,
-    StuentListComponent,
-    InstructorListComponent
+    StudentListComponent,
+    InstructorListComponent,
+    SearchBarComponent
   ],
   imports: [
     CommonModule,
