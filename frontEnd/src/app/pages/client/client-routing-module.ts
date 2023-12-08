@@ -4,17 +4,19 @@ import { ClientComponent } from './client.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
 import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
+import { authGuard } from 'src/app/shared/guards/auth.guard';
+import { ClientProfileComponent } from './client-profile/client-profile.component';
 
 const routes: Routes = [
   {
     path : '', 
     component: ClientComponent, 
     children: [
-      {path: '', component: ClientHomeComponent},
-      {path: 'home', component: ClientHomeComponent},
+      {path: 'home', component: ClientHomeComponent, canActivate:[authGuard]},
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'signup', component: ClientSignupComponent},
       {path: 'login', component: ClientLoginComponent},
-
+      {path: 'profile', component: ClientProfileComponent, canActivate:[authGuard] }
     ]
   }
 ];

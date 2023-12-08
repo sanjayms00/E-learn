@@ -23,8 +23,10 @@ export class AdminLoginComponent {
   })
 
   adminLoginSubmit(){
-    const formData = this.adminLoginForm.getRawValue();
-    this.store.dispatch(adminLogin({logindata : formData}))
+    if(this.adminLoginForm.valid){
+      const formData = this.adminLoginForm.getRawValue();
+      this.store.dispatch(adminLogin({logindata : formData}))
+    }
   }
   
 

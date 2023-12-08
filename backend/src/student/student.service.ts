@@ -37,8 +37,13 @@ export class StudentService {
             status: true
         })
 
+        const payLoad= {
+            id: student._id,
+            role: 'client'
+        }
+
         return {
-            token: await this.jwtService.signAsync({id: student._id})
+            token: await this.jwtService.signAsync(payLoad)
         };
     }
 
@@ -58,8 +63,13 @@ export class StudentService {
             throw new UnauthorizedException("unauthorized user")
         }
 
+        const payLoad= {
+            id: student._id,
+            role: 'client'
+        }
+
         return {
-            token: await this.jwtService.signAsync({id: student._id}),
+            token: await this.jwtService.signAsync(payLoad),
         };
           
     }

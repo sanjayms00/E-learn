@@ -31,9 +31,12 @@ export class AdminService {
             password: hashedPassword, 
             status: true
         })
-
+        const payLoad = {
+            id: admin._id,
+            role: 'admin'
+        }
         return {
-            token: await this.jwtService.signAsync({id: admin._id})
+            token: await this.jwtService.signAsync(payLoad)
         };
     }
 

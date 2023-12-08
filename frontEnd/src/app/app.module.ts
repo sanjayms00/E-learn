@@ -4,11 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientComponent } from './pages/client/client.component';
-import { AdminComponent } from './pages/admin/admin.component';
 
 import { ClientModule } from './pages/client/client.module';
 import { AdminModule } from './pages/admin/admin.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -19,6 +18,8 @@ import { clientEffects } from './shared/store/effects/client.effect';
 import { adminEffects } from './shared/store/effects/admin.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,14 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
     EffectsModule.forRoot([clientEffects, adminEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()})
   ],
-  providers: [],
+  providers: [
+    {
+        provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

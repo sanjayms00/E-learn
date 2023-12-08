@@ -1,7 +1,9 @@
 <header class="bg-white">
   <nav class="flex justify-between item-center w-[92%] mx-auto py-5">
     <div>
-      <img class="w-16" src="/assets/logo/El.png" alt="logo">
+      <a [routerLink]="['/']" routerLinkActive="router-link-active">
+        <img class="w-16" src="/assets/logo/El.png" alt="logo">
+      </a>
     </div>
     <div
       class="md:static absolute bg-white md:min-h-fit min-h-[60vh] left-0 top-[-100%] md:w-auto w-full flex items-center px-5"
@@ -14,12 +16,13 @@
           <a class="hover:text-gray-500" [routerLink]="['/category']" routerLinkActive="router-link-active">Category</a>
         </li>
         <li>
-          <a class="hover:text-gray-500" [routerLink]="['/instructor/dashboard']"
+          <a class="hover:text-gray-500" [routerLink]="['profile/dashboard']"
             routerLinkActive="router-link-active">Instructor</a>
         </li>
         <li>
-          <a class="hover:text-gray-500" [routerLink]="['/student/my-learning']"
-            routerLinkActive="router-link-active">My learning</a>
+          <a class="hover:text-gray-500" [routerLink]="['/profile/my-learning']"
+            routerLinkActive="router-link-active">My
+            learning</a>
         </li>
       </ul>
     </div>

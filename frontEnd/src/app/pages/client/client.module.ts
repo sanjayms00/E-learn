@@ -7,12 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
+import { ClientProfileComponent } from './client-profile/client-profile.component';
 
 @NgModule({
   declarations: [
     ClientLoginComponent,
     ClientSignupComponent,
     ClientHomeComponent,
+    ClientProfileComponent,
   ],
   imports: [
     CommonModule,

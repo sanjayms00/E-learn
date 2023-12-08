@@ -32,7 +32,33 @@ export class AuthService {
     return this.http.post<{token : string}>(`${constant.baseUrl}/admin/login`, adminLoginData)
   }
 
+  //get client token
+  getClientToken(): string | null
+  {
+    return localStorage.getItem('clientToken')
+  }
 
+  //get admin token
+  getAdminToken(): string | null
+  {
+    return localStorage.getItem('adminToken')
+  }
 
+  //logout client
+  clientLogout(){
+    
+  }
+
+  //check client logged in
+  IsClientloggedIn():  string | null
+  {
+    return localStorage.getItem('clientToken')
+  }
+
+  //check admin logged in
+  IsAdminloggedIn(): string | null
+  {
+    return localStorage.getItem('clientToken')
+  }
 
 }
