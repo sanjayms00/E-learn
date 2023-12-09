@@ -18,21 +18,31 @@ export class AuthInterceptor implements HttpInterceptor {
   adminToken = this.authService.getAdminToken()
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if(request.url.startsWith('/admin')){
+      // clone and create new rrequest
+      request = request.clone({
+        setHeaders : {
+          Authorization : `Bearer ${this.adminToken}`,
+          'Role' : 'admin'
+        }
+      })
+    }else{
+      // clone and create new rrequest
+      request = request.clone({
+        setHeaders : {
+          Authorization : `Bearer ${this.clientToken}`,
+          'Role' : 'client'
+        }
+      })
+    }
     
-    // clone and create new rrequest
-    request = request.clone({
-      setHeaders : {
-        Authorization : `Bearer ${this.clientToken}`,
-        'Role' : 'client'
-      }
-    })
 
-    request = request.clone({
-      setHeaders : {
-        Authorization : `Bearer ${this.clientToken}`,
-        'Role' : 'admin'
-      }
-    })
+    // request = request.clone({
+    //   setHeaders : {
+    //     Authorization : `Bearer ${this.clientToken}`,
+    //     'Role' : 'admin'
+    //   }
+    // })
 
 
     return next.handle(request);

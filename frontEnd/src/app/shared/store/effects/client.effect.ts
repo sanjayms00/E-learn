@@ -24,9 +24,9 @@ export class clientEffects {
           return this.authService.studentLogin(data).pipe(
             map((response: any) => {
               alert("success")
-              localStorage.setItem('clientToken', JSON.stringify(response.token));
+              localStorage.setItem('clientToken', response.access_token);
               this.router.navigateByUrl('/home')
-              return clientLoginSuccess({token : response.token})
+              return clientLoginSuccess({token : response.access_token})
             }),
             catchError(error => {
               console.log(error.error.message)
@@ -45,9 +45,9 @@ export class clientEffects {
           return this.authService.studentSignUp(data).pipe(
             map((response: any) => {
               alert("success")
-              localStorage.setItem('clientToken', JSON.stringify(response.token));
+              localStorage.setItem('clientToken', response.access_token);
               this.router.navigateByUrl('/home')
-              return clientSignUpSuccess({token : response.token})
+              return clientSignUpSuccess({token : response.access_token})
             }),
             catchError(error => {
               console.log(error.error.message)

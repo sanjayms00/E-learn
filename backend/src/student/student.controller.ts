@@ -11,13 +11,13 @@ export class StudentController {
 
     //signup api endpoint
     @Post('signUp')
-    studentSignUp(@Body() studentData : SignupDto): Promise<{token : string}>
+    studentSignUp(@Body() studentData : SignupDto): Promise<{access_token : string}>
     {
         return this.studentService.signUp(studentData)
     }
 
     @Post('login')
-    studentLogin(@Body() studentData : loginDataInterface): Promise<{token : string}>
+    studentLogin(@Body() studentData : loginDataInterface): Promise<{access_token : string}>
     {   console.log("sudent data", studentData)
         return this.studentService.login(studentData)
     }

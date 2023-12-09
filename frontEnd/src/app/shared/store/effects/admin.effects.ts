@@ -23,9 +23,9 @@ export class adminEffects {
           return this.authService.adminLogin(data).pipe(
             map((response: any) => {
               alert('admin login successful')
-              localStorage.setItem('adminToken', JSON.stringify(response.token));
+              localStorage.setItem('adminToken', response.access_token);
               this.router.navigateByUrl('/admin/dashboard')
-              return adminLoginSuccess({token : response.token})
+              return adminLoginSuccess({token : response.access_token})
             }),
             catchError(err => {
               alert(err.error.message)

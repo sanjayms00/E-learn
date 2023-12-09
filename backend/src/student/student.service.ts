@@ -16,11 +16,11 @@ export class StudentService {
         private jwtService: JwtService
     ){}
 
-    async signUp(signUpData: SignupDto) : Promise<{token : string}>
+    async signUp(signUpData: SignupDto) : Promise<{access_token : string}>
     {
         const {fName, lName, email, password } = signUpData
         
-        const isStudentExist = await this.studentModel.findOne({email: email})
+        const isStudentExist = await this.studentModel.findOne({email})
 
         if(isStudentExist){
             throw new ConflictException("Already registered")
@@ -37,17 +37,16 @@ export class StudentService {
             status: true
         })
 
-        const payLoad= {
+        const payLoad = {
             id: student._id,
-            role: 'client'
+            // role: 'admin'
         }
-
         return {
-            token: await this.jwtService.signAsync(payLoad)
+            access_token: await this.jwtService.sign(payLoad)
         };
     }
 
-    async login(loginData: loginDataInterface) : Promise<{token : string}>
+    async login(loginData: loginDataInterface) : Promise<{access_token : string}>
     {
         const { email, password } = loginData
         
@@ -65,16 +64,16 @@ export class StudentService {
 
         const payLoad= {
             id: student._id,
-            role: 'client'
+            // role: 'client'
         }
 
         return {
-            token: await this.jwtService.signAsync(payLoad),
+            access_token: await this.jwtService.sign(payLoad),
         };
           
     }
  
-    async getIntructors(): Promise<Student[]>
+    async getInstructors(): Promise<Student[]>
     {
         return await this.studentModel.find({instructor : true}, {password: 0, __v:0})
     }

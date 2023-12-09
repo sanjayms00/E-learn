@@ -4,6 +4,7 @@ import { Admin } from './schemas/admin.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs'
 import { JwtService } from '@nestjs/jwt';
+import { AdminDto } from 'src/student/dto/admin.dto';
 
 @Injectable()
 export class AdminService {
@@ -13,7 +14,7 @@ export class AdminService {
         private jwtService: JwtService
     ){}
 
-    async register(registerData)
+    async register(registerData: AdminDto): Promise<{access_token : string}>
     {
         const { userName, email, password } = registerData
         
@@ -33,14 +34,16 @@ export class AdminService {
         })
         const payLoad = {
             id: admin._id,
-            role: 'admin'
+            // role: 'admin'
         }
+        console.log("here....")
         return {
-            token: await this.jwtService.signAsync(payLoad)
+            access_token: await this.jwtService.sign(payLoad)
         };
     }
 
-    async login(logindata){
+    async login(logindata): Promise<{access_token : string}>
+    {
         const {email, password } = logindata 
 
         const admin = await this.adminModel.findOne({email})
@@ -56,7 +59,7 @@ export class AdminService {
         }
 
         return {
-            token: await this.jwtService.signAsync({id: admin._id}),
+            access_token: await this.jwtService.signAsync({id: admin._id}),
         };
 
     }
