@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { clientInterface } from 'src/app/shared/interface/client.interface';
 import { clientLogin } from 'src/app/shared/store/actions/client.action';
@@ -10,23 +10,24 @@ import { clientLogin } from 'src/app/shared/store/actions/client.action';
   styleUrls: ['./client-login.component.css']
 })
 export class ClientLoginComponent {
-  
-  studentLogin !:FormGroup
+  studentLogin !: FormGroup
 
-    constructor(
-      private store: Store<{client: clientInterface}>
-    ){}
-
-
-  ngOnInit(): void {
+  constructor(
+    private store: Store<{ client: clientInterface }>
+  ) {
     this.studentLogin = new FormGroup({
-      email : new FormControl(''),
-      password : new FormControl('')
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required])
     })
   }
-  
-  login(){
-    const loginData = this.studentLogin.value
-    this.store.dispatch(clientLogin({loginData}))
+
+  login() {
+    console.log(this.studentLogin)
+    if (this.studentLogin.valid) {
+      const loginData = this.studentLogin.value
+
+      this.store.dispatch(clientLogin({ loginData }))
+    }
   }
+
 }

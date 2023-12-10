@@ -4,3 +4,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input.ng-invalid.ng-touched {
+    border: red 1px solid;
+}

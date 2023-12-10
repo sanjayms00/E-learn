@@ -1,40 +1,74 @@
 <!-- signup.component.html -->
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="bg-white p-8 shadow-md rounded-md w-96">
-      <h2 class="text-2xl font-semibold mb-6">Sign Up</h2>
-      <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-        <div class="mb-4">
-          <label for="first name" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
-          <input type="text" formControlName="fName" id="fName" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+  <div class="bg-white p-8 shadow-md rounded-md w-96">
+    <h2 class="text-2xl font-semibold mb-6">Sign Up</h2>
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+      <div class="mb-4">
+        <label for="first name" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['fName'].touched && signUpForm.controls['fName'].errors as fNameErrors">
+          <div *ngIf="fNameErrors['required']">First Name is required</div>
+          <div *ngIf="fNameErrors['minlength']">Should have minlength 3</div>
+          <div *ngIf="fNameErrors['maxlength']">Should have max 20 characters</div>
+          <div *ngIf="fNameErrors['pattern']">Invalid format (avoid spaces and letters)</div>
         </div>
+        <input type="text" formControlName="fName" id="fName"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div>
 
-        <div class="mb-4">
-          <label for="last name"class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
-          <input type="text" formControlName="lName" id="lName" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      <div class="mb-4">
+        <label for="last name" class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['lName'].touched && signUpForm.controls['lName'].errors as lNameErrors">
+          <div *ngIf="lNameErrors['required']">Last Name is required</div>
+          <div *ngIf="lNameErrors['minlength']">Should have minlength 2</div>
+          <div *ngIf="lNameErrors['maxlength']">Should have max 20 characters</div>
+          <div *ngIf="lNameErrors['pattern']">Only alphabets allowed</div>
         </div>
-  
-        <div class="mb-4">
-          <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-          <input type="email" formControlName="email" id="email" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
-        </div>
-  
-        <div class="mb-4">
-          <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-          <input type="password" formControlName="password"  id="password" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
-        </div>
+        <input type="text" formControlName="lName" id="lName"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div>
 
-        <div class="mb-4">
-          <label for="confirm password"  class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" id="confirmPassword" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['email'].touched && signUpForm.controls['email'].errors as emailErrors">
+          <div *ngIf="emailErrors['required']">Email is required</div>
+          <div *ngIf="emailErrors['pattern']">Invalid email format</div>
         </div>
-  
-        <div class="flex items-center">
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
-            Sign Up
-          </button>
+        <input type="email" formControlName="email" id="email"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['password'].touched && signUpForm.controls['password'].errors as passwordErrors">
+          <div *ngIf="passwordErrors['required']">Password is required</div>
+          <div *ngIf="passwordErrors['minlength']">Should have minlength 6</div>
+          <div *ngIf="passwordErrors['maxlength']">Should have max 10 characters</div>
         </div>
-      </form>
-    </div>
+        <input type="password" formControlName="password" id="password"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div>
+
+      <div class="mb-4">
+        <label for="confirm password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
+          <div *ngIf="confirmPasswordErrors['required']">Confirm password required</div>
+          <!-- <div *ngIf="confirmPasswordErrors['required']">Password does not match</div> -->
+        </div>
+        <input type="password" formControlName="confirmPassword" id="confirmPassword"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div>
+
+      <div class="flex items-center">
+        <button type="submit" [disabled]="signUpForm.invalid || signUpForm.pristine">
+          Sign Up
+        </button>
+      </div>
+    </form>
   </div>
-  
+</div>

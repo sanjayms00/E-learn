@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 import { clientInterface } from 'src/app/shared/interface/client.interface';
 import { clientSignUp } from 'src/app/shared/store/actions/client.action';
@@ -16,22 +16,25 @@ export class ClientSignupComponent implements OnInit {
   signUpForm !: FormGroup
 
   constructor(
-    private store: Store<{client: clientInterface}> 
-    ){}
+    private store: Store<{ client: clientInterface }>
+  ) { }
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
-      fName : new FormControl(''),
-      lName : new FormControl(''),
-      email : new FormControl(''),
-      password : new FormControl(''),
-      confirmPassword : new FormControl('')
+      fName: new FormControl(null, [Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(3), Validators.maxLength(20)]),
+      lName: new FormControl(null, [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(2), Validators.maxLength(20)]),
+      email: new FormControl(null, [Validators.required, Validators.pattern(/^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/), Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10)]),
+      confirmPassword: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10)])
     })
   }
 
-  signUp(){
-    const signUpdata: SignUpInterface = this.signUpForm.value;
-    this.store.dispatch(clientSignUp({signUpdata}))
+  signUp() {
+    console.log(this.signUpForm)
+    if (this.signUpForm.valid) {
+      const signUpdata: SignUpInterface = this.signUpForm.value;
+      this.store.dispatch(clientSignUp({ signUpdata }))
+    }
   }
 
 
