@@ -16,7 +16,7 @@ export class ClientLoginComponent {
     private store: Store<{ client: clientInterface }>
   ) {
     this.studentLogin = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.pattern(/^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/), Validators.email]),
       password: new FormControl(null, [Validators.required])
     })
   }

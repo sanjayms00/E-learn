@@ -5,13 +5,23 @@
         <form [formGroup]="adminLoginForm" (ngSubmit)="adminLoginSubmit()">
             <div class="mb-4">
                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <div class="text-red-600"
+                    *ngIf="adminLoginForm.controls['email'].touched && adminLoginForm.controls['email'].errors as emailErrors">
+                    <div *ngIf="emailErrors['required']">Email is required</div>
+                    <div *ngIf="emailErrors['pattern']">Invalid email</div>
+                </div>
                 <input type="text" id="username" formControlName="email"
                     class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
-
             </div>
 
             <div class="mb-4">
                 <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <div class="text-red-600"
+                    *ngIf="adminLoginForm.controls['password'].touched && adminLoginForm.controls['password'].errors as passwordErrors">
+                    <div *ngIf="passwordErrors['required']">Password required</div>
+                    <div *ngIf="passwordErrors['minlength']">Should have minimum 6 characters</div>
+                    <div *ngIf="passwordErrors['maxlength']">Should have maximum 10 characters</div>
+                </div>
                 <input type="password" id="password" formControlName="password"
                     class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
             </div>
