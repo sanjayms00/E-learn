@@ -53,19 +53,35 @@
           class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
-      <div class="mb-4">
+      <!-- <div class="mb-4">
         <label for="confirm password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
         <div class="text-red-600"
           *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
           <div *ngIf="confirmPasswordErrors['required']">Confirm password required</div>
-          <!-- <div *ngIf="confirmPasswordErrors['required']">Password does not match</div> -->
+          <div *ngIf="signUpForm.controls['confirmPassword'].hasError('mismatch')">
+            Passwords did not match
+          </div>
+        </div>
+        <input type="password" formControlName="confirmPassword" id="confirmPassword"
+          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+      </div> -->
+      <div class="mb-4">
+        <label for="confirm password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+        <div class="text-red-600"
+          *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
+          <div *ngIf="confirmPasswordErrors['required']">Confirm password is required</div>
+          <div *ngIf="confirmPasswordErrors['minlength']">Should have minlength 6</div>
+          <div *ngIf="confirmPasswordErrors['maxlength']">Should have max 10 characters</div>
+        </div>
+        <div class="text-red-600" *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('mismatch')">
+          Passwords do not match
         </div>
         <input type="password" formControlName="confirmPassword" id="confirmPassword"
           class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
       <div class="flex items-center">
-        <button type="submit" [disabled]="signUpForm.invalid || signUpForm.pristine">
+        <button type="submit" [disabled]="!signUpForm.valid" class="bg-green-500 p-3 rounded-lg text-white">
           Sign Up
         </button>
       </div>
