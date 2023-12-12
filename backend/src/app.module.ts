@@ -1,23 +1,23 @@
 import { Module } from '@nestjs/common';
 // import { MongooseModule } from '@nestjs/mongoose';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth_/auth.module';
+import { AdminModule } from './admin/admin.module';
 // import { StudentModule } from './auth/student/student.module';
 // import { ConfigModule } from '@nestjs/config';
 // import { AdminModule } from './auth/admin/admin.module';
+import { AdminAuthService } from './admin/services/admin-auth/admin-auth.service';
+import { ClientModule } from './client/client.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    AuthModule
+    AdminModule,
+    ClientModule
     // ConfigModule.forRoot({
     //   envFilePath: ".env",
     //   isGlobal: true
     // }),
     // MongooseModule.forRoot(process.env.MONGODB_URI),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [AdminAuthService, JwtService],
 })
 export class AppModule { }
