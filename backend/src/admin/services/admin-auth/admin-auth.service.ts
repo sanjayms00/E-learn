@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { loginType } from 'src/types/type';
+// import { loginType } from 'src/types/type';
 
 @Injectable()
 export class AdminAuthService {
