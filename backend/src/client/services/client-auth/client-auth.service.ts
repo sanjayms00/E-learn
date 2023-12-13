@@ -19,18 +19,20 @@ export class ClientAuthService {
   ) {}
 
   async signUp(signUpDto: SignupDto): Promise<{ access_token: string }> {
-    const { email, password } = signUpDto;
+    const { lName, fName, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.userModel.create({
-      name,
+      fName,
+      lName,
       email,
       password: hashedPassword,
+      status: true,
+      instructor: false
     });
-
-    const access_token = this.jwtService.sign({ id: user._id });
-
+    console.log(user._id)
+    const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
     return { access_token };
   }
 
@@ -49,7 +51,7 @@ export class ClientAuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const access_token = this.jwtService.sign({ id: user._id });
+    const access_token = this.jwtService.sign({ id: user._id }, {secret: process.env.JWT_SECRET_CLIENT});
 
     return { access_token };
   }

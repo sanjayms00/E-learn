@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -7,25 +6,24 @@ import { ClientAuthController } from './controllers/client_auth/client_auth.cont
 import { ClientAuthService } from './services/client-auth/client-auth.service';
 import { ClientJwtStrategy } from './clientJwt.strategy';
 import { clientSchema } from './schema/client.schema';
+import { jwtConstants } from 'src/constant/jwtConstant';
+import { ProfileController } from './controllers/profile/profile.controller';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          secret: config.get<string>('JWT_SECRET'),
-          signOptions: {
-            expiresIn: config.get<string | number>('JWT_EXPIRES'),
-          },
-        };
-      },
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.ClientSecret,
+      signOptions: { expiresIn: '1d' },
     }),
     MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
   ],
-  controllers: [ClientAuthController],
+  controllers: [
+    ClientAuthController,
+    ProfileController
+  ],
   providers: [ClientAuthService, ClientJwtStrategy, JwtService],
-  exports: [ClientJwtStrategy, PassportModule, ClientAuthService],
+  exports: [ClientJwtStrategy, PassportModule],
 })
 export class ClientModule {}

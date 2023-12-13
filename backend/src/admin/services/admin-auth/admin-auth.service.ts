@@ -26,9 +26,7 @@ export class AdminAuthService {
 
     async login(client) {
         // const payload = { username: client.username, sub: client.userId }
-        return {
-            // access_token: this.jwtservice.sign(payload)
-            access_token : 'nxhgdfsagd'+client
-        }
+        
+            //const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
     }
 }
