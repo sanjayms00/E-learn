@@ -1,34 +1,31 @@
 import { Module } from '@nestjs/common';
-import { ClientService } from './services/client/client.service';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 import { ClientAuthController } from './controllers/client_auth/client_auth.controller';
 import { ClientAuthService } from './services/client-auth/client-auth.service';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ClientJwtStrategy } from './clientJwt.strategy';
 import { clientSchema } from './schema/client.schema';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 
 @Module({
-  controllers: [ClientAuthController],
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      inject: [ConfigService],    //for using the process.env
+      inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         return {
-          secret: config.get<string>('JWT_SECRET_CLIENT'),
+          secret: config.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: config.get<string | number>('JWT_EXPIRE_CLIENT')
-          }
-        }
-      }
+            expiresIn: config.get<string | number>('JWT_EXPIRES'),
+          },
+        };
+      },
     }),
-    MongooseModule.forFeature([{ name: "Admin", schema: clientSchema }]),
+    MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
   ],
-  providers: [
-    ClientService, 
-    ClientAuthService,
-  ],
-  exports: [],
+  controllers: [ClientAuthController],
+  providers: [ClientAuthService, ClientJwtStrategy, JwtService],
+  exports: [ClientJwtStrategy, PassportModule, ClientAuthService],
 })
 export class ClientModule {}

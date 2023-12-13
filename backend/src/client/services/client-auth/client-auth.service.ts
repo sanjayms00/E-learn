@@ -1,70 +1,56 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { SignupDto } from 'src/client/dtos/signDto';
-import * as bcrypt from 'bcryptjs'
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Admin } from 'src/admin/schema/admin.schema';
 import { Model } from 'mongoose';
-import { JwtService } from '@nestjs/jwt';
-import { Client } from 'src/client/schema/client.schema';
-import { LoginDto } from 'src/client/dtos/loginDto';
 
+
+import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+
+import { Client } from 'src/client/schema/client.schema';
+import { SignupDto } from 'src/client/dtos/signDto';
+import { LoginDto } from 'src/client/dtos/loginDto';
 
 @Injectable()
 export class ClientAuthService {
+  constructor(
+    @InjectModel(Client.name)
+    private userModel: Model<Client>,
+    private jwtService: JwtService,
+  ) {}
 
-    constructor(
-        @InjectModel(Admin.name) private clientModel: Model<Client>,
-        private jwtService: JwtService
-    ){}
+  async signUp(signUpDto: SignupDto): Promise<{ access_token: string }> {
+    const { email, password } = signUpDto;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    async register(registerData: SignupDto): Promise<{ access_token: string }> {
-        const { fName, lName, email, password } = registerData
+    const user = await this.userModel.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
 
-        const isAdminExist = await this.clientModel.findOne({ email })
+    const access_token = this.jwtService.sign({ id: user._id });
 
-        if (isAdminExist) {
-            throw new ConflictException("Already registered")
-        }
+    return { access_token };
+  }
 
-        const hashedPassword = await bcrypt.hash(password, 10)    //salt
+  async login(loginDto: LoginDto): Promise<{ access_token: string }> {
+    const { email, password } = loginDto;
 
-        const admin = await this.clientModel.create({
-            fName,
-            lName,
-            email,
-            password: hashedPassword,
-            status: true
-        })
-        const payLoad = {
-            id: admin._id,
-            // role: 'admin'
-        }
-        console.log("here....")
-        return {
-            access_token: await this.jwtService.sign(payLoad)
-        };
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
     }
 
-    async login(logindata: LoginDto): Promise<{ access_token: string }> {
-        const { email, password } = logindata
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
 
-        const admin = await this.clientModel.findOne({ email })
-        console.log(admin)
-        if (!admin) {
-            throw new UnauthorizedException("Unauthorized user")
-        }
-
-        const isPasswordMatch = await bcrypt.compare(password, admin.password)
-
-        if (!isPasswordMatch) {
-            throw new UnauthorizedException("invalid user and password")
-        }
-
-        return {
-            access_token: await this.jwtService.signAsync({ id: admin._id }),
-        };
-
+    if (!isPasswordMatched) {
+      throw new UnauthorizedException('Invalid email or password');
     }
 
+    const access_token = this.jwtService.sign({ id: user._id });
+
+    return { access_token };
+  }
 }
