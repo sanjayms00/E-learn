@@ -6,7 +6,6 @@ import { ClientAuthController } from './controllers/client_auth/client_auth.cont
 import { ClientAuthService } from './services/client-auth/client-auth.service';
 import { ClientJwtStrategy } from './clientJwt.strategy';
 import { clientSchema } from './schema/client.schema';
-import { jwtConstants } from 'src/constant/jwtConstant';
 import { ProfileController } from './controllers/profile/profile.controller';
 
 @Module({
@@ -14,8 +13,8 @@ import { ProfileController } from './controllers/profile/profile.controller';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       global: true,
-      secret: jwtConstants.ClientSecret,
-      signOptions: { expiresIn: '1d' },
+      secret: process.env.JWT_SECRET_CLIENT,
+      signOptions: { expiresIn: process.env.JWT_EXPIRE_CLIENT },
     }),
     MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
   ],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
-import { clientInterface } from 'src/app/shared/interface/client.interface';
+import { clientStateInterface, signupInterface } from 'src/app/shared/interface/client.interface';
 import { clientSignUp } from 'src/app/shared/store/actions/client.action';
 import { SignUpInterface } from 'src/app/shared/interface/common.interface';
 // import { confirmPasswordValidator } from 'src/app/shared/validators/validator';
@@ -16,7 +16,7 @@ export class ClientSignupComponent implements OnInit {
   signUpForm!: FormGroup
 
   constructor(
-    private store: Store<{ client: clientInterface }>
+    private store: Store<{ client: clientStateInterface }>
   ) {
     this.signUpForm = new FormGroup({
       fName: new FormControl(null, [Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(3), Validators.maxLength(20)]),

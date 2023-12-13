@@ -1,8 +1,13 @@
-import { clientInterface } from "../../interface/client.interface";
+import { clientStateInterface } from "../../interface/client.interface";
 
 
-export const clientState: clientInterface = {
-    email: '',
-    token: '',
-    userName : ''
+export const clientState: clientStateInterface = {
+    user : {
+        _id: '',
+        fName : '',
+        lName : '',
+        email : '',
+        status : false,
+        instructor : false,
+    }
 }

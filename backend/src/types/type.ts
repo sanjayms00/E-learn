@@ -12,3 +12,14 @@ export type loginType =  {
 }
 
 
+export type userReturnType =  {
+    _id: number,
+    email : string,
+    status: boolean,
+    instructor: boolean
+}
+
+export type userAuthReturn = {
+    access_token : string,
+    user: userReturnType
+}

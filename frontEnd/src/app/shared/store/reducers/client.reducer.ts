@@ -5,17 +5,15 @@ import { clientState } from "../state/client.state";
 
 const _clientReducer = createReducer(clientState, 
     on(clientLoginSuccess, (state, action) => {
-        const token = action.token
         return {
             ...state,
-            token
+            user: action.user
         }
     }),
     on(clientSignUpSuccess, (state, action) => {
-        const token = action.token
         return {
             ...state,
-            token
+            user: action.user
         }
     }),
 )

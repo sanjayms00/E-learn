@@ -26,7 +26,7 @@ export class clientEffects {
               alert("success")
               localStorage.setItem('clientToken', response.access_token);
               this.router.navigateByUrl('/home')
-              return clientLoginSuccess({token : response.access_token})
+              return clientLoginSuccess({user: response.user})
             }),
             catchError(error => {
               console.log(error.error.message)
@@ -47,7 +47,7 @@ export class clientEffects {
               alert("success")
               localStorage.setItem('clientToken', response.access_token);
               this.router.navigateByUrl('/home')
-              return clientSignUpSuccess({token : response.access_token})
+              return clientSignUpSuccess({user: response.user})
             }),
             catchError(error => {
               console.log(error.error.message)
