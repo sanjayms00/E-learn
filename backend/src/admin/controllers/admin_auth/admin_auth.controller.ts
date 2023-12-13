@@ -11,8 +11,8 @@ export class AdminAuthController {
     @UseGuards(adminLocalAuthGuard)
     @Post('login')
     async adminLogin(@Request() req) {
-        console.log(req.user)
-        return this.adminAuthService.loginService(req.user);
+        console.log("request", req.user)
+        return this.adminAuthService.login(req.user);
       }
 
     @UseGuards(adminLocalAuthGuard)

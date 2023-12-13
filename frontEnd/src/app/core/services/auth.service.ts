@@ -17,13 +17,13 @@ export class AuthService {
   //login api call
   studentLogin(loginData: loginInterface): Observable<object>
   {
-    return this.http.post<object>(`${constant.baseUrl}/student/login`, loginData)
+    return this.http.post<object>(`${constant.baseUrl}/auth/login`, loginData)
   }
 
   //signup api call
   studentSignUp(signupData: SignUpInterface): Observable<object>
   {
-    return this.http.post<object>(`${constant.baseUrl}/student/signUp`, signupData)
+    return this.http.post<object>(`${constant.baseUrl}/auth/signUp`, signupData)
   }
 
   //adminlogin api call

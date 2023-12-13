@@ -8,21 +8,23 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/constant/jwtConstant';
 import { adminLocalStrategy } from './strategy/adminLocal.strategy';
 import { adminJwtStrategy } from './strategy/adminJwt.strategy';
+import { ClientModule } from 'src/client/client.module';
 
 @Module({
   controllers: [
     StudentsController,
     InstructorsController,
-    AdminAuthController
+    AdminAuthController,
   ],
   imports: [
     PassportModule,
+    ClientModule,
     JwtModule.register({
       secret: jwtConstants.AdminSecret,
       signOptions: { expiresIn: '1d' },
-  }),
+    }),
   ],
   providers: [AdminAuthService, adminLocalStrategy, adminJwtStrategy],
-  exports : [AdminAuthService]
+  exports: [AdminAuthService]
 })
-export class AdminModule {}
+export class AdminModule { }

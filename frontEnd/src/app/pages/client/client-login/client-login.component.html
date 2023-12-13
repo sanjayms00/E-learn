@@ -1,35 +1,54 @@
-<section class="grid grid-cols-2 divide-x container mx-auto">
-    <div class="bg-green-200 items-center mx-auto rounded-md">
+<section class="grid grid-cols-2 divide-x container mx-auto pt-36">
+    <div class=" items-center mx-auto border-none">
         <img src="https://cdni.iconscout.com/illustration/premium/thumb/account-login-protection-8876027-7271014.png"
-            alt="login image">
-    </div>
-    <div class="p-8">
+          alt="login image" class="w-full rounded-full p-10 bg-green-400">
+      </div>
+    <div class="p-8 border-none">
         <div class="text-center pb-5">
-            <h2 class="text-2xl font-semibold mb-2">Welcome Back</h2>
+            <h2 class="text-3xl font-semibold mb-2">Welcome Back</h2>
             <p class="text-sm">Unlocking Knowledge, One Login at a Time.</p>
         </div>
 
         <form [formGroup]="studentLogin" (ngSubmit)="login()">
             <div class="mb-4">
-                <div class="text-red-600"
+                <div class="text-red-600 pl-5"
                     *ngIf="studentLogin.controls['email'].touched && studentLogin.controls['email'].errors as emailErrors">
                     <div *ngIf="emailErrors['required']">Email is required</div>
                     <div *ngIf="emailErrors['pattern']">Invalid email format</div>
                 </div>
                 <input type="email" id="email" formControlName="email"
-                    class="w-full border rounded-full py-2 px-5 focus:outline-none focus:border-blue-500"
+                    class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black text-black"
                     placeholder="Email">
             </div>
 
             <div class="mb-4">
+                <div class="text-red-600 pl-5"
+                    *ngIf="studentLogin.controls['password'].touched && studentLogin.controls['password'].errors as passwordErrors">
+                    <div *ngIf="passwordErrors['required']">Password is required</div>
+                </div>
                 <input type="password" formControlName="password" id="password"
-                    class="w-full border rounded-full py-2 px-5 focus:outline-none focus:border-blue-500"
+                    class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500"
                     placeholder="Password">
             </div>
 
-            <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-full">
+            <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-full">
                 Login
             </button>
+            <hr>
+            <p class="text-center p-5">
+                Or Continue With
+            </p>
+            <div class="flex items-center justify-center">
+                <div class="flex flex-row">
+                    <div class="flex-1/2 bg-green-200 py-2 px-5 mx-2 rounded-full">Login with Google</div>
+                    <div class="flex-1/2 bg-green-200 p-2 rounded-full">
+                        <img src="https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png"
+                            alt="google-icon" class="h-6">
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </section>
+
+

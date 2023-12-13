@@ -1,7 +1,7 @@
 <!-- signup.component.html -->
 
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 shadow-md rounded-md w-96">
+<!-- <div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 shadow-md rounded-full w-96">
     <h2 class="text-2xl font-semibold mb-6">Sign Up</h2>
     <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="mb-4">
@@ -14,7 +14,7 @@
           <div *ngIf="fNameErrors['pattern']">Invalid format (avoid spaces and letters)</div>
         </div>
         <input type="text" formControlName="fName" id="fName"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+          class="w-full border rounded-full py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
       <div class="mb-4">
@@ -27,7 +27,7 @@
           <div *ngIf="lNameErrors['pattern']">Only alphabets allowed</div>
         </div>
         <input type="text" formControlName="lName" id="lName"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+          class="w-full border rounded-full py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
       <div class="mb-4">
@@ -38,7 +38,7 @@
           <div *ngIf="emailErrors['pattern']">Invalid email format</div>
         </div>
         <input type="email" formControlName="email" id="email"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+          class="w-full border rounded-full py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
       <div class="mb-4">
@@ -50,21 +50,8 @@
           <div *ngIf="passwordErrors['maxlength']">Should have max 10 characters</div>
         </div>
         <input type="password" formControlName="password" id="password"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+          class="w-full border rounded-full py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
-
-      <!-- <div class="mb-4">
-        <label for="confirm password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
-        <div class="text-red-600"
-          *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
-          <div *ngIf="confirmPasswordErrors['required']">Confirm password required</div>
-          <div *ngIf="signUpForm.controls['confirmPassword'].hasError('mismatch')">
-            Passwords did not match
-          </div>
-        </div>
-        <input type="password" formControlName="confirmPassword" id="confirmPassword"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
-      </div> -->
       <div class="mb-4">
         <label for="confirm password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
         <div class="text-red-600"
@@ -77,7 +64,7 @@
           Passwords do not match
         </div>
         <input type="password" formControlName="confirmPassword" id="confirmPassword"
-          class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500">
+          class="w-full border rounded-full py-2 px-3 focus:outline-none focus:border-blue-500">
       </div>
 
       <div class="flex items-center">
@@ -87,4 +74,91 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->
+
+<section class="grid grid-cols-2 divide-x container mx-auto pt-24">
+  <div class="p-8">
+    <div class="text-center pb-5">
+      <h2 class="text-3xl font-semibold mb-2">Sign Up</h2>
+      <p class="text-sm">Embark on Your Learning Journey - Sign Up Today!.</p>
+    </div>
+
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+      <div class="mb-4">
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.controls['fName'].touched && signUpForm.controls['fName'].errors as fNameErrors">
+          <div *ngIf="fNameErrors['required']">First Name is required</div>
+          <div *ngIf="fNameErrors['minlength']">Should have minlength 3</div>
+          <div *ngIf="fNameErrors['maxlength']">Should have max 20 characters</div>
+          <div *ngIf="fNameErrors['pattern']">Invalid format (avoid spaces and letters)</div>
+        </div>
+        <input type="text" placeholder="First Name" formControlName="fName" id="fName"
+          class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500">
+      </div>
+
+      <div class="mb-4">
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.controls['lName'].touched && signUpForm.controls['lName'].errors as lNameErrors">
+          <div *ngIf="lNameErrors['required']">Last Name is required</div>
+          <div *ngIf="lNameErrors['minlength']">Should have minlength 2</div>
+          <div *ngIf="lNameErrors['maxlength']">Should have max 20 characters</div>
+          <div *ngIf="lNameErrors['pattern']">Only alphabets allowed</div>
+        </div>
+        <input type="text" placeholder="Last Name" formControlName="lName" id="lName"
+          class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black">
+      </div>
+
+      <div class="mb-4">
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.controls['email'].touched && signUpForm.controls['email'].errors as emailErrors">
+          <div *ngIf="emailErrors['required']">Email is required</div>
+          <div *ngIf="emailErrors['pattern']">Invalid email format</div>
+        </div>
+        <input type="email" placeholder="Email" formControlName="email" id="email"
+          class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black">
+      </div>
+
+      <div class="mb-4">
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.controls['password'].touched && signUpForm.controls['password'].errors as passwordErrors">
+          <div *ngIf="passwordErrors['required']">Password is required</div>
+          <div *ngIf="passwordErrors['minlength']">Should have minlength 6</div>
+          <div *ngIf="passwordErrors['maxlength']">Should have max 10 characters</div>
+        </div>
+        <input type="password" placeholder="Password" formControlName="password" id="password"
+          class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black">
+      </div>
+
+      <div class="mb-4">
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
+          <div *ngIf="confirmPasswordErrors['required']">Confirm password is required</div>
+          <div *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6 characters</div>
+          <div *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 10 characters</div>
+        </div>
+        <div class="text-red-600 pl-5"
+          *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('mismatch')">
+          Passwords do not match
+        </div>
+        <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" id="confirmPassword"
+          class="w-full border rounded-full py-3 px-5 border-gray-400 text-black focus:outline-none focus:border-black">
+      </div>
+
+      <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-full">
+        Signup
+      </button>
+      <hr>
+      <p class="text-center p-4">
+        Already have an account ? 
+        <b routerLink="/login" class="cursor-pointer">
+          Login
+        </b>
+      </p>
+    </form>
+  </div>
+  <div class=" items-center mx-auto border-none">
+    <img src="https://cdni.iconscout.com/illustration/free/thumb/free-sign-up-form-4575543-3798675.png"
+      alt="login image" class="w-full rounded-full p-10 bg-green-400">
+  </div>
+  
+</section>
