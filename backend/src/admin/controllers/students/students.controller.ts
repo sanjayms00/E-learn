@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
-import { adminJwtAuthGuard } from 'src/admin/guards/adminJwtAuth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('admin/students')
 export class StudentsController {
 
-    @UseGuards(adminJwtAuthGuard)
+    @UseGuards(AuthGuard())
     @Get()
     getAllStudents(){
         return [
@@ -19,7 +19,7 @@ export class StudentsController {
         ]
     }
 
-    @UseGuards(adminJwtAuthGuard)
+    @UseGuards(AuthGuard())
     @Patch('status')
     changeStudentStatus(@Body() data: {id : number}){
         const { id } = data

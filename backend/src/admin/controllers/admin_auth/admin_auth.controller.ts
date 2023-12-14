@@ -1,24 +1,24 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { adminLocalAuthGuard } from 'src/admin/guards/adminLocalAuth.guard';
+import { AdmminDto } from 'src/admin/dtos/adminDto';
+
 import { AdminAuthService } from 'src/admin/services/admin-auth/admin-auth.service';
-// import { loginType } from 'src/types/type';
+import { LoginDto } from 'src/client/dtos/loginDto';
 
 @Controller('admin/auth')
 export class AdminAuthController {
 
     constructor(private adminAuthService: AdminAuthService){}
 
-    @UseGuards(adminLocalAuthGuard)
+    
     @Post('login')
-    async adminLogin(@Request() req) {
-        console.log("request", req.user)
-        return this.adminAuthService.login(req.user);
+    async adminLogin(@Body() adminLoginData: LoginDto) {
+        console.log(adminLoginData)
+        return this.adminAuthService.login(adminLoginData);
       }
 
-    @UseGuards(adminLocalAuthGuard)
     @Post('register')
-    register(@Body() data){
-        return data
+    register(@Body() data: AdmminDto){
+        return this.adminAuthService.registerAdmin(data)
     }
 
 }

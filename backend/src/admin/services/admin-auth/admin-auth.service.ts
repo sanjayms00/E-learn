@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { AdmminDto } from 'src/admin/dtos/adminDto';
+import { Admin } from 'src/admin/schema/admin.schema';
+import { LoginDto } from 'src/client/dtos/loginDto';
 
 // import { JwtService } from '@nestjs/jwt';
 // import { InjectModel } from '@nestjs/mongoose';
@@ -11,22 +16,18 @@ import { JwtService } from '@nestjs/jwt';
 export class AdminAuthService {
 
     constructor(
-        
+        @InjectModel(Admin.name) private adminModel: Model<Admin>,
         private jwtservice: JwtService
     ) { }
 
-    async validateUser(username: string, pass: string): Promise<object> {
-        // const user = await this.clientService.findOne(username);
-        // if (user && user.password === pass) {
-        //     const { password, ...result } = user;
-        //     return result;
-        // }
-        return null;
+    async registerAdmin(data: AdmminDto): Promise<object> {
+        console.log(data);
+        this.adminModel.create()
     }
 
-    async login(client) {
-        // const payload = { username: client.username, sub: client.userId }
-        
+    async login(adminLogindata: LoginDto) {
+        // console.log(adminLogindata)
+        return {status :true}
             //const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
     }
 }
