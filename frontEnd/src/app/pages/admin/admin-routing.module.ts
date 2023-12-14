@@ -5,17 +5,24 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminComponent } from './admin.component';
 import { StudentListComponent } from './student-list/stuent-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
+import { adminAuthGuard } from 'src/app/shared/guards/admin-auth.guard';
 
 const adminRoutes: Routes = [
   {
-    path: '', 
-    component: AdminComponent, 
+    path: '',
     children: [
-      // {path: 'login', component: AdminLoginComponent},
-      // {path: '', redirectTo: 'login', pathMatch: 'full'},
-      {path: 'dashboard', component: AdminHomeComponent},
-      {path: 'students-list', component: StudentListComponent},
-      {path: 'instructors-list', component: InstructorListComponent}
+      { path: 'login', component: AdminLoginComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      {
+        path: '',
+        canActivate: [adminAuthGuard],
+        component: AdminComponent,
+        children: [
+          { path: 'dashboard', component: AdminHomeComponent },
+          { path: 'students-list', component: StudentListComponent },
+          { path: 'instructors-list', component: InstructorListComponent }
+        ]
+      }
     ]
   },
 ];

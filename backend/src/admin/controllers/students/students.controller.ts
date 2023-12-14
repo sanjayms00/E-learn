@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { AdminJwtAuthGuard } from 'src/admin/guards/adminJwtAuth.guard';
 
 @Controller('admin/students')
 export class StudentsController {
 
-    @UseGuards(AuthGuard())
+    @UseGuards(AdminJwtAuthGuard)
     @Get()
-    getAllStudents(){
+    getAllStudents() {
         return [
             {
                 name: "sanjay",
@@ -15,15 +15,15 @@ export class StudentsController {
             {
                 name: "ajay",
                 email: "ajay@gmail.com"
-            },  
+            },
         ]
     }
 
-    @UseGuards(AuthGuard())
+    @UseGuards(AdminJwtAuthGuard)
     @Patch('status')
-    changeStudentStatus(@Body() data: {id : number}){
+    changeStudentStatus(@Body() data: { id: number }) {
         const { id } = data
-        if(id === 1) return 'status changed'
+        if (id === 1) return 'status changed'
     }
 
 

@@ -5,12 +5,12 @@ import { AdminLoginComponent } from './pages/admin/admin-login/admin-login.compo
 
 const routes: Routes = [
   {
-    path : '', 
+    path: '',
     loadChildren: () => import('./pages/client/client.module').then((m) => m.ClientModule)
   },
   {
-    path : 'admin', 
-    component: AdminLoginComponent,
+    path: 'admin',
+    // component: AdminLoginComponent,
     loadChildren: () => import('./pages/admin/admin.module').then((m) => m.AdminModule)
   },
   { path: '**', component: NotFoundComponent },

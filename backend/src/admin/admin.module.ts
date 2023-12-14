@@ -8,6 +8,7 @@ import { adminJwtStrategy } from './strategy/adminJwt.strategy';
 import { ClientService } from './services/client/client.service';
 import { adminSchema } from './schema/admin.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AdminJwtAuthGuard } from './guards/adminJwtAuth.guard';
 
 @Module({
   controllers: [
@@ -15,23 +16,25 @@ import { MongooseModule } from '@nestjs/mongoose';
     AdminAuthController,
   ],
   imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'admin-jwt' }),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET_ADMIN,
-      signOptions: { expiresIn: process.env.JWT_EXPIRE_ADMIN},
+      signOptions: { expiresIn: process.env.JWT_EXPIRE_ADMIN },
     }),
     MongooseModule.forFeature([{ name: 'Admin', schema: adminSchema }]),
   ],
   providers: [
-    AdminAuthService, 
-    adminJwtStrategy, 
+    adminJwtStrategy,
+    AdminAuthService,
+    AdminJwtAuthGuard,
     ClientService,
     JwtService
   ],
   exports: [
-    AdminAuthService, 
-    ClientService
+    AdminAuthService,
+    ClientService,
+    AdminJwtAuthGuard
   ]
 })
 export class AdminModule { }

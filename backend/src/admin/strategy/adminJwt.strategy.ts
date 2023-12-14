@@ -1,18 +1,33 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Admin } from '../schema/admin.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
-export class adminJwtStrategy extends PassportStrategy(Strategy) {
-    constructor() {
+export class adminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
+    constructor(
+        @InjectModel(Admin.name)
+        private adminModel: Model<Admin>
+    ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
             secretOrKey: process.env.JWT_SECRET_ADMIN,
         });
     }
 
     async validate(payload) {
-        return { userId: payload.sub, username: payload.username };
+
+        const { id } = payload;
+        console.log(payload)
+
+        const user = await this.adminModel.findById(id);
+
+        if (!user) {
+            throw new UnauthorizedException('Access denied.');
+        }
+
+        return user;
     }
 }

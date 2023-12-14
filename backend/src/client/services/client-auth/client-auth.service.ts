@@ -1,11 +1,8 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
-
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-
 import { Client } from 'src/client/schema/client.schema';
 import { SignupDto } from 'src/client/dtos/signDto';
 import { LoginDto } from 'src/client/dtos/loginDto';
@@ -17,15 +14,15 @@ export class ClientAuthService {
     @InjectModel(Client.name)
     private userModel: Model<Client>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   //signup student
   async signUp(signUpData: SignupDto): Promise<userAuthReturn> {
     const { lName, fName, email } = signUpData;
 
-    const client = await this.userModel.findOne({ email: signUpData.email });
+    const isClient = await this.userModel.findOne({ email: signUpData.email });
 
-    if (client) {
+    if (isClient) {
       throw new ConflictException('User already exist');
     }
 
@@ -41,14 +38,14 @@ export class ClientAuthService {
     });
 
     const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
-    
+
     const clientObject = user.toJSON();
 
     const { password, __v, ...result } = clientObject;
-    
-    return { 
-      access_token, 
-      user : result
+
+    return {
+      access_token,
+      user: result
     };
   }
 
@@ -67,15 +64,15 @@ export class ClientAuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const access_token = this.jwtService.sign({ id: client._id }, {secret: process.env.JWT_SECRET_CLIENT});
-    
+    const access_token = this.jwtService.sign({ id: client._id }, { secret: process.env.JWT_SECRET_CLIENT });
+
     const clientObject = client.toJSON();
 
     const { password, __v, ...result } = clientObject;
-    
-    return { 
-      access_token, 
-      user : result
+
+    return {
+      access_token,
+      user: result
     };
   }
 }

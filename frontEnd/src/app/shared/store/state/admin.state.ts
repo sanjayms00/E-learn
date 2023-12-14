@@ -1,7 +1,11 @@
-import { adminInterface } from "../../interface/admin.interface";
+import { adminStateInterface } from "../../interface/admin.interface";
 
-export const adminState: adminInterface  = {
-    email: '',
-    token: '',
-    userName : ''
+
+export const adminState: adminStateInterface = {
+    user: {
+        _id: '',
+        userName: '',
+        email: '',
+        status: false
+    }
 }

@@ -15,49 +15,42 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   //login api call
-  studentLogin(loginData: loginInterface): Observable<object>
-  {
+  studentLogin(loginData: loginInterface): Observable<object> {
     return this.http.post<object>(`${constant.baseUrl}/auth/login`, loginData)
   }
 
   //signup api call
-  studentSignUp(signupData: SignUpInterface): Observable<object>
-  {
+  studentSignUp(signupData: SignUpInterface): Observable<object> {
     return this.http.post<object>(`${constant.baseUrl}/auth/signUp`, signupData)
   }
 
   //adminlogin api call
-  adminLogin(adminLoginData: loginInterface): Observable<{token : string}>
-  {
-    return this.http.post<{token : string}>(`${constant.baseUrl}/admin/login`, adminLoginData)
+  adminLogin(adminLoginData: loginInterface): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${constant.baseUrl}/admin/auth/login`, adminLoginData)
   }
 
   //get client token
-  getClientToken(): string | null
-  {
+  getClientToken(): string | null {
     return localStorage.getItem('clientToken')
   }
 
   //get admin token
-  getAdminToken(): string | null
-  {
+  getAdminToken(): string | null {
     return localStorage.getItem('adminToken')
   }
 
   //logout client
-  clientLogout(){
-    
+  clientLogout() {
+
   }
 
   //check client logged in
-  IsClientloggedIn():  string | null
-  {
+  IsClientloggedIn(): string | null {
     return localStorage.getItem('clientToken')
   }
 
   //check admin logged in
-  IsAdminloggedIn(): string | null
-  {
+  IsAdminloggedIn(): string | null {
     return localStorage.getItem('clientToken')
   }
 
