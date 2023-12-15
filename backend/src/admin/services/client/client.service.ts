@@ -1,13 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Client } from 'src/client/schema/client.schema';
 
 @Injectable()
 export class ClientService {
 
-    BlockClient(id : number){
+    constructor(
+        @InjectModel(Client.name)
+        private clientModel: Model<Client>
+    ) { }
 
+    getAllStudents() {
+        return this.clientModel.find({ instructor: false })
     }
 
-    unBlockClient(id : number){
-
+    getAllINstructors() {
+        return this.clientModel.find({ instructor: true })
     }
+
+
+    // BlockClient(id: number) {
+
+    // }
+
+    // unBlockClient(id: number) {
+
+    // }
 }

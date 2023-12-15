@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class SearchBarComponent {
 
+  searchData = ''
+
+  search() {
+    console.log(this.searchData)
+  }
+
 }

@@ -17,6 +17,9 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { appReducer } from './shared/store/state/app.state';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import { appReducer } from './shared/store/state/app.state';
     HttpClientModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([clientEffects, adminEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

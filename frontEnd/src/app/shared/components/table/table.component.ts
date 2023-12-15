@@ -10,6 +10,6 @@ import { clientInterface } from '../../interface/common.interface';
 export class TableComponent {
 
   @Input()
-  data$ !: Observable<clientInterface[]>
+  data !: clientInterface[]
 
 }

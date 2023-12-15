@@ -9,14 +9,14 @@ import { ClientProfileComponent } from './client-profile/client-profile.componen
 
 const routes: Routes = [
   {
-    path : '', 
-    component: ClientComponent, 
+    path: '',
+    component: ClientComponent,
     children: [
-      {path: 'home', component: ClientHomeComponent, canActivate:[authGuard]},
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
-      {path: 'signup', component: ClientSignupComponent},
-      {path: 'login', component: ClientLoginComponent},
-      {path: 'profile', component: ClientProfileComponent, canActivate:[authGuard] }
+      { path: 'home', component: ClientHomeComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
+      { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
+      { path: 'profile', component: ClientProfileComponent, }
     ]
   }
 ];

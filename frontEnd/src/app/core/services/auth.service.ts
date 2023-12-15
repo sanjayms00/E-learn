@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { constant } from '../constant/constant';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { SignUpInterface, loginInterface } from 'src/app/shared/interface/common.interface';
 
 
@@ -15,8 +15,8 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   //login api call
-  studentLogin(loginData: loginInterface): Observable<object> {
-    return this.http.post<object>(`${constant.baseUrl}/auth/login`, loginData)
+  studentLogin(loginData: loginInterface) {
+    return this.http.post(`${constant.baseUrl}/auth/login`, loginData)
   }
 
   //signup api call
@@ -41,17 +41,12 @@ export class AuthService {
 
   //logout client
   clientLogout() {
-
+    return localStorage.removeItem("clientToken")
   }
 
-  //check client logged in
-  IsClientloggedIn(): string | null {
-    return localStorage.getItem('clientToken')
-  }
-
-  //check admin logged in
-  IsAdminloggedIn(): string | null {
-    return localStorage.getItem('clientToken')
+  //logout client
+  adminLogout() {
+    return localStorage.removeItem("adminToken")
   }
 
 }

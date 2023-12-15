@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { constant } from "../../constant/constant";
-import { Observable } from "rxjs";
+import { Observable, catchError, throwError } from "rxjs";
 import { clientInterface } from "src/app/shared/interface/common.interface";
 
 
@@ -12,15 +12,14 @@ export class ListingService {
 
     constructor(
         private http: HttpClient
-        ){}
+    ) { }
 
-    getStudentList() : Observable<clientInterface[]>
-    {
+    getStudentList(): Observable<clientInterface[]> {
         return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/students`)
+
     }
 
-    getInstructorList() : Observable<clientInterface[]>
-    {
+    getInstructorList(): Observable<clientInterface[]> {
         return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
     }
 }

@@ -4,6 +4,7 @@ import { AuthService } from "src/app/core/services/auth.service";
 import { adminLogin, adminLoginFailure, adminLoginSuccess } from "../actions/admin.action";
 import { exhaustMap, map, catchError, of } from 'rxjs'
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class adminEffects {
@@ -11,7 +12,8 @@ export class adminEffects {
   constructor(
     private action$: Actions,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
 
@@ -22,12 +24,13 @@ export class adminEffects {
         const data = action.logindata
         return this.authService.adminLogin(data).pipe(
           map((response: any) => {
+            this.toastr.success("Welcome admin")
             localStorage.setItem('adminToken', response.access_token);
             this.router.navigateByUrl('/admin/dashboard')
             return adminLoginSuccess({ user: response.user })
           }),
           catchError(err => {
-            alert(err.error.message)
+            console.log(err.error?.message)
             return of(adminLoginFailure())
           }))
       })

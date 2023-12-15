@@ -32,7 +32,6 @@ export class ClientSignupComponent {
 
   signUp() {
     if (this.signUpForm.valid) {
-      console.log("in")
       const signUpdata: SignUpInterface = this.signUpForm.value;
       this.store.dispatch(clientSignUp({ signUpdata }))
     }

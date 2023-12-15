@@ -27,12 +27,31 @@
       </ul>
     </div>
     <div class="flex items-center gap-4">
-      <button [routerLink]="['/login']" class="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">Log
-        In</button>
+      <div *ngIf="logSign; then thenBlock else elseBlock">
+      </div>
+      <ng-template #thenBlock>
+        <button [routerLink]="['/login']" class="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">
+          Log In
+        </button>
+        <button [routerLink]="['/signup']"
+          class="border-black text-black px-5 py-2 rounded-full hover:border-orange-500">
+          Sign Up
+        </button>
+      </ng-template>
 
-      <button [routerLink]="['/signup']"
-        class="border-black text-black px-5 py-2 rounded-full hover:border-orange-500">Sign
-        Up</button>
+      <ng-template #elseBlock>
+        <a [routerLink]="['/profile']" routerLinkActive="router-link-active">
+          <div class="flex gap-3 pt-2">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/3c256e58872685.5a0c7b8939f42.png"
+              alt="profile-image" class="w-10 rounded-full">
+            <p class="pt-1 cursor-pointer">profile</p>
+          </div>
+        </a>
+        <button [routerLink]="['/signup']"
+          class="border-black text-black px-5 py-2 rounded-full hover:border-orange-500" (click)="logout()">
+          Logout
+        </button>
+      </ng-template>
       <img class="w-6 cursor-pointer md:hidden" [src]="icon" alt="logo" (click)="toggleClick(toggleMenu)">
     </div>
   </nav>

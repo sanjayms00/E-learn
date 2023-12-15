@@ -20,7 +20,7 @@ export class adminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
     async validate(payload) {
 
         const { id } = payload;
-        console.log(payload)
+        console.log("admin", payload)
 
         const user = await this.adminModel.findById(id);
 

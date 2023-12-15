@@ -10,7 +10,6 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    // component: AdminLoginComponent,
     loadChildren: () => import('./pages/admin/admin.module').then((m) => m.AdminModule)
   },
   { path: '**', component: NotFoundComponent },

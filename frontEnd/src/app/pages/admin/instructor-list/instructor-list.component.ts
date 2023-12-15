@@ -1,24 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscribable, Subscription } from 'rxjs';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { clientInterface } from 'src/app/shared/interface/common.interface';
 
 @Component({
-  selector: 'app-student-list',
+  selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
   styleUrls: ['./instructor-list.component.css'],
   providers: [ListingService]
 })
-export class InstructorListComponent implements OnInit {
+export class InstructorListComponent implements OnInit, OnDestroy {
 
-  instructorList$ !: Observable<clientInterface[]>
+  instructorList: clientInterface[] = []
+  instructorSubscription !: Subscription
 
   constructor(
-    private listingService : ListingService
-  ){}
+    private listingService: ListingService
+  ) { }
 
   ngOnInit(): void {
-    this.instructorList$ = this.listingService.getInstructorList();
+    this.instructorSubscription = this.listingService.getInstructorList().subscribe((data) => {
+      this.instructorList = data
+    })
+  }
+
+
+  ngOnDestroy(): void {
+    this.instructorSubscription.unsubscribe()
   }
 
 

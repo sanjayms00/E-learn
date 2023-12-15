@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { clientInterface } from 'src/app/shared/interface/common.interface';
 
@@ -9,17 +10,24 @@ import { clientInterface } from 'src/app/shared/interface/common.interface';
   styleUrls: ['./student-list.component.css'],
   providers: [ListingService]
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements OnInit, OnDestroy {
 
-  studentList$ !: Observable<clientInterface[]>
-
+  studentList !: clientInterface[];
+  studentSubscription !: Subscription;
   constructor(
-    private listingService : ListingService
-  ){}
+    private listingService: ListingService
+  ) { }
 
   ngOnInit(): void {
-    this.studentList$ = this.listingService.getStudentList();
+    this.studentSubscription = this.listingService.getStudentList().subscribe((data) => {
+      this.studentList = data
+    })
   }
+
+  ngOnDestroy(): void {
+    this.studentSubscription.unsubscribe()
+  }
+
 
 
 }
