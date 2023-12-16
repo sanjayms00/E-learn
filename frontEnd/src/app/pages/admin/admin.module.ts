@@ -12,6 +12,7 @@ import { AdminComponent } from './admin.component';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 
 @NgModule({
@@ -24,11 +25,12 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
     AdminComponent,
     AdminSidebarComponent,
     AdminNavbarComponent,
-    TableComponent
+    TableComponent,
+    SearchPipe
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule, 
+    AdminRoutingModule,
     ReactiveFormsModule,
     FormsModule
   ],

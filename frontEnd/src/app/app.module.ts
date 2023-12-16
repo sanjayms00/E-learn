@@ -19,13 +19,14 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { appReducer } from './shared/store/state/app.state';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchPipe } from './shared/pipes/search.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

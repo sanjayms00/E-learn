@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 // import { Observable } from 'rxjs';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
@@ -14,6 +14,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   studentList !: clientInterface[];
   studentSubscription !: Subscription;
+  searchText = ''
+
   constructor(
     private listingService: ListingService
   ) { }
@@ -23,6 +25,11 @@ export class StudentListComponent implements OnInit, OnDestroy {
       this.studentList = data
     })
   }
+
+  searchData(event: any) {
+    this.searchText = event
+  }
+
 
   ngOnDestroy(): void {
     this.studentSubscription.unsubscribe()

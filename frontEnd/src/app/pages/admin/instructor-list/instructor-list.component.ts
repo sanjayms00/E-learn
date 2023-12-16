@@ -13,6 +13,7 @@ export class InstructorListComponent implements OnInit, OnDestroy {
 
   instructorList: clientInterface[] = []
   instructorSubscription !: Subscription
+  searchText = ''
 
   constructor(
     private listingService: ListingService
@@ -24,6 +25,9 @@ export class InstructorListComponent implements OnInit, OnDestroy {
     })
   }
 
+  searchData(event: string) {
+    this.searchText = event
+  }
 
   ngOnDestroy(): void {
     this.instructorSubscription.unsubscribe()

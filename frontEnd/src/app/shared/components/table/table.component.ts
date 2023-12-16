@@ -12,4 +12,7 @@ export class TableComponent {
   @Input()
   data !: clientInterface[]
 
+  @Input()
+  searchText !: string
+
 }

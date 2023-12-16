@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -9,8 +9,12 @@ export class SearchBarComponent {
 
   searchData = ''
 
+  @Output()
+  searchEvent = new EventEmitter<string>()
+
+
   search() {
-    console.log(this.searchData)
+    this.searchEvent.emit(this.searchData)
   }
 
 }

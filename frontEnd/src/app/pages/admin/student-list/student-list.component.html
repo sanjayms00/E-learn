@@ -3,7 +3,7 @@
         <h1 class="text-3xl font-bold">Students</h1>
     </div>
     <div class="w-1/2">
-        <app-search-bar></app-search-bar>
+        <app-search-bar (searchEvent)="searchData($event)"></app-search-bar>
     </div>
 </div>
-<app-table [data]="studentList"></app-table>
+<app-table [data]="studentList" [searchText]="searchText"></app-table>
