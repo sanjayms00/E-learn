@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { clientInterface } from '../../interface/common.interface';
 
@@ -9,10 +9,19 @@ import { clientInterface } from '../../interface/common.interface';
 })
 export class TableComponent {
 
+  @Output()
+  statusChange = new EventEmitter()
+
   @Input()
   data !: clientInterface[]
 
   @Input()
   searchText !: string
+
+
+  changeStatus(id: string, status: boolean) {
+    this.statusChange.emit({ id, status })
+  }
+
 
 }

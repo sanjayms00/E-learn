@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
+import { statusDto } from 'src/admin/dtos/status.dto';
 import { AdminJwtAuthGuard } from 'src/admin/guards/adminJwtAuth.guard';
 import { ClientService } from 'src/admin/services/client/client.service';
 
@@ -9,7 +10,6 @@ export class StudentsController {
         private clientService: ClientService
     ) { }
 
-
     @UseGuards(AdminJwtAuthGuard)
     @Get()
     getAllStudents() {
@@ -18,9 +18,8 @@ export class StudentsController {
 
     @UseGuards(AdminJwtAuthGuard)
     @Patch('status')
-    changeStudentStatus(@Body() data: { id: number }) {
-        const { id } = data
-        if (id === 1) return 'status changed'
+    changeStudentStatus(@Body() data: statusDto) {
+        return this.clientService.changeStatus(data)
     }
 
 

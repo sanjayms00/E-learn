@@ -30,6 +30,12 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.searchText = event
   }
 
+  //block / unblock student
+  changeStudentStatus(event: string) {
+    this.listingService.changeClientStatus(event).subscribe((data) => {
+      console.log("changeStudentStatus", data)
+    })
+  }
 
   ngOnDestroy(): void {
     this.studentSubscription.unsubscribe()

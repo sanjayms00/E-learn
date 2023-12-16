@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AdmminDto } from 'src/admin/dtos/adminDto';
+import { AdminDto } from 'src/admin/dtos/adminDto';
 
 import { AdminAuthService } from 'src/admin/services/admin-auth/admin-auth.service';
 import { LoginDto } from 'src/client/dtos/loginDto';
@@ -16,7 +16,7 @@ export class AdminAuthController {
     }
 
     @Post('register')
-    register(@Body() data: AdmminDto) {
+    register(@Body() data: AdminDto) {
         console.log(data)
         return this.adminAuthService.registerAdmin(data)
     }

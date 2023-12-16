@@ -22,4 +22,13 @@ export class ListingService {
     getInstructorList(): Observable<clientInterface[]> {
         return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
     }
+
+
+    changeClientStatus(data: string): Observable<Object> {
+        return this.http.patch<clientInterface[]>(`${constant.baseUrl}/admin/students/status`, data)
+    }
+
+
+
+
 }

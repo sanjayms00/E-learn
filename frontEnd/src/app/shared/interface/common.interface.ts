@@ -11,6 +11,7 @@ export interface SignUpInterface {
 }
 
 export interface clientInterface {
+    _id: string,
     fName: string,
     lName: string,
     email: string,

@@ -10,7 +10,7 @@ export class InstructorController {
 
     @Get()
     getInstructors() {
-        return this.clientService.getAllINstructors()
+        return this.clientService.getAllInstructors()
     }
 
 }

@@ -29,6 +29,13 @@ export class InstructorListComponent implements OnInit, OnDestroy {
     this.searchText = event
   }
 
+  //block / unblock student
+  changeStudentStatus(event: string) {
+    this.listingService.changeClientStatus(event).subscribe((data) => {
+      console.log(data)
+    })
+  }
+
   ngOnDestroy(): void {
     this.instructorSubscription.unsubscribe()
   }

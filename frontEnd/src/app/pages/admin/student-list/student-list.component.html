@@ -6,4 +6,4 @@
         <app-search-bar (searchEvent)="searchData($event)"></app-search-bar>
     </div>
 </div>
-<app-table [data]="studentList" [searchText]="searchText"></app-table>
+<app-table [data]="studentList" [searchText]="searchText" (statusChange)="changeStudentStatus($event)"></app-table>

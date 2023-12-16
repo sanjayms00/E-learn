@@ -6,6 +6,7 @@ import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { authGuard } from 'src/app/shared/guards/auth.guard';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
+import { clientGuard } from 'src/app/shared/guards/client.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
-      { path: 'profile', component: ClientProfileComponent, }
+      { path: 'profile', component: ClientProfileComponent, canActivate: [clientGuard] }
     ]
   }
 ];
