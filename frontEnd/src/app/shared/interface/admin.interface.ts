@@ -1,3 +1,4 @@
+import { clientInterface } from "./common.interface";
 
 export interface adminAuthResponse {
         _id: string,
@@ -7,6 +8,11 @@ export interface adminAuthResponse {
 }
 
 export interface adminStateInterface {
-        user: adminAuthResponse
+        user: adminAuthResponse,
+        clientDetails: clientInterface[]
 }
 
+export interface statusInterface {
+        id: string,
+        status: boolean
+}

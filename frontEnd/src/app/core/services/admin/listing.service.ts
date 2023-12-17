@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { constant } from "../../constant/constant";
 import { Observable, catchError, throwError } from "rxjs";
 import { clientInterface } from "src/app/shared/interface/common.interface";
+import { statusInterface } from "src/app/shared/interface/admin.interface";
 
 
 @Injectable({
@@ -14,18 +15,22 @@ export class ListingService {
         private http: HttpClient
     ) { }
 
-    getStudentList(): Observable<clientInterface[]> {
-        return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/students`)
-
+    getClientList(): Observable<clientInterface[]> {
+        return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/clients`)
     }
 
-    getInstructorList(): Observable<clientInterface[]> {
-        return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
-    }
+    // getStudentList(): Observable<clientInterface[]> {
+    //     return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/students`)
+
+    // }
+
+    // getInstructorList(): Observable<clientInterface[]> {
+    //     return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
+    // }
 
 
-    changeClientStatus(data: string): Observable<Object> {
-        return this.http.patch<clientInterface[]>(`${constant.baseUrl}/admin/students/status`, data)
+    changeClientStatus(data: statusInterface){
+        return this.http.patch(`${constant.baseUrl}/admin/clients/status`, data)
     }
 
 

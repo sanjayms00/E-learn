@@ -11,12 +11,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AdminJwtAuthGuard } from './guards/adminJwtAuth.guard';
 import { InstructorController } from './controllers/instructor/instructor.controller';
 import { clientSchema } from 'src/client/schema/client.schema';
+import { ClientManagementController } from './controllers/client-management/client-management.controller';
 
 @Module({
   controllers: [
     StudentsController,
     AdminAuthController,
     InstructorController,
+    ClientManagementController
   ],
   imports: [
     PassportModule.register({ defaultStrategy: 'admin-jwt' }),

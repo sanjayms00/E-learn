@@ -10,8 +10,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { clientEffects } from './shared/store/effects/client.effect';
-import { adminEffects } from './shared/store/effects/admin.effects';
+import { clientEffects } from './shared/store/effects/client/client.effect';
+import { adminEffects } from './shared/store/effects/admin/admin.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -19,7 +19,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { appReducer } from './shared/store/state/app.state';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchPipe } from './shared/pipes/search.pipe';
+import { clientListEffects } from './shared/store/effects/admin/ClientList.effects';
 
 
 @NgModule({
@@ -36,7 +36,7 @@ import { SearchPipe } from './shared/pipes/search.pipe';
     AdminModule,
     HttpClientModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([clientEffects, adminEffects]),
+    EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     BrowserAnimationsModule,
     ToastrModule.forRoot()

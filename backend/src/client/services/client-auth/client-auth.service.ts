@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
@@ -54,9 +54,9 @@ export class ClientAuthService {
 
     const client = await this.userModel.findOne({ email: loginData.email });
 
-    if (!client) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
+    if (!client) throw new UnauthorizedException('Invalid email or password');
+
+    if (client.status === false) throw new ForbiddenException('Access denied, User is blocked');
 
     const isPasswordMatched = await bcrypt.compare(loginData.password, client.password);
 

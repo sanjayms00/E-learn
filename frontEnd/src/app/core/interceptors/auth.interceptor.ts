@@ -12,15 +12,19 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  clientToken !: string | null
+  adminToken !: string | null
+
   constructor(private authService: AuthService) { }
 
-  //get auth service
-  clientToken = this.authService.getClientToken()
-  adminToken = this.authService.getAdminToken()
-
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    // debugger
+    //get auth tokens
+    this.clientToken = this.authService.getClientToken()
+    this.adminToken = this.authService.getAdminToken()
 
     if (request.url.includes('/admin')) {
+      // console.log("admin interceptor", this.adminToken)
       // clone and create new rrequest
       request = request.clone({
         setHeaders: {
@@ -29,6 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       })
     } else {
+      // console.log("client interceptor", this.clientToken)
       // clone and create new rrequest
       request = request.clone({
         setHeaders: {

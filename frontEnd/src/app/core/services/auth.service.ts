@@ -31,12 +31,14 @@ export class AuthService {
 
   //get client token
   getClientToken(): string | null {
-    return localStorage.getItem('clientToken')
+    const token = localStorage.getItem('clientToken');
+    return token !== null ? token : null;
   }
 
   //get admin token
   getAdminToken(): string | null {
-    return localStorage.getItem('adminToken')
+    const token = localStorage.getItem('adminToken');
+    return token !== null ? token : null;
   }
 
   //logout client

@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, Subscribable, Subscription } from 'rxjs';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
+import { statusInterface } from 'src/app/shared/interface/admin.interface';
 import { clientInterface } from 'src/app/shared/interface/common.interface';
+import { clientStatusChange, getCientList } from 'src/app/shared/store/actions/admin.action';
+import { instructorlistSelector } from 'src/app/shared/store/selectors/admin.selector';
+import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-instructor-list',
@@ -16,29 +21,26 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   searchText = ''
 
   constructor(
-    private listingService: ListingService
+    private store: Store<appState>
   ) { }
 
   ngOnInit(): void {
-    this.instructorSubscription = this.listingService.getInstructorList().subscribe((data) => {
-      this.instructorList = data
-    })
+    this.store.dispatch(getCientList())
+    this.instructorSubscription = this.store.select(instructorlistSelector)
+      .subscribe(data => {
+        this.instructorList = data
+      })
   }
 
   searchData(event: string) {
     this.searchText = event
   }
 
-  //block / unblock student
-  changeStudentStatus(event: string) {
-    this.listingService.changeClientStatus(event).subscribe((data) => {
-      console.log(data)
-    })
+  changeStudentStatus(event: statusInterface) {
+    this.store.dispatch(clientStatusChange(event))
   }
 
   ngOnDestroy(): void {
     this.instructorSubscription.unsubscribe()
   }
-
-
 }

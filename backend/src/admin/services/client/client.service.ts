@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { statusDto } from 'src/admin/dtos/status.dto';
 import { Client } from 'src/client/schema/client.schema';
 
 @Injectable()
@@ -11,6 +12,9 @@ export class ClientService {
         private clientModel: Model<Client>
     ) { }
 
+    async getAllClients() {
+        return await this.clientModel.find({}, { password: 0, __v: 0 })
+    }
     async getAllStudents() {
         return await this.clientModel.find({ instructor: false }, { password: 0, __v: 0 })
     }
@@ -19,7 +23,7 @@ export class ClientService {
         return await this.clientModel.find({ instructor: true }, { password: 0, __v: 0 })
     }
 
-    async changeStatus(data: { id: string, status: boolean }) {
+    async changeStatus(data: statusDto) {
         try {
             const result = await this.clientModel.updateOne(
                 { _id: data.id },
