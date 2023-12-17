@@ -51,4 +51,12 @@ export class AuthService {
     return localStorage.removeItem("adminToken")
   }
 
+  getLocalClientData() {
+    if (this.getClientToken()) {
+      return localStorage.getItem('clientData')
+    }
+    return null
+  }
+
+
 }

@@ -1,21 +1,31 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { getClientDataFromLocal } from 'src/app/shared/store/actions/client.action';
+import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css']
 })
-export class ClientComponent implements DoCheck {
+export class ClientComponent implements OnInit, DoCheck {
   togg = true
   icon = "/assets/logo/grid.svg"
   logSign = false;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<appState>
   ) {
+  }
+  ngOnInit(): void {
+    const clientData = this.authService.getLocalClientData()
+    if (clientData) {
+      this.store.dispatch(getClientDataFromLocal({ user: JSON.parse(clientData) }))
+    }
   }
 
   ngDoCheck(): void {

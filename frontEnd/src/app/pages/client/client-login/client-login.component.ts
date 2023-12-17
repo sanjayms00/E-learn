@@ -22,7 +22,7 @@ export class ClientLoginComponent {
   }
 
   login() {
-    console.log(this.studentLogin)
+    
     if (this.studentLogin.valid) {
       const loginData = this.studentLogin.value
 

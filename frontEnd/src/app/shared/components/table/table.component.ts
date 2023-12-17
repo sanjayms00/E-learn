@@ -9,6 +9,10 @@ import { clientInterface } from '../../interface/common.interface';
 })
 export class TableComponent {
 
+  pSize = 5;
+  currentPage = 1;
+
+
   @Output()
   statusChange = new EventEmitter()
 

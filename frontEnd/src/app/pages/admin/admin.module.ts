@@ -14,6 +14,7 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ListingService } from 'src/app/core/services/admin/listing.service';
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [AuthService, ListingService]
 })

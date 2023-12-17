@@ -27,6 +27,7 @@ export class clientEffects {
           map((response: any) => {
             this.toastr.success("Login successfull")
             localStorage.setItem('clientToken', response.access_token);
+            localStorage.setItem('clientData', JSON.stringify(response.user));
             this.router.navigateByUrl('/home')
             return clientLoginSuccess({ user: response.user })
           }),
@@ -48,6 +49,7 @@ export class clientEffects {
           map((response: any) => {
             this.toastr.success("Login successfull")
             localStorage.setItem('clientToken', response.access_token);
+            localStorage.setItem('clientData', JSON.stringify(response.user));
             this.router.navigateByUrl('/home')
             return clientSignUpSuccess({ user: response.user })
           }),

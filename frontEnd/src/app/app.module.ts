@@ -20,13 +20,14 @@ import { appReducer } from './shared/store/state/app.state';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { clientListEffects } from './shared/store/effects/admin/ClientList.effects';
-
+import { ErrorComponent } from './shared/components/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
     NotFoundComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
