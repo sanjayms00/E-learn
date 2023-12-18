@@ -1,4 +1,4 @@
-<header class="bg-white">
+<header class="bg-white border-b">
   <nav class="flex justify-between item-center w-[92%] mx-auto py-5">
     <div>
       <a [routerLink]="['/']" routerLinkActive="router-link-active">
@@ -56,32 +56,33 @@
     </div>
   </nav>
 </header>
+<!-- header ends -->
 
 <router-outlet></router-outlet>
 
-
-<footer class="bg-white dark:bg-gray-900">
+<!-- footer starts -->
+<footer class="bg-gray-900">
   <div class="mx-auto w-full max-w-screen-xl">
     <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
       <div>
-        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
+        <h2 class="mb-6 text-sm font-semibold text-white uppercase dark:text-white">Company</h2>
         <ul class="text-gray-500 dark:text-gray-400 font-medium">
           <li class="mb-4">
-            <a href="#" class=" hover:underline">About</a>
+            <a href="#" class=" hover:underline">Home</a>
           </li>
           <li class="mb-4">
-            <a href="#" class="hover:underline">Careers</a>
+            <a href="#" class="hover:underline">Category</a>
           </li>
           <li class="mb-4">
-            <a href="#" class="hover:underline">Brand Center</a>
+            <a href="#" class="hover:underline">Instructor</a>
           </li>
           <li class="mb-4">
-            <a href="#" class="hover:underline">Blog</a>
+            <a href="#" class="hover:underline">My Learning</a>
           </li>
         </ul>
       </div>
       <div>
-        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
+        <h2 class="mb-6 text-sm font-semibold text-white uppercase">Help center</h2>
         <ul class="text-gray-500 dark:text-gray-400 font-medium">
           <li class="mb-4">
             <a href="#" class="hover:underline">Discord Server</a>
@@ -98,7 +99,7 @@
         </ul>
       </div>
       <div>
-        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
+        <h2 class="mb-6 text-sm font-semibold uppercase text-white">Legal</h2>
         <ul class="text-gray-500 dark:text-gray-400 font-medium">
           <li class="mb-4">
             <a href="#" class="hover:underline">Privacy Policy</a>
@@ -112,7 +113,7 @@
         </ul>
       </div>
       <div>
-        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Download</h2>
+        <h2 class="mb-6 text-sm font-semibold uppercase text-white">Download</h2>
         <ul class="text-gray-500 dark:text-gray-400 font-medium">
           <li class="mb-4">
             <a href="#" class="hover:underline">iOS</a>
@@ -129,7 +130,7 @@
         </ul>
       </div>
     </div>
-    <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
+    <div class="px-4 py-6 bg-gray-00 md:flex md:items-center md:justify-between">
       <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a
           href="https://flowbite.com/">E-learn</a>. All Rights Reserved.
       </span>

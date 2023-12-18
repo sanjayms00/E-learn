@@ -1,52 +1,60 @@
-<section class="grid grid-cols-2 divide-x container mx-auto pt-20">
-    <div class=" items-center mx-auto border-none">
+<section class="flex items-center pt-10 pb-10">
+    <div class="hidden md:block w-1/2">
         <img src="https://cdni.iconscout.com/illustration/premium/thumb/account-login-protection-8876027-7271014.png"
-            alt="login image" class="w-full rounded-full p-10 bg-green-400">
+            alt="login image" class="h-full mx-auto bg-green-400 rounded-full">
     </div>
-    <div class="p-8 border-none">
+    <div class="p-4 w-full sm:w-8/12 sm:mx-auto md:w-1/2 md:m-0 md:px-10 md:py-6">
         <div class="text-center pb-5">
             <h2 class="text-3xl font-semibold mb-2">Welcome Back</h2>
-            <p class="text-sm">Unlocking Knowledge, One Login at a Time.</p>
+            <p class="text-sm text-gray-700 font-bold">Unlocking Knowledge, One Login at a Time.</p>
         </div>
-
-        <form [formGroup]="studentLogin" (ngSubmit)="login()">
-            <div class="mb-4">
-                <div class="text-red-600 pl-5"
-                    *ngIf="studentLogin.controls['email'].touched && studentLogin.controls['email'].errors as emailErrors">
-                    <div *ngIf="emailErrors['required']">Email is required</div>
-                    <div *ngIf="emailErrors['pattern']">Invalid email format</div>
-                </div>
-                <input type="email" id="email" formControlName="email"
-                    class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black text-black"
-                    placeholder="Email">
-            </div>
-
-            <div class="mb-4">
-                <div class="text-red-600 pl-5"
-                    *ngIf="studentLogin.controls['password'].touched && studentLogin.controls['password'].errors as passwordErrors">
-                    <div *ngIf="passwordErrors['required']">Password is required</div>
-                </div>
-                <input type="password" formControlName="password" id="password"
-                    class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500"
-                    placeholder="Password">
-            </div>
-
-            <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-full">
-                Login
-            </button>
-            <hr>
-            <p class="text-center p-5">
-                Or Continue With
-            </p>
-            <div class="flex items-center justify-center">
-                <div class="flex flex-row">
-                    <div class="flex-1/2 bg-green-200 py-2 px-5 mx-2 rounded-full">Login with Google</div>
-                    <div class="flex-1/2 bg-green-200 p-2 rounded-full">
-                        <img src="https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png"
-                            alt="google-icon" class="h-6">
+        <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12">
+            <form [formGroup]="studentLogin" (ngSubmit)="login()">
+                <div class="mb-4">
+                    <div class="text-red-600 pl-5 font-bold"
+                        *ngIf="studentLogin.controls['email'].touched && studentLogin.controls['email'].errors as emailErrors">
+                        <div *ngIf="emailErrors['required']">Email is required</div>
+                        <div *ngIf="emailErrors['pattern']">Invalid email format</div>
                     </div>
+                    <input type="email" id="email" formControlName="email"
+                        class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black text-black"
+                        placeholder="Email">
+                </div>
+
+                <div class="mb-4">
+                    <div class="text-red-600 pl-5 font-bold"
+                        *ngIf="studentLogin.controls['password'].touched && studentLogin.controls['password'].errors as passwordErrors">
+                        <div *ngIf="passwordErrors['required']">Password is required</div>
+                    </div>
+                    <input type="password" formControlName="password" id="password"
+                        class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500"
+                        placeholder="Password">
+                </div>
+
+                <button type="submit" class="w-full bg-gray-600 text-white py-3 px-4 rounded-full hover:bg-black">
+                    Login
+                </button>
+
+            </form>
+        </div>
+        <hr>
+        <p class="text-center p-5 font-normal">
+            Or Continue With
+        </p>
+        <div class="flex items-center justify-center">
+            <div class="flex flex-row">
+                <div class="flex-1/2 py-2 px-5 mx-2 rounded-full border-4 p-4 border-gray-600">Login with
+                    Google</div>
+                <div class="flex-1/2 p-2 rounded-full border-4 border-gray-600">
+                    <img src="https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png"
+                        alt="google-icon" class="h-6">
                 </div>
             </div>
-        </form>
+        </div>
+        <div class="flex justify-center pt-4">
+
+            <p class="font-bold p-3 cursor-pointer hover:text-gray-600" [routerLink]="['/signup']">Register Now</p>
+            <p class="font-bold p-3 cursor-pointer hover:text-gray-600">Forgot Password?</p>
+        </div>
     </div>
 </section>

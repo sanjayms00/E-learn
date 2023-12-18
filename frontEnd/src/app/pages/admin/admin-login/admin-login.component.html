@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
+<!-- <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 shadow-md rounded-md w-96">
         <h2 class="text-2xl font-semibold mb-6">Admin Login</h2>
 
@@ -35,4 +35,52 @@
             </div>
         </form>
     </div>
-</div>
+</div> -->
+
+<section class="bg-blue-500 h-screen px-16">
+    <div class="flex items-center justify-evenly h-screen">
+        <div class="w-1/2 flex justify-center">
+            <div class=" hidden md:block">
+                <img src="https://cdni.iconscout.com/illustration/premium/thumb/admin-panel-4468588-3783961.png?f=webp"
+                    alt="login image" class="h-full mx-auto rounded-full">
+            </div>
+        </div>
+        <div class="md:w-1/2">
+            <div class="p-10 w-full bg-gray-50 rounded-3xl">
+                <div class="text-center pb-5">
+                    <h2 class="text-3xl font-semibold mb-2">Welcome Back Admin</h2>
+                    <p class="text-sm">Unlocking Knowledge, One Login at a Time.</p>
+                </div>
+                <form [formGroup]="adminLoginForm" (ngSubmit)="adminLoginSubmit()">
+                    <div class="mb-4">
+                        <div class="text-red-600 pl-5"
+                            *ngIf="adminLoginForm.controls['email'].touched && adminLoginForm.controls['email'].errors as emailErrors">
+                            <div *ngIf="emailErrors['required']">Email is required</div>
+                            <div *ngIf="emailErrors['pattern']">Invalid email format</div>
+                        </div>
+                        <input type="email" id="email" formControlName="email"
+                            class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black text-black"
+                            placeholder="Email">
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="text-red-600 pl-5"
+                            *ngIf="adminLoginForm.controls['password'].touched && adminLoginForm.controls['password'].errors as passwordErrors">
+                            <div *ngIf="passwordErrors['required']">Password is required</div>
+                        </div>
+                        <input type="password" formControlName="password" id="password"
+                            class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500"
+                            placeholder="Password">
+                    </div>
+
+                    <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-full">
+                        Login
+                    </button>
+                    <p class="text-center p-5">
+                        Forgot password
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

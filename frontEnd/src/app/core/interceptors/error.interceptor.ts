@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       this.toastr.error(err.error?.error + " " + err.error?.message)
       if (err.status === 401) {
         this.authservice.clientLogout();
-        this.router.navigate(['/'])
+        // this.router.navigate(['/'])
       }
       const error = err.error.message || err.statusText
       return throwError(() => Error(error))
