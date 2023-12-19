@@ -4,7 +4,7 @@ import { SignupDto } from 'src/client/dtos/signDto';
 import { ClientAuthService } from 'src/client/services/client-auth/client-auth.service';
 import { userAuthReturn } from 'src/types/type';
 
-@Controller('auth')
+@Controller('api/auth')
 export class ClientAuthController {
   constructor(private clientAuthService : ClientAuthService) {}
 
@@ -15,6 +15,7 @@ export class ClientAuthController {
 
   @Post('/login')
   login(@Body() loginData: LoginDto): Promise<userAuthReturn> {
+    console.log(loginData)
     return this.clientAuthService.login(loginData);
   }
 

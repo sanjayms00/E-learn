@@ -1,9 +1,12 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    font-family: 'Cabin', sans-serif;
+}
 
 input.ng-invalid.ng-touched {
     border: red 1px solid;
