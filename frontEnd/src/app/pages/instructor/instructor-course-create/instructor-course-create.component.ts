@@ -7,13 +7,19 @@ import {MenuItem} from 'primeng/api';
   styleUrls: ['./instructor-course-create.component.css']
 })
 export class InstructorCourseCreateComponent {
-  items !: MenuItem[];
-
+  items!: MenuItem[];
+  
+  gfg: number = 0; 
+  
+  chan() { 
+    this.gfg += 1; 
+  } 
   ngOnInit() {
       this.items = [
-          {label: 'Step 1'},
-          {label: 'Step 2'},
-          {label: 'Step 3'}
+          {label: 'Course Information'},
+          {label: 'Course options'},
+          {label: 'Course Content'},
+          {label: 'Course preview'}
       ];
   }
 }

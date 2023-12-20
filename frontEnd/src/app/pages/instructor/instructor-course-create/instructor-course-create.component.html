@@ -1,1 +1,18 @@
-<p-steps [model]="items"></p-steps>
+
+<div class="px-32">
+    
+<h2>Create Course</h2> 
+ 
+<p-steps
+  [model]="[ 
+    { label: 'DSA' }, 
+    { label: 'Algorithm' }, 
+    { label: 'Web Tech' }, 
+    { label: 'Aptitude' } 
+  ]" 
+  [(activeIndex)]="gfg" 
+  [readonly]="true"> 
+</p-steps><br /> 
+<button (click)="chan()">Next</button>
+</div>
+<router-outlet></router-outlet>
