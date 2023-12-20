@@ -1,0 +1,50 @@
+<div class="flex justify-between items-center px-24 py-10">
+    <div class="w-1/2 flex justify-center">
+        <div class="w-3/4">
+            <div class="w-full bg-white rounded-xl my-5 shadow-xl">
+                <div class="surface-card shadow-2 p-6 border-round">
+                    <div class="flex justify-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Enrolled Students</span>
+                            <div class="text-900 font-medium text-xl text-green-600">100</div>
+                        </div>
+                        <div class="flex items-center justify-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
+                            <i class="pi pi-user text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full bg-white rounded-xl my-5 shadow-xl">
+                <div class="surface-card shadow-2 p-6 border-round">
+                    <div class="flex justify-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Revenue</span>
+                            <div class="text-900 font-medium text-xl text-orange-600">₹ 10000</div>
+                        </div>
+                        <div class="flex items-center justify-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
+                            <i class="pi pi-circle text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="w-full bg-white rounded-xl my-5 shadow-xl">
+                <div class="surface-card shadow-2 p-6 border-round">
+                    <div class="flex justify-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Avg Rating</span>
+                            <div class="text-900 font-medium text-xl text-orange-600">5</div>
+                        </div>
+                        <div class="flex items-center justify-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
+                            <i class="pi pi-star text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full">
+        <div class="card py-8 bg-white shadow-xl p-4 rounded-xl">
+            <p-chart type="line" [data]="data" [options]="options"></p-chart>
+        </div>
+    </div>
+</div>

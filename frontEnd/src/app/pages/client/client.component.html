@@ -16,7 +16,7 @@
           <a class="hover:text-gray-500" [routerLink]="['/category']" routerLinkActive="router-link-active">Category</a>
         </li>
         <li>
-          <a class="hover:text-gray-500" [routerLink]="['profile/dashboard']"
+          <a class="hover:text-gray-500" [routerLink]="['/instructor/login']"
             routerLinkActive="router-link-active">Instructor</a>
         </li>
         <li>
@@ -123,7 +123,7 @@
             <a href="#" class="hover:underline">Category</a>
           </li>
           <li class="mb-4">
-            <a href="#" class="hover:underline">Instructor</a>
+            <a [routerLink]="['/instructor/login']" class="hover:underline">Instructor</a>
           </li>
           <li class="mb-4">
             <a href="#" class="hover:underline">My Learning</a>

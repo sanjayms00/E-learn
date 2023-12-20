@@ -8,6 +8,10 @@ import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,10 @@ import { ClientProfileComponent } from './client-profile/client-profile.componen
     CommonModule,
     ClientRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ButtonModule,
+    CalendarModule,
+    ToastModule
   ],
   
 })

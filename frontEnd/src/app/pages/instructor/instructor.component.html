@@ -1,3 +1,8 @@
-<p>instructor works!</p>
-
-<router-outlet></router-outlet>
+<main class="h-screen">
+    <p-menubar [model]="items" class="flex justify-evenly bg-[#f8f9fa]">
+        <ng-template pTemplate="start">
+            <img src="./assets/logo/elearn-logo.png" class="mr-10 h-16 rounded-full">
+        </ng-template>
+    </p-menubar>
+    <router-outlet></router-outlet>
+</main>

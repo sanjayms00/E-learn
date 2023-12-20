@@ -1,3 +1,4 @@
+
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -42,16 +43,16 @@ import { InstructorModule } from './pages/instructor/instructor.module';
     EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
-  ],
+    ToastrModule.forRoot(),
+],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     },
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
-    }
-  ],
+    },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

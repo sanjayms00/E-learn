@@ -29,7 +29,7 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "node_modules/flowbite/dist/flowbite.min.js"
+              "/node_modules/chart.js/dist/chart.js"
             ]
           },
           "configurations": {
