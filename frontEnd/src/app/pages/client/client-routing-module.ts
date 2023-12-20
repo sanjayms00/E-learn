@@ -8,6 +8,7 @@ import { authGuard } from 'src/app/shared/guards/auth.guard';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
 import { clientGuard } from 'src/app/shared/guards/client.guard';
 
+
 const routes: Routes = [
   {
     path: '',

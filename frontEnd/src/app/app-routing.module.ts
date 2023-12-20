@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
-import { AdminLoginComponent } from './pages/admin/admin-login/admin-login.component';
+
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/client/client.module').then((m) => m.ClientModule)
+  },
+  {
+    path: 'instructor',
+    loadChildren: () => import('./pages/instructor/instructor.module').then((m)=>m.InstructorModule)
   },
   {
     path: 'admin',

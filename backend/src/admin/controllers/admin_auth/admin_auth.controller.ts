@@ -4,7 +4,7 @@ import { AdminDto } from 'src/admin/dtos/adminDto';
 import { AdminAuthService } from 'src/admin/services/admin-auth/admin-auth.service';
 import { LoginDto } from 'src/client/dtos/loginDto';
 
-@Controller('admin/auth')
+@Controller('api/admin/auth')
 export class AdminAuthController {
 
     constructor(private adminAuthService: AdminAuthService) { }

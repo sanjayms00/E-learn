@@ -3,7 +3,7 @@ import { statusDto } from 'src/admin/dtos/status.dto';
 import { AdminJwtAuthGuard } from 'src/admin/guards/adminJwtAuth.guard';
 import { ClientService } from 'src/admin/services/client/client.service';
 
-@Controller('admin/clients')
+@Controller('api/admin/clients')
 export class ClientManagementController {
 
     constructor(

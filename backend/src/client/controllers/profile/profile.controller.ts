@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('profile')
+@Controller('api/profile')
 export class ProfileController {
 
     @UseGuards(AuthGuard())
@@ -9,6 +9,4 @@ export class ProfileController {
     getProfileData(){
         return {data : "sanjay"}
     }
-
-
 }

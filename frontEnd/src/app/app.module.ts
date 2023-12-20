@@ -21,13 +21,14 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { clientListEffects } from './shared/store/effects/admin/ClientList.effects';
 import { ErrorComponent } from './shared/components/error/error.component';
+import { InstructorModule } from './pages/instructor/instructor.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
     NotFoundComponent,
-    ErrorComponent
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +36,7 @@ import { ErrorComponent } from './shared/components/error/error.component';
     FormsModule,
     ClientModule,
     AdminModule,
+    InstructorModule,
     HttpClientModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects]),
