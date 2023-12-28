@@ -4,9 +4,9 @@ import { ClientComponent } from './client.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
 import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
-import { authGuard } from 'src/app/shared/guards/auth.guard';
+import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
-import { clientGuard } from 'src/app/shared/guards/client.guard';
+import { clientGuard } from 'src/app/shared/guards/client/client.guard';
 
 
 const routes: Routes = [

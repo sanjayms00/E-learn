@@ -1,8 +1,8 @@
-<main class="h-screen">
-    <p-menubar [model]="items" class="flex justify-evenly bg-[#f8f9fa]">
+<main class="h-screen bg-gray-100">
+    <p-menubar [model]="items" class="flex justify-around pb-1 border-b-2" [style]="{'background-color': 'transparent', 'border': 'none' }">
         <ng-template pTemplate="start">
             <img src="./assets/logo/elearn-logo.png" class="mr-10 h-16 rounded-full">
         </ng-template>
     </p-menubar>
     <router-outlet></router-outlet>
-</main>
+</main> 

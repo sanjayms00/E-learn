@@ -1,7 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
-// import { initialState } from "../state/main.state";
 import { clientLoginSuccess, clientSignUpSuccess, getClientDataFromLocal } from "../actions/client.action";
 import { clientState } from "../state/client.state";
+
 
 const _clientReducer = createReducer(clientState,
     on(

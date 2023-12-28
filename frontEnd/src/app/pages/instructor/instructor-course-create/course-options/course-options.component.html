@@ -1,1 +1,54 @@
-<p>course-options works!</p>
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Course Options
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="flex justify-evenly">
+              <div class="">
+                <table formArrayName="quantities">
+                  <tr class="flex justify-between items-center">
+                    <th>What are the benefits for students in this course?</th>
+                    <th>
+                      <button type="button" (click)="addQuantity()" class="btn btn-primary px-4 py-2 bg-blue-500 text-white rounded-md">Add</button>
+                    </th>
+                  </tr>
+                  <tr *ngFor="let quantity of quantities().controls; let i=index" [formGroupName]="i">
+                    <td class="py-2">
+                      <input type="text" formControlName="price" class="w-full px-4 py-2 border rounded-md">
+                    </td>
+                    <td class="py-2">
+                      <button (click)="removeQuantity(i)" class="btn btn-danger px-4 py-2 bg-red-500 text-white rounded-md">Remove</button>
+                    </td>
+                  </tr>
+                </table>  
+              </div>  
+              <div class="">
+                <table formArrayName="quantities">
+                  <tr class="flex justify-between items-center">
+                    <th>What are the benefits for students in this course?</th>
+                    <th>
+                      <button type="button" (click)="addQuantity()" class="btn btn-primary px-4 py-2 bg-blue-500 text-white rounded-md">Add</button>
+                    </th>
+                  </tr>
+                  <tr *ngFor="let quantity of quantities().controls; let i=index" [formGroupName]="i">
+                    <td class="py-2">
+                      <input type="text" formControlName="price" class="w-full px-4 py-2 border rounded-md">
+                    </td>
+                    <td class="py-2">
+                      <button (click)="removeQuantity(i)" class="btn btn-danger px-4 py-2 bg-red-500 text-white rounded-md">Remove</button>
+                    </td>
+                  </tr>
+                </table>  
+              </div>  
+            </form>   
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex justify-between">
+                <p-button label="Back" (onClick)="prevPage()" [style]="{'background-color': 'blue'}" icon="pi pi-angle-left"></p-button>
+                <p-button label="Next" (onClick)="nextPage()" [style]="{'background-color': 'blue'}" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
+

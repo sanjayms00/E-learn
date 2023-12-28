@@ -5,8 +5,8 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminComponent } from './admin.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
-import { adminGuard } from 'src/app/shared/guards/admin.guard';
-import { authGuard } from 'src/app/shared/guards/auth.guard';
+import { adminGuard } from 'src/app/shared/guards/admin/admin.guard';
+import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
 
 const adminRoutes: Routes = [
   {

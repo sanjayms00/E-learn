@@ -8,7 +8,6 @@ export const clientState: clientStateInterface = {
         lName: '',
         email: '',
         status: false,
-        instructor: false,
         password: "",
         createdAt: new Date,
         updatedAt: new Date

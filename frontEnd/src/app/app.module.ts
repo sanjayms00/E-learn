@@ -8,7 +8,6 @@ import { ClientComponent } from './pages/client/client.component';
 import { ClientModule } from './pages/client/client.module';
 import { AdminModule } from './pages/admin/admin.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { clientEffects } from './shared/store/effects/client/client.effect';
@@ -23,6 +22,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { clientListEffects } from './shared/store/effects/admin/ClientList.effects';
 import { ErrorComponent } from './shared/components/error/error.component';
 import { InstructorModule } from './pages/instructor/instructor.module';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { instructorEffects } from './shared/store/effects/instructor/instructor.effect';
+import { FormsService } from './shared/services/forms.service';
 
 @NgModule({
   declarations: [
@@ -34,16 +36,16 @@ import { InstructorModule } from './pages/instructor/instructor.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     ClientModule,
     AdminModule,
     InstructorModule,
     HttpClientModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects]),
+    EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects, instructorEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    SocialLoginModule,
 ],
   providers: [
     {
@@ -52,6 +54,19 @@ import { InstructorModule } from './pages/instructor/instructor.module';
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
     },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('77887721187-gk8g9ar3qd0d8ihep0tkaebai32b1jb8.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+    FormsService
 ],
   bootstrap: [AppComponent]
 })

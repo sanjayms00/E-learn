@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { LoginDto } from 'src/client/dtos/loginDto';
-import { SignupDto } from 'src/client/dtos/signDto';
+// import { LoginDto } from 'src/client/dtos/loginDto';
+import { SignupDto } from 'src/common/dtos/signDto';
 import { ClientAuthService } from 'src/client/services/client-auth/client-auth.service';
 import { userAuthReturn } from 'src/types/type';
 
@@ -10,11 +10,12 @@ export class ClientAuthController {
 
   @Post('/signup')
   signUp(@Body() signUpDto: SignupDto): Promise<userAuthReturn> {
+    console.log(signUpDto)
     return this.clientAuthService.signUp(signUpDto);
   }
 
   @Post('/login')
-  login(@Body() loginData: LoginDto): Promise<userAuthReturn> {
+  login(@Body() loginData): Promise<userAuthReturn> {
     console.log(loginData)
     return this.clientAuthService.login(loginData);
   }

@@ -5,7 +5,7 @@ import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { statusInterface } from 'src/app/shared/interface/admin.interface';
 import { clientInterface } from 'src/app/shared/interface/common.interface';
 import { clientStatusChange, getCientList } from 'src/app/shared/store/actions/admin.action';
-import { instructorlistSelector } from 'src/app/shared/store/selectors/admin.selector';
+// import { instructorlistSelector } from 'src/app/shared/store/selectors/admin.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
@@ -26,10 +26,11 @@ export class InstructorListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(getCientList())
-    this.instructorSubscription = this.store.select(instructorlistSelector)
-      .subscribe(data => {
-        this.instructorList = data
-      })
+    // this.instructorSubscription = this.store.select(instructorlistSelector)
+    //   .subscribe(data => {
+    //     this.instructorList = data
+    //   })
+      this.instructorList = []
   }
 
   searchData(event: string) {

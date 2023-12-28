@@ -4,9 +4,9 @@ export interface loginInterface {
 }
 
 export interface SignUpInterface {
-    fName: string;
-    lName: string;
+    fullName: string;
     email: string;
+    mobile: number;
     password: string;
 }
 
@@ -16,7 +16,16 @@ export interface clientInterface {
     lName: string,
     email: string,
     password: string,
-    instructor: boolean
+    status: boolean,
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface instructorInterface {
+    _id: string,
+    fullName: string,
+    email: string,
+    mobile: string,
     status: boolean,
     createdAt: Date
     updatedAt: Date

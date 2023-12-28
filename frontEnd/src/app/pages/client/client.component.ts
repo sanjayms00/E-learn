@@ -28,6 +28,14 @@ export class ClientComponent implements OnInit, DoCheck {
     }
   }
 
+
+  showMenu = false;
+  toggleNavbar(){
+    this.showMenu = !this.showMenu;
+  }
+
+
+
   ngDoCheck(): void {
     if (this.authService.getClientToken()) {
       this.logSign = false
@@ -50,7 +58,7 @@ export class ClientComponent implements OnInit, DoCheck {
   logout() {
     const clientToken = this.authService.getClientToken()
     if (clientToken) {
-      const status = this.authService.clientLogout()
+      this.authService.clientLogout()
       this.router.navigate(["/login"])
     }
   }

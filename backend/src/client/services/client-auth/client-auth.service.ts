@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { Client } from 'src/client/schema/client.schema';
-import { SignupDto } from 'src/client/dtos/signDto';
-import { LoginDto } from 'src/client/dtos/loginDto';
+import { SignupDto } from 'src/common/dtos/signDto';
+// import { LoginDto } from 'src/client/dtos/loginDto';
 import { userAuthReturn } from 'src/types/type';
 
 @Injectable()
@@ -18,7 +18,8 @@ export class ClientAuthService {
 
   //signup student
   async signUp(signUpData: SignupDto): Promise<userAuthReturn> {
-    const { lName, fName, email } = signUpData;
+
+    const { fullName, mobile, email } = signUpData;
 
     const isClient = await this.userModel.findOne({ email: signUpData.email });
 
@@ -29,12 +30,11 @@ export class ClientAuthService {
     const hashedPassword = await bcrypt.hash(signUpData.password, 10);
 
     const user = await this.userModel.create({
-      fName,
-      lName,
+      fullName,
       email,
+      mobile,
       password: hashedPassword,
       status: true,
-      instructor: false
     });
 
     const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
@@ -50,7 +50,7 @@ export class ClientAuthService {
   }
 
   //login student ot instructor
-  async login(loginData: LoginDto): Promise<userAuthReturn> {
+  async login(loginData): Promise<userAuthReturn> {
 
     const client = await this.userModel.findOne({ email: loginData.email });
 

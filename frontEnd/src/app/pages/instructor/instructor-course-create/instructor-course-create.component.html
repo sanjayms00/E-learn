@@ -1,18 +1,33 @@
-
+<!-- 
 <div class="px-32">
     
 <h2>Create Course</h2> 
  
 <p-steps
-  [model]="[ 
-    { label: 'DSA' }, 
-    { label: 'Algorithm' }, 
-    { label: 'Web Tech' }, 
-    { label: 'Aptitude' } 
-  ]" 
-  [(activeIndex)]="gfg" 
+  [model]="items" 
   [readonly]="true"> 
-</p-steps><br /> 
+</p-steps>
 <button (click)="chan()">Next</button>
 </div>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<!-- <div class="card">
+    
+    <p-steps [model]="items" [readonly]="true"></p-steps>
+</div>
+<router-outlet></router-outlet> -->
+
+<div class="px-24">
+  <p-toast></p-toast>
+  <!-- <p-steps 
+    [model]="items" 
+    [readonly]="false" 
+    [activeIndex]="activeIndex" 
+    (activeIndexChange)="onActiveIndexChange($event)"
+    >
+  </p-steps> -->
+  <div class="bg-white p-4 my-5">
+    <p-steps [model]="items" [readonly]="false"></p-steps>
+  </div>
+  <router-outlet></router-outlet>
+</div>

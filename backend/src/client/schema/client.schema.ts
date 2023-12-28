@@ -8,19 +8,16 @@ import { Document } from 'mongoose';
 export class Client extends Document {
 
     @Prop({ required: true })
-    fName : string;
-
-    @Prop({ required: true })
-    lName : string;
+    fullName : string;
 
     @Prop({ required: true })
     email : string;
 
     @Prop({ required: true })
-    password : string;
+    mobile : number;
 
     @Prop({ required: true })
-    instructor : boolean;
+    password : string;
 
     @Prop({ required: true })
     status : boolean;

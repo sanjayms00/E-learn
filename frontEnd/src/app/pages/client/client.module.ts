@@ -12,7 +12,6 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 
-
 @NgModule({
   declarations: [
     ClientLoginComponent,
@@ -27,7 +26,9 @@ import { ToastModule } from 'primeng/toast';
     FormsModule,
     ButtonModule,
     CalendarModule,
-    ToastModule
+    ToastModule,
+  ],
+  providers: [
   ],
   
 })

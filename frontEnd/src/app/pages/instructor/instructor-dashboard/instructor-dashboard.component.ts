@@ -31,7 +31,7 @@ export class InstructorDashboardComponent {
                 {
                     type: 'bar',
                     label: 'Dataset 2',
-                    backgroundColor: documentStyle.getPropertyValue('--blue-300'),
+                    backgroundColor: documentStyle.getPropertyValue('--red-300'),
                     data: [21, 84, 24, 75, 37, 65, 34],
                     borderColor: 'white',
                     borderWidth: 2

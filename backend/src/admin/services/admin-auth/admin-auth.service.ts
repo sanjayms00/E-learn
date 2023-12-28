@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDto } from 'src/admin/dtos/adminDto';
 import { Admin } from 'src/admin/schema/admin.schema';
-import { LoginDto } from 'src/client/dtos/loginDto';
+// import { LoginDto } from 'src/client/dtos/loginDto';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AdminAuthService {
         }
     }
 
-    async login(data: LoginDto) {
+    async login(data) {
 
         const admin = await this.adminModel.findOne({ email: data.email });
 

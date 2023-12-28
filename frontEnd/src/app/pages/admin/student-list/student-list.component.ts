@@ -6,7 +6,7 @@ import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { statusInterface } from 'src/app/shared/interface/admin.interface';
 import { clientInterface } from 'src/app/shared/interface/common.interface';
 import { clientStatusChange, getCientList } from 'src/app/shared/store/actions/admin.action';
-import { studentlistSelector } from 'src/app/shared/store/selectors/admin.selector';
+// import { studentlistSelector } from 'src/app/shared/store/selectors/admin.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
@@ -27,10 +27,13 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(getCientList())
-    this.studentSubscription = this.store.select(studentlistSelector)
-      .subscribe(data => {
-        this.studentList = data
-      })
+    // this.studentSubscription = this.store.select(studentlistSelector)
+    //   .subscribe(data => {
+    //     console.log(data);
+        
+    //     this.studentList = []
+    //   })
+    this.studentList = []
   }
 
   searchData(event: any) {
@@ -45,7 +48,4 @@ export class StudentListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.studentSubscription.unsubscribe()
   }
-
-
-
 }

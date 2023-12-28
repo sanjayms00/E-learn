@@ -5,10 +5,17 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export const authGuard: CanActivateFn = (route, state) => {
   const authservice = inject(AuthService)
   const router = inject(Router)
-  console.log(state.url.startsWith('/admin'))
+  // console.log(state.url.startsWith('/admin'))
   if (state.url.startsWith('/admin')) {
     if (authservice.getAdminToken()) {
       router.navigateByUrl("/admin/dashboard")
+      return false
+    }
+    return true
+  }
+  else if(state.url.startsWith('/instructor')){
+    if (authservice.getInstructorToken()) {
+      router.navigateByUrl("/instructor/dashboard")
       return false
     }
     return true

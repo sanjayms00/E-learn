@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-instructor',
@@ -8,6 +11,13 @@ import { MenuItem } from 'primeng/api';
 })
 export class InstructorComponent {
   items!: MenuItem[];
+
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private toastr: ToastrService
+    ){}
+
 
   ngOnInit() {
     this.items = [
@@ -28,7 +38,7 @@ export class InstructorComponent {
                 {
                     label:'Create Course',
                     icon:'pi pi-video',
-                    routerLink: '/instructor/courses/create'
+                    routerLink: '/instructor/create/information'
                 }
             ]
         },
@@ -74,8 +84,18 @@ export class InstructorComponent {
         {
           label:'Logout',
           icon:'pi pi-fw pi-power-off',
+          command : () => this.logout(),
         }
     ];
   }
+
+  logout(){
+    this.authService.instructorLogout()
+    this.authService.adminLogout()
+    this.toastr.success("Logout successful")
+    this.router.navigateByUrl("/instructor/login")
+  }
+
+
 
 }
