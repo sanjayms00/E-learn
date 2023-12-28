@@ -10,7 +10,7 @@ import { TicketService } from 'src/app/shared/services/ticket.service';
   providers: [MessageService]
 })
 export class InstructorCourseCreateComponent implements OnInit {
-  items: MenuItem[] | undefined;
+  items!: MenuItem[];
 
   subscription !: Subscription;
 
@@ -22,55 +22,58 @@ export class InstructorCourseCreateComponent implements OnInit {
   onActiveIndexChange(event: number) {
       this.activeIndex = event;
   }
-  // ngOnInit() {
-  //     this.items = [
-  //         {
-  //           label: 'Course Information',
-  //           routerLink: 'instructor/create/information implements OnInit'
-  //         },
-  //         {
-  //           label: 'Course options',
-  //           routerLink: 'instructor/create/options'
-  //         },
-  //         {
-  //           label: 'Course Content',
-  //           routerLink: 'instructor/create/content'
-  //         },
-  //         {
-  //           label: 'Course preview',
-  //           routerLink: 'instructor/create/preview'
-  //         }
-  //     ];
-  // }
   ngOnInit() {
-    this.items = [
-        {
-            label: 'Information',
-            command: (event: any) => this.messageService.add({severity:'info', summary:'First Step', detail: event.item.label})
-        },
-        {
-            label: 'Options',
-            command: (event: any) => this.messageService.add({severity:'info', summary:'Second Step', detail: event.item.label})
-        },
-        {
-            label: 'Content',
-            command: (event: any) => this.messageService.add({severity:'info', summary:'Third Step', detail: event.item.label})
-        },
-        {
-            label: 'Overview',
-            command: (event: any) => this.messageService.add({severity:'info', summary:'Last Step', detail: event.item.label})
-        }
-    ];
-    this.subscription = this.ticketService.paymentComplete().subscribe((personalInformation) => {
-      this.messageService.add({ severity: 'success', summary: 'Order submitted', detail: 'Dear, ' + personalInformation.firstname + ' ' + personalInformation.lastname + ' your order completed.' });
-  });
-  }
+      this.items = [
+          {
+            label: 'Course Information',
+            routerLink: '/instructor/create/information'
+          },
+          {
+            label: 'Course options',
+            routerLink: '/instructor/create/options'
+          },
+          {
+            label: 'Course Content',
+            routerLink: '/instructor/create/content'
+          },
+          {
+            label: 'Course overview',
+            routerLink: '/instructor/create/overview'
+          }
+      ];
+
+//       this.subscription = this.ticketService.paymentComplete.
+//   }
+// //   ngOnInit() {
+// //     this.items = [
+// //         {
+// //             label: 'Information',
+// //             command: (event: any) => this.messageService.add({severity:'info', summary:'First Step', detail: event.item.label})
+// //         },
+// //         {
+// //             label: 'Options',
+// //             command: (event: any) => this.messageService.add({severity:'info', summary:'Second Step', detail: event.item.label})
+// //         },
+// //         {
+// //             label: 'Content',
+// //             command: (event: any) => this.messageService.add({severity:'info', summary:'Third Step', detail: event.item.label})
+// //         },
+// //         {
+// //             label: 'Overview',
+// //             command: (event: any) => this.messageService.add({severity:'info', summary:'Last Step', detail: event.item.label})
+// //         }
+// //     ];
+// //     this.subscription = this.ticketService.paymentComplete().subscribe((personalInformation) => {
+// //       this.messageService.add({ severity: 'success', summary: 'Order submitted', detail: 'Dear, ' + personalInformation.firstname + ' ' + personalInformation.lastname + ' your order completed.' });
+// //   });
+
+   }
 
   
-  ngOnDestroy() {
-    if (this.subscription) {
-        this.subscription.unsubscribe();
-    }
-}
+//   ngOnDestroy() {
+//     if (this.subscription) {
+//         this.subscription.unsubscribe();
+//     }
+// }
 
 }

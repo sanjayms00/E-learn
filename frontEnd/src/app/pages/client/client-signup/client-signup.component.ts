@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from "@ngrx/store";
 import { clientSignUp } from 'src/app/shared/store/actions/client.action';
-import { SignUpInterface } from 'src/app/shared/interface/common.interface';
 import { appState } from 'src/app/shared/store/state/app.state';
+import { FormsService } from 'src/app/shared/services/forms.service';
 
 @Component({
   selector: 'app-client-signup',
@@ -15,7 +15,8 @@ export class ClientSignupComponent {
   signUpForm!: FormGroup
 
   constructor(
-    private store: Store<appState>
+    private store: Store<appState>,
+    private formsService: FormsService
   ) {
     this.signUpForm = new FormGroup({
       fullName: new FormControl(null, [
@@ -42,7 +43,7 @@ export class ClientSignupComponent {
 
   signUp() {
     if (this.signUpForm.valid) {
-      const signUpdata: SignUpInterface = this.signUpForm.value;
+      const signUpdata = this.formsService.signUpService(this.signUpForm.value)
       this.store.dispatch(clientSignUp({ signUpdata }))
     }
   }
