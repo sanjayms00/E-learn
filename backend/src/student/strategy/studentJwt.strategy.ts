@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PassportStrategy } from '@nestjs/passport';
 import { Model } from 'mongoose';
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import { Client } from '../schema/client.schema';
+import { Student } from '../schema/student.schema';
 
 @Injectable()
-export class ClientJwtStrategy extends PassportStrategy(Strategy) {
+export class StudentJwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectModel(Client.name)
-    private userModel: Model<Client>,
+    @InjectModel(Student.name)
+    private studentModel: Model<Student>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,9 +20,9 @@ export class ClientJwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload) {
     const { id } = payload;
-    console.log("client", payload)
+    console.log("student", payload)
 
-    const user = await this.userModel.findById(id);
+    const user = await this.studentModel.findById(id);
 
     if (!user) {
       throw new UnauthorizedException('Access denied.');

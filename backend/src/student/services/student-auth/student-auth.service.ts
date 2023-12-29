@@ -3,16 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { Client } from 'src/client/schema/client.schema';
+import { Student } from 'src/student/schema/student.schema';
 import { SignupDto } from 'src/common/dtos/signDto';
 // import { LoginDto } from 'src/client/dtos/loginDto';
 import { userAuthReturn } from 'src/types/type';
 
 @Injectable()
-export class ClientAuthService {
+export class StudentAuthService {
   constructor(
-    @InjectModel(Client.name)
-    private userModel: Model<Client>,
+    @InjectModel(Student.name)
+    private studentModel: Model<Student>,
     private jwtService: JwtService,
   ) { }
 
@@ -21,7 +21,7 @@ export class ClientAuthService {
 
     const { fullName, mobile, email } = signUpData;
 
-    const isClient = await this.userModel.findOne({ email: signUpData.email });
+    const isClient = await this.studentModel.findOne({ email: signUpData.email });
 
     if (isClient) {
       throw new ConflictException('User already exist');
@@ -29,7 +29,7 @@ export class ClientAuthService {
 
     const hashedPassword = await bcrypt.hash(signUpData.password, 10);
 
-    const user = await this.userModel.create({
+    const user = await this.studentModel.create({
       fullName,
       email,
       mobile,
@@ -52,7 +52,7 @@ export class ClientAuthService {
   //login student ot instructor
   async login(loginData): Promise<userAuthReturn> {
 
-    const client = await this.userModel.findOne({ email: loginData.email });
+    const client = await this.studentModel.findOne({ email: loginData.email });
 
     if (!client) throw new UnauthorizedException('Invalid email or password');
 

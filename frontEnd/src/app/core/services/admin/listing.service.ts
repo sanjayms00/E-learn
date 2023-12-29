@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { constant } from "../../constant/constant";
 import { Observable } from "rxjs";
-import { clientInterface } from "src/app/shared/interface/common.interface";
+import { instructorInterface, studentInterface } from "src/app/shared/interface/common.interface";
 import { statusInterface } from "src/app/shared/interface/admin.interface";
 
 
@@ -15,18 +15,15 @@ export class ListingService {
         private http: HttpClient
     ) { }
 
-    getClientList(): Observable<clientInterface[]> {
-        return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/clients`)
+
+    getStudentList(): Observable<studentInterface[]> {
+        return this.http.get<studentInterface[]>(`${constant.baseUrl}/admin/client/students`)
+
     }
 
-    // getStudentList(): Observable<clientInterface[]> {
-    //     return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/students`)
-
-    // }
-
-    // getInstructorList(): Observable<clientInterface[]> {
-    //     return this.http.get<clientInterface[]>(`${constant.baseUrl}/admin/instructors`)
-    // }
+    getInstructorList(): Observable<instructorInterface[]> {
+        return this.http.get<instructorInterface[]>(`${constant.baseUrl}/admin/client/instructors`)
+    }
 
 
     changeClientStatus(data: statusInterface){

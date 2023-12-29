@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { adminLoginSuccess, clientStatusChangeSuccess, getCientListSuccess } from "../actions/admin.action";
+import { InstructorListSuccess, adminLoginSuccess, clientStatusChangeSuccess, getCientListSuccess } from "../actions/admin.action";
 import { adminState } from "../state/admin.state";
 
 const _adminReducer = createReducer(adminState,
@@ -15,6 +15,13 @@ const _adminReducer = createReducer(adminState,
         return {
             ...state,
             clientDetails: action.ClientData
+        }
+    }),
+    on(InstructorListSuccess, (state, action) => {
+        console.log(state, action)
+        return {
+            ...state,
+            instructorDetails: action.instructorData
         }
     }),
     on(clientStatusChangeSuccess, (state, action) => {

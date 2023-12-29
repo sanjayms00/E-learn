@@ -20,14 +20,14 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container
+            <!-- <ng-container
                 *ngFor="let client of data | paginate: {itemsPerPage: pSize, currentPage: currentPage} | search: searchText; let i=index">
                 <tr class="bg-white border-b dark:bg-gray-50 dark:border-gray-700  text-gray-900 ">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ i+1+(pSize*(currentPage-1)) }}
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-                        {{ client.fName + ' ' + client.lName }}
+                        {{ client.fullName }}
                     </th>
                     <td class="px-6 py-4">
                         {{ client.status }}
@@ -51,7 +51,7 @@
                         </ng-template>
                     </td>
                 </tr>
-            </ng-container>
+            </ng-container> -->
         </tbody>
     </table>
 </div>

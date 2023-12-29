@@ -8,8 +8,9 @@ import { ClientService } from './services/client/client.service';
 import { adminSchema } from './schema/admin.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminJwtAuthGuard } from './guards/adminJwtAuth.guard';
-import { clientSchema } from 'src/client/schema/client.schema';
+import { studentSchema } from 'src/student/schema/student.schema';
 import { ClientManagementController } from './controllers/client-management/client-management.controller';
+import { instructorSchema } from 'src/instructor/schema/instructor.schema';
 
 @Module({
   controllers: [
@@ -24,7 +25,8 @@ import { ClientManagementController } from './controllers/client-management/clie
       signOptions: { expiresIn: process.env.JWT_EXPIRE_ADMIN },
     }),
     MongooseModule.forFeature([{ name: 'Admin', schema: adminSchema }]),
-    MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
+    MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
+    MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
   ],
   providers: [
     adminJwtStrategy,

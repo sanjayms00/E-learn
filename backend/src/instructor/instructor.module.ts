@@ -10,6 +10,8 @@ import { InstructorAuthController } from './controllers/instructor-auth/instruct
 import { InstructorAuthService } from './services/instructor-auth/instructor-auth.service';
 import { instructorJwtStrategy } from './strategy/instructorJwt.strategy';
 import { instructorSchema } from './schema/instructor.schema';
+import { CourseController } from './controllers/course/course.controller';
+import { CourseService } from './services/course/course.service';
 // import { ProfileController } from './controllers/profile/profile.controller';
 
 @Module({
@@ -23,10 +25,12 @@ import { instructorSchema } from './schema/instructor.schema';
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
   ],
   controllers: [
-    InstructorAuthController
+    InstructorAuthController,
+    CourseController
   ],
   providers: [
     InstructorAuthService,
+    CourseService,
     instructorJwtStrategy,
     JwtService
   ],

@@ -1,6 +1,6 @@
-import { clientInterface } from "./common.interface";
+import { studentInterface } from "./common.interface";
 
 
 export interface clientStateInterface {
-    user: clientInterface
+    user: studentInterface
 }

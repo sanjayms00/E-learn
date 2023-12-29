@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ClientModule } from './client/client.module';
+import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -9,7 +9,7 @@ import { InstructorModule } from './instructor/instructor.module';
 
 @Module({
   imports: [
-    ClientModule,
+    StudentModule,
     AdminModule,
     InstructorModule,
     ConfigModule.forRoot({

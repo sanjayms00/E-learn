@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 // import { LoginDto } from 'src/common/dtos/loginDto';
 import { SignupDto } from 'src/common/dtos/signDto';
-import { userAuthReturn } from 'src/types/type';
 import { InstructorAuthService } from 'src/instructor/services/instructor-auth/instructor-auth.service';
 import { LoginDto } from 'src/common/dtos/loginDto';
 

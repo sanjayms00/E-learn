@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { ClientAuthController } from './controllers/client_auth/client_auth.controller';
-import { ClientAuthService } from './services/client-auth/client-auth.service';
-import { ClientJwtStrategy } from './strategy/clientJwt.strategy';
-import { clientSchema } from './schema/client.schema';
+import { StudentAuthController } from './controllers/student_auth/student_auth.controller';
+import { StudentAuthService } from './services/student-auth/student-auth.service';
+import { StudentJwtStrategy } from './strategy/studentJwt.strategy';
+import { studentSchema } from './schema/student.schema';
 import { ProfileController } from './controllers/profile/profile.controller';
 
 @Module({
@@ -16,17 +16,17 @@ import { ProfileController } from './controllers/profile/profile.controller';
       secret: process.env.JWT_SECRET_CLIENT,
       signOptions: { expiresIn: process.env.JWT_EXPIRE_CLIENT },
     }),
-    MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
+    MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
   ],
   controllers: [
-    ClientAuthController,
+    StudentAuthController,
     ProfileController
   ],
   providers: [
-    ClientAuthService,
-    ClientJwtStrategy,
+    StudentAuthService,
+    StudentJwtStrategy,
     JwtService
   ],
-  exports: [ClientJwtStrategy, PassportModule],
+  exports: [StudentJwtStrategy, PassportModule],
 })
-export class ClientModule { }
+export class StudentModule { }

@@ -3,7 +3,7 @@ import { statusDto } from 'src/admin/dtos/status.dto';
 import { AdminJwtAuthGuard } from 'src/admin/guards/adminJwtAuth.guard';
 import { ClientService } from 'src/admin/services/client/client.service';
 
-@Controller('api/admin/clients')
+@Controller('api/admin/client')
 export class ClientManagementController {
 
     constructor(
@@ -11,9 +11,15 @@ export class ClientManagementController {
     ) { }
 
     @UseGuards(AdminJwtAuthGuard)
-    @Get()
-    getClients() {
-        return this.clientService.getAllClients()
+    @Get('/students')
+    getStudents() {
+        return this.clientService.getAllStudents()
+    }
+
+    @UseGuards(AdminJwtAuthGuard)
+    @Get('/instructors')
+    getInstructors() {
+        return this.clientService.getAllInstructors()
     }
 
     @UseGuards(AdminJwtAuthGuard)

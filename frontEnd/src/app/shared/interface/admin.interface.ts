@@ -1,4 +1,4 @@
-import { clientInterface } from "./common.interface";
+import { studentInterface, instructorInterface } from "./common.interface";
 
 export interface adminAuthResponse {
         _id: string,
@@ -9,7 +9,8 @@ export interface adminAuthResponse {
 
 export interface adminStateInterface {
         user: adminAuthResponse,
-        clientDetails: clientInterface[]
+        clientDetails: studentInterface[],
+        instructorDetails: instructorInterface[]
 }
 
 export interface statusInterface {

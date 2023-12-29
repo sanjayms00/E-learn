@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { clientInterface } from '../interface/common.interface';
+import { instructorInterface } from '../interface/common.interface';
 
 @Pipe({
   name: 'search'
 })
 export class SearchPipe implements PipeTransform {
 
-  transform(value: clientInterface[], args: string): clientInterface[] | null {
+  transform(value: Array<instructorInterface>, args: string): instructorInterface[] | null {
     if (!value) return null
     if (!args) return value
     console.log(args)

@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { clientInterface, loginInterface } from "../../interface/common.interface";
+import { studentInterface, loginInterface, instructorInterface } from "../../interface/common.interface";
 import { adminAuthResponse, statusInterface } from "../../interface/admin.interface";
 
 
@@ -9,8 +9,13 @@ export const adminLoginFailure = createAction('[Admin] login failure')
 
 //get client list for student and instructor
 export const getCientList = createAction('[Admin] client list')
-export const getCientListSuccess = createAction('[Admin] client list success', props<{ ClientData: clientInterface[] }>())
+export const getCientListSuccess = createAction('[Admin] client list success', props<{ ClientData: studentInterface[] }>())
 export const getCientListFailed = createAction('[Admin] client list failed')
+
+//get client list for student and instructor
+export const getInstructorList = createAction('[Admin] instructor list')
+export const InstructorListSuccess = createAction('[Admin] instructor list success', props<{ instructorData: instructorInterface[] }>())
+export const InstructorListFailed = createAction('[Admin] instructor list failed')
 
 // chnage client Status
 export const clientStatusChange = createAction('[Admin] client status Change', props<statusInterface>())

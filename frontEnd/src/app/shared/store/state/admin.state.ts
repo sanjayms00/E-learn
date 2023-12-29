@@ -8,5 +8,6 @@ export const adminState: adminStateInterface = {
         email: '',
         status: false
     },
-    clientDetails: []
+    clientDetails: [],
+    instructorDetails: []
 }

@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 @Schema({
     timestamps: true
 })
-export class Client extends Document {
+export class Student extends Document {
 
     @Prop({ required: true })
     fullName : string;
@@ -24,4 +24,4 @@ export class Client extends Document {
 
 }
 
-export const clientSchema =  SchemaFactory.createForClass(Client)
+export const studentSchema =  SchemaFactory.createForClass(Student)

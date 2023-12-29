@@ -10,12 +10,11 @@ export interface SignUpInterface {
     password: string;
 }
 
-export interface clientInterface {
+export interface studentInterface {
     _id: string,
-    fName: string,
-    lName: string,
+    fullName: string
     email: string,
-    password: string,
+    mobile:number,
     status: boolean,
     createdAt: Date
     updatedAt: Date

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { clientInterface } from '../../interface/common.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+// import { Observable } from 'rxjs';
+import { studentInterface } from '../../interface/common.interface';
 
 @Component({
   selector: 'app-table',
@@ -17,7 +17,7 @@ export class TableComponent {
   statusChange = new EventEmitter()
 
   @Input()
-  data !: clientInterface[]
+  data !: studentInterface[]
 
   @Input()
   searchText !: string
