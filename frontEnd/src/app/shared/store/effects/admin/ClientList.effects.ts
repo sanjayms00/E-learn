@@ -3,13 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
     InstructorListFailed,
     InstructorListSuccess,
+  StudentListFailed,
+  StudentListSuccess,
   clientStatusChange,
   clientStatusChangeFailed,
   clientStatusChangeSuccess,
-  getCientList,
-  getCientListFailed,
-  getCientListSuccess,
   getInstructorList,
+  getStudentList,
 } from '../../actions/admin.action';
 import { exhaustMap, map, catchError, of, switchMap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -27,16 +27,15 @@ export class clientListEffects {
 
   _getStudentsList$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getCientList),
+      ofType(getStudentList),
       exhaustMap(() => {
         return this.ClientList.getStudentList().pipe(
           map((response: studentInterface[]) => {
-         
-            return getCientListSuccess({ ClientData: response });
+            return StudentListSuccess({ studentData: response });
           }),
           catchError((err) => {
             console.log(err.error?.message);
-            return of(getCientListFailed());
+            return of(StudentListFailed());
           })
         );
       })

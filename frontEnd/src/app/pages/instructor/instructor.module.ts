@@ -9,17 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MenubarModule} from 'primeng/menubar';
 import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
 import { ChartModule } from 'primeng/chart';
-import { InstructorCourseCreateComponent } from './instructor-course-create/instructor-course-create.component';
-import {StepsModule} from 'primeng/steps';
-import { ToastModule } from 'primeng/toast';
-import { CourseInfoComponent } from './instructor-course-create/course-info/course-info.component';
-import { CourseOptionsComponent } from './instructor-course-create/course-options/course-options.component';
-import { CourseContentComponent } from './instructor-course-create/course-content/course-content.component';
-import { CourseOverViewComponent } from './instructor-course-create/course-over-view/course-over-view.component';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
-
+import { CreateCourseComponent } from './create-course/create-course.component';
+import { CourseService } from 'src/app/core/services/instructor/course.service';
 
 @NgModule({
   declarations: [
@@ -28,13 +21,8 @@ import { InstructorCoursesComponent } from './instructor-courses/instructor-cour
     InstructorSignupComponent,
     InstructorProfileComponent,
     InstructorDashboardComponent,
-    InstructorCourseCreateComponent,
-    CourseInfoComponent,
-    CourseOptionsComponent,
-    CourseContentComponent,
-    CourseOverViewComponent,
     InstructorCoursesComponent,
-    
+    CreateCourseComponent,
   ],
   imports: [
     CommonModule,
@@ -43,11 +31,9 @@ import { InstructorCoursesComponent } from './instructor-courses/instructor-cour
     FormsModule,
     MenubarModule,
     ChartModule,
-    StepsModule,
-    ToastModule,
-    ButtonModule,
     CardModule
-  ]
+  ],
+  providers: [CourseService]
 })
 export class InstructorModule { 
 

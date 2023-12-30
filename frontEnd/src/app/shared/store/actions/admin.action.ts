@@ -8,9 +8,9 @@ export const adminLoginSuccess = createAction('[Admin] login success', props<{ u
 export const adminLoginFailure = createAction('[Admin] login failure')
 
 //get client list for student and instructor
-export const getCientList = createAction('[Admin] client list')
-export const getCientListSuccess = createAction('[Admin] client list success', props<{ ClientData: studentInterface[] }>())
-export const getCientListFailed = createAction('[Admin] client list failed')
+export const getStudentList = createAction('[Admin] student list')
+export const StudentListSuccess = createAction('[Admin] student list success', props<{ studentData: studentInterface[] }>())
+export const StudentListFailed = createAction('[Admin] student list failed')
 
 //get client list for student and instructor
 export const getInstructorList = createAction('[Admin] instructor list')

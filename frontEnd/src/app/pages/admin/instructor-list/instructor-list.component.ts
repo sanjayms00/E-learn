@@ -18,12 +18,9 @@ export class InstructorListComponent implements OnInit {
 
   instructorList: instructorInterface[] = []
   // instructorSubscription !: Subscription
-  searchText = ''
+
 
   
-  pSize = 5;
-  currentPage = 1;
-
   constructor(
     private store: Store<appState>
   ) { }

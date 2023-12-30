@@ -29,3 +29,11 @@ export interface instructorInterface {
     createdAt: Date
     updatedAt: Date
 }
+
+export interface Course {
+    CourseName: string;
+    description: string;
+    price: string;
+    imageFile: any[];
+    videoFile: File;
+  }

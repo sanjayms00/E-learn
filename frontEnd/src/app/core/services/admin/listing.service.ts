@@ -22,7 +22,7 @@ export class ListingService {
     }
 
     getInstructorList(): Observable<instructorInterface[]> {
-        return this.http.get<instructorInterface[]>(`${constant.baseUrl}/admin/client/instructors`)
+        return this.http.get<instructorInterface[]>(`${constant.baseUrl}tructor`)
     }
 
 

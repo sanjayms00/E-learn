@@ -9,7 +9,7 @@ export interface adminAuthResponse {
 
 export interface adminStateInterface {
         user: adminAuthResponse,
-        clientDetails: studentInterface[],
+        studentDetails: studentInterface[],
         instructorDetails: instructorInterface[]
 }
 
