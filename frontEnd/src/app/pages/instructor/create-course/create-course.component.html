@@ -1,269 +1,107 @@
-<!-- <form class="max-w-xl mx-auto py-10"  [formGroup]="courseForm" (ngSubmit)="courseSubmit()" >
-    <div class="mb-5">
-      <h2 class="text-2xl">Create Course</h2>
-      </div>
-      <div class="relative z-0 w-full mb-5 group">
-          <input
-          type="text"
-          name="CourseName"
-          id="CourseName"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
-          required
-          formControlName="CourseName"
-          />
-          <label
-          for="CourseName"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-          Course Name
-          </label>
-      </div>
-      <div class="relative z-0 w-full mb-5 group">
-          <input
-          type="text"
-          name="courseDescription"
-          id="courseDescription"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
-          required
-          formControlName="courseDescription"
-          />
-          <label
-          for="courseDescription"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >Course Description</label
-          >
-      </div>
-      <div class="relative z-0 w-full mb-5 group">
-          <label for="category" class="sr-only">Category</label>
-          <select
-          id="category"
-          name="category"
-          formControlName="category"
-          class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-          >
-          <option selected>Choose a Category</option>
-              <option value="US">United States</option>
-          </select>
-      </div>
-      
-      <div class="grid md:grid-cols-2 md:gap-6">
-          
-          <div class="relative z-0 w-full mb-5 group">
-              <input
-              type="number"
-              name="coursePrice"
-              min="1"
-              id="coursePrice"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=""
-              required
-              formControlName="coursePrice"
-              />
-              <label
-              for="coursePrice"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >Course Price</label
-              >
-          </div>
-          <div class="relative z-0 w-full mb-5 group">
-              <input
-                  type="number"
-                  name="estimatedPrice"
-                  id="estimatedPrice"
-                  min="1"
-                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  required
-                  formControlName="estimatedPrice"
-              />
-              <label
-                  for="floating_first_name"
-                  class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >Estimated Price</label
-              >
-          </div>
-          <div class="flex items-center justify-center w-full my-5">
-              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                      </svg>
-                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload thumbnail</span> or drag and drop</p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPEG or JPG</p>
-                  </div>
-                  <input id="dropzone-file" type="file" class="hidden" (change)="onImageFileSelected($event)" />
-              </label>
-          </div>
-          <div class="flex items-center justify-center w-full my-5">
-              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-800 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                      </svg>
-                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload video</span> or drag and drop</p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">MKV, MPEG4, MP4 or AVI</p>
-                  </div>
-                  <input id="dropzone-file" type="file" class="hidden" name="videoFile" (change)="onVideoFileSelected($event)" />
-              </label>
-          </div> 
-      </div>
-      
-      <div class="flex justify-end my-5">
-          <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          Submit
-          </button>
-      </div>
-      
-  </form> -->
 
-<!-- <input type="file" name="videoFile" (change)="onVideoFileSelected($event)" />
-<input type="file" name="imageFile" (change)="onImageFileSelected($event)" />
-
-<button (click)="uploadFile()">click</button> -->
-
-
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-<form>
-    <div class="space-y-12">
+<div>
+  <form> 
       <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-xl font-bold leading-7 text-gray-900 mb-2">Create course</h2>
-        <hr>
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-4">
-            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>
-                <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="janesmith">
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-span-full">
-            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
-            <div class="mt-2">
-              <textarea id="about" name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-            </div>
-            <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-          </div>
-  
-          <div class="col-span-full">
-            <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-            <div class="mt-2 flex items-center gap-x-3">
-              <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-              </svg>
-              <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-            </div>
-          </div>
-  
-          <div class="col-span-full">
-            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
-            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-              <div class="text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                </svg>
-                <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                    <span>Upload a file</span>
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                  </label>
-                  <p class="pl-1">or drag and drop</p>
-                </div>
-                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Course Information</h2>
   
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+            <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Course Name</label>
             <div class="mt-2">
-              <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
-  
+
           <div class="sm:col-span-3">
-            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Category*</label>
             <div class="mt-2">
-              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-  
-          <div class="sm:col-span-4">
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-            <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-  
-          <div class="sm:col-span-3">
-            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-            <div class="mt-2">
-              <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                <option>United States</option>
-                <option>Canada</option>
-                <option>Mexico</option>
+              <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option disabled selected>select a category</option>
+                <option *ngFor="let category of categoryData">{{ category.categoryName }}</option>
               </select>
             </div>
           </div>
   
           <div class="col-span-full">
-            <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
+            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Course Description</label>
             <div class="mt-2">
-              <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <textarea id="about" name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Course Price*</label>
+            <div class="mt-2">
+              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Estimated Price*</label>
+            <div class="mt-2">
+              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
   
-          <div class="sm:col-span-2 sm:col-start-1">
-            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+          
+
+          <div class="sm:col-span-3">
+            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Course Tags*</label>
+            <div class="mt-2">
+              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Course Level*</label>
             <div class="mt-2">
               <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
   
-          <div class="sm:col-span-2">
-            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
-            <div class="mt-2">
-              <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <div class="sm:col-span-3">
+            <label for="thumbnail" class="block text-sm font-medium leading-6 text-gray-900">Thumbnail*</label>
+            <div class="flex items-center justify-center w-full">
+              <label for="dropzone-image" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                <input id="dropzone-image" type="file" class="hidden" name="imageFile" (change)="onImageFileSelected($event)" />
+              </label>
             </div>
           </div>
-  
-          <div class="sm:col-span-2">
-            <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
-            <div class="mt-2">
-              <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          
+          <div class="sm:col-span-3">
+            <label for="video" class="block text-sm font-medium leading-6 text-gray-900">Video*</label>
+            <div class="flex items-center justify-center w-full">
+              <label for="dropzone-video" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              </div>
+                <input id="dropzone-video" type="file" class="hidden" name="videoFile" (change)="onVideoFileSelected($event)" />
+              </label>
             </div>
           </div>
+
         </div>
       </div>
-    </div>
-  
-    <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-      <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-    </div>
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <!-- <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button> -->
+        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+      </div>
   </form>
-  
+</div>
+
+
+<!-- <input type="file" name="videoFile" (change)="onVideoFileSelected($event)" />
+<input type="file" name="imageFile" (change)="onImageFileSelected($event)" />
+
+<button (click)="uploadFile()">click</button> -->

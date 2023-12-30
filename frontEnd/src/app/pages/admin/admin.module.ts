@@ -15,6 +15,7 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CategoryComponent } from './category/category.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AdminSidebarComponent,
     AdminNavbarComponent,
     TableComponent,
-    SearchPipe
+    SearchPipe,
+    CategoryComponent
   ],
   imports: [
     CommonModule,

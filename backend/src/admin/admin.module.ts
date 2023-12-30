@@ -11,11 +11,15 @@ import { AdminJwtAuthGuard } from './guards/adminJwtAuth.guard';
 import { studentSchema } from 'src/student/schema/student.schema';
 import { ClientManagementController } from './controllers/client-management/client-management.controller';
 import { instructorSchema } from 'src/instructor/schema/instructor.schema';
+import { CategorySchema } from './schema/category.schema';
+import { CategoryController } from './controllers/category/category.controller';
+import { CategoryService } from './services/category/category.service';
 
 @Module({
   controllers: [
     AdminAuthController,
-    ClientManagementController
+    ClientManagementController,
+    CategoryController
   ],
   imports: [
     PassportModule.register({ defaultStrategy: 'admin-jwt' }),
@@ -27,12 +31,14 @@ import { instructorSchema } from 'src/instructor/schema/instructor.schema';
     MongooseModule.forFeature([{ name: 'Admin', schema: adminSchema }]),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
+    MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
   ],
   providers: [
     adminJwtStrategy,
     AdminAuthService,
     AdminJwtAuthGuard,
     ClientService,
+    CategoryService,
     JwtService
   ],
   exports: [

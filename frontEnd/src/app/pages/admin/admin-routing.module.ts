@@ -7,6 +7,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { InstructorListComponent } from './instructor-list/instructor-list.component';
 import { adminGuard } from 'src/app/shared/guards/admin/admin.guard';
 import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
+import { CategoryComponent } from './category/category.component';
 
 const adminRoutes: Routes = [
   {
@@ -21,7 +22,8 @@ const adminRoutes: Routes = [
         children: [
           { path: 'dashboard', component: AdminHomeComponent },
           { path: 'students-list', component: StudentListComponent },
-          { path: 'instructors-list', component: InstructorListComponent }
+          { path: 'instructors-list', component: InstructorListComponent },
+          { path: 'categories', component: CategoryComponent }
         ]
       }
     ]

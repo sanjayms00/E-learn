@@ -34,4 +34,10 @@ export interface Course {
     courseName: string;
     description: string;
     price: string;
-  }
+}
+
+
+export interface categoryInterface {
+    categoryName: string;
+    status: boolean;
+}

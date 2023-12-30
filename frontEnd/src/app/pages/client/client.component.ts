@@ -15,6 +15,7 @@ export class ClientComponent implements OnInit, DoCheck {
   icon = "/assets/logo/grid.svg"
   logSign = false;
 
+  
   constructor(
     private authService: AuthService,
     private router: Router,
