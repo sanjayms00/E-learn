@@ -11,25 +11,6 @@ import { appState } from 'src/app/shared/store/state/app.state';
   templateUrl: './client-profile.component.html',
   styleUrls: ['./client-profile.component.css']
 })
-export class ClientProfileComponent implements OnInit, OnDestroy {
-
-  profileData !: studentInterface
-  profileSubscription !: Subscription
-
-  constructor(
-    private store: Store<appState>
-  ) { }
-
-  ngOnInit(): void {
-    this.profileSubscription = this.store.select(getclient).subscribe((res) => {
-      this.profileData = res
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.profileSubscription.unsubscribe()
-  }
-
-
+export class ClientProfileComponent {
 
 }

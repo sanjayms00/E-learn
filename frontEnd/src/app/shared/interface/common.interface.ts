@@ -31,9 +31,7 @@ export interface instructorInterface {
 }
 
 export interface Course {
-    CourseName: string;
+    courseName: string;
     description: string;
     price: string;
-    imageFile: any[];
-    videoFile: File;
   }

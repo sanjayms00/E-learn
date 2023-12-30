@@ -1,0 +1,45 @@
+<!-- search bar   searched courses  pagination -->
+
+
+        <!-- Search Bar -->
+        <div class="my-10 xl:px-32">
+          <label for="search" class="block text-lg font-medium text-gray-700">Search Courses</label>
+          <div class="relative mt-2">
+            <input type="text" id="search"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+              placeholder="Enter your search term">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center">
+              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zm-2 0a5 5 0 11-10 0 5 5 0 0110 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container mx-auto px-4 py-10 xl:px-32 mt-16">
+            <h2 class="text-2xl font-bold mb-8">Popular Courses</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div class="w-full max-w-sm mx-auto rounded overflow-hidden shadow-lg">
+                <img class="w-full" src="https://primefaces.org/cdn/primeng/images/usercard.png" alt="Sunset in the mountains">
+                <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2"></div>
+                    <p class="text-gray-700 text-base">
+                        dfg
+                    </p>
+                    <p class="text-gray-700 text-base">
+                    sdg
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="mt-8 flex items-center justify-center my-10">
+          <nav class="flex space-x-4" aria-label="Pagination">
+            <a href="#" class="border px-4 py-2 rounded-md bg-white text-gray-700 hover:bg-gray-100">1</a>
+            <a href="#" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">2</a>
+            <a href="#" class="border px-4 py-2 rounded-md bg-white text-gray-700 hover:bg-gray-100">3</a>
+            <!-- Add more pagination links as needed -->
+          </nav>
+        </div>

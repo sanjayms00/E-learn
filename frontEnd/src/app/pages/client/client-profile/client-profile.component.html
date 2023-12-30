@@ -1,64 +1,16 @@
-<!-- {{ profileData | json }} -->
-<div class="bg-gray-100">
-    <div class="container py-8 px-20">
-        <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
-            <div class="col-span-4 sm:col-span-3">
-                <div class="bg-white min-h-[600px] rounded-lg p-6">
-                    <div class="flex flex-col items-center">
-                        <img src="https://randomuser.me/api/portraits/men/94.jpg"
-                            class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0">
-                        <h1 class="text-xl font-bold">{{ profileData.fullName }}</h1>
-                        <p class="text-gray-700">Software Developer</p>
-                        <div class="mt-6 flex flex-wrap gap-4 justify-center">
-                            <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Edit</a>
-                        </div>
-                    </div>
-                    <hr class="my-6 border-t border-gray-300">
-                    <div class="flex flex-col">
-                        <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">
-                            Details
-                        </span>
-                        <ul>
-                            <li class="my-5 cursor-pointer" router-link="/profile">
-                                Profile Details
-                            </li>
-                            <li class="my-5 cursor-pointer" router-link="/my-learning">
-                                My Learning
-                            </li>
-                            <li class="my-5 cursor-pointer" router-link="Certificates">
-                                My Certificates
-                            </li>
-                            <li class="my-5 cursor-pointer" router-link="chat">
-                                Communication
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-4 sm:col-span-9">
-                <div class="bg-white min-h-[600px] rounded-lg p-6">
-                    <form class="w-full p-6 rounded-md shadow-md">
-                        <h2 class="text-xl font-semibold mb-4">Profile</h2>
-                        <div class="mb-4">
-                            <label for="fName" class="block text-sm font-medium text-gray-600">First Name</label>
-                            <input type="text" id="fName" name="fName" class="mt-1 p-2 border w-full rounded-md"
-                                [value]="profileData.fullName">
-                        </div>
-                        <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
-                            <input type="email" id="email" name="email" class="mt-1 p-2 border w-full rounded-md"
-                                [value]="profileData.email">
-                        </div>
-                        <div class="mb-4">
-                            <label for="mobile" class="block text-sm font-medium text-gray-600">mobile </label>
-                            <input type="text" id="mobile" name="mobile" class="mt-1 p-2 border w-full rounded-md"
-                                [value]="profileData">
-                        </div>
-                        <button type="submit" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-                            Save Changes
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+    <li class="me-2">
+        <a routerLink="/profile" aria-current="page" class="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">Profile</a>
+    </li>
+    <li class="me-2">
+        <a routerLink="/profile/my-learning" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">my-learning</a>
+    </li>
+    <li class="me-2">
+        <a routerLink="/profile/chat" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">chat</a>
+    </li>
+</ul>
+
+
+<router-outlet></router-outlet>
+

@@ -9,7 +9,7 @@ import { Course } from 'src/app/shared/interface/common.interface';
 })
 export class InstructorCoursesComponent implements OnInit {
 
-  courses : Course
+  courses!: Course[]
 
   constructor(
     private courseService: CourseService

@@ -11,6 +11,15 @@ import { ClientProfileComponent } from './client-profile/client-profile.componen
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
+import { SearchComponent } from './search/search.component';
+import { StreamVideoComponent } from './stream-video/stream-video.component';
+
+import {TabViewModule} from 'primeng/tabview';
+import { MyLearningComponent } from './my-learning/my-learning.component';
+import { StudentInfoComponent } from './student-info/student-info.component';
+import { ChatComponent } from './chat/chat.component';
+
+
 
 @NgModule({
   declarations: [
@@ -18,6 +27,11 @@ import { ToastModule } from 'primeng/toast';
     ClientSignupComponent,
     ClientHomeComponent,
     ClientProfileComponent,
+    SearchComponent,
+    StreamVideoComponent,
+    MyLearningComponent,
+    StudentInfoComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +41,7 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     CalendarModule,
     ToastModule,
+    TabViewModule
   ],
   providers: [
   ],
