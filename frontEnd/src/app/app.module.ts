@@ -25,6 +25,7 @@ import { InstructorModule } from './pages/instructor/instructor.module';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { instructorEffects } from './shared/store/effects/instructor/instructor.effect';
 import { FormsService } from './shared/services/forms.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FormsService } from './shared/services/forms.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     ClientModule,
     AdminModule,
     InstructorModule,

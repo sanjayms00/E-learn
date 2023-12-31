@@ -8,13 +8,8 @@ import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { ToastModule } from 'primeng/toast';
 import { SearchComponent } from './search/search.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
-
-import {TabViewModule} from 'primeng/tabview';
 import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
@@ -37,14 +32,10 @@ import { ChatComponent } from './chat/chat.component';
     CommonModule,
     ClientRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
-    ButtonModule,
-    CalendarModule,
-    ToastModule,
-    TabViewModule
+    FormsModule
   ],
   providers: [
   ],
-  
+
 })
 export class ClientModule { }

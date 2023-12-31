@@ -3,17 +3,17 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse
+  HttpInterceptor
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-// import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   clientToken !: string | null
   adminToken !: string | null
+  instructorToken!: string | null
 
   constructor(private authService: AuthService) { }
 
@@ -22,19 +22,26 @@ export class AuthInterceptor implements HttpInterceptor {
     //get auth tokens
     this.clientToken = this.authService.getClientToken()
     this.adminToken = this.authService.getAdminToken()
+    this.instructorToken = this.authService.getInstructorToken()
 
     if (request.url.includes('/admin')) {
-      // console.log("admin interceptor", this.adminToken)
-      // clone and create new rrequest
+      // clone and create new request
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.adminToken}`,
           'Role': 'admin'
         }
       })
+    } else if (request.url.includes('/instructor')) {
+      // clone and create new request
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.instructorToken}`,
+          'Role': 'instructor'
+        }
+      })
     } else {
-      // console.log("client interceptor", this.clientToken)
-      // clone and create new rrequest
+      // clone and create new request
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.clientToken}`,

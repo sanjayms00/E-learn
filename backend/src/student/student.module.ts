@@ -7,6 +7,9 @@ import { StudentAuthService } from './services/student-auth/student-auth.service
 import { StudentJwtStrategy } from './strategy/studentJwt.strategy';
 import { studentSchema } from './schema/student.schema';
 import { ProfileController } from './controllers/profile/profile.controller';
+import { StudentCourseController } from './controllers/student-course/student-course.controller';
+import { StudentCourseService } from './services/student-course/student-course.service';
+import { courseSchema } from 'src/instructor/schema/course.schema';
 
 @Module({
   imports: [
@@ -17,14 +20,18 @@ import { ProfileController } from './controllers/profile/profile.controller';
       signOptions: { expiresIn: process.env.JWT_EXPIRE_CLIENT },
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
+    MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
+
   ],
   controllers: [
     StudentAuthController,
-    ProfileController
+    ProfileController,
+    StudentCourseController
   ],
   providers: [
     StudentAuthService,
     StudentJwtStrategy,
+    StudentCourseService,
     JwtService
   ],
   exports: [StudentJwtStrategy, PassportModule],

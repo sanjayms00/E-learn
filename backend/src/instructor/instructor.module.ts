@@ -9,6 +9,7 @@ import { instructorSchema } from './schema/instructor.schema';
 import { CourseController } from './controllers/course/course.controller';
 import { CourseService } from './services/course/course.service';
 import { courseSchema } from './schema/course.schema';
+import { InstructorJwtAuthGuard } from './guard/instructor.guard';
 
 @Module({
   imports: [
@@ -29,8 +30,14 @@ import { courseSchema } from './schema/course.schema';
     InstructorAuthService,
     CourseService,
     instructorJwtStrategy,
-    JwtService
+    JwtService,
+    InstructorJwtAuthGuard
   ],
-  exports: [instructorJwtStrategy, PassportModule],
+  exports: [
+    instructorJwtStrategy, 
+    PassportModule,
+    InstructorJwtAuthGuard
+  ],
+    
 })
 export class InstructorModule { }

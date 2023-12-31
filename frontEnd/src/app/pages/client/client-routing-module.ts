@@ -25,9 +25,9 @@ const routes: Routes = [
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
       { path: 'search', component: SearchComponent },
       { path: 'video', component: StreamVideoComponent, canActivate: [clientGuard] },
-      { 
-        path: 'profile', 
-        component: ClientProfileComponent, 
+      {
+        path: 'profile',
+        component: ClientProfileComponent,
         canActivateChild: [clientGuard],
         children: [
           { path: '', component: StudentInfoComponent },
@@ -35,7 +35,7 @@ const routes: Routes = [
           { path: 'chat', component: ChatComponent },
         ]
       },
-      
+
     ]
   }
 ];

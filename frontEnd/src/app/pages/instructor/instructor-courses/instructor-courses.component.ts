@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { constant } from 'src/app/core/constant/constant';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
 
@@ -10,6 +11,8 @@ import { Course } from 'src/app/shared/interface/common.interface';
 export class InstructorCoursesComponent implements OnInit {
 
   courses!: Course[]
+  thumbnail = constant.thumbnail
+
 
   constructor(
     private courseService: CourseService

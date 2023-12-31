@@ -6,12 +6,11 @@ import { Document, Types } from 'mongoose';
 })
 export class Course extends Document {
 
-//   @Prop({ type: Types.ObjectId, required: true })
-//   category_id: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, required: true })
+  categoryId: Types.ObjectId;
 
   @Prop({ required: true })
   courseName: string;
-
 
   @Prop({ required: true })
   description: string;
@@ -22,20 +21,20 @@ export class Course extends Document {
   @Prop({ required: true })
   estimatedPrice: number;
 
-//   @Prop()
-//   courseTags: string;
-
-//   @Prop()
-//   courseLevel: string;
-
   @Prop()
   video: string;
 
   @Prop()
   thumbnail: string;
 
+  @Prop({ type: Types.ObjectId, required: true })
+  instructorId: Types.ObjectId;
+  
 //   @Prop()
-//   benefits: string[];
+//   courseTags: string;
+
+//   @Prop()
+//   courseLevel: string;
 
 //   @Prop()
 //   prerequisites: string[];

@@ -6,7 +6,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Instructor } from '../schema/instructor.schema';
 
 @Injectable()
-export class instructorJwtStrategy extends PassportStrategy(Strategy) {
+export class instructorJwtStrategy extends PassportStrategy(Strategy, 'instructor-jwt') {
   constructor(
     @InjectModel(Instructor.name)
     private userModel: Model<Instructor>,

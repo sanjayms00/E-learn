@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
 
@@ -11,28 +12,33 @@ export class CategoryComponent implements OnInit {
 
   category: string = ''
 
-  allCategories : categoryInterface[] = []
+  allCategories: categoryInterface[] = []
 
 
   constructor(
-    private caetgoryService: CategoryService
-  ){}
+    private caetgoryService: CategoryService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
-    this.caetgoryService.getCategories().subscribe(res=>{
+    this.caetgoryService.getCategories().subscribe(res => {
       this.allCategories = res
     })
   }
-  
-  createCategory(){
-    this.caetgoryService.addCategory({category: this.category}).subscribe(
-      res=>{
-        alert(res)
+
+  createCategory() {
+    this.caetgoryService.addCategory({ category: this.category }).subscribe(
+      res => {
+        this.caetgoryService.getCategories().subscribe(res => {
+          this.allCategories = res
+        })
+        this.toastr.success(res.toString())
+        this.category = ''
       },
-      err=>{
-        alert(err.message)
+      err => {
+        this.toastr.error(err.message)
       }
-      )
+    )
   }
 
 

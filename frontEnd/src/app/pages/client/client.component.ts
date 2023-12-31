@@ -14,8 +14,9 @@ export class ClientComponent implements OnInit, DoCheck {
   togg = true
   icon = "/assets/logo/grid.svg"
   logSign = false;
+  courseSearch: string = ''
+  showMenu = false;
 
-  
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -30,12 +31,15 @@ export class ClientComponent implements OnInit, DoCheck {
   }
 
 
-  showMenu = false;
-  toggleNavbar(){
-    this.showMenu = !this.showMenu;
+  searchCourse() {
+    console.log(this.courseSearch)
+    this.router.navigate(['/search'])
   }
 
 
+  toggleNavbar() {
+    this.showMenu = !this.showMenu;
+  }
 
   ngDoCheck(): void {
     if (this.authService.getClientToken()) {
@@ -44,7 +48,6 @@ export class ClientComponent implements OnInit, DoCheck {
       this.logSign = true
     }
   }
-
 
   toggleClick(event: HTMLElement) {
     this.togg = !this.togg
@@ -63,6 +66,4 @@ export class ClientComponent implements OnInit, DoCheck {
       this.router.navigate(["/login"])
     }
   }
-
-
 }
