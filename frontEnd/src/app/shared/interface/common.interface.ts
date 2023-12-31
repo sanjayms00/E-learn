@@ -31,13 +31,19 @@ export interface instructorInterface {
 }
 
 export interface Course {
+    _id: string,
     courseName: string;
     description: string;
     price: string;
+    estimatedPrice: string,
+    thumbnail: string,
+    video?: string,
+
 }
 
 
 export interface categoryInterface {
+    _id : string,
     categoryName: string;
     status: boolean;
 }

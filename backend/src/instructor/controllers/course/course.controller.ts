@@ -20,7 +20,9 @@ export class CourseController {
         @UploadedFiles() files: { imageFile: Express.Multer.File[], videoFile: Express.Multer.File[]},
         @Body() otherData
         ) {
-            
+        
+        console.log("data is", otherData, files)
+
         return await this.courseService.uploadCourse(files, otherData);
     }   
 

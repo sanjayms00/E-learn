@@ -11,6 +11,7 @@ import { SearchComponent } from './search/search.component';
 import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
+import { StreamVideoComponent } from './stream-video/stream-video.component';
 
 
 const routes: Routes = [
@@ -22,15 +23,16 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
-      { path: 'search', component: SearchComponent, canActivate: [authGuard] },
+      { path: 'search', component: SearchComponent },
+      { path: 'video', component: StreamVideoComponent, canActivate: [clientGuard] },
       { 
         path: 'profile', 
         component: ClientProfileComponent, 
-        canActivate: [clientGuard],
+        canActivateChild: [clientGuard],
         children: [
-          { path: '', component: StudentInfoComponent, canActivate: [clientGuard] },
-          { path: 'my-learning', component: MyLearningComponent, canActivate: [clientGuard] },
-          { path: 'chat', component: ChatComponent, canActivate: [clientGuard] },
+          { path: '', component: StudentInfoComponent },
+          { path: 'my-learning', component: MyLearningComponent },
+          { path: 'chat', component: ChatComponent },
         ]
       },
       

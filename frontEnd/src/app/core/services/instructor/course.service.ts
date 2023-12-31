@@ -12,7 +12,7 @@ export class CourseService {
   ) { }
 
   uploadCourse(data: FormData) {
-    return this.http.post(`${constant.baseUrl}/instructor/add-course`, {data})
+    return this.http.post(`${constant.baseUrl}/instructor/add-course`, data)
   }
 
   getInstructorCourse(){

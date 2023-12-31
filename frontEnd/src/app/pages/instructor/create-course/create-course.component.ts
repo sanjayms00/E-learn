@@ -21,11 +21,15 @@ export class CreateCourseComponent implements OnInit {
       private categoryService: CategoryService
     ) {
       this.courseForm = this.fb.group({
-        CourseName: ['', Validators.required],
-        courseDescription: ['', Validators.required],
+        courseName: ['', Validators.required],
+        description: ['', Validators.required],
         category: ['', Validators.required],
-        coursePrice: [null, [Validators.required, Validators.min(1)]],
+        price: [null, [Validators.required, Validators.min(1)]],
         estimatedPrice: [null, [Validators.required, Validators.min(1)]],
+        // tags: ['', Validators.required],
+        // level: ['', Validators.required],
+        // imageFile: [null, Validators.required],
+        // videoFile: [null, Validators.required],
       })
   }
 
@@ -62,15 +66,20 @@ export class CreateCourseComponent implements OnInit {
     
   }
 
-  uploadFile() {
+  CourseUpload() {
     // if(this.courseForm.valid){
       //const otherFormData = this.courseForm.value
-    
+
+        const courseData = this.courseForm.value
+
         const formData = new FormData();
         formData.append('videoFile', this.selectedVideoFile);                           
         formData.append('imageFile', this.selectedImageFile);        
-
-        
+        formData.append('courseName', courseData.courseName)
+        formData.append('description', courseData.description)
+        formData.append('category', courseData.category)
+        formData.append('price', courseData.price)
+        formData.append('estimatedPrice', courseData.estimatedPrice)
 
         this.courseService.uploadCourse(formData).subscribe(
           (res)=>{

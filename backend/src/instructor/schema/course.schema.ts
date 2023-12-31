@@ -12,11 +12,6 @@ export class Course extends Document {
   @Prop({ required: true })
   courseName: string;
 
-  @Prop({ required: true })
-  imageFileUrl: any[];
-
-  @Prop({ required: true })
-  videoFileUrl: any[];
 
   @Prop({ required: true })
   description: string;
@@ -24,8 +19,8 @@ export class Course extends Document {
   @Prop({ required: true })
   price: string;
 
-//   @Prop({ required: true })
-//   estimatedPrice: number;
+  @Prop({ required: true })
+  estimatedPrice: number;
 
 //   @Prop()
 //   courseTags: string;
@@ -33,11 +28,11 @@ export class Course extends Document {
 //   @Prop()
 //   courseLevel: string;
 
-//   @Prop()
-//   videoUrl: string;
+  @Prop()
+  video: string;
 
-//   @Prop()
-//   thumbnail: string;
+  @Prop()
+  thumbnail: string;
 
 //   @Prop()
 //   benefits: string[];

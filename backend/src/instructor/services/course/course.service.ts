@@ -6,6 +6,7 @@ import { Course } from 'src/instructor/schema/course.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { S3 } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 
 @Injectable()
 export class CourseService {
@@ -25,33 +26,32 @@ export class CourseService {
             const imageFile = files.imageFile[0];
             const videoFile = files.videoFile[0];
 
-            const imageParams = {
-                Bucket: 'elearn-app-assets',
-                Key: `${uuidv4()}-${imageFile.originalname}`,
-                Body: imageFile.buffer,
-              };
-        
-              const videoParams = {
+            const imageLocalPath = `./public/thumbnails/${uuidv4()}-${imageFile.originalname}`
+            fs.writeFileSync(imageLocalPath, imageFile.buffer)
+
+            const videoParams = {
                 Bucket: 'elearn-app-assets',
                 Key: `${uuidv4()}-${videoFile.originalname}`,
-                Body: videoFile.buffer,
+                Body: videoFile.buffer
               };
 
-            const [imageResult, videoResult] = await Promise.all([
-                this.s3.upload(imageParams).promise(),
-                this.s3.upload(videoParams).promise(),
-              ]);
-            
+              const videoResult = await this.s3.upload(videoParams).promise()
+
+            // const [imageResult, videoResult] = await Promise.all([
+            //     this.s3.upload(imageParams).promise(),
+                
+            //   ]);
             
               this.courseModel.create({
-                courseName: otherData.course,
+                courseName: otherData.courseName,
                 price: otherData.price,
+                estimatedPrice: otherData.estimatedPrice,
                 description : otherData.description,
-                imageFileUrl: imageResult.Location,
-                videoFileUrl: videoResult.Location,
+                thumbnail: imageLocalPath,
+                video: videoResult.Location,
               });
 
-            return "course created"
+            return videoParams.Key
 
         } catch (error) {
             console.log(error.messasge)
