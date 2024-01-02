@@ -37,9 +37,9 @@ export class ClientSignupComponent {
       confirmPassword: new FormControl('', [
         Validators.required, Validators.minLength(6), Validators.maxLength(15), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)
       ]),
-      otp: new FormControl(null, [
-        Validators.required, Validators.pattern('[0-9]*')
-      ]),
+      // otp: new FormControl(null, [
+      //   Validators.required, Validators.pattern('[0-9]*')
+      // ]),
     }, { validators: this.confirmPasswordValidator });
   }
 

@@ -40,7 +40,7 @@ export class CreateCourseComponent implements OnInit {
       // imageFile: [null, Validators.required],
       // videoFile: [null, Validators.required],
     })
-    
+
   }
 
   ngOnInit(): void {
@@ -89,7 +89,8 @@ export class CreateCourseComponent implements OnInit {
 
       this.courseService.uploadCourse(formData).subscribe(
         (res) => {
-          this.toastr.success("Course created" + res)
+          console.log(res)
+          this.toastr.success("Course created")
           this.router.navigate(['/instructor/courses'])
           this.isLoading = false
         },
@@ -97,6 +98,8 @@ export class CreateCourseComponent implements OnInit {
           this.toastr.error(err.error?.error + " " + err.error?.message)
           this.isLoading = false
         })
+    } else {
+      this.toastr.error("Unable to process the request, Fill all the necessary Fields")
     }
   }
 }

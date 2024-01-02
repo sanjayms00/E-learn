@@ -73,6 +73,13 @@ export class CourseController {
     }
 
 
+    @Get('delete-course/:id')
+    async deleteCourse(
+        @Param('id') id: string
+    ) {
+        return await this.courseService.deleteCourse(id)
+    }
+
 
 
     // @Get('course/:key')

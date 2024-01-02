@@ -51,8 +51,6 @@ export class EditCourseComponent implements OnInit {
     if (id) {
       this.CourseService.editCourseData(id).subscribe((courseData) => {
 
-        console.log(courseData)
-
         if (courseData.categoryId) {
           this.categoryId = courseData.categoryId
         }
@@ -74,19 +72,10 @@ export class EditCourseComponent implements OnInit {
   updateCourse() {
     if (this.courseForm.valid) {
 
-      // const formData = new FormData();
-      // formData.append('videoFile', this.selectedVideoFile);
-      // formData.append('imageFile', this.selectedImageFile);
-      // formData.append('courseName', courseData.courseName)
-      // formData.append('description', courseData.description)
-      // formData.append('category', courseData.category)
-      // formData.append('price', courseData.price)
-      // formData.append('estimatedPrice', courseData.estimatedPrice)
-      // formData.append('courseId', this.courseId)
-
       const courseData = this.courseForm.value
       this.CourseService.updateCourse(courseData).subscribe(
         (res) => {
+          console.log(res)
           this.toastr.success("Course Updated")
           this.router.navigate(['/instructor/courses'])
           this.isLoading = false
@@ -95,6 +84,8 @@ export class EditCourseComponent implements OnInit {
           this.toastr.error(err.error?.error + " " + err.error?.message)
           this.isLoading = false
         })
+    } else {
+      this.toastr.error("Unable to process the request, Fill all the necessary Fields")
     }
 
   }

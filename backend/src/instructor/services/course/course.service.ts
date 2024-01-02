@@ -163,6 +163,13 @@ export class CourseService {
         return course
     }
 
+    deleteCourse(id: string) {
+        const courseId = new Types.ObjectId(id)
+        const course = this.courseModel.deleteOne({ _id: courseId })
+        console.log(course)
+
+        return course
+    }
 
 
 

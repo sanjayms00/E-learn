@@ -31,7 +31,8 @@
           <h2 class="text-gray-900 text-md title-font font-medium uppercase">{{ course.courseName }}</h2>
         </div>
         <div class="flex-grow">
-          <img [src]="thumbnail+course.thumbnail" alt="Image Alt Text" class="w-full h-30 object-cover mb-4 rounded">
+          <img [src]="thumbnail+course.thumbnail" alt="Image Alt Text"
+            class="w-full h-30 object-cover mb-4 rounded h-40 overflow-hidden">
           <span class="leading-relaxed text-base">{{ course.price }}</span>
           <span class="leading-relaxed text-base mx-5">{{ course.estimatedPrice }}</span>
           <p class="leading-relaxed text-sm text-justify">{{ course.description | slice:0:100 }}</p>
