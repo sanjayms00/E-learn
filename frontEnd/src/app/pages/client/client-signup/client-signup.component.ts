@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { clientSignUp } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 import { FormsService } from 'src/app/shared/services/forms.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-signup',
@@ -12,11 +13,13 @@ import { FormsService } from 'src/app/shared/services/forms.service';
 })
 export class ClientSignupComponent {
 
-  signUpForm!: FormGroup
+  signUpForm!: FormGroup;
+  otpStatus = false;
 
   constructor(
     private store: Store<appState>,
-    private formsService: FormsService
+    private formsService: FormsService,
+    private toastr: ToastrService
   ) {
     this.signUpForm = new FormGroup({
       fullName: new FormControl(null, [
@@ -34,6 +37,9 @@ export class ClientSignupComponent {
       confirmPassword: new FormControl('', [
         Validators.required, Validators.minLength(6), Validators.maxLength(15), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)
       ]),
+      otp: new FormControl(null, [
+        Validators.required, Validators.pattern('[0-9]*')
+      ]),
     }, { validators: this.confirmPasswordValidator });
   }
 
@@ -46,6 +52,18 @@ export class ClientSignupComponent {
       const signUpdata = this.formsService.signUpService(this.signUpForm.value)
       this.store.dispatch(clientSignUp({ signUpdata }))
     }
+  }
+
+  Sendotp() {
+    this.toastr.success("OTP send")
+    this.otpStatus = true
+    // start timer
+    const timeoutMillis = 2 * 60 * 1000;
+
+    setTimeout(() => {
+      this.otpStatus = false
+    }, timeoutMillis)
+    // after timer set to true
   }
 
 

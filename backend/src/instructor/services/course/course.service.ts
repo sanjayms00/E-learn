@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { S3 } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
+import { types } from 'util';
 
 @Injectable()
 export class CourseService {
@@ -48,10 +49,11 @@ export class CourseService {
 
             const categoryId = new Types.ObjectId(otherData.category)
             const instructorObjectId = new Types.ObjectId(instructorId)
-
+            // const slug = 
 
             this.courseModel.create({
                 courseName: otherData.courseName,
+                // slug: 
                 categoryId,
                 price: otherData.price,
                 instructorId: instructorObjectId,
@@ -71,8 +73,65 @@ export class CourseService {
 
     }
 
-    getCourses() {
-        return this.courseModel.find({})
+
+    async updateCourse(
+        // files: { imageFile: Express.Multer.File[], videoFile: Express.Multer.File[] },
+        otherData
+    ) {
+        try {
+            // const imageFile = files.imageFile[0];
+            // const videoFile = files.videoFile[0];
+
+            // const image = `${uuidv4()}-${imageFile.originalname}`
+            // const imageLocalPath = `./public/thumbnails/${image}`
+
+            // fs.writeFileSync(imageLocalPath, imageFile.buffer)
+
+            // const videoParams = {
+            //     Bucket: 'elearn-app-assets',
+            //     Key: `${uuidv4()}-${videoFile.originalname}`,
+            //     Body: videoFile.buffer
+            // };
+
+            // const videoResult = await this.s3.upload(videoParams).promise()
+            const categoryId = new Types.ObjectId(otherData.category)
+            const courseObjectId = new Types.ObjectId(otherData.courseId)
+            // const slug = 
+
+            const result = await this.courseModel.updateOne(
+                { _id: courseObjectId },
+                {
+                    $set: {
+                        courseName: otherData.courseName,
+                        // slug: 
+                        categoryId,
+                        price: otherData.price,
+                        estimatedPrice: otherData.estimatedPrice,
+                        description: otherData.description,
+                        // thumbnail: image,
+                        // video: videoResult.Location,
+                    }
+                }
+            );
+
+            console.log(result)
+
+            // return videoParams.Key
+            return { status: "success" }
+
+        } catch (error) {
+            console.log(error.messasge)
+            throw (error)
+        }
+
+    }
+
+
+
+
+    getInstructorCourse(id: string) {
+        const instructorId = new Types.ObjectId(id)
+        return this.courseModel.find({ instructorId }, { video: 0 })
     }
 
 
@@ -95,6 +154,16 @@ export class CourseService {
             throw error;
         }
     }
+
+    editCourse(id: string) {
+        const courseId = new Types.ObjectId(id)
+        const course = this.courseModel.findOne({ _id: courseId })
+        console.log(course)
+
+        return course
+    }
+
+
 
 
 }

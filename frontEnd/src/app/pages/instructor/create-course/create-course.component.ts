@@ -15,7 +15,11 @@ export class CreateCourseComponent implements OnInit {
   selectedImageFile!: File;
   selectedVideoFile!: File;
   categoryData: categoryInterface[] = []
-  courseForm: FormGroup
+  courseForm: FormGroup;
+  isLoading = false;
+  imageType = ['image/png', 'image/jpeg', 'image/avif']
+  videoType = ['video/mp4']
+
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +28,7 @@ export class CreateCourseComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
+
     this.courseForm = this.fb.group({
       courseName: ['', Validators.required],
       description: ['', Validators.required],
@@ -35,6 +40,7 @@ export class CreateCourseComponent implements OnInit {
       // imageFile: [null, Validators.required],
       // videoFile: [null, Validators.required],
     })
+    
   }
 
   ngOnInit(): void {
@@ -45,8 +51,8 @@ export class CreateCourseComponent implements OnInit {
 
   onVideoFileSelected(event: any) {
     const fileType = event.target.files[0].type;
-    console.log(fileType)
-    if (fileType === 'video/mp4') {
+
+    if (this.videoType.find(item => item === fileType)) {
       this.selectedVideoFile = event.target.files[0];
       console.log(this.selectedVideoFile)
     } else {
@@ -58,7 +64,7 @@ export class CreateCourseComponent implements OnInit {
   onImageFileSelected(event: any) {
     const fileType = event.target.files[0].type;
     console.log(fileType)
-    if (fileType === 'image/png') {
+    if (this.imageType.find(item => item === fileType)) {
       this.selectedImageFile = event.target.files[0];
       console.log(this.selectedImageFile)
     } else {
@@ -70,6 +76,7 @@ export class CreateCourseComponent implements OnInit {
   CourseUpload() {
 
     if (this.courseForm.valid) {
+      this.isLoading = true
       const courseData = this.courseForm.value
       const formData = new FormData();
       formData.append('videoFile', this.selectedVideoFile);
@@ -84,9 +91,11 @@ export class CreateCourseComponent implements OnInit {
         (res) => {
           this.toastr.success("Course created" + res)
           this.router.navigate(['/instructor/courses'])
+          this.isLoading = false
         },
         (err) => {
           this.toastr.error(err.error?.error + " " + err.error?.message)
+          this.isLoading = false
         })
     }
   }

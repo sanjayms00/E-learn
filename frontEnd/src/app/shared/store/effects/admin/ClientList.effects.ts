@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-    InstructorListFailed,
-    InstructorListSuccess,
+  InstructorListFailed,
+  InstructorListSuccess,
   StudentListFailed,
   StudentListSuccess,
-  clientStatusChange,
-  clientStatusChangeFailed,
-  clientStatusChangeSuccess,
   getInstructorList,
   getStudentList,
+  instructorStatusChange,
+  instructorStatusChangeFailed,
+  instructorStatusChangeSuccess,
+  studentStatusChange,
+  studentStatusChangeFailed,
+  studentStatusChangeSuccess,
 } from '../../actions/admin.action';
 import { exhaustMap, map, catchError, of, switchMap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +26,7 @@ export class clientListEffects {
     private action$: Actions,
     private toastr: ToastrService,
     private ClientList: ListingService
-  ) {}
+  ) { }
 
   _getStudentsList$ = createEffect(() =>
     this.action$.pipe(
@@ -60,21 +63,39 @@ export class clientListEffects {
     )
   );
 
-  _ChangeClientStatus$ = createEffect(() =>
+  _ChangeStudentStatus$ = createEffect(() =>
     this.action$.pipe(
-      ofType(clientStatusChange),
+      ofType(studentStatusChange),
       switchMap((action: statusInterface) => {
-        return this.ClientList.changeClientStatus(action).pipe(
-          map((response: any) => {
-           
-            return clientStatusChangeSuccess(action);
+        return this.ClientList.changeStudentStatus(action).pipe(
+          map(() => {
+            return studentStatusChangeSuccess(action);
           }),
           catchError((err) => {
             console.log(err.error?.message);
-            return of(clientStatusChangeFailed());
+            return of(studentStatusChangeFailed());
           })
         );
       })
     )
   );
+
+  _ChangeInstructorStatus$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(instructorStatusChange),
+      switchMap((action: statusInterface) => {
+        return this.ClientList.changeStudentStatus(action).pipe(
+          map(() => {
+            return instructorStatusChangeSuccess(action);
+          }),
+          catchError((err) => {
+            console.log(err.error?.message);
+            return of(instructorStatusChangeFailed());
+          })
+        );
+      })
+    )
+  );
+
+
 }

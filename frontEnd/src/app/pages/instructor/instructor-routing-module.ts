@@ -10,6 +10,7 @@ import { InstructorCoursesComponent } from './instructor-courses/instructor-cour
 import { instructorGuard } from 'src/app/shared/guards/instructor/instructor.guard';
 import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
 import { CreateCourseComponent } from './create-course/create-course.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 
 
 const routes: Routes = [
@@ -17,17 +18,18 @@ const routes: Routes = [
     path: '',
     children: [
       { path: 'signup', component: InstructorSignupComponent, canActivate: [authGuard] },
-      { path: 'login', component: InstructorLoginComponent, canActivate : [authGuard] },
+      { path: 'login', component: InstructorLoginComponent, canActivate: [authGuard] },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       {
         path: '',
         component: InstructorComponent,
         canActivateChild: [instructorGuard],
-        children : [
-          {path: 'profile', component:InstructorProfileComponent},
-          {path: 'dashboard', component:InstructorDashboardComponent},
-          {path: 'courses', component:InstructorCoursesComponent},
-          {path: 'create', component: CreateCourseComponent}
+        children: [
+          { path: 'profile', component: InstructorProfileComponent },
+          { path: 'dashboard', component: InstructorDashboardComponent },
+          { path: 'courses', component: InstructorCoursesComponent },
+          { path: 'create', component: CreateCourseComponent },
+          { path: 'edit/:id', component: EditCourseComponent }
         ]
       }
     ]

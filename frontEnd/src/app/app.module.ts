@@ -48,7 +48,7 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     SocialLoginModule,
-],
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
@@ -69,7 +69,7 @@ import { FormsModule } from '@angular/forms';
       } as SocialAuthServiceConfig,
     },
     FormsService
-],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,6 +13,7 @@ import { StreamVideoComponent } from './stream-video/stream-video.component';
 import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
 
 
 
@@ -27,6 +28,7 @@ import { ChatComponent } from './chat/chat.component';
     MyLearningComponent,
     StudentInfoComponent,
     ChatComponent,
+    CourseDetailsComponent,
   ],
   imports: [
     CommonModule,

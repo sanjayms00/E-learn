@@ -77,7 +77,7 @@ export class AuthService {
 
   //logout client
   instructorLogout() {
-    return localStorage.removeItem("instructorToken")
+    return localStorage.removeItem('instructorToken')
   }
 
 

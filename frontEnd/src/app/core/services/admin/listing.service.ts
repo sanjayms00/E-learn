@@ -22,15 +22,17 @@ export class ListingService {
     }
 
     getInstructorList(): Observable<instructorInterface[]> {
-        return this.http.get<instructorInterface[]>(`${constant.baseUrl}tructor`)
+        return this.http.get<instructorInterface[]>(`${constant.baseUrl}/admin/client/instructors`)
     }
 
 
-    changeClientStatus(data: statusInterface){
-        return this.http.patch(`${constant.baseUrl}/admin/clients/status`, data)
+    changeStudentStatus(data: statusInterface) {
+        return this.http.patch(`${constant.baseUrl}/admin/client/student-status`, data)
     }
 
-
+    changeInstructorStatus(data: statusInterface) {
+        return this.http.patch(`${constant.baseUrl}/admin/client/instructor-status`, data)
+    }
 
 
 }

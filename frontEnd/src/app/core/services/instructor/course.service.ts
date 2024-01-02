@@ -17,8 +17,12 @@ export class CourseService {
     return this.http.post(`${constant.baseUrl}/instructor/add-course`, data)
   }
 
+  updateCourse(data: FormData) {
+    return this.http.put(`${constant.baseUrl}/instructor/update-course`, data)
+  }
+
   getInstructorCourse() {
-    return this.http.get(`${constant.baseUrl}/instructor/files`)
+    return this.http.get(`${constant.baseUrl}/instructor/courses`)
   }
 
   getAllCourse(): Observable<Course[]> {
@@ -33,6 +37,13 @@ export class CourseService {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/search/${searchText}`)
   }
 
+  courseDetails(id: string): Observable<Course> {
+    return this.http.get<Course>(`${constant.baseUrl}/student/course-details/${id}`)
+  }
+
+  editCourseData(id: string): Observable<Course> {
+    return this.http.get<Course>(`${constant.baseUrl}/instructor/edit-course/${id}`)
+  }
 
 
 

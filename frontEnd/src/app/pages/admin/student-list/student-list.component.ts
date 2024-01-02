@@ -3,9 +3,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 // import { Observable } from 'rxjs';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
-import { statusInterface } from 'src/app/shared/interface/admin.interface';
 import { studentInterface } from 'src/app/shared/interface/common.interface';
-import { clientStatusChange, getStudentList } from 'src/app/shared/store/actions/admin.action';
+import { getStudentList, studentStatusChange } from 'src/app/shared/store/actions/admin.action';
 import { studentlistSelector } from 'src/app/shared/store/selectors/admin.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -36,14 +35,18 @@ export class StudentListComponent implements OnInit {
       })
   }
 
-  searchData(event: any) {
+  searchData(event: string) {
     this.searchText = event
   }
 
   //block / unblock student
-  changeStudentStatus(event: statusInterface) {
-    this.store.dispatch(clientStatusChange(event))
+  changeStudentStatus(id: string, status: boolean) {
+    console.log(id)
+    this.store.dispatch(studentStatusChange({ id, status }))
   }
+
+
+
 
   // ngOnDestroy(): void {
   //   this.studentSubscription.unsubscribe()

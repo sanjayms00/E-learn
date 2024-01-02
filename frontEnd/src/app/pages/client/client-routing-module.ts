@@ -12,6 +12,7 @@ import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,8 @@ const routes: Routes = [
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
       { path: 'search', component: SearchComponent },
       { path: 'video', component: StreamVideoComponent, canActivate: [clientGuard] },
+      { path: 'courses', component: SearchComponent },
+      { path: 'course-details/:id', component: CourseDetailsComponent },
       {
         path: 'profile',
         component: ClientProfileComponent,

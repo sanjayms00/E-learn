@@ -1,4 +1,9 @@
-<div class="px-32">
+<div class="" *ngIf="isLoading">
+  <app-spinner></app-spinner>
+</div>
+
+
+<div class="px-32 bg-gray-100 py-5 rounded-md">
   <form [formGroup]="courseForm" (ngSubmit)="CourseUpload()">
     <div class="pb-12">
       <h2 class="text-xl font-semibold leading-7 text-gray-900">Create Course</h2>

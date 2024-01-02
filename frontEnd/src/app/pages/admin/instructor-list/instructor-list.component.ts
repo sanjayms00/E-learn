@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { statusInterface } from 'src/app/shared/interface/admin.interface';
 import { instructorInterface } from 'src/app/shared/interface/common.interface';
-import { clientStatusChange, getInstructorList } from 'src/app/shared/store/actions/admin.action';
+import { getInstructorList, instructorStatusChange } from 'src/app/shared/store/actions/admin.action';
 import { instructorlistSelector } from 'src/app/shared/store/selectors/admin.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -20,7 +20,7 @@ export class InstructorListComponent implements OnInit {
   // instructorSubscription !: Subscription
 
 
-  
+
   constructor(
     private store: Store<appState>
   ) { }
@@ -37,8 +37,8 @@ export class InstructorListComponent implements OnInit {
     console.log(event);
   }
 
-  changeStudentStatus(event: statusInterface) {
-    this.store.dispatch(clientStatusChange(event))
+  changeInstructorStatus(id: string, status: boolean) {
+    this.store.dispatch(instructorStatusChange({ id, status }))
   }
 
 }

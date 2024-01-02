@@ -24,6 +24,10 @@ export class instructorJwtStrategy extends PassportStrategy(Strategy, 'instructo
 
     const user = await this.userModel.findById(id);
 
+    // if (!user.status) {
+    //   throw new UnauthorizedException('Access denied.');
+    // }
+
     if (!user) {
       throw new UnauthorizedException('Access denied.');
     }

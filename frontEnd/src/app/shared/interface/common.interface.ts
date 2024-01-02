@@ -14,7 +14,7 @@ export interface studentInterface {
     _id: string,
     fullName: string
     email: string,
-    mobile:number,
+    mobile: number,
     status: boolean,
     createdAt: Date
     updatedAt: Date
@@ -33,17 +33,19 @@ export interface instructorInterface {
 export interface Course {
     _id: string,
     courseName: string;
+    slug: string;
     description: string;
+    categoryId?: string,
     price: string;
     estimatedPrice: string,
     thumbnail: string,
     video?: string,
-
+    createdAt: Date
 }
 
 
 export interface categoryInterface {
-    _id : string,
+    _id: string,
     categoryName: string;
     status: boolean;
 }

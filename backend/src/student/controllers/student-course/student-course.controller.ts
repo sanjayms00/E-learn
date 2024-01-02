@@ -10,18 +10,23 @@ export class StudentCourseController {
     ) { }
 
     @Get('home-courses')
-    getLimittedCourse() {
-        return this.studentCourseService.getLimitedCourse()
+    async getLimittedCourse() {
+        return await this.studentCourseService.getLimitedCourse()
     }
 
     @Get('all-courses')
-    getAllCourse() {
-        return this.studentCourseService.getAllCourse()
+    async getAllCourse() {
+        return await this.studentCourseService.getAllCourse()
     }
 
     @Get('search/:searchText')
-    searchCourse(@Param('searchText') searchText) {
-        return this.studentCourseService.seatchCourse(searchText)
+    async searchCourse(@Param('searchText') searchText) {
+        return await this.studentCourseService.searchCourse(searchText)
+    }
+
+    @Get('course-details/:id')
+    async courseDetails(@Param('id') id) {
+        return await this.studentCourseService.courseDetails(id)
     }
 
 

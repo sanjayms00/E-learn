@@ -17,7 +17,12 @@ export const getInstructorList = createAction('[Admin] instructor list')
 export const InstructorListSuccess = createAction('[Admin] instructor list success', props<{ instructorData: instructorInterface[] }>())
 export const InstructorListFailed = createAction('[Admin] instructor list failed')
 
-// chnage client Status
-export const clientStatusChange = createAction('[Admin] client status Change', props<statusInterface>())
-export const clientStatusChangeSuccess = createAction('[Admin] client status change success', props<statusInterface>())
-export const clientStatusChangeFailed = createAction('[Admin] client status change failed')
+// chnage student Status
+export const studentStatusChange = createAction('[Admin] student status Change', props<statusInterface>())
+export const studentStatusChangeSuccess = createAction('[Admin] student status change success', props<statusInterface>())
+export const studentStatusChangeFailed = createAction('[Admin] student status change failed')
+
+// chnage instructor Status
+export const instructorStatusChange = createAction('[Admin] instructor status Change', props<statusInterface>())
+export const instructorStatusChangeSuccess = createAction('[Admin] instructor status change success', props<statusInterface>())
+export const instructorStatusChangeFailed = createAction('[Admin] instructor status change failed')

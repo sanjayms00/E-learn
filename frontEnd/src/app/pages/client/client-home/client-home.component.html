@@ -22,43 +22,42 @@
     </div>
 </section>
 
-<!-- <section class="flex justify-evenly items-start text-center">
-        <div class="w-full bg-green-200 p-8 shadow-md">
-            <h4>60K+</h4>
-            <p>Live Courses</p>
-        </div>
-        <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
-            <h4>35K+</h4>
-            <p>Category</p>
-        </div>
-        <div class="w-full bg-green-200 p-8 shadow-md">
-            <h4>4.9⭐</h4>
-            <p>Rating</p>
-        </div>
-        <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
-            <h4>5K+</h4>
-            <p>Professionals</p>
-        </div>
-        <div class="w-full bg-green-200 p-8 shadow-lg">
-            <h4>20K+</h4>
-            <p>Students</p>
-        </div>
-    </section> -->
+<section class="flex justify-evenly items-start text-center">
+    <div class="w-full bg-green-200 p-8 shadow-md">
+        <h4>60K+</h4>
+        <p>Live Courses</p>
+    </div>
+    <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
+        <h4>35K+</h4>
+        <p>Category</p>
+    </div>
+    <div class="w-full bg-green-200 p-8 shadow-md">
+        <h4>4.9⭐</h4>
+        <p>Rating</p>
+    </div>
+    <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
+        <h4>5K+</h4>
+        <p>Professionals</p>
+    </div>
+    <div class="w-full bg-green-200 p-8 shadow-lg">
+        <h4>20K+</h4>
+        <p>Students</p>
+    </div>
+</section>
 
 <!-- {{ homeCourses | json }}    -->
 
-<section class="text-gray-700 body-font border-t border-gray-200">
+<section class="text-gray-700 body-font">
     <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-col text-center w-full mb-20">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-2">Popular Courses</h1>
-            <p
-                class="text-xs pt-2/instructor/login/instructor/login text-indigo-500 tracking-widest font-medium title-font mb-1">
-                Let's join our best classes with our famous
-                instructor and institutes</p>
+        <div class="text-center mb-20">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-2">
+                Popular Courses
+            </h1>
         </div>
         <div class="flex flex-wrap -m-4">
             <!-- loop starts -->
-            <div *ngFor="let course of homeCourses" class="p-4 md:w-1/4">
+            <div *ngFor="let course of homeCourses" class="p-4 md:w-1/4 cursor-pointer"
+                [routerLink]="['/course-details', course._id]" routerLinkActive="router-link-active">
                 <div class="flex rounded-lg h-full bg-gray-200 p-4 shadow-xl flex-col">
                     <div class="flex items-center mb-3">
                         <div
@@ -70,7 +69,7 @@
                                 <path d="M21 12a3 3 0 0 1-3 3"></path>
                             </svg>
                         </div>
-                        <h2 class="text-gray-900 text-md title-font font-medium uppercase">{{ course.courseName }}</h2>
+                        <h2 class="text-gray-900 text-sm title-font font-medium uppercase">{{ course.courseName }}</h2>
                     </div>
                     <div class="flex-grow">
                         <img [src]="thumbnail+course.thumbnail" alt="Image Alt Text"
@@ -79,17 +78,16 @@
                         <span class="leading-relaxed text-base mx-5">{{ course.estimatedPrice }}</span>
                         <p class="leading-relaxed text-sm text-justify">{{ course.description | slice:0:100 }}</p>
                         <!-- <span class="inline-block bg-gray-200 rounded-full py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #photography
-            </span> -->
+                            #photography
+                        </span> -->
                         <div class="w-full">
-                            <a [routerLink]="['/']" routerLinkActive="router-link-active"
-                                class="mt-3 text-indigo-500 inline-flex items-center">
+                            <p class="mt-3 cursor-pointer text-indigo-500 inline-flex items-center">
                                 Learn More
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                                 </svg>
-                            </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -97,6 +95,13 @@
             <!-- loop ends -->
         </div>
     </div>
+    <div class="flex items-center justify-center my-3">
+        <button [routerLink]="['/courses']" routerLinkActive="router-link-active"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Show More
+        </button>
+    </div>
+
 </section>
 
 <section class="text-gray-700 body-font border-t border-gray-200">

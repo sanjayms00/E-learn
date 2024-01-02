@@ -8,7 +8,7 @@
             <h2 class="text-3xl font-semibold mb-2">Student Login</h2>
             <p class="text-sm text-gray-700 font-bold">Unlocking Knowledge, One Login at a Time.</p>
         </div>
-        <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12">
+        <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12 pb-5">
             <form [formGroup]="studentLogin" (ngSubmit)="login()">
                 <div class="mb-4">
                     <div class="text-red-600 pl-5 font-bold"
@@ -17,7 +17,7 @@
                         <div *ngIf="emailErrors['pattern']">Invalid email format</div>
                     </div>
                     <input type="email" id="email" formControlName="email"
-                        class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-black text-black"
+                        class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black text-black"
                         placeholder="Email">
                 </div>
 
@@ -27,21 +27,21 @@
                         <div *ngIf="passwordErrors['required']">Password is required</div>
                     </div>
                     <input type="password" formControlName="password" id="password"
-                        class="w-full border rounded-full py-3 px-5 border-gray-400 focus:outline-none focus:border-blue-500"
+                        class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-blue-500"
                         placeholder="Password">
                 </div>
 
-                <button type="submit" class="w-full bg-gray-600 text-white py-3 px-4 rounded-full hover:bg-black">
+                <button type="submit" class="w-full hover:bg-gray-600 text-white py-3 px-4 rounded-full bg-black">
                     Login
                 </button>
 
             </form>
         </div>
         <hr>
-        <p class="text-center p-5 font-normal">
+        <!-- <p class="text-center p-5 font-normal">
             Or Continue With
-        </p>
-        <div class="flex items-center justify-center">
+        </p> -->
+        <!-- <div class="flex items-center justify-center">
             <div class="flex flex-row">
                 <div class="flex-1/2 rounded-full mx-1">
                     <div id="g_id_onload"
@@ -66,7 +66,7 @@
                         alt="google-icon" class="h-5">
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="flex justify-center pt-4">
             <p class="p-3 cursor-pointer hover:text-gray-600" [routerLink]="['/instructor/login']">Instructor Login</p>
             <p class="p-3 cursor-pointer hover:text-gray-600" [routerLink]="['/signup']">Register Now</p>

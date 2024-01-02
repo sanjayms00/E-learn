@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { InstructorListSuccess, StudentListSuccess, adminLoginSuccess, clientStatusChangeSuccess } from "../actions/admin.action";
+import { InstructorListSuccess, StudentListSuccess, adminLoginSuccess, instructorStatusChangeSuccess, studentStatusChangeSuccess } from "../actions/admin.action";
 import { adminState } from "../state/admin.state";
 
 const _adminReducer = createReducer(adminState,
@@ -24,17 +24,30 @@ const _adminReducer = createReducer(adminState,
             instructorDetails: action.instructorData
         }
     }),
-    on(clientStatusChangeSuccess, (state, action) => {
-        const userData = state.studentDetails.map((item)=> {
-            if(item._id === action.id){
-                return {...item, status: action.status}
-            }else{
+    on(studentStatusChangeSuccess, (state, action) => {
+        const userData = state.studentDetails.map((item) => {
+            if (item._id === action.id) {
+                return { ...item, status: action.status }
+            } else {
                 return item
             }
         })
         return {
             ...state,
-            clientDetails: userData
+            studentDetails: userData
+        }
+    }),
+    on(instructorStatusChangeSuccess, (state, action) => {
+        const userData = state.instructorDetails.map((item) => {
+            if (item._id === action.id) {
+                return { ...item, status: action.status }
+            } else {
+                return item
+            }
+        })
+        return {
+            ...state,
+            instructorDetails: userData
         }
     }),
 );
