@@ -1,4 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { isNumber } from 'class-validator';
 import { Document } from 'mongoose';
 
 
@@ -8,20 +9,24 @@ import { Document } from 'mongoose';
 export class Student extends Document {
 
     @Prop({ required: true })
-    fullName : string;
+    fullName: string;
 
     @Prop({ required: true })
-    email : string;
+    email: string;
 
     @Prop({ required: true })
-    mobile : number;
+    mobile: number;
 
     @Prop({ required: true })
-    password : string;
+    password: string;
 
     @Prop({ required: true })
-    status : boolean;
+    status: boolean;
+
+    @Prop()
+    otp: number;
+
 
 }
 
-export const studentSchema =  SchemaFactory.createForClass(Student)
+export const studentSchema = SchemaFactory.createForClass(Student)

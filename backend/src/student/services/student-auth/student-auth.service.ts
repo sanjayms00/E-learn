@@ -1,19 +1,24 @@
-import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { Student } from 'src/student/schema/student.schema';
 import { SignupDto } from 'src/common/dtos/signDto';
 // import { LoginDto } from 'src/client/dtos/loginDto';
-import { userAuthReturn } from 'src/types/type';
+import { userAuthReturn } from 'src/common/types/type';
+import { MailerService } from '@nestjs-modules/mailer';
+
+
 
 @Injectable()
 export class StudentAuthService {
+
   constructor(
     @InjectModel(Student.name)
     private studentModel: Model<Student>,
     private jwtService: JwtService,
+    private mailService: MailerService
   ) { }
 
   //signup student
@@ -38,6 +43,8 @@ export class StudentAuthService {
     });
 
     const access_token = await this.jwtService.sign({ id: user._id }, { secret: process.env.JWT_SECRET_CLIENT });
+
+    if (!access_token) throw new HttpException('Token not found', HttpStatus.FORBIDDEN);
 
     const clientObject = user.toJSON();
 
@@ -75,4 +82,39 @@ export class StudentAuthService {
       user: result
     };
   }
+
+
+
+
+
+  async sendOTP(email: string, name: string, id: number): Promise<void> {
+    console.log("inside otp")
+    //otp generate
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    // save otp
+    const studentObjectId = new Types.ObjectId(id)
+    const setOtp = await this.studentModel.updateOne(
+      { _id: studentObjectId },
+      {
+        $set: {
+          otp
+        }
+      }
+    )
+
+    if (!setOtp) throw new Error("OTP generation failed")
+
+    try {
+      await this.mailService.sendMail({
+        to: email,
+        subject: 'Welcome tp Elearn, confirm your otp',
+        html: `<p>Hello ${name},</p><p>Your OTP is: ${otp}</p>`,
+      });
+    } catch (error) {
+      // Handle errors
+      console.error('Error sending email:', error);
+      throw new Error('Mail not sent successfully');
+    }
+  }
+
 }

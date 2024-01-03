@@ -10,6 +10,7 @@ import { ProfileController } from './controllers/profile/profile.controller';
 import { StudentCourseController } from './controllers/student-course/student-course.controller';
 import { StudentCourseService } from './services/student-course/student-course.service';
 import { courseSchema } from 'src/instructor/schema/course.schema';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -18,6 +19,15 @@ import { courseSchema } from 'src/instructor/schema/course.schema';
       global: true,
       secret: process.env.JWT_SECRET_CLIENT,
       signOptions: { expiresIn: process.env.JWT_EXPIRE_CLIENT },
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        auth: {
+          user: 'sanjayms1321999@gmail.com',
+          pass: 'bnovdijcbozmyvgx'
+        }
+      },
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),

@@ -47,14 +47,16 @@ export class clientEffects {
         const data = action.signUpdata
         return this.authService.studentSignUp(data).pipe(
           map((response: any) => {
-            this.toastr.success("Login successfull")
-            localStorage.setItem('clientToken', response.access_token);
-            localStorage.setItem('clientData', JSON.stringify(response.user));
-            this.router.navigateByUrl('/home')
+            this.toastr.success("OTP send")
+            this.router.navigate(['/otp'])
+            // localStorage.setItem('clientToken', response.access_token);
+            // localStorage.setItem('clientData', JSON.stringify(response.user));
+            // this.router.navigateByUrl('/home')
             return clientSignUpSuccess({ user: response.user })
+
           }),
           catchError(error => {
-            console.log(`${error.error?.error} ${error.error?.message}`)
+            console.log(error.error?.message)
             return of(clientSignUpFailure())
           })
         )

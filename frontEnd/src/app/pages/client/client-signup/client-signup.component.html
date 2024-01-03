@@ -1,9 +1,5 @@
-<section class="flex items-center pt-10 pb-10">
-  <div class="hidden md:block w-1/2">
-    <img src="https://cdni.iconscout.com/illustration/free/thumb/free-sign-up-form-4575543-3798675.png"
-      alt="login image" class="h-full mx-auto bg-green-500 rounded-full">
-  </div>
-  <div class="p-4 w-full sm:w-8/12 sm:mx-auto md:w-1/2 md:m-0 md:px-10 md:py-6">
+<section class="flex items-center pt- pb-10">
+  <div class="p-4 w-full ">
     <div class="text-center pb-5">
       <h2 class="text-3xl font-semibold mb-2">Sign Up</h2>
       <p class="text-sm">Embark on Your Learning Journey - Sign Up Today!.</p>
@@ -11,28 +7,28 @@
     <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12">
       <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
         <div class="mb-4">
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.controls['fullName'].touched && signUpForm.controls['fullName'].errors as fullNameErrors">
             <div *ngIf="fullNameErrors['required']">Full Name is required</div>
             <div *ngIf="fullNameErrors['minlength']">Should have 5 characters</div>
             <div *ngIf="fullNameErrors['pattern']">Only alphabets allowed</div>
           </div>
           <input type="text" placeholder="Full Name" formControlName="fullName" id="fullName"
-            class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
+            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
         </div>
 
         <div class="mb-4">
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.controls['email'].touched && signUpForm.controls['email'].errors as emailErrors">
             <div *ngIf="emailErrors['required']">Email is required</div>
             <div *ngIf="emailErrors['pattern']">Invalid email format</div>
           </div>
           <input type="email" placeholder="Email" formControlName="email" id="email"
-            class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
+            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
         </div>
 
         <div class="mb-4">
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
             <div class="text-red-600"
               *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
@@ -43,12 +39,12 @@
             </div>
           </div>
           <input type="text" placeholder="Mobile number" formControlName="mobile" id="mobile"
-            class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
+            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
         </div>
 
 
         <div class="mb-4">
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.controls['password'].touched && signUpForm.controls['password'].errors as passwordErrors">
             <div *ngIf="passwordErrors['required']">Password is required</div>
             <div *ngIf="passwordErrors['minlength']">Should have minlength 6</div>
@@ -56,52 +52,26 @@
             <div *ngIf="passwordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</div>
           </div>
           <input type="password" placeholder="Password" formControlName="password" id="password"
-            class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
+            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
         </div>
 
         <div class="mb-4 ">
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
-            <div *ngIf="confirmPasswordErrors['required']">Confirm password is required</div>
-            <div *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6 characters</div>
-            <div *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 15 characters</div>
-            <div *ngIf="confirmPasswordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</div>
+            <span *ngIf="confirmPasswordErrors['required']">Confirm password is required</span>
+            <span *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6 characters</span>
+            <span *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 15 characters</span>
+            <span *ngIf="confirmPasswordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</span>
           </div>
-          <div class="text-red-600 pl-5"
+          <div class="text-red-600 "
             *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('mismatch')">
             Passwords do not match
           </div>
           <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" id="confirmPassword"
-            class="w-full border rounded-full py-3 px-5 border-gray-600 text-black focus:outline-none focus:border-black">
+            class="w-full border rounded-md py-3 px-5 border-gray-600 text-black focus:outline-none focus:border-black">
         </div>
 
-
-
-        <div class="mb-4">
-          <div class="text-red-600 pl-5"
-            *ngIf="signUpForm.controls['otp'].touched && signUpForm.controls['otp'].errors as otpErrors">
-            <div *ngIf="otpErrors['required']">OTP required</div>
-            <div *ngIf="otpErrors['pattern']">Only numbers are allowed</div>
-          </div>
-          <div class="flex items-center">
-            <div class="relative w-full">
-              <input type="text" id="otp" formControlName="otp"
-                class="w-full border rounded-full py-3 px-5 border-gray-600 text-black focus:outline-none focus:border-black"
-                placeholder="OTP">
-            </div>
-            <button type="submit" (click)="Sendotp()" [disabled]="otpStatus"
-              class="p-4 ms-2 text-sm font-medium text-white bg-blue-700 rounded-full border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z"
-                  stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-
-              <span class="sr-only">Search</span>
-            </button>
-          </div>
-        </div>
-        <button type="submit" class="w-full bg-black hover:bg-gray-500 text-white py-3 px-4 rounded-full">
+        <button type="submit" class="w-full bg-black hover:bg-gray-500 text-white py-3 px-4 rounded-md">
           Signup
         </button>
       </form>

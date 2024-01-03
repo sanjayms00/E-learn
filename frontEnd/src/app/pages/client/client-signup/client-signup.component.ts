@@ -5,11 +5,11 @@ import { clientSignUp } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 import { FormsService } from 'src/app/shared/services/forms.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-signup',
-  templateUrl: './client-signup.component.html',
-  styleUrls: ['./client-signup.component.css']
+  templateUrl: './client-signup.component.html'
 })
 export class ClientSignupComponent {
 
@@ -19,8 +19,10 @@ export class ClientSignupComponent {
   constructor(
     private store: Store<appState>,
     private formsService: FormsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
+
     this.signUpForm = new FormGroup({
       fullName: new FormControl(null, [
         Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(5)
@@ -36,10 +38,7 @@ export class ClientSignupComponent {
       ]),
       confirmPassword: new FormControl('', [
         Validators.required, Validators.minLength(6), Validators.maxLength(15), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)
-      ]),
-      // otp: new FormControl(null, [
-      //   Validators.required, Validators.pattern('[0-9]*')
-      // ]),
+      ])
     }, { validators: this.confirmPasswordValidator });
   }
 
@@ -49,22 +48,9 @@ export class ClientSignupComponent {
 
   signUp() {
     if (this.signUpForm.valid) {
+
       const signUpdata = this.formsService.signUpService(this.signUpForm.value)
       this.store.dispatch(clientSignUp({ signUpdata }))
     }
   }
-
-  Sendotp() {
-    this.toastr.success("OTP send")
-    this.otpStatus = true
-    // start timer
-    const timeoutMillis = 2 * 60 * 1000;
-
-    setTimeout(() => {
-      this.otpStatus = false
-    }, timeoutMillis)
-    // after timer set to true
-  }
-
-
 }

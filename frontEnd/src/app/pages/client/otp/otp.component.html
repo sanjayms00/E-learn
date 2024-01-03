@@ -1,0 +1,57 @@
+<div class="relative bg-white px-10 pb-9 shadow-md my-20 mx-auto w-full max-w-lg rounded-2xl">
+    <div class="mx-auto flex w-full max-w-md flex-col space-y-16">
+        <div class="flex flex-col items-center justify-center text-center space-y-2">
+            <div class="font-semibold text-3xl">
+                <p>Email Verification</p>
+            </div>
+            <div class="flex flex-row text-sm font-normal text-gray-500">
+                <p>We have sent a OTP to your email <span class="text-black">{{ email }}</span></p>
+            </div>
+            <div class="text-2xl pt-5">
+                {{ minutes }}.{{ seconds | number: '2.0' }}
+            </div>
+        </div>
+        <div>
+            <form [formGroup]="otpForm" (ngsubmit)="otpSubmit()">
+                <div class="flex flex-col space-y-5">
+                    <div class="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
+                        <div class="w-16 h-16 ">
+                            <input
+                                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                type="text" name="" id="">
+                        </div>
+                        <div class="w-16 h-16 ">
+                            <input
+                                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                type="text" name="" id="">
+                        </div>
+                        <div class="w-16 h-16 ">
+                            <input
+                                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                type="text" name="" id="">
+                        </div>
+                        <div class="w-16 h-16 ">
+                            <input
+                                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                type="text" name="" id="">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col space-y-5">
+                        <div>
+                            <button type="submit"
+                                class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-black hover:bg-gray-600 border-none text-white text-sm shadow-sm">
+                                Verify OTP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div
+                class="flex flex-row pt-4 items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                <p>Didn't recieve code?</p>
+                <p class="flex flex-row items-center text-black cursor-pointer" (click)="otpResend()">Resend</p>
+            </div>
+        </div>
+    </div>
+</div>

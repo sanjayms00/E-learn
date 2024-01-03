@@ -14,6 +14,8 @@ import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
+import { OtpComponent } from './otp/otp.component';
+import { FilterComponent } from './filter/filter.component';
 
 
 
@@ -29,6 +31,8 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
     StudentInfoComponent,
     ChatComponent,
     CourseDetailsComponent,
+    OtpComponent,
+    FilterComponent,
   ],
   imports: [
     CommonModule,

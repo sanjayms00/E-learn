@@ -1,37 +1,33 @@
-<section class="flex items-center pt-10 pb-10">
-    <div class="hidden md:block w-1/2">
-        <img src="https://cdni.iconscout.com/illustration/premium/thumb/account-login-protection-8876027-7271014.png"
-            alt="login image" class="h-full mx-auto bg-green-400 rounded-full">
-    </div>
-    <div class="p-4 w-full sm:w-8/12 sm:mx-auto md:w-1/2 md:m-0 md:px-10 md:py-6">
+<section class="flex items-center pt-5 pb-10">
+    <div class="p-4 w-1/2 mx-auto">
         <div class="text-center pb-5">
             <h2 class="text-3xl font-semibold mb-2">Student Login</h2>
             <p class="text-sm text-gray-700 font-bold">Unlocking Knowledge, One Login at a Time.</p>
         </div>
-        <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12 pb-5">
+        <div class="w-full">
             <form [formGroup]="studentLogin" (ngSubmit)="login()">
                 <div class="mb-4">
-                    <div class="text-red-600 pl-5 font-bold"
+                    <div class="text-red-600 font-bold"
                         *ngIf="studentLogin.controls['email'].touched && studentLogin.controls['email'].errors as emailErrors">
                         <div *ngIf="emailErrors['required']">Email is required</div>
                         <div *ngIf="emailErrors['pattern']">Invalid email format</div>
                     </div>
                     <input type="email" id="email" formControlName="email"
-                        class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-black text-black"
+                        class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black text-black"
                         placeholder="Email">
                 </div>
 
                 <div class="mb-4">
-                    <div class="text-red-600 pl-5 font-bold"
+                    <div class="text-red-600 font-bold"
                         *ngIf="studentLogin.controls['password'].touched && studentLogin.controls['password'].errors as passwordErrors">
                         <div *ngIf="passwordErrors['required']">Password is required</div>
                     </div>
                     <input type="password" formControlName="password" id="password"
-                        class="w-full border rounded-full py-3 px-5 border-gray-600 focus:outline-none focus:border-blue-500"
+                        class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-blue-500"
                         placeholder="Password">
                 </div>
 
-                <button type="submit" class="w-full hover:bg-gray-600 text-white py-3 px-4 rounded-full bg-black">
+                <button type="submit" class="w-full hover:bg-gray-600 text-white py-3 px-4 rounded-md bg-black">
                     Login
                 </button>
 
@@ -43,7 +39,7 @@
         </p> -->
         <!-- <div class="flex items-center justify-center">
             <div class="flex flex-row">
-                <div class="flex-1/2 rounded-full mx-1">
+                <div class="flex-1/2 rounded-md mx-1">
                     <div id="g_id_onload"
                     data-client_id="77887721187-gk8g9ar3qd0d8ihep0tkaebai32b1jb8.apps.googleusercontent.com"
                     data-context="signin"
@@ -61,7 +57,7 @@
                     data-logo_alignment="left">
                     </div>
                 </div>
-                <div class="flex-1/2 p-1 rounded-full border-2 border-gray-300">
+                <div class="flex-1/2 p-1 rounded-md border-2 border-gray-300">
                     <img src="https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png"
                         alt="google-icon" class="h-5">
                 </div>

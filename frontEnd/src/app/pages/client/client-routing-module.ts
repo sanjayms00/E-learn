@@ -13,6 +13,8 @@ import { StudentInfoComponent } from './student-info/student-info.component';
 import { ChatComponent } from './chat/chat.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
+import { OtpComponent } from './otp/otp.component';
+import { ExitPageGuardService } from 'src/app/shared/services/exit-page-guard.service';
 
 
 const routes: Routes = [
@@ -24,6 +26,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
+      { path: 'otp', component: OtpComponent, canDeactivate: [ExitPageGuardService] },
       { path: 'search', component: SearchComponent },
       { path: 'video', component: StreamVideoComponent, canActivate: [clientGuard] },
       { path: 'courses', component: SearchComponent },

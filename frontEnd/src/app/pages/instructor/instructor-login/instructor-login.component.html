@@ -1,18 +1,12 @@
-
-
-
-
 <!-- login Container -->
 <div class="flex justify-center items-center h-screen bg-gray-200">
-    <section class="w-1/3 mr-10 shadow-xl overflow-hidden h-5/6">
-        <img 
-        src="https://static.vecteezy.com/system/resources/previews/002/010/941/non_2x/man-with-key-and-secure-login-user-interface-illustration-concept-for-mobile-apps-and-web-banner-vector.jpg" class="rounded-lg h-full object-cover">
-    </section>
+
     <!-- login Form Section -->
     <section class="w-1/3 p-5">
         <div class="flex justify-between items-center">
-            <h2 class="text-2xl mb-4">Instructor Login</h2> 
-            <p class="text-md border-2 border-gray-300 cursor-pointer px-2 py-1 rounded-md bg-red-600 text-white" routerLink="/"> 
+            <h2 class="text-2xl mb-4">Instructor Login</h2>
+            <p class="text-md border-2 border-gray-300 cursor-pointer px-2 py-1 rounded-md bg-red-600 text-white"
+                routerLink="/">
                 Back
             </p>
         </div>
@@ -20,32 +14,35 @@
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-600">Email Address</label>
                 <div class="text-red-600"
-            *ngIf="instructorLogin.controls['email'].touched && instructorLogin.controls['email'].errors as emailErrors">
+                    *ngIf="instructorLogin.controls['email'].touched && instructorLogin.controls['email'].errors as emailErrors">
                     <span class="pr-2" *ngIf="emailErrors['required']">Email is required</span>
                     <span class="pr-2" *ngIf="emailErrors['pattern']">Invalid email format</span>
                 </div>
-                <input type="email" id="email" formControlName="email" placeholder="Email" class="mt-1 p-2 w-full border rounded-md">
+                <input type="email" id="email" formControlName="email" placeholder="Email"
+                    class="mt-1 p-2 w-full border rounded-md">
             </div>
             <div class="mb-6">
                 <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
                 <div class="text-red-600"
-            *ngIf="instructorLogin.controls['password'].touched && instructorLogin.controls['password'].errors as passwordErrors">
-                <span class="pr-2" *ngIf="passwordErrors['required']">Password is required</span>
-            </div>
-                <input type="password" id="password" formControlName="password" placeholder="Password" class="mt-1 p-2 w-full border rounded-md">
+                    *ngIf="instructorLogin.controls['password'].touched && instructorLogin.controls['password'].errors as passwordErrors">
+                    <span class="pr-2" *ngIf="passwordErrors['required']">Password is required</span>
+                </div>
+                <input type="password" id="password" formControlName="password" placeholder="Password"
+                    class="mt-1 p-2 w-full border rounded-md">
             </div>
             <div class="mb-6">
-                <button type="submit" class="mt-1 p-2 w-full bg-[#ed3333] hover:bg-[#353535] text-white rounded-md">Login</button>
+                <button type="submit"
+                    class="mt-1 p-2 w-full bg-[#ed3333] hover:bg-[#353535] text-white rounded-md">Login</button>
             </div>
         </form>
         <div class="">
             <p class="text-center p-4">
                 Dont have an account ?
                 <b routerLink="/instructor/signup" class="cursor-pointer">
-                  signup
+                    signup
                 </b>
             </p>
         </div>
     </section>
-    
+
 </div>
