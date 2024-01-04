@@ -3,9 +3,10 @@
 <div class="bg-transparent">
     <div class="container mx-auto py-24">
         <div class="w-full mx-auto flex flex-wrap">
-            <img alt="ecommerce"
-                class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded cursor-pointer"
-                [src]="thumbnail+courseDetails.thumbnail">
+            <div class="p-4 shadow-xl lg:w-1/2 w-full lg:h-auto h-64">
+                <img alt="ecommerce" class="object-cover object-center rounded cursor-pointer"
+                    [src]="thumbnail+courseDetails.thumbnail">
+            </div>
             <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 cursor-auto">
                 <h2 class="text-sm text-gray-500 tracking-widest">ON SALE</h2>
                 <h1 class="text-3xl text-gray-900 font-medium mb-1 uppercase"> {{ courseDetails.courseName }} </h1>
@@ -19,7 +20,7 @@
                             Published at : {{ courseDetails.createdAt | date }}
                         </span>
                     </div>
-                    <!-- <div class="flex ml-3 space-x-2">
+                    <div class="flex ml-3 space-x-2">
                         <a href="#" class="text-gray-500">
                             <svg class="w-5 h-5" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" viewBox="0 0 24 24">
@@ -42,45 +43,17 @@
                                 </path>
                             </svg>
                         </a>
-                    </div> -->
+                    </div>
                 </div>
                 <p class="leading-relaxed text-justify">{{ courseDetails.description | slice:0:500 }}</p>
-                <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-                    <!-- <div class="flex">
-                        <span class="mr-3">Color</span>
-                        <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                        <button
-                            class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                        <button
-                            class="border-2 border-gray-300 ml-1 bg-indigo-500 rounded-full w-6 h-6 focus:outline-none"></button>
-                    </div> -->
-                    <!-- <div class="flex ml-6 items-center">
-                        <span class="mr-3">Size</span>
-                        <div class="relative">
-                            <select
-                                class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                                <option>SM</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
-                            </select>
-                            <span
-                                class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </span>
-                        </div>
-                    </div> -->
-                </div>
                 <div class="flex items-center">
-                    <span class="title-font font-medium text-2xl text-gray-900 line-through">₹ {{
+                    <span class="title-font font-medium text-2xl text-gray-900 line-through">{{
                         courseDetails.estimatedPrice }}</span>
                     <span class="title-font font-medium text-2xl text-gray-900 ml-5">₹ {{ courseDetails.price
                         }}</span>
                     <button
-                        class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded cursor-pointer">Buy</button>
+                        class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded cursor-pointer"
+                        [routerLink]="['/courses/checkout']" routerLinkActive="router-link-active">Buy</button>
                     <button
                         class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4 cursor-pointer">
                         <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -95,3 +68,132 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="flex items-center mb-2">
+    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+        viewBox="0 0 22 20">
+        <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+    </svg>
+    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+        viewBox="0 0 22 20">
+        <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+    </svg>
+    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+        viewBox="0 0 22 20">
+        <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+    </svg>
+    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+        viewBox="0 0 22 20">
+        <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+    </svg>
+    <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor" viewBox="0 0 22 20">
+        <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+    </svg>
+    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
+    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
+    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
+</div>
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
+<div class="flex items-center mt-4">
+    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
+    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
+    </div>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+</div>
+<div class="flex items-center mt-4">
+    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
+    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+        <div class="h-5 bg-yellow-300 rounded" style="width: 17%"></div>
+    </div>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
+</div>
+<div class="flex items-center mt-4">
+    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
+    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+        <div class="h-5 bg-yellow-300 rounded" style="width: 8%"></div>
+    </div>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
+</div>
+<div class="flex items-center mt-4">
+    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
+    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+        <div class="h-5 bg-yellow-300 rounded" style="width: 4%"></div>
+    </div>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
+</div>
+<div class="flex items-center mt-4">
+    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
+    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+        <div class="h-5 bg-yellow-300 rounded" style="width: 1%"></div>
+    </div>
+    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
+</div>
+
+
+
+<article>
+    <div class="flex items-center mb-4">
+        <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+        <div class="font-medium dark:text-white">
+            <p>Jese Leos <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">Joined
+                    on August 2014</time></p>
+        </div>
+    </div>
+    <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 22 20">
+            <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 22 20">
+            <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 22 20">
+            <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 22 20">
+            <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+        <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 22 20">
+            <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+        </svg>
+        <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
+    </div>
+    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+        <p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time></p>
+    </footer>
+    <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value
+        for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap
+        from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
+    <p class="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as those very expensive
+        watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.
+    </p>
+    <a href="#" class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
+    <aside>
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
+        <div class="flex items-center mt-3">
+            <a href="#"
+                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Helpful</a>
+            <a href="#"
+                class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report
+                abuse</a>
+        </div>
+    </aside>
+</article>

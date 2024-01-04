@@ -8,8 +8,7 @@ import { categoryInterface } from 'src/app/shared/interface/common.interface';
 
 @Component({
   selector: 'app-create-course',
-  templateUrl: './create-course.component.html',
-  styleUrls: ['./create-course.component.css']
+  templateUrl: './create-course.component.html'
 })
 export class CreateCourseComponent implements OnInit {
   selectedImageFile!: File;

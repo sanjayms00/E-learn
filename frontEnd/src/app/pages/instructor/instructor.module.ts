@@ -6,7 +6,7 @@ import { InstructorRoutingModule } from './instructor-routing-module';
 import { InstructorSignupComponent } from './instructor-signup/instructor-signup.component';
 import { InstructorProfileComponent } from './instructor-profile/instructor-profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MenubarModule} from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
 import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
@@ -15,6 +15,13 @@ import { CreateCourseComponent } from './create-course/create-course.component';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
+import { CourseBuildComponent } from './course-build/course-build.component';
+import { CourseFormHeaderComponent } from './course-build/course-form-header/course-form-header.component';
+import { CourseInformationComponent } from './course-build/course-information/course-information.component';
+
+import { CourseContentComponent } from './course-build/course-content/course-content.component';
+import { CoursePreviewComponent } from './course-build/course-preview/course-preview.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +33,12 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
     InstructorCoursesComponent,
     CreateCourseComponent,
     SpinnerComponent,
-    EditCourseComponent
+    EditCourseComponent,
+    CourseBuildComponent,
+    CourseFormHeaderComponent,
+    CourseInformationComponent,
+    CourseContentComponent,
+    CoursePreviewComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +51,6 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
   ],
   providers: [CourseService]
 })
-export class InstructorModule { 
+export class InstructorModule {
 
 }

@@ -8,19 +8,17 @@ import { IDeactivateComponent } from 'src/app/shared/services/exit-page-guard.se
 })
 export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
 
-  email = "demo@gmail.com"
-  otpForm!: FormGroup
+  otp: string = ''
   minutes: number = 2;
   seconds: number = 0;
+  resend : boolean = false;
   private countdownInterval: any;
 
 
   constructor(
     private fb: FormBuilder
   ) {
-    this.otpForm = this.fb.group({
-      otp: ['']
-    })
+
   }
 
   ngOnInit(): void {
@@ -45,17 +43,18 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
       this.minutes--;
       this.seconds = 59;
     } else {
-      // Countdown is complete, you can perform any action here
+      this.resend = true
       this.stopCountdown();
     }
   }
 
-  otpSubmit() {
+  verifyOtp() {
+    
     alert("otp submitted")
   }
 
   otpResend() {
-    alert("otp resend")
+    
   }
 
   canExit() {

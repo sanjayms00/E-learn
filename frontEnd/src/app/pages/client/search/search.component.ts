@@ -10,7 +10,7 @@ import { Course } from 'src/app/shared/interface/common.interface';
 })
 export class SearchComponent implements OnInit {
 
-  searchedCourses!: Course[];
+  searchedCourses: Course[] = [];
   thumbnail = constant.thumbnail;
   searchText: string = ''
   result: string = ''

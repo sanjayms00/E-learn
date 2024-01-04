@@ -16,6 +16,11 @@ import { ChatComponent } from './chat/chat.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { OtpComponent } from './otp/otp.component';
 import { FilterComponent } from './filter/filter.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { CourseCardComponent } from 'src/app/shared/components/course-card/course-card.component';
+import { RatingModule } from 'primeng/rating';
+
+import { SliderModule } from 'primeng/slider';
 
 
 
@@ -33,12 +38,16 @@ import { FilterComponent } from './filter/filter.component';
     CourseDetailsComponent,
     OtpComponent,
     FilterComponent,
+    CheckoutComponent,
+    CourseCardComponent
   ],
   imports: [
     CommonModule,
     ClientRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RatingModule,
+    SliderModule
   ],
   providers: [
   ],
