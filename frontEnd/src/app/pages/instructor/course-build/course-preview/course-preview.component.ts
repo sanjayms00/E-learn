@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 
 @Component({
@@ -6,15 +7,25 @@ import { CourseFormService } from 'src/app/shared/services/course-form.service';
   templateUrl: './course-preview.component.html',
   styleUrls: ['./course-preview.component.css']
 })
-export class CoursePreviewComponent {
+export class CoursePreviewComponent implements OnInit {
+
+  courseData!: any
+
 
   constructor(
-    public courseFormService: CourseFormService
+    public courseFormService: CourseFormService,
+    private router: Router
   ) { }
 
+  ngOnInit(): void {
+    this.courseData = this.courseFormService.course
+  }
 
   courseSubmit() {
-    console.log(this.courseFormService.course)
+    this.courseFormService.createCourse()
+
+    this.router.navigateByUrl('instructor/courses')
+
   }
 
 

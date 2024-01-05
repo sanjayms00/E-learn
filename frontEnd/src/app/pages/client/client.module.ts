@@ -19,7 +19,7 @@ import { FilterComponent } from './filter/filter.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CourseCardComponent } from 'src/app/shared/components/course-card/course-card.component';
 import { RatingModule } from 'primeng/rating';
-
+import { ProgressBarModule } from 'primeng/progressbar';
 import { SliderModule } from 'primeng/slider';
 
 
@@ -47,7 +47,8 @@ import { SliderModule } from 'primeng/slider';
     ReactiveFormsModule,
     FormsModule,
     RatingModule,
-    SliderModule
+    SliderModule,
+    ProgressBarModule
   ],
   providers: [
   ],

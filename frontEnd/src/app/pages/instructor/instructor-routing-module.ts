@@ -33,13 +33,14 @@ const routes: Routes = [
         children: [
           { path: 'profile', component: InstructorProfileComponent },
           { path: 'dashboard', component: InstructorDashboardComponent },
-          // { path: 'courses', component: InstructorCoursesComponent },
-          { path: 'create', component: CreateCourseComponent },
+          { path: 'courses', component: InstructorCoursesComponent },
+          //{ path: 'create', component: CreateCourseComponent },
           { path: 'edit/:id', component: EditCourseComponent },
           {
-            path: 'courses', component: CourseBuildComponent,
+            path: 'create', component: CourseBuildComponent,
             children: [
               { path: 'information', component: CourseInformationComponent },
+              { path: '', redirectTo: 'information', pathMatch: 'full' },
               { path: 'content', component: CourseContentComponent },
               { path: 'preview', component: CoursePreviewComponent },
             ]

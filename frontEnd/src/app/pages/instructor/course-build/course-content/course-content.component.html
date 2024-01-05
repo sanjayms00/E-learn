@@ -1,54 +1,55 @@
-<!-- <p>{{ courseFormService.course.content }}</p>
-<p>{{ courseFormService.course.information | json }}</p> -->
-
-
-
-
-
-
-
-
-<form [formGroup]="contentForm" class="max-w-2xl mx-auto">
+<section class="">
     <h3 class="mb-4 text-lg font-medium leading-none text-gray-900 dark:text-white">Course Contents and Videos</h3>
-    <button type="button" (click)="addfields()"
-        class="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
-        Add Field
-    </button>
 
-    <div formArrayName="fields">
-        <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
-            class="grid gap-4 mb-4 sm:grid-cols-2 bg-white p-4 rounded shadow-md">
+    <form [formGroup]="contentForm" class="w-full mx-auto">
+        <div formArrayName="fields">
+            <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
+                class="grid gap-4 mb-4 bg-gray-100 p-4 rounded shadow-md">
+                <h2 class="font-bold">Chapter {{ i+1 }}</h2>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                        Title</label>
+                    <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Title name">
+                </div>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                        message</label>
+                    <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write your thoughts here..."></textarea>
+                </div>
 
-            <label class="text-gray-700 dark:text-white">Video Title</label>
-            <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Title name">
+                <div class="flex justify-between">
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                            Upload</label>
+                        <input type="file" (change)="onFileChange($event, i)" class="form-input" />
+                    </div>
 
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                message</label>
-            <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here..."></textarea>
-
-
-            <label class="text-gray-700 dark:text-white">File Upload:</label>
-            <input type="file" (change)="onFileChange($event, i)" class="form-input" />
-            <button type="button" (click)="removeFileds(i)"
-                class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
-                Remove
-            </button>
+                    <button type="button" (click)="removeFileds(i)"
+                        class="px-4 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
+                        Remove
+                    </button>
+                </div>
+            </div>
         </div>
+    </form>
+    <div class="flex justify-center">
+        <button type="button" (click)="addfields()"
+            class="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+            Add Field
+        </button>
     </div>
-</form>
-
-<div class="flex justify-between my-5">
-    <button type="button" [routerLink]="['/instructor/courses/information']" routerLinkActive="router-link-active"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        prev: course information Info
-    </button>
-    <button type="button" (click)="ContentFormSubmit()"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Next Step: preview
-    </button>
-</div>
-{{ contentForm.value | json}}
+    <div class="flex justify-between border-t py-5">
+        <button type="button" [routerLink]="['/instructor/create/information']" routerLinkActive="router-link-active"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            prev: course information Info
+        </button>
+        <button type="button" (click)="contentFormSubmit()"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Next Step: preview
+        </button>
+    </div>
+</section>

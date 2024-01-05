@@ -1,18 +1,35 @@
-<p>{{ courseFormService.course.content | json}}</p>
-<p>{{ courseFormService.course.information | json }}</p>
-
 <div class="max-w-md mx-auto bg-white shadow-md overflow-hidden rounded-lg">
-    <img class="w-full h-32 object-cover" src="" alt="Course Image">
+    <img class="w-full h-32 object-cover" src="sdga" alt="Course Image">
     <div class="p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Course Title</h2>
-        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Category: Web Development</p>
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Title</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.courseName }}</p>
 
-        <div class="mb-4">
-            <label class="text-gray-600 dark:text-gray-400 text-sm">Instructor:</label>
-            <p class="text-gray-800 dark:text-white">John Doe</p>
-        </div>
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Description</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.courseDescription }}</p>
 
-        <div class="mb-4">
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Category</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.courseCategory }}</p>
+
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Price</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.coursePrice }}</p>
+
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Estimated Price</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.estimatedPrice }}</p>
+
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Tags</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.courseTags }}</p>
+
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Level</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.information.courseLevel }}</p>
+
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Course Content</h2>
+
+        <h2 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Course Title</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ courseData.content.fields }}</p>
+
+
+
+        <!-- <div class="mb-4">
             <label class="text-gray-600 dark:text-gray-400 text-sm">Price:</label>
             <p class="text-green-500 font-semibold">$49.99</p>
         </div>
@@ -22,21 +39,13 @@
             <p class="text-gray-800 dark:text-white">
                 A comprehensive course covering web development technologies including HTML, CSS, and JavaScript.
             </p>
-        </div>
-
-        <div class="flex justify-between items-center">
-            <a href="#" class="text-blue-500 hover:underline">Learn More</a>
-            <button
-                class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-                Enroll Now
-            </button>
-        </div>
+        </div> -->
     </div>
 </div>
 
 
 <div class="flex justify-between my-5">
-    <button type="submit" [routerLink]="['/instructor/courses/content']" routerLinkActive="router-link-active"
+    <button type="submit" [routerLink]="['/instructor/create/content']" routerLinkActive="router-link-active"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         prev: course content
     </button>
@@ -44,4 +53,8 @@
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         Next Step: submit
     </button>
+</div>
+
+<div class="card">
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
 </div>

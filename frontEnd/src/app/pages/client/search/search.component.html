@@ -34,6 +34,8 @@
           </div>
         </div>
 
+        {{ filteredCourses | async | json }}
+
 
         <div class="text-center py-20" *ngIf="searchedCourses.length < 1">
           <p>No contents to display</p>

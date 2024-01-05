@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,6 +11,13 @@ export class CourseFormService {
     content: {},
   }
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  createCourse() {
+    console.log(this.course)
+  }
+
 
 }

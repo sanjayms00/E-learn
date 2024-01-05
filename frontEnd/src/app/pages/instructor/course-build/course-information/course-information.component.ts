@@ -43,7 +43,7 @@ export class CourseInformationComponent {
         ...this.courseInformation.value
       }
     console.log(this.courseFormService.course.information)
-    this.router.navigateByUrl('/instructor/courses/content')
+    this.router.navigateByUrl('/instructor/create/content')
   }
 
 

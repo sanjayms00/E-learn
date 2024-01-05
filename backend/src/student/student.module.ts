@@ -11,6 +11,8 @@ import { StudentCourseController } from './controllers/student-course/student-co
 import { StudentCourseService } from './services/student-course/student-course.service';
 import { courseSchema } from 'src/instructor/schema/course.schema';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { instructorSchema } from 'src/instructor/schema/instructor.schema';
+import { CategorySchema } from 'src/admin/schema/category.schema';
 
 @Module({
   imports: [
@@ -30,7 +32,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
       },
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
+    MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
+    MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
 
   ],
   controllers: [

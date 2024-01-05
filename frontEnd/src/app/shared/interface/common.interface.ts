@@ -34,18 +34,33 @@ export interface Course {
     _id: string,
     courseName: string;
     slug: string;
-    description: string;
+    description?: string;
     categoryId?: string,
     price: string;
     estimatedPrice: string,
     thumbnail: string,
     video?: string,
-    createdAt: Date
+    createdAt: Date,
+    updatedAt: Date,
+    instructorName?: string
 }
 
+export interface instrctorModel {
+    _id: string,
+    fullName: string
+}
 
 export interface categoryInterface {
     _id: string,
     categoryName: string;
-    status: boolean;
+    status?: boolean;
 }
+
+
+export interface filterInterFace {
+    rating?: number; 
+    range ?: number;
+    instructor ?: string,
+    category ?: string, 
+    year ?: number
+  }

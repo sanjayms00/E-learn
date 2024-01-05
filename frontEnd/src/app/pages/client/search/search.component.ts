@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { constant } from 'src/app/core/constant/constant';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
+import { FilterService } from 'src/app/shared/services/filter.service';
 
 @Component({
   selector: 'app-search',
@@ -15,25 +16,32 @@ export class SearchComponent implements OnInit {
   searchText: string = ''
   result: string = ''
 
+  filteredCourses: any
+
+
   constructor(
-    private courseService: CourseService,
+    private filterService: FilterService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.courseService.getAllCourse().subscribe(res => {
+    this.filterService.getAllCourse().subscribe(res => {
       this.searchedCourses = res
     })
+    this.filteredCourses = this.filterService.course
 
   }
 
   searchCourse() {
     if (this.searchText.trim()) {
-      this.courseService.searchCourse(this.searchText).subscribe(res => {
+      this.filterService.searchCourse(this.searchText).subscribe(res => {
         this.result = this.searchText
         this.searchedCourses = res
       })
-    } else {
+      this.filteredCourses = this.filterService.course
+
+    }
+    else {
       this.toastr.error("Please enter a search term before proceeding.");
       this.searchText = '';
 

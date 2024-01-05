@@ -25,16 +25,8 @@ export class CourseService {
     return this.http.get(`${constant.baseUrl}/instructor/courses`)
   }
 
-  getAllCourse(): Observable<Course[]> {
-    return this.http.get<Course[]>(`${constant.baseUrl}/student/all-courses`)
-  }
-
   getHomeCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/home-courses`)
-  }
-
-  searchCourse(searchText: string) {
-    return this.http.get<Course[]>(`${constant.baseUrl}/student/search/${searchText}`)
   }
 
   courseDetails(id: string): Observable<Course> {

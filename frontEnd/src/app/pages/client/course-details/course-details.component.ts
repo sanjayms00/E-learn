@@ -19,6 +19,7 @@ export class CourseDetailsComponent implements OnInit {
     price: '',
     estimatedPrice: '',
     thumbnail: '',
+    updatedAt: new Date(),
     createdAt: new Date()
   };
 

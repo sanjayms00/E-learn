@@ -14,6 +14,7 @@ import { InstructorCoursesComponent } from './instructor-courses/instructor-cour
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CourseBuildComponent } from './course-build/course-build.component';
 import { CourseFormHeaderComponent } from './course-build/course-form-header/course-form-header.component';
@@ -47,7 +48,8 @@ import { CoursePreviewComponent } from './course-build/course-preview/course-pre
     FormsModule,
     MenubarModule,
     ChartModule,
-    CardModule
+    CardModule,
+    ProgressBarModule
   ],
   providers: [CourseService]
 })

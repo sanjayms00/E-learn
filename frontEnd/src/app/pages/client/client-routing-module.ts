@@ -15,6 +15,7 @@ import { ChatComponent } from './chat/chat.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { OtpComponent } from './otp/otp.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { StreamVideoComponent } from './stream-video/stream-video.component';
 
 
 const routes: Routes = [
@@ -32,9 +33,10 @@ const routes: Routes = [
       {
         path: 'courses', children: [
           { path: 'details/:id', component: CourseDetailsComponent },
-          { path: 'checkout', component: CheckoutComponent }
+          { path: 'video', component: StreamVideoComponent },
         ]
       },
+      { path: 'checkout/:id', component: CheckoutComponent },
       {
         path: 'profile',
         component: ClientProfileComponent,

@@ -38,7 +38,7 @@ export class InstructorComponent {
                     {
                         label: 'Create Course',
                         icon: 'pi pi-video',
-                        routerLink: '/instructor/create'
+                        routerLink: '/instructor/create/information'
                     }
                 ]
             },
