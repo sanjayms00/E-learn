@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     //handle error response
     return next.handle(request).pipe(catchError((err) => {
-      this.toastr.error(err.error?.error + " " + err.error?.message)
+      this.toastr.error(err.error?.message)
       if (err.status === 401) {
         this.authservice.clientLogout();
         // this.router.navigate(['/'])

@@ -10,6 +10,7 @@ import { CourseController } from './controllers/course/course.controller';
 import { CourseService } from './services/course/course.service';
 import { courseSchema } from './schema/course.schema';
 import { InstructorJwtAuthGuard } from './guard/instructor.guard';
+import { VideoSchema } from './schema/video.schema';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { InstructorJwtAuthGuard } from './guard/instructor.guard';
     }),
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
+    MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
   ],
   controllers: [
     InstructorAuthController,

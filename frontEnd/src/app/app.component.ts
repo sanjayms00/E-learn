@@ -7,7 +7,11 @@ import { initFlowbite } from 'flowbite';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+
   ngOnInit(): void {
     initFlowbite();
+
+
   }
 }

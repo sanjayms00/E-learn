@@ -26,6 +26,9 @@ import { instructorEffects } from './shared/store/effects/instructor/instructor.
 import { FormsService } from './shared/services/forms.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from 'src/environment/environment';
+import { WelcomeComponent } from './shared/components/welcome/welcome.component';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { RouterModule } from '@angular/router';
     ClientComponent,
     NotFoundComponent,
     ErrorComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +53,7 @@ import { RouterModule } from '@angular/router';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule,
+    NgxStripeModule.forRoot(environment.stripe.publicKey),
   ],
   providers: [
     {

@@ -21,6 +21,7 @@ import { CourseCardComponent } from 'src/app/shared/components/course-card/cours
 import { RatingModule } from 'primeng/rating';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SliderModule } from 'primeng/slider';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 
@@ -39,7 +40,8 @@ import { SliderModule } from 'primeng/slider';
     OtpComponent,
     FilterComponent,
     CheckoutComponent,
-    CourseCardComponent
+    CourseCardComponent,
+
   ],
   imports: [
     CommonModule,
@@ -48,10 +50,10 @@ import { SliderModule } from 'primeng/slider';
     FormsModule,
     RatingModule,
     SliderModule,
-    ProgressBarModule
+    ProgressBarModule,
+    NgOtpInputModule
   ],
-  providers: [
-  ],
+  providers: [],
 
 })
 export class ClientModule { }

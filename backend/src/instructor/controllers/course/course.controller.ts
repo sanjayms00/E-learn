@@ -1,5 +1,5 @@
 import { Body, Controller, Get, InternalServerErrorException, Param, Post, Put, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileFieldsInterceptor, } from '@nestjs/platform-express';
+import { FilesInterceptor, } from '@nestjs/platform-express';
 import { CourseService } from 'src/instructor/services/course/course.service';
 
 import { InstructorJwtAuthGuard } from 'src/instructor/guard/instructor.guard';
@@ -11,22 +11,30 @@ export class CourseController {
         private readonly courseService: CourseService
     ) { }
 
-
-    //add course
     @UseGuards(InstructorJwtAuthGuard)
-    @Post('add-course')
-    @UseInterceptors(FileFieldsInterceptor([
-        { name: 'imageFile', maxCount: 1 },
-        { name: 'videoFile', maxCount: 1 },
-    ]))
-    async addCourse(
-        @UploadedFiles() files: { imageFile: Express.Multer.File[], videoFile: Express.Multer.File[] },
-        @Body() otherData,
-        @Request() req
-    ) {
+    @Post('createCourse')
+    @UseInterceptors(FilesInterceptor('files')) // 'files' is the name of the field in FormData
+    async createCourse(@UploadedFiles() files, @Body() formData, @Request() req) {
         const instructorId = req.user.id
-        return await this.courseService.uploadCourse(files, otherData, instructorId);
+        // console.log(files, formData, instructorId)
+        return await this.courseService.uploadCourse(files, formData, instructorId);
     }
+
+    // //add course
+    // @UseGuards(InstructorJwtAuthGuard)
+    // @Post('add-course')
+    // @UseInterceptors(FileFieldsInterceptor([
+    //     { name: 'imageFile', maxCount: 1 },
+    //     { name: 'videoFile', maxCount: 1 },
+    // ]))
+    // async addCourse(
+    //     @UploadedFiles() files: { imageFile: Express.Multer.File[], videoFile: Express.Multer.File[] },
+    //     @Body() otherData,
+    //     @Request() req
+    // ) {
+    //     const instructorId = req.user.id
+    //     return await this.courseService.uploadCourse(files, otherData, instructorId);
+    // }
 
 
     //update course
@@ -35,6 +43,10 @@ export class CourseController {
     //     { name: 'imageFile', maxCount: 1 },
     //     { name: 'videoFile', maxCount: 1 },
     // ]))
+
+
+
+
     @Put('update-course')
     async updateCourse(
         // @UploadedFiles() files: { imageFile: Express.Multer.File[], videoFile: Express.Multer.File[] },

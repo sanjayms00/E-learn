@@ -14,6 +14,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { instructorSchema } from 'src/instructor/schema/instructor.schema';
 import { CategorySchema } from 'src/admin/schema/category.schema';
 
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -40,7 +41,7 @@ import { CategorySchema } from 'src/admin/schema/category.schema';
   controllers: [
     StudentAuthController,
     ProfileController,
-    StudentCourseController
+    StudentCourseController,
   ],
   providers: [
     StudentAuthService,

@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "src/app/core/services/auth.service";
 
 import { exhaustMap, map, catchError, of } from 'rxjs'
-import { clientLogin, clientLoginFailure, clientLoginSuccess, clientSignUp, clientSignUpFailure, clientSignUpSuccess } from "../../actions/client.action"
+import { OtpVerify, clientLogin, clientLoginFailure, clientLoginSuccess, clientSignUp, clientSignUpFailure, clientSignUpFirstStep, clientSignUpSuccess } from "../../actions/client.action"
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
@@ -40,18 +40,38 @@ export class clientEffects {
   );
 
 
-  _clientSignUp$ = createEffect(() =>
+  _clientSignUpFirstStep$ = createEffect(() =>
     this.action$.pipe(
       ofType(clientSignUp),
       exhaustMap((action) => {
         const data = action.signUpdata
         return this.authService.studentSignUp(data).pipe(
-          map((response: any) => {
+          map((response: { email: string }) => {
             this.toastr.success("OTP send")
             this.router.navigate(['/otp'])
-            // localStorage.setItem('clientToken', response.access_token);
-            // localStorage.setItem('clientData', JSON.stringify(response.user));
-            // this.router.navigateByUrl('/home')
+            localStorage.setItem('clientMail', response.email);
+            return clientSignUpFirstStep()
+          }),
+          catchError(error => {
+            console.log(error.error?.message)
+            return of(clientSignUpFailure())
+          })
+        )
+      })
+    )
+  );
+
+  _clientOtpVerify$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(OtpVerify),
+      exhaustMap((action) => {
+        return this.authService.verifyotp(action).pipe(
+          map((response) => {
+            console.log(response)
+            localStorage.setItem('clientToken', response.access_token);
+            localStorage.setItem('clientData', JSON.stringify(response.user));
+            this.router.navigateByUrl('/home')
+            this.toastr.success("signup")
             return clientSignUpSuccess({ user: response.user })
 
           }),

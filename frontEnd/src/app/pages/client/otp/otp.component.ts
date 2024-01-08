@@ -1,30 +1,56 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { IDeactivateComponent } from 'src/app/shared/services/exit-page-guard.service';
+import { OtpVerify } from 'src/app/shared/store/actions/client.action';
+import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-otp',
-  templateUrl: './otp.component.html'
+  templateUrl: './otp.component.html',
 })
 export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
 
-  otp: string = ''
+  otp!: string
   minutes: number = 2;
   seconds: number = 0;
-  resend : boolean = false;
-  private countdownInterval: any;
-
+  resend: boolean = false;
+  countdownInterval: any;
+  clientMail: string | null
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private store: Store<appState>
   ) {
-
+    this.clientMail = localStorage.getItem("clientMail")
+    if (!this.clientMail) this.router.navigateByUrl('/')
   }
 
   ngOnInit(): void {
+    console.log(this.clientMail)
     this.startCountdown();
   }
 
+
+  verifyOtp() {
+    if (this.clientMail) {
+      const data = {
+        email: this.clientMail,
+        otp: Number(this.otp)
+      }
+      this.store.dispatch(OtpVerify(data))
+    }
+  }
+
+  otpResend() {
+
+  }
+
+  onOtpChange(event: string) {
+    this.otp = event
+  }
 
   private startCountdown(): void {
     this.countdownInterval = setInterval(() => {
@@ -46,15 +72,6 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
       this.resend = true
       this.stopCountdown();
     }
-  }
-
-  verifyOtp() {
-    
-    alert("otp submitted")
-  }
-
-  otpResend() {
-    
   }
 
   canExit() {

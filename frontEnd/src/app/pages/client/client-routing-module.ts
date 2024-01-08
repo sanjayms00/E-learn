@@ -16,6 +16,8 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { OtpComponent } from './otp/otp.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
+import { WelcomeComponent } from 'src/app/shared/components/welcome/welcome.component';
+// import { PaymentComponent } from './payment/payment.component';
 
 
 const routes: Routes = [
@@ -23,11 +25,12 @@ const routes: Routes = [
     path: '',
     component: ClientComponent,
     children: [
+      { path: 'welcome', component: WelcomeComponent },
       { path: 'home', component: ClientHomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
-      { path: 'otp', component: OtpComponent, canDeactivate: [(comp: OtpComponent) => comp.canExit()] },
+      { path: 'otp', component: OtpComponent },
       { path: 'search', component: SearchComponent },
       { path: 'courses', component: SearchComponent },
       {
@@ -37,7 +40,9 @@ const routes: Routes = [
         ]
       },
       { path: 'checkout/:id', component: CheckoutComponent },
+      // { path: 'payment', component: PaymentComponent },
       {
+
         path: 'profile',
         component: ClientProfileComponent,
         canActivateChild: [clientGuard],

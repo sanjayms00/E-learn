@@ -5,6 +5,9 @@ import { Category } from 'src/admin/schema/category.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { Instructor } from 'src/instructor/schema/instructor.schema';
 
+const stripe = require('stripe')('sk_test_51OWK6JSGNL0yfIwVBCtTdM8DHUfsaqJYJIA0SBXDFi3dmPKO6VOWhhw44lanqNmXVnYpnGjjKBXqi7YC3M0QLc5j00FnIvKyuI');
+
+
 @Injectable()
 export class StudentCourseService {
 
@@ -162,6 +165,32 @@ export class StudentCourseService {
 
     }
 
+    YOUR_DOMAIN = 'http://localhost:3000';
 
+
+    async checkout(courseData) {
+        try {
+            const session = await stripe.checkout.sessions.create({
+                line_items: [
+                    {
+                        price_data: {
+                            currency: 'inr',
+                            product_data: {
+                                name: 'T-shirt',
+                            },
+                            unit_amount: 2000,
+                        },
+                        quantity: 1,
+                    },
+                ],
+                mode: 'payment',
+                success_url: 'http://localhost:3000/success',
+                cancel_url: 'http://localhost:3000/cancel',
+            });
+            return session
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 
 }

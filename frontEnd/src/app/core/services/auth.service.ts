@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { constant } from '../constant/constant';
 import { Observable } from 'rxjs';
-import { SignUpInterface, loginInterface } from 'src/app/shared/interface/common.interface';
+import { SignUpInterface, loginInterface, studentInterface } from 'src/app/shared/interface/common.interface';
+import { clientStateInterface } from 'src/app/shared/interface/client.interface';
 
 
 
@@ -14,13 +15,13 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   //login api call
-  studentLogin(loginData: loginInterface) {
-    return this.http.post(`${constant.baseUrl}/auth/login`, loginData)
+  studentLogin(loginData: loginInterface): Observable<{ user: clientStateInterface, accessToken: string }> {
+    return this.http.post<{ user: clientStateInterface, accessToken: string }>(`${constant.baseUrl}/auth/login`, loginData)
   }
 
   //signup api call
-  studentSignUp(signupData: SignUpInterface): Observable<object> {
-    return this.http.post(`${constant.baseUrl}/auth/signUp`, signupData)
+  studentSignUp(signupData: SignUpInterface) {
+    return this.http.post<{ email: string }>(`${constant.baseUrl}/auth/signUp`, signupData)
   }
 
 
@@ -87,6 +88,11 @@ export class AuthService {
     }
     return null
   }
+
+  verifyotp(data: { email: string | null, otp: number }): Observable<{ user: studentInterface, access_token: string }> {
+    return this.http.put<{ user: studentInterface, access_token: string }>(`${constant.baseUrl}/auth/verifyOtp`, data)
+  }
+
 
 
 }

@@ -7,6 +7,9 @@
 /bazel-out
 /constant
 
+
+/environment
+
 # Node
 /node_modules
 npm-debug.log

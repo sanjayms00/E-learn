@@ -16,7 +16,7 @@ import { InstructorModule } from './instructor/instructor.module';
       envFilePath: ".env",
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI)
+    MongooseModule.forRoot(process.env.MONGODB_URI),
   ],
   providers: [JwtService],
 })

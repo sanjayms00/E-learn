@@ -18,8 +18,8 @@ export class Course extends Document {
   @Prop({ required: true })
   price: string;
 
-  @Prop({ required: true })
-  estimatedPrice: number;
+  // @Prop({ required: true })
+  // estimatedPrice: number;
 
   @Prop()
   video: string;
@@ -29,12 +29,24 @@ export class Course extends Document {
 
   @Prop({ type: Types.ObjectId, required: true })
   instructorId: Types.ObjectId;
-  
-//   @Prop()
-//   courseTags: string;
 
-//   @Prop()
-//   courseLevel: string;
+  @Prop()
+  courseTags: string;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Videos' }] })
+  videos: Types.ObjectId[];
+
+  @Prop()
+  courseLevel: string;
+
+}
+
+export const courseSchema = SchemaFactory.createForClass(Course);
+
+
+
+
+
 
 //   @Prop()
 //   prerequisites: string[];
@@ -51,10 +63,7 @@ export class Course extends Document {
 //       },
 //     ],
 //   })
-//   courseContent: Record<string, any>[]; 
+//   courseContent: Record<string, any>[];
 
 //   @Prop({ type: [{ rating: Number, message: String }] })
 //   review: Record<string, any>[];
-}
-
-export const courseSchema = SchemaFactory.createForClass(Course);

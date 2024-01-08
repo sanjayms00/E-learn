@@ -12,7 +12,7 @@ const _clientReducer = createReducer(clientState,
                 ...state,
                 user: action.user
             }
-        })
+        }),
 )
 
 

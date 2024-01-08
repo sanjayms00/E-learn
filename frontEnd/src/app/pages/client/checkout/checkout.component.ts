@@ -6,6 +6,14 @@ import { constant } from 'src/app/core/constant/constant';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
 
+import { StripeService } from 'ngx-stripe';
+import { HttpClient } from '@angular/common/http';
+import { loadStripe } from '@stripe/stripe-js';
+import { environment } from 'src/environment/environment';
+
+
+
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -18,13 +26,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   courseSubscription!: Subscription
   thumbnail = constant.thumbnail
   isButtonClicked = false;
-  selectedPaymentOption: string = ''
+
 
   //constructor
   constructor(
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private http: HttpClient,
+    private stripeService: StripeService
   ) {
     this.id = this.route.snapshot.paramMap.get('id')
   }
@@ -41,17 +51,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  paymentMethodChange(option: string) {
-    console.log(option)
-  }
-
 
   paymentBtnClick() {
 
-    if (this.selectedPaymentOption === 'stripe') {
+    this.isButtonClicked = true;
+    this.http.post(`${constant.baseUrl}/student/checkout`, {
+      course: this.courseContent
+    }).subscribe(async (res: any) => {
+      console.log(res)
+      const stripe = await loadStripe(environment.stripe.publicKey);
+      stripe?.redirectToCheckout({
+        sessionId: res.id
+      })
+    })
 
-      this.isButtonClicked = true;
-    }
 
   }
 

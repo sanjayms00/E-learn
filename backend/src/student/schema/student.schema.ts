@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { isNumber } from 'class-validator';
-import { Document } from 'mongoose';
+import { Date, Document } from 'mongoose';
 
 
 @Schema({
@@ -25,6 +25,12 @@ export class Student extends Document {
 
     @Prop()
     otp: number;
+
+    @Prop({ type: Date, default: Date.now })
+    creationTime: Date;
+
+    @Prop({ type: Date })
+    expirationTime: Date;
 
 
 }

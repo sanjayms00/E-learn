@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { StudentCourseService } from 'src/student/services/student-course/student-course.service';
 
 @Controller('api/student/')
@@ -54,7 +54,12 @@ export class StudentCourseController {
             year,
         };
         return await this.studentCourseService.getFilteredCourses(filterCredentials)
-        
+
+    }
+
+    @Post('checkout')
+    async checkout(@Body() courseData) {
+        return await this.studentCourseService.checkout(courseData)
     }
 
 
