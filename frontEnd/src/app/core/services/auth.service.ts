@@ -94,5 +94,10 @@ export class AuthService {
   }
 
 
+  resendOtp(email: string){
+    return this.http.put(`${constant.baseUrl}/auth/resendOtp`, email)
+  }
+
+
 
 }

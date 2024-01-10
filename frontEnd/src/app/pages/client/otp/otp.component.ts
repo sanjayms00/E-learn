@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { IDeactivateComponent } from 'src/app/shared/services/exit-page-guard.service';
 import { OtpVerify } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
@@ -22,6 +23,7 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private authService: AuthService,
     private store: Store<appState>
   ) {
     this.clientMail = localStorage.getItem("clientMail")
@@ -29,7 +31,6 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.clientMail)
     this.startCountdown();
   }
 
@@ -45,7 +46,17 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
   }
 
   otpResend() {
-
+    if(this.clientMail){
+      this.authService.resendOtp(this.clientMail).subscribe(res=>{
+        console.log(res)
+      })
+      this.minutes = 2
+      this.seconds = 0;
+      this.startCountdown();
+    }else{
+      alert("email is empty")
+    }
+   
   }
 
   onOtpChange(event: string) {

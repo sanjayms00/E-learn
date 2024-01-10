@@ -1,104 +1,158 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CourseFormService } from 'src/app/shared/services/course-form.service';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
+import { CategoryService } from 'src/app/core/services/admin/category.service';
 
 @Component({
   selector: 'app-create-course',
-  templateUrl: './create-course.component.html'
+  templateUrl: './create-course.component.html',
+  styleUrls: ['./create-course.component.css']
 })
 export class CreateCourseComponent implements OnInit {
-  selectedImageFile!: File;
-  selectedVideoFile!: File;
-  categoryData: categoryInterface[] = []
-  courseForm: FormGroup;
-  isLoading = false;
-  imageType = ['image/png', 'image/jpeg', 'image/avif']
-  videoType = ['video/mp4']
 
+  @ViewChild('previewImage') previewImage!: ElementRef;
+  course: FormGroup;
+  categoryData: categoryInterface[] = []
+  imageType = ['image/png', 'image/jpeg']
+  submit = false;
+  formData = new FormData()
 
   constructor(
+    public courseFormService: CourseFormService,
     private fb: FormBuilder,
-    private courseService: CourseService,
-    private categoryService: CategoryService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private categoryService: CategoryService
   ) {
 
-    this.courseForm = this.fb.group({
-      courseName: ['', Validators.required],
-      description: ['', Validators.required],
-      category: ['', Validators.required],
-      price: [null, [Validators.required, Validators.min(1)]],
-      estimatedPrice: [null, [Validators.required, Validators.min(1)]],
-      // tags: ['', Validators.required],
-      // level: ['', Validators.required],
-      // imageFile: [null, Validators.required],
-      // videoFile: [null, Validators.required],
+    this.course = this.fb.group({
+      courseName: [null, Validators.required],
+      courseDescription: [null, Validators.required],
+      courseCategory: ['', Validators.required],
+      coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
+      // estimatedPrice: [null, [Validators.required, Validators.min(1)]],
+      courseTags: [null, Validators.required],
+      courseLevel: [null, Validators.required],
+      files: [null, Validators.required],
+      fields: this.fb.array([]),
     })
-
   }
 
   ngOnInit(): void {
+    this.addfields();
     this.categoryService.getActiveCategories().subscribe(res => {
       this.categoryData = res
     })
   }
 
-  onVideoFileSelected(event: any) {
-    const fileType = event.target.files[0].type;
+  get fields() {
+    return (this.course.get('fields') as FormArray)
+  }
 
-    if (this.videoType.find(item => item === fileType)) {
-      this.selectedVideoFile = event.target.files[0];
-      console.log(this.selectedVideoFile)
-    } else {
-      this.toastr.error("select correct file")
+  addfields() {
+    this.fields.push(this.fb.group({
+      videoTitle: [null, Validators.required],
+      videoDescription: [null, Validators.required],
+      files: [null, Validators.required],
+    }));
+  }
+
+  //submit the form
+  createCourseSubmit() {
+    if (this.course.valid) {
+      this.submit = true
+      // Append course information
+      const formValue = this.course.getRawValue();
+
+      Object.entries(formValue).forEach(([key, value]) => {
+        if (Array.isArray(value) || typeof value === 'object') {
+          this.formData.append(key, JSON.stringify(value));
+        } else {
+          this.formData.append(key, String(value));
+        }
+      });
+
+      this.courseFormService.createCourse(this.formData).subscribe(res => {
+        console.log(res)
+        this.toastr.success('Course created')
+        this.router.navigateByUrl('instructor/courses')
+      }, (err) => {
+        this.toastr.error(err.message)
+      })
+    }
+  }
+
+  onFileChange(event: Event, index: number) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput) {
+      const file = fileInput.files?.[0];
+      if (file) {
+        this.formData.append('files', file);
+        const fieldsArray = this.course.get('fields') as FormArray;
+        const fieldGroup = fieldsArray.at(index) as FormGroup;
+        fieldGroup.get('files')?.patchValue(file);
+      }
     }
 
   }
 
-  onImageFileSelected(event: any) {
-    const fileType = event.target.files[0].type;
-    console.log(fileType)
-    if (this.imageType.find(item => item === fileType)) {
-      this.selectedImageFile = event.target.files[0];
-      console.log(this.selectedImageFile)
-    } else {
-      this.toastr.error("select correct file")
-    }
-
+  removeFileds(index: number) {
+    this.fields.removeAt(index)
   }
 
-  CourseUpload() {
+  // for image preview
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.updateDropzoneStyles(true);
+  }
 
-    if (this.courseForm.valid) {
-      this.isLoading = true
-      const courseData = this.courseForm.value
-      const formData = new FormData();
-      formData.append('videoFile', this.selectedVideoFile);
-      formData.append('imageFile', this.selectedImageFile);
-      formData.append('courseName', courseData.courseName)
-      formData.append('description', courseData.description)
-      formData.append('category', courseData.category)
-      formData.append('price', courseData.price)
-      formData.append('estimatedPrice', courseData.estimatedPrice)
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.updateDropzoneStyles(false);
+  }
 
-      this.courseService.uploadCourse(formData).subscribe(
-        (res) => {
-          console.log(res)
-          this.toastr.success("Course created")
-          this.router.navigate(['/instructor/courses'])
-          this.isLoading = false
-        },
-        (err) => {
-          this.toastr.error(err.error?.error + " " + err.error?.message)
-          this.isLoading = false
-        })
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.updateDropzoneStyles(false);
+
+    const file = (event.dataTransfer?.files as FileList)[0];
+    this.displayPreview(file);
+  }
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0];
+    if (this.imageType.find(item => item === file.type)) {
+
+      this.formData.append('files', file);
+      this.displayPreview(file);
     } else {
-      this.toastr.error("Unable to process the request, Fill all the necessary Fields")
+      this.toastr.error("File not supported")
     }
   }
+
+  displayPreview(file: File): void {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const preview = this.previewImage.nativeElement as HTMLImageElement;
+      preview.src = reader.result as string;
+      preview.classList.remove('hidden');
+    };
+  }
+
+  private updateDropzoneStyles(isOver: boolean): void {
+    const dropzone = document.getElementById('dropzone');
+    if (isOver) {
+      dropzone?.classList.add('border-indigo-600');
+    } else {
+      dropzone?.classList.remove('border-indigo-600');
+    }
+  }
+
+
 }

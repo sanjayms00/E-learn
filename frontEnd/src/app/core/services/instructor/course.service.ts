@@ -33,10 +33,8 @@ export class CourseService {
     return this.http.get<Course>(`${constant.baseUrl}/student/course-details/${id}`)
   }
 
-  editCourseData(id: string): Observable<Course> {
-    return this.http.get<Course>(`${constant.baseUrl}/instructor/edit-course/${id}`)
+  checkout(data: Course) {
+    return this.http.post(`${constant.baseUrl}/student/checkout`, data)
   }
-
-
 
 }

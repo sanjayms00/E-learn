@@ -1,104 +1,63 @@
-<section class="text-gray-700 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-        <div
-            class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Learn & Lead
-                <br class="hidden lg:inline-block">Live life to the fullest, and focus on the positive.
-            </h1>
-            <p class="mb-8 leading-relaxed">Discover, learn, and grow—knowledge is the compass that guides us to new
-                horizons. Every lesson shapes our path, turning curiosity into wisdom and potential into achievement.
-            </p>
-            <div class="flex justify-center">
-                <button [routerLink]="['/courses']" routerLinkActive="router-link-active"
-                    class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Explore
-                    courses</button>
-                <!-- <button
-                    class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">Button</button> -->
-            </div>
-        </div>
-        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-            <img class="object-cover object-center rounded" alt="hero"
-                src="https://img.freepik.com/free-vector/online-tutorials-concept_52683-37480.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1702684800&semt=ais">
-        </div>
-    </div>
+<section class="banner w-full py-16">
+    <h1 class="text-center font-bold text-6xl">
+        Learn & Lead
+        <br>
+        Live life to the fullest, and focus on the positive.
+    </h1>
+    <p class="text-center text-lg py-7">
+        Unleash learning's potential, bridging gaps with innovation, and turn
+        every moment into growth.
+    </p>
+    <!-- <app-client-search-bar></app-client-search-bar> -->
 </section>
 
-<section class="flex justify-evenly items-start text-center">
-    <div class="w-full bg-green-200 p-8 shadow-md">
+<section class="flex flex-wrap justify-evenly items-start text-center">
+    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-blue-100 rounded-md p-8 shadow-xl mb-4">
         <h4>60K+</h4>
         <p>Live Courses</p>
     </div>
-    <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
+    <div
+        class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-900 text-white rounded-md p-8 mt-4 md:mt-10 shadow-2xl mb-4">
         <h4>35K+</h4>
         <p>Category</p>
     </div>
-    <div class="w-full bg-green-200 p-8 shadow-md">
+    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-blue-100 rounded-md p-8 shadow-xl mb-4">
         <h4>4.9⭐</h4>
         <p>Rating</p>
     </div>
-    <div class="w-full bg-green-400 p-8 mt-10 shadow-lg">
+    <div
+        class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-900 text-white rounded-md p-8 mt-4 md:mt-10 shadow-2xl mb-4">
         <h4>5K+</h4>
         <p>Professionals</p>
     </div>
-    <div class="w-full bg-green-200 p-8 shadow-lg">
+    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-blue-100 rounded-md p-8 shadow-xl mb-4">
         <h4>20K+</h4>
         <p>Students</p>
     </div>
 </section>
 
-<!-- {{ homeCourses | json }}    -->
 
-<section class="text-gray-700 body-font">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="text-center mb-20">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-2">
-                Popular Courses
-            </h1>
-        </div>
-        <div class="flex flex-wrap -m-4">
-            <!-- loop starts -->
-            <div *ngFor="let course of homeCourses" class="p-4 md:w-1/4 cursor-pointer"
-                [routerLink]="['/courses', 'details', course._id]" routerLinkActive="router-link-active">
-                <div class="flex rounded-xl h-full bg-black  shadow-xl flex-col">
-                    <div class="flex-grow">
-                        <img [src]="thumbnail+course.thumbnail" alt="Image Alt Text"
-                            class="w-full h-30 object-cover mb-4 rounded-xl h-40 overflow-hidden">
-                        <div class="p-5">
-                            <div class="h-[50px]">
-                                <h2 class="text-white text-sm mb-4 title-font font-medium uppercase">{{
-                                    course.courseName
-                                    |
-                                    slice:0:50 }}</h2>
-                            </div>
 
-                            <div>
-                                <span class="text-white leading-relaxed font-medium text-base">₹ {{ course.price
-                                    }}</span>
-                            </div>
-                            <div class="w-full flex justify-between items-end">
-                                <span class="text-white">
-                                    By {{ course.instructorName }}
-                                </span>
-                                <button class="uppercase text-white bg-green-400 py-2 px-4 rounded-md">
-                                    join
-                                </button>
-                            </div>
+<!-- {{ homeCourses | json }} -->
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- loop ends -->
-        </div>
+<section class="container px-5 py-10 mx-auto">
+    <div class="mb-20">
+        <h1 class="text-2xl font-semibold border-b pb-2 border-b-black">
+            Popular Courses
+        </h1>
     </div>
-    <div class="flex items-center justify-center my-3">
-        <button [routerLink]="['/courses']" routerLinkActive="router-link-active"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Show More
-        </button>
-    </div>
-
+    <!-- Courses -->
+    <app-course-card [Courses]="homeCourses"></app-course-card>
+    <!-- Courses -->
 </section>
+<div class="flex justify-center">
+    <button [routerLink]="['/courses']"
+        class="px-8 h-12 text-white border-2 bg-black rounded-full hover:bg-white hover:text-black hover:border-black">
+        More
+    </button>
+</div>
+
+
 <!-- 
 <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">

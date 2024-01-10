@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { InstructorAuthController } from './controllers/instructor-auth/instructor-auth.controller';
-import { InstructorAuthService } from './services/instructor-auth/instructor-auth.service';
+import { InstructorAuthController } from './controllers/instructor-auth.controller';
+import { InstructorAuthService } from './services/instructor-auth.service';
 import { instructorJwtStrategy } from './strategy/instructorJwt.strategy';
 import { instructorSchema } from './schema/instructor.schema';
-import { CourseController } from './controllers/course/course.controller';
-import { CourseService } from './services/course/course.service';
+import { CourseController } from './controllers/course.controller';
+import { CourseService } from './services/course.service';
 import { courseSchema } from './schema/course.schema';
 import { InstructorJwtAuthGuard } from './guard/instructor.guard';
 import { VideoSchema } from './schema/video.schema';
@@ -36,10 +36,10 @@ import { VideoSchema } from './schema/video.schema';
     InstructorJwtAuthGuard
   ],
   exports: [
-    instructorJwtStrategy, 
+    instructorJwtStrategy,
     PassportModule,
     InstructorJwtAuthGuard
   ],
-    
+
 })
 export class InstructorModule { }

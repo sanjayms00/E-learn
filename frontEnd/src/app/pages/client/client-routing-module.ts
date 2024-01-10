@@ -17,6 +17,8 @@ import { OtpComponent } from './otp/otp.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
 import { WelcomeComponent } from 'src/app/shared/components/welcome/welcome.component';
+import { SuccessComponent } from './success/success.component';
+import { CancelComponent } from './cancel/cancel.component';
 // import { PaymentComponent } from './payment/payment.component';
 
 
@@ -40,19 +42,12 @@ const routes: Routes = [
         ]
       },
       { path: 'checkout/:id', component: CheckoutComponent },
-      // { path: 'payment', component: PaymentComponent },
-      {
-
-        path: 'profile',
-        component: ClientProfileComponent,
-        canActivateChild: [clientGuard],
-        children: [
-          { path: '', component: StudentInfoComponent },
-          { path: 'my-learning', component: MyLearningComponent },
-          { path: 'chat', component: ChatComponent },
-        ]
-      },
-
+      { path: 'success', component: SuccessComponent },
+      { path: 'cancel', component: CancelComponent },
+      { path: 'profile', component: StudentInfoComponent },
+      // { path: '', component: StudentInfoComponent },
+      { path: 'learning', component: MyLearningComponent },
+      { path: 'communication', component: ChatComponent },
     ]
   }
 ];

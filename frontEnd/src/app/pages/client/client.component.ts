@@ -2,6 +2,8 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { categories } from 'src/app/shared/interface/common.interface';
+import { CategoryService } from 'src/app/shared/services/category.service';
 import { getClientDataFromLocal } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -16,11 +18,14 @@ export class ClientComponent implements OnInit, DoCheck {
   logSign = false;
   courseSearch: string = ''
   showMenu = false;
+  categories: categories[] = []
+  profileArr = ['profile', 'learning', 'certificates', 'communication']
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private store: Store<appState>
+    private store: Store<appState>,
+    private categoryService: CategoryService
   ) {
   }
   ngOnInit(): void {
@@ -28,6 +33,10 @@ export class ClientComponent implements OnInit, DoCheck {
     if (clientData) {
       this.store.dispatch(getClientDataFromLocal({ user: JSON.parse(clientData) }))
     }
+    this.categoryService.getCategories().subscribe((res) => {
+      this.categories = res
+      console.log(this.categories)
+    })
   }
 
 

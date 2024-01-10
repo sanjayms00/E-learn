@@ -28,29 +28,30 @@ export class SearchComponent implements OnInit {
     this.filterService.getAllCourse().subscribe(res => {
       this.searchedCourses = res
     })
-    this.filteredCourses = this.filterService.course
+    this.filteredCourses = this.searchedCourses
 
   }
 
-  searchCourse() {
-    if (this.searchText.trim()) {
-      this.filterService.searchCourse(this.searchText).subscribe(res => {
-        this.result = this.searchText
+  SearchData(event: string) {
+    if (event.trim()) {
+      this.filterService.searchCourse(event).subscribe(res => {
+        this.result = event
         this.searchedCourses = res
       })
-      this.filteredCourses = this.filterService.course
-
     }
     else {
+      this.searchedCourses = this.filteredCourses
       this.toastr.error("Please enter a search term before proceeding.");
       this.searchText = '';
 
     }
-
   }
 
 
-
+  filteredEvent(event: Course[]){
+    this.searchedCourses = event
+    console.log(event)
+  }
 
 
 }

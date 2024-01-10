@@ -58,9 +58,42 @@ export interface categoryInterface {
 
 
 export interface filterInterFace {
-    rating?: number; 
-    range ?: number;
-    instructor ?: string,
-    category ?: string, 
-    year ?: number
-  }
+    rating?: number;
+    range?: number;
+    instructor?: string,
+    category?: string,
+    year?: number
+}
+
+
+
+export interface instructorCourse {
+    _id: string;
+    courseName: string;
+    description: string;
+    price: string;
+    categoryId: string;
+    thumbnail: string;
+    instructorId: string;
+    courseTags: string;
+    courseLevel: string[];
+    videos: Video[];
+}
+
+export interface Video {
+    _id: string;
+    instructorId: string;
+    title: string;
+    description: string;
+    file: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
+
+export interface categories {
+    categoryName: string,
+    _id: string,
+    status?: boolean
+}

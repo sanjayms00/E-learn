@@ -23,7 +23,7 @@ export class FilterService {
     return this.http.get<categoryInterface[]>(`${constant.baseUrl}/student/categories`)
   }
 
-  filterCourse(filterCredentials: filterInterFace) {
+  filterCourse(filterCredentials: filterInterFace): Observable<Course[]> {
 
     // Build the query parameters
     let params = new HttpParams();
@@ -49,14 +49,14 @@ export class FilterService {
     }
     console.log(params)
 
-    this.course = this.http.get<Course[]>(`${constant.baseUrl}/student/filter`, { params })
+    return this.course = this.http.get<Course[]>(`${constant.baseUrl}/student/filter`, { params })
   }
 
   getAllCourse(): Observable<Course[]> {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/all-courses`)
   }
 
-  searchCourse(searchText: string) {
+  searchCourse(searchText: string): Observable<Course[]> {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/search/${searchText}`)
   }
 

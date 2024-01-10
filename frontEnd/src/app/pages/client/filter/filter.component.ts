@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { categoryInterface, filterInterFace, instrctorModel } from 'src/app/shared/interface/common.interface';
 import { FilterService } from 'src/app/shared/services/filter.service';
@@ -19,6 +19,10 @@ export class FilterComponent implements OnInit, OnDestroy {
   category = ''
   instructorsSubscription!: Subscription
   categorySubscription!: Subscription
+  filterClicked = false
+
+  @Output() fillteredCourse = new EventEmitter()
+
 
   constructor(
     private filterService: FilterService
@@ -60,7 +64,10 @@ export class FilterComponent implements OnInit, OnDestroy {
         year: +this.year
       }
       //filter call
-      this.filterService.filterCourse(filterCredentials)
+      this.filterService.filterCourse(filterCredentials).subscribe((res) => {
+        // console.log(res)
+        this.fillteredCourse.emit(res)
+      })
     }
   }
 

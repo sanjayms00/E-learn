@@ -1,128 +1,188 @@
-<div class="" *ngIf="isLoading">
-  <app-spinner></app-spinner>
-</div>
+<section class="mb-10">
+    <form [formGroup]="course" (ngSubmit)="createCourseSubmit()">
+        <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white border-b py-3 border-b-gray-500">
+            Course Information
+        </h3>
 
-
-<div class="px-32 bg-gray-100 py-5 rounded-md">
-  <form [formGroup]="courseForm" (ngSubmit)="CourseUpload()">
-    <div class="pb-12">
-      <h2 class="text-xl font-semibold leading-7 text-gray-900">Create Course</h2>
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-3">
-          <label for="courseName" class="block text-sm font-medium leading-6 text-gray-900">Course Name*</label>
-          <div class="mt-2">
-            <input type="text" formControlName="courseName" id="courseName" autocomplete="courseName"
-              placeholder="eg: mean stack web development"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Category*</label>
-          <div class="mt-2">
-            <select id="category" formControlName="category" autocomplete="category-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              <option disabled selected>select a category</option>
-              <option *ngFor="let category of categoryData" [value]="category._id">{{ category.categoryName }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-span-full">
-          <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Course Description</label>
-          <div class="mt-2">
-            <textarea id="description" formControlName="description" rows="3"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Course Price*</label>
-          <div class="mt-2">
-            <input type="text" formControlName="price" id="price" autocomplete="family-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label for="estimatedPrice" class="block text-sm font-medium leading-6 text-gray-900">Estimated Price*</label>
-          <div class="mt-2">
-            <input type="text" formControlName="estimatedPrice" id="estimatedPrice" autocomplete="family-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
-
-
-        <!-- 
-          <div class="sm:col-span-3">
-            <label for="tags" class="block text-sm font-medium leading-6 text-gray-900">Course Tags*</label>
-            <div class="mt-2">
-              <input type="text" estimatedPrice="tags" id="tags" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <div class="mb-4">
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                Name*</label>
+            <div class="text-red-600 font-bold"
+                *ngIf="course.controls['courseName'].touched && course.controls['courseName'].errors as courseNameErrors">
+                <div *ngIf="courseNameErrors['required']">Course name is required</div>
             </div>
-          </div>
-          
-          <div class="sm:col-span-3">
-            <label for="level" class="block text-sm font-medium leading-6 text-gray-900">Course Level*</label>
-            <div class="mt-2">
-              <input type="text" estimatedPrice="level" id="level" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input type="text" name="courseName" id="courseName" formControlName="courseName"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Course Name">
+        </div>
+
+        <div class="mb-4">
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                Description*</label>
+            <div class="text-red-600 font-bold"
+                *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
+                <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
             </div>
-          </div> -->
-
-        <div class="sm:col-span-3">
-          <label for="thumbnail" class="block text-sm font-medium leading-6 text-gray-900">Thumbnail*</label>
-          <div class="flex items-center justify-center w-full">
-            <label for="dropzone-image"
-              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
-                    upload</span> or drag and drop</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG are allowed/p>
-              </div>
-              <input id="dropzone-image" type="file" class="hidden" name="imageFile"
-                (change)="onImageFileSelected($event)" />
-            </label>
-          </div>
+            <textarea id="courseDescription" rows="4" name="courseDescription" formControlName="courseDescription"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your course description here..."></textarea>
         </div>
 
-        <div class="sm:col-span-3">
-          <label for="video" class="block text-sm font-medium leading-6 text-gray-900">Video*</label>
-          <div class="flex items-center justify-center w-full">
-            <label for="dropzone-video"
-              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
-                    upload</span> or drag and drop</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">mp4 are allowed</p>
-              </div>
-              <input id="dropzone-video" type="file" class="hidden" name="videoFile"
-                (change)="onVideoFileSelected($event)" />
-            </label>
-          </div>
+        <div class="grid gap-4 grid-cols-4 mb-4 sm:grid-cols-2">
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                    Price*</label>
+                <div class="text-red-600 font-bold"
+                    *ngIf="course.controls['coursePrice'].touched && course.controls['coursePrice'].errors as coursePriceErrors">
+                    <div *ngIf="coursePriceErrors['required']">Course price is required</div>
+                    <div *ngIf="coursePriceErrors['pattern']">Only numbers are allowed</div>
+                    <div *ngIf="coursePriceErrors['minlength']">minumum length is 2</div>
+                    <div *ngIf="coursePriceErrors['maxlength']">maximum length is 4</div>
+                </div>
+                <input type="text" accept="" name="coursePrice" id="coursePrice" formControlName="coursePrice"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Course price">
+            </div>
+
+            <!-- <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estimated
+                    Price*</label>
+                <input type="text" name="estimatedPrice" id="estimatedPrice" formControlName="estimatedPrice"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Estimated price">
+            </div> -->
+
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                    Category*</label>
+                <div class="text-red-600 font-bold"
+                    *ngIf="course.controls['courseCategory'].touched && course.controls['courseCategory'].errors as courseDescriptionErrors">
+                    <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
+                </div>
+                <select id="large"
+                    class="block w-full px-4 py-2 text-sm h-[42px] text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="courseCategory" id="courseCategory" formControlName="courseCategory">
+                    <option value="" selected>--Choose a category--</option>
+                    <option *ngFor="let category of categoryData" [value]="category._id">{{ category.categoryName }}
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                    tags*</label>
+                <div class="text-red-600 font-bold"
+                    *ngIf="course.controls['courseTags'].touched && course.controls['courseTags'].errors as courseTagsErrors">
+                    <div *ngIf="courseTagsErrors['required']">Course Tags is required</div>
+                </div>
+                <input type="text" name="courseTags" id="courseTags" formControlName="courseTags"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="programming, technology ...">
+            </div>
+
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Level*
+                    ( press control to select multiple levels )</label>
+                <div class="text-red-600 font-bold"
+                    *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
+                    <div *ngIf="courseLevelErrors['required']">Course Level is required</div>
+                </div>
+                <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[80px]">
+                    <option value="beginner">beginner</option>
+                    <option value="intermediate">intermediate</option>
+                    <option value="professional">professional</option>
+                </select>
+            </div>
+
         </div>
 
-      </div>
-    </div>
-    <div class="mb-20 flex items-center justify-end gap-x-6">
-      <!-- <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button> -->
-      <button type="submit"
-        class="rounded-md bg-indigo-600 px-3 py-2 font-medium text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 text-md focus-visible:outline-indigo-600">Create
-        course</button>
-    </div>
-  </form>
-</div>
+        <div>
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                Thumbnail*</label>
+            <div class="text-red-600 font-bold"
+                *ngIf="course.controls['files'].touched && course.controls['files'].errors as courseFilesErrors">
+                <div *ngIf="courseFilesErrors['required']">Video thumbnail is required</div>
+            </div>
+            <div class="w-full relative border-2 border-gray-500 border-dashed rounded-lg p-6" id="dropzone"
+                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                <input type="file" name="videoThumbnail" id="videoThumbnail"
+                    class="absolute inset-0 w-full h-full opacity-0 z-50" (change)="onFileSelected($event)"
+                    formControlName="files" />
+                <div class="text-center">
+                    <img class="mx-auto h-12 w-12" src="https://www.svgrepo.com/show/357902/image-upload.svg" alt="">
 
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">
+                        <label for="file-upload" class="relative cursor-pointer">
+                            <span>Drag and drop</span>
+                            <span class="text-indigo-600"> or browse </span>
+                            <span>to upload</span>
+                            <input id="file-upload" name="file-upload" type="file" class="sr-only"
+                                (change)="onFileSelected($event)">
+                        </label>
+                    </h3>
+                    <p class="mt-1 text-xs text-gray-500">
+                        PNG, JPG up to 2 MB
+                    </p>
+                </div>
+                <img src="" class="mt-4 mx-auto max-h-40 hidden" id="preview" #previewImage>
+            </div>
+        </div>
 
-<!-- <input type="file" name="videoFile" (change)="onVideoFileSelected($event)" />
-<input type="file" name="imageFile" (change)="onImageFileSelected($event)" />
+        <h3
+            class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-bold">
+            Course content
+        </h3>
+        <div formArrayName="fields">
+            <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
+                class="grid gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
+                <h2 class="font-medium">Chapter {{ i+1 }}</h2>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                        Title*</label>
+                    <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Title name">
+                </div>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                        message*</label>
+                    <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write your thoughts here..."></textarea>
+                </div>
 
-<button (click)="uploadFile()">click</button> -->
+                <div class="flex justify-between">
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                            Upload*</label>
+                        <input type="file" (change)="onFileChange($event, i)" class="form-input" />
+                    </div>
+
+                    <button type="button" (click)="removeFileds(i)"
+                        class="px-4 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <button type="button" (click)="addfields()" class="px-4 py-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                    <path
+                        d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <div class="flex border-t py-5 justify-end">
+            <button type="submit"
+                class="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                Create course
+            </button>
+        </div>
+    </form>
+</section>
+<ng-container *ngIf="submit">
+    <app-spinner></app-spinner>
+</ng-container>

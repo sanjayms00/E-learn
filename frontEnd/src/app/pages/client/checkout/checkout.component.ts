@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/core/constant/constant';
@@ -22,7 +22,7 @@ import { environment } from 'src/environment/environment';
 export class CheckoutComponent implements OnInit, OnDestroy {
 
   id: string | null;
-  courseContent: Course | undefined = undefined
+  courseContent!: Course
   courseSubscription!: Subscription
   thumbnail = constant.thumbnail
   isButtonClicked = false;
@@ -34,7 +34,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private courseService: CourseService,
     private http: HttpClient,
-    private stripeService: StripeService
+    private stripeService: StripeService,
+    private router: Router
   ) {
     this.id = this.route.snapshot.paramMap.get('id')
   }
@@ -44,6 +45,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       //get course data
       this.courseSubscription = this.courseService.courseDetails(this.id).subscribe(res => {
         this.courseContent = res
+        console.log(this.courseContent)
       })
     }
     else {
@@ -55,15 +57,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   paymentBtnClick() {
 
     this.isButtonClicked = true;
-    this.http.post(`${constant.baseUrl}/student/checkout`, {
-      course: this.courseContent
-    }).subscribe(async (res: any) => {
+    this.courseService.checkout(this.courseContent).subscribe(res => {
       console.log(res)
-      const stripe = await loadStripe(environment.stripe.publicKey);
-      stripe?.redirectToCheckout({
-        sessionId: res.id
-      })
+      this.router.navigateByUrl('/profile/my-learning')
     })
+    // this.http.post(`${constant.baseUrl}/student/checkout`, {
+    //   course: this.courseContent
+    // }).subscribe(async (res: any) => {
+    //   console.log(res)
+    //   const stripe = await loadStripe(environment.stripe.publicKey);
+    //   stripe?.redirectToCheckout({
+    //     sessionId: res.id
+    //   })
+    // })
 
 
   }

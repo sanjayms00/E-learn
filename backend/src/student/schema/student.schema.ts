@@ -1,36 +1,42 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { isNumber } from 'class-validator';
-import { Date, Document } from 'mongoose';
+import { Date, Document, Types } from 'mongoose';
+import { Course } from 'src/instructor/schema/course.schema';
 
 
 @Schema({
-    timestamps: true
+  timestamps: true
 })
 export class Student extends Document {
 
-    @Prop({ required: true })
-    fullName: string;
+  @Prop({ required: true })
+  fullName: string;
 
-    @Prop({ required: true })
-    email: string;
+  @Prop({ required: true })
+  email: string;
 
-    @Prop({ required: true })
-    mobile: number;
+  @Prop({ required: true })
+  mobile: number;
 
-    @Prop({ required: true })
-    password: string;
+  @Prop({
+    type: [{ courseId: { type: Types.ObjectId, ref: 'Course' }, progress: { type: Number, default: 0 } }],
+    default: [],
+  })
+  courses: { courseId: Course['_id']; progress: number }[];
 
-    @Prop({ required: true })
-    status: boolean;
+  @Prop({ required: true })
+  password: string;
 
-    @Prop()
-    otp: number;
+  @Prop({ required: true })
+  status: boolean;
 
-    @Prop({ type: Date, default: Date.now })
-    creationTime: Date;
+  @Prop()
+  otp: number;
 
-    @Prop({ type: Date })
-    expirationTime: Date;
+  @Prop({ type: Date, default: Date.now })
+  creationTime: Date;
+
+  @Prop({ type: Date })
+  expirationTime: Date;
 
 
 }

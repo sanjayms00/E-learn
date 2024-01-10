@@ -1,21 +1,16 @@
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 // import { Observable } from 'rxjs';
 import { constant } from 'src/app/core/constant/constant';
+import { Course, instructorCourse } from '../interface/common.interface';
+import { Observable } from 'rxjs';
 // import { Course } from '../interface/common.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseFormService {
-
-  course = {
-    information: {},
-    content: {},
-  }
-  formData = new FormData();
 
   progressbar = 0
 
@@ -26,17 +21,17 @@ export class CourseFormService {
   ) { }
 
 
-  createCourse() {
-    return this.http.post(`${constant.baseUrl}/instructor/createCourse`, this.formData, { reportProgress: true, observe: 'events' }).pipe(map(event => {
-      if (event.type == HttpEventType.UploadProgress) {
-        this.progressbar = Math.round((100 / (event.total || 0) * event.loaded))
-      } else if (event.type == HttpEventType.Response) {
-        this.progressbar = 0
-        this.router.navigateByUrl('/instructor/courses')
-      }
-    }))
-
-
+  createCourse(courseData: any) {
+    return this.http.post(`${constant.baseUrl}/instructor/createCourse`, courseData)
   }
+
+  updateCourse(courseData: any) {
+    return this.http.post(`${constant.baseUrl}/instructor/updateCourse`, courseData)
+  }
+
+  editCourseData(id: string): Observable<instructorCourse[]> {
+    return this.http.get<instructorCourse[]>(`${constant.baseUrl}/instructor/editCourse/${id}`)
+  }
+
 
 }

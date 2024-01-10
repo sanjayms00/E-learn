@@ -22,6 +22,9 @@ import { RatingModule } from 'primeng/rating';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SliderModule } from 'primeng/slider';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { CancelComponent } from './cancel/cancel.component';
+import { SuccessComponent } from './success/success.component';
+import { ClientSearchBarComponent } from 'src/app/shared/components/client-search-bar/client-search-bar.component';
 
 
 
@@ -41,6 +44,9 @@ import { NgOtpInputModule } from 'ng-otp-input';
     FilterComponent,
     CheckoutComponent,
     CourseCardComponent,
+    CancelComponent,
+    SuccessComponent,
+    ClientSearchBarComponent
 
   ],
   imports: [

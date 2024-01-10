@@ -9,14 +9,9 @@ import { InstructorDashboardComponent } from './instructor-dashboard/instructor-
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
 import { instructorGuard } from 'src/app/shared/guards/instructor/instructor.guard';
 import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
-import { CreateCourseComponent } from './create-course/create-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
-import { CourseBuildComponent } from './course-build/course-build.component';
+import { CreateCourseComponent } from './create-course/create-course.component';
 
-import { CourseInformationComponent } from './course-build/course-information/course-information.component';
-
-import { CourseContentComponent } from './course-build/course-content/course-content.component';
-import { CoursePreviewComponent } from './course-build/course-preview/course-preview.component';
 
 
 const routes: Routes = [
@@ -34,17 +29,8 @@ const routes: Routes = [
           { path: 'profile', component: InstructorProfileComponent },
           { path: 'dashboard', component: InstructorDashboardComponent },
           { path: 'courses', component: InstructorCoursesComponent },
-          //{ path: 'create', component: CreateCourseComponent },
           { path: 'edit/:id', component: EditCourseComponent },
-          {
-            path: 'create', component: CourseBuildComponent,
-            children: [
-              { path: 'information', component: CourseInformationComponent },
-              { path: '', redirectTo: 'information', pathMatch: 'full' },
-              { path: 'content', component: CourseContentComponent },
-              { path: 'preview', component: CoursePreviewComponent },
-            ]
-          },
+          { path: 'create', component: CreateCourseComponent },
         ]
       }
     ]

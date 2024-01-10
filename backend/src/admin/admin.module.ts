@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AdminAuthController } from './controllers/admin_auth/admin_auth.controller';
-import { AdminAuthService } from './services/admin-auth/admin-auth.service';
+import { AdminAuthController } from './controllers/admin_auth.controller';
+import { AdminAuthService } from './services/admin-auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { adminJwtStrategy } from './strategy/adminJwt.strategy';
-import { ClientService } from './services/client/client.service';
+import { ClientService } from './services/client.service';
 import { adminSchema } from './schema/admin.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminJwtAuthGuard } from './guards/adminJwtAuth.guard';
 import { studentSchema } from 'src/student/schema/student.schema';
-import { ClientManagementController } from './controllers/client-management/client-management.controller';
+import { ClientManagementController } from './controllers/client-management.controller';
 import { instructorSchema } from 'src/instructor/schema/instructor.schema';
 import { CategorySchema } from './schema/category.schema';
-import { CategoryController } from './controllers/category/category.controller';
-import { CategoryService } from './services/category/category.service';
+import { CategoryController } from './controllers/category.controller';
+import { CategoryService } from '../common/service/category.service';
 
 @Module({
   controllers: [

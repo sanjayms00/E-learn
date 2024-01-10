@@ -9,8 +9,7 @@ import { constant } from 'src/app/core/constant/constant';
 export class CourseCardComponent {
 
   thumbnail = constant.thumbnail
-  @Input() course!: Course;
 
-
+  @Input() Courses!: Course[];
 
 }

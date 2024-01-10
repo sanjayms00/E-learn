@@ -16,12 +16,7 @@ import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
-import { CourseBuildComponent } from './course-build/course-build.component';
-import { CourseFormHeaderComponent } from './course-build/course-form-header/course-form-header.component';
-import { CourseInformationComponent } from './course-build/course-information/course-information.component';
 
-import { CourseContentComponent } from './course-build/course-content/course-content.component';
-import { CoursePreviewComponent } from './course-build/course-preview/course-preview.component';
 
 
 @NgModule({
@@ -32,14 +27,9 @@ import { CoursePreviewComponent } from './course-build/course-preview/course-pre
     InstructorProfileComponent,
     InstructorDashboardComponent,
     InstructorCoursesComponent,
-    CreateCourseComponent,
     SpinnerComponent,
     EditCourseComponent,
-    CourseBuildComponent,
-    CourseFormHeaderComponent,
-    CourseInformationComponent,
-    CourseContentComponent,
-    CoursePreviewComponent
+    CreateCourseComponent
   ],
   imports: [
     CommonModule,
