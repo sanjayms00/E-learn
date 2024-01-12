@@ -16,6 +16,7 @@ import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
+import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
 
 
 
@@ -29,7 +30,8 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
     InstructorCoursesComponent,
     SpinnerComponent,
     EditCourseComponent,
-    CreateCourseComponent
+    CreateCourseComponent,
+    EditCourseContentComponent
   ],
   imports: [
     CommonModule,

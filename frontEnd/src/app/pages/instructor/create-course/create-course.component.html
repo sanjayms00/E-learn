@@ -1,38 +1,54 @@
 <section class="mb-10">
     <form [formGroup]="course" (ngSubmit)="createCourseSubmit()">
-        <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white border-b py-3 border-b-gray-500">
+        <h3 class="mb-4 text-lg font-medium leading-none text-gray-900 dark:text-white border-b py-3 border-b-gray-500">
             Course Information
         </h3>
 
         <div class="mb-4">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
                 Name*</label>
-            <div class="text-red-600 font-bold"
+            <div class="text-red-600 font-medium"
                 *ngIf="course.controls['courseName'].touched && course.controls['courseName'].errors as courseNameErrors">
                 <div *ngIf="courseNameErrors['required']">Course name is required</div>
             </div>
             <input type="text" name="courseName" id="courseName" formControlName="courseName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Course Name">
         </div>
 
-        <div class="mb-4">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                Description*</label>
-            <div class="text-red-600 font-bold"
-                *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
-                <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 mb-4">
+            <div class="mb-4">
+                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+                    Description*</label>
+                <div class="text-red-600 font-medium"
+                    *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
+                    <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
+                </div>
+                <textarea id="courseDescription" rows="4" name="courseDescription" formControlName="courseDescription"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write your course description here..."></textarea>
             </div>
-            <textarea id="courseDescription" rows="4" name="courseDescription" formControlName="courseDescription"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your course description here..."></textarea>
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Level*
+                    ( press control to select multiple levels )</label>
+                <div class="text-red-600 font-medium"
+                    *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
+                    <div *ngIf="courseLevelErrors['required']">Course Level is required</div>
+                </div>
+                <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
+                    class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[103px]">
+                    <option value="beginner">beginner</option>
+                    <option value="intermediate">intermediate</option>
+                    <option value="professional">professional</option>
+                </select>
+            </div>
         </div>
 
-        <div class="grid gap-4 grid-cols-4 mb-4 sm:grid-cols-2">
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 mb-4">
             <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
                     Price*</label>
-                <div class="text-red-600 font-bold"
+                <div class="text-red-600 font-medium"
                     *ngIf="course.controls['coursePrice'].touched && course.controls['coursePrice'].errors as coursePriceErrors">
                     <div *ngIf="coursePriceErrors['required']">Course price is required</div>
                     <div *ngIf="coursePriceErrors['pattern']">Only numbers are allowed</div>
@@ -40,27 +56,19 @@
                     <div *ngIf="coursePriceErrors['maxlength']">maximum length is 4</div>
                 </div>
                 <input type="text" accept="" name="coursePrice" id="coursePrice" formControlName="coursePrice"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Course price">
             </div>
-
-            <!-- <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estimated
-                    Price*</label>
-                <input type="text" name="estimatedPrice" id="estimatedPrice" formControlName="estimatedPrice"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Estimated price">
-            </div> -->
 
             <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
                     Category*</label>
-                <div class="text-red-600 font-bold"
+                <div class="text-red-600 font-medium"
                     *ngIf="course.controls['courseCategory'].touched && course.controls['courseCategory'].errors as courseDescriptionErrors">
                     <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
                 </div>
                 <select id="large"
-                    class="block w-full px-4 py-2 text-sm h-[42px] text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block w-full px-4 py-2 text-sm h-[42px] text-gray-900 border border-gray-600 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="courseCategory" id="courseCategory" formControlName="courseCategory">
                     <option value="" selected>--Choose a category--</option>
                     <option *ngFor="let category of categoryData" [value]="category._id">{{ category.categoryName }}
@@ -71,36 +79,20 @@
             <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
                     tags*</label>
-                <div class="text-red-600 font-bold"
+                <div class="text-red-600 font-medium"
                     *ngIf="course.controls['courseTags'].touched && course.controls['courseTags'].errors as courseTagsErrors">
                     <div *ngIf="courseTagsErrors['required']">Course Tags is required</div>
                 </div>
                 <input type="text" name="courseTags" id="courseTags" formControlName="courseTags"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="programming, technology ...">
             </div>
-
-            <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Level*
-                    ( press control to select multiple levels )</label>
-                <div class="text-red-600 font-bold"
-                    *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
-                    <div *ngIf="courseLevelErrors['required']">Course Level is required</div>
-                </div>
-                <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[80px]">
-                    <option value="beginner">beginner</option>
-                    <option value="intermediate">intermediate</option>
-                    <option value="professional">professional</option>
-                </select>
-            </div>
-
         </div>
 
         <div>
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                 Thumbnail*</label>
-            <div class="text-red-600 font-bold"
+            <div class="text-red-600 font-medium"
                 *ngIf="course.controls['files'].touched && course.controls['files'].errors as courseFilesErrors">
                 <div *ngIf="courseFilesErrors['required']">Video thumbnail is required</div>
             </div>
@@ -130,39 +122,42 @@
         </div>
 
         <h3
-            class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-bold">
+            class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-medium">
             Course content
         </h3>
-        <div formArrayName="fields">
+        <div formArrayName="fields" class="grid sm:grid-cols-1 md:grid-cols-3 gap-3">
             <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
-                class="grid gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
+                class="gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
                 <h2 class="font-medium">Chapter {{ i+1 }}</h2>
-                <div>
+                <div class="pt-2">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                         Title*</label>
                     <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-full p-2.5 placeholder-gray-400"
                         placeholder="Title name">
                 </div>
-                <div>
+                <div class="pt-2">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                         message*</label>
                     <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Write your thoughts here..."></textarea>
                 </div>
 
-                <div class="flex justify-between">
+                <div class="grid md:grid-cols-2 sm:grid-cols-1 pt-2">
                     <div>
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                             Upload*</label>
                         <input type="file" (change)="onFileChange($event, i)" class="form-input" />
                     </div>
-
-                    <button type="button" (click)="removeFileds(i)"
-                        class="px-4 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
-                        Remove
-                    </button>
+                    <div class="flex items-end justify-end">
+                        <div class="flex items-end justify-end">
+                            <button type="button" (click)="removeFileds(i)"
+                                class="px-4 mt-3 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

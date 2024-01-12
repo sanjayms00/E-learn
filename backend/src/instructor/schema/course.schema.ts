@@ -36,8 +36,8 @@ export class Course extends Document {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Videos' }] })
   videos: Types.ObjectId[];
 
-  @Prop()
-  courseLevel: string;
+  @Prop({ type: [String] })
+  courseLevel: string[];
 
 }
 

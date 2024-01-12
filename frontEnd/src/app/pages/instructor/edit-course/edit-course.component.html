@@ -1,8 +1,15 @@
 <section class="mb-10">
     <form [formGroup]="course" (ngSubmit)="editCourseSubmit()">
-        <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white border-b py-3 border-b-gray-500">
-            Course Information
-        </h3>
+        <div class="flex justify-between border-b py-3 border-b-gray-500 items-end mb-4">
+            <h3 class="text-lg font-bold leading-none text-gray-900 dark:text-white ">
+                Course Information
+            </h3>
+            <button [routerLink]="['/instructor/edit/content', id]"
+                class="px-4 py-2 text-white bg-black rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                Edit course Videos
+            </button>
+        </div>
+
 
         <div class="mb-4">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
@@ -135,11 +142,8 @@
             </div>
         </div>
 
-        <h3
-            class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-bold">
-            Course content
-        </h3>
-        <div formArrayName="fields">
+
+        <!-- <div formArrayName="fields">
             <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
                 class="grid gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
                 <h2 class="font-medium">Chapter {{ i+1 }}</h2>
@@ -171,8 +175,8 @@
                     </button>
                 </div>
             </div>
-        </div>
-        <div class="flex justify-center">
+        </div> -->
+        <!-- <div class="flex justify-center">
             <button type="button" (click)="addfields()" class="px-4 py-2 mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
                     <path
@@ -180,11 +184,11 @@
                     </path>
                 </svg>
             </button>
-        </div>
+        </div> -->
         <div class="flex border-t py-5 justify-end">
             <button type="submit"
                 class="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
-                Edit course
+                update course Information
             </button>
         </div>
     </form>

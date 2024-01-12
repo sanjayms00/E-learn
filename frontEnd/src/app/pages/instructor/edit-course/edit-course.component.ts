@@ -22,6 +22,7 @@ export class EditCourseComponent implements OnInit {
   formData = new FormData()
   courseData!: instructorCourse
   thumbnail = constant.thumbnail
+  id: string | null = ''
 
   constructor(
     public courseFormService: CourseFormService,
@@ -40,18 +41,19 @@ export class EditCourseComponent implements OnInit {
       courseTags: [null, Validators.required],
       courseLevel: [null, Validators.required],
       files: [null],
-      fields: this.fb.array([]),
+      // fields: this.fb.array([]),
     })
   }
 
   ngOnInit(): void {
-    this.addfields();
+    // this.addfields();
     this.categoryService.getActiveCategories().subscribe(res => {
       this.categoryData = res
     })
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.courseFormService.editCourseData(id).subscribe((courseData) => {
+    //get id from params
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.courseFormService.editCourseData(this.id).subscribe((courseData) => {
         this.courseData = courseData[0]
         this.course.patchValue({
           courseName: courseData[0].courseName,
@@ -61,21 +63,21 @@ export class EditCourseComponent implements OnInit {
           courseTags: courseData[0].courseTags,
           courseLevel: courseData[0].courseLevel,
           files: [this.courseData.thumbnail],
-          fields: courseData[0].videos,
+          // fields: courseData[0].videos,
         });
 
-        while (this.fields.length !== 0) {
-          this.fields.removeAt(0);
-        }
+        // while (this.fields.length !== 0) {
+        //   this.fields.removeAt(0);
+        // }
 
-        this.courseData.videos.forEach((video) => {
-          this.addVideoFields(video);
-          console.log(video)
-        });
+        // this.courseData.videos.forEach((video) => {
+        //   this.addVideoFields(video);
+        //   console.log(video)
+        // });
 
-        this.formData.append('id', id);
-        this.formData.append('oldImage', this.courseData.thumbnail);
-        this.formData.append('oldVideoData', JSON.stringify(courseData[0].videos));
+        this.formData.append('id', String(this.id));
+        this.formData.append('oldImage', String(this.courseData.thumbnail));
+        // this.formData.append('oldVideoData', JSON.stringify(courseData[0].videos));
       }),
         (error: any) => {
           // Handle error, e.g., show a toast message
@@ -84,25 +86,25 @@ export class EditCourseComponent implements OnInit {
     }
   }
 
-  get fields() {
-    return (this.course.get('fields') as FormArray)
-  }
+  // get fields() {
+  //   return (this.course.get('fields') as FormArray)
+  // }
 
-  addVideoFields(videoData: any) {
-    this.fields.push(this.fb.group({
-      videoTitle: [videoData.title, Validators.required],
-      videoDescription: [videoData.description, Validators.required],
-      files: [null],
-    }));
-  }
+  // addVideoFields(videoData: any) {
+  //   this.fields.push(this.fb.group({
+  //     videoTitle: [videoData.title, Validators.required],
+  //     videoDescription: [videoData.description, Validators.required],
+  //     files: [null],
+  //   }));
+  // }
 
-  addfields() {
-    this.fields.push(this.fb.group({
-      videoTitle: [null, Validators.required],
-      videoDescription: [null, Validators.required],
-      files: [null, Validators.required],
-    }));
-  }
+  // addfields() {
+  //   this.fields.push(this.fb.group({
+  //     videoTitle: [null, Validators.required],
+  //     videoDescription: [null, Validators.required],
+  //     files: [null, Validators.required],
+  //   }));
+  // }
 
   //submit the form
   editCourseSubmit() {
@@ -144,9 +146,9 @@ export class EditCourseComponent implements OnInit {
 
   }
 
-  removeFileds(index: number) {
-    this.fields.removeAt(index)
-  }
+  // removeFileds(index: number) {
+  //   this.fields.removeAt(index)
+  // }
 
   // for image preview
   onDragOver(event: DragEvent): void {

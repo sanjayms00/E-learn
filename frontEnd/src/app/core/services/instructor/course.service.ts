@@ -21,8 +21,8 @@ export class CourseService {
     return this.http.put(`${constant.baseUrl}/instructor/update-course`, data)
   }
 
-  getInstructorCourse() {
-    return this.http.get(`${constant.baseUrl}/instructor/courses`)
+  getInstructorCourse(): Observable<Course[]> {
+    return this.http.get<Course[]>(`${constant.baseUrl}/instructor/courses`)
   }
 
   getHomeCourses(): Observable<Course[]> {

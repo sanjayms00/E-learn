@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     <div *ngFor="let course of Courses" [routerLink]="['/courses', 'details', course._id]"
         class="border-b border-b-gray-800 pb-2 mb-10">
-        <img [src]="thumbnail+course.thumbnail" alt="Image Alt Text"
+        <img [src]="course.thumbnailUrl" alt="Image Alt Text"
             class="w-full h-30 object-cover mb-8 rounded h-40 overflow-hidden">
         <div class="flex items-center mb-3">
             <div

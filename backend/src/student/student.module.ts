@@ -16,6 +16,7 @@ import { CategorySchema } from 'src/admin/schema/category.schema';
 import { studentJwtAuthGuard } from './guards/student.guard';
 import { CategoryController } from './controllers/category.controller';
 import { CategoryService } from 'src/common/service/category.service';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 
 
 @Module({
@@ -54,7 +55,8 @@ import { CategoryService } from 'src/common/service/category.service';
     StudentCourseService,
     JwtService,
     studentJwtAuthGuard,
-    CategoryService
+    CategoryService,
+    SignedUrlService
   ],
   exports: [StudentJwtStrategy, PassportModule, studentJwtAuthGuard],
 })

@@ -25,6 +25,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { CancelComponent } from './cancel/cancel.component';
 import { SuccessComponent } from './success/success.component';
 import { ClientSearchBarComponent } from 'src/app/shared/components/client-search-bar/client-search-bar.component';
+import { AccordionModule } from 'primeng/accordion';
 
 
 
@@ -57,7 +58,8 @@ import { ClientSearchBarComponent } from 'src/app/shared/components/client-searc
     RatingModule,
     SliderModule,
     ProgressBarModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    AccordionModule
   ],
   providers: [],
 

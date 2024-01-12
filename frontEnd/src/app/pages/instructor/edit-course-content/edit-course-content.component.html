@@ -1,0 +1,58 @@
+<section class="mb-10">
+    <form [formGroup]="course" (ngSubmit)="editCourseSubmit()">
+        <h3
+            class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-bold">
+            Course content
+        </h3>
+
+        <div formArrayName="fields" class="grid sm:grid-cols-1 md:grid-cols-3 gap-3">
+            <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
+                class="gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
+                <h2 class="font-medium">Chapter {{ i+1 }}</h2>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                        Title*</label>
+                    <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Title name">
+                </div>
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                        Message*</label>
+                    <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write your thoughts here..."></textarea>
+                </div>
+
+                <div class="grid md:grid-cols-2 sm:grid-cols-1 pt-2">
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
+                            Upload*</label>
+                        <input type="file" (change)="onFileChange($event, i)" class="form-input"
+                            formControlName="files" />
+                    </div>
+
+                    <button type="button" (click)="removeFileds(i)"
+                        class="px-4 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <button type="button" (click)="addfields()" class="px-4 py-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                    <path
+                        d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <div class="flex border-t py-5 justify-end">
+            <button type="submit"
+                class="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                update course Information
+            </button>
+        </div>
+    </form>
+</section>

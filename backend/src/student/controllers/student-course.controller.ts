@@ -41,22 +41,17 @@ export class StudentCourseController {
 
     @Get('filter')
     async filterCourse(
-        @Query('rating') rating?: number,
-        @Query('range') range?: number,
+        @Query('level') level?: string,
         @Query('instructor') instructor?: number,
         @Query('category') category?: number,
-        @Query('year') year?: number,
     ) {
         const filterCredentials = {
-            rating,
-            range,
+            level,
             instructor,
             category,
-            year,
         };
 
         console.log(filterCredentials)
-
 
         return await this.studentCourseService.getFilteredCourses(filterCredentials)
 

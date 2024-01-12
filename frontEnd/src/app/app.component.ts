@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -7,11 +8,9 @@ import { initFlowbite } from 'flowbite';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  title = 'web-app';
 
   ngOnInit(): void {
     initFlowbite();
-
-
   }
 }

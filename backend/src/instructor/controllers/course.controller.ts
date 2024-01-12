@@ -3,10 +3,9 @@ import { FilesInterceptor, } from '@nestjs/platform-express';
 import { CourseService } from 'src/instructor/services/course.service';
 
 import { InstructorJwtAuthGuard } from 'src/instructor/guard/instructor.guard';
-import { stringify } from 'querystring';
 import { CourseData } from 'src/common/interfaces/course.interface';
 
-@Controller('instructor/')
+@Controller('instructor')
 export class CourseController {
 
     constructor(
@@ -15,7 +14,7 @@ export class CourseController {
 
     @UseGuards(InstructorJwtAuthGuard)
     @Post('createCourse')
-    @UseInterceptors(FilesInterceptor('files')) //recieve file data, all file names are files
+    @UseInterceptors(FilesInterceptor('files'))
     async createCourse(@UploadedFiles() files, @Body() formData, @Request() req) {
         const instructorId = req.user.id
         return await this.courseService.uploadCourse(files, formData, instructorId);
@@ -23,31 +22,33 @@ export class CourseController {
 
 
     @UseGuards(InstructorJwtAuthGuard)
-    @Post('updateCourse')
+    @Post('update-course-information')
     @UseInterceptors(FilesInterceptor('files')) //recieve file data, all file names are files
-    async updateCourse(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
+    async updateCourseInformation(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
         const instructorId = req.user.id
         // console.log(files,formData, instructorId)
-        return await this.courseService.updateCourse(files, formData, instructorId);
+        return await this.courseService.updateCourseInformation(files, formData, instructorId);
     }
 
 
-
-
-
+    @UseGuards(InstructorJwtAuthGuard)
+    @Post('update-course-content')
+    @UseInterceptors(FilesInterceptor('files')) //recieve file data, all file names are files
+    async updateCourseContent(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
+        const instructorId = req.user.id
+        // console.log(files,formData, instructorId)
+        return await this.courseService.updateCourseContent(files, formData, instructorId);
+    }
 
 
     //instructor courses
     @UseGuards(InstructorJwtAuthGuard)
     @Get("courses")
-    async getInstructorCourse(
-        @Request() req
-    ) {
+    async getInstructorCourse(@Request() req) {
         const instructorId = req.user.id
-        console.log(instructorId)
+        // console.log(instructorId)
         if (instructorId) {
-            const files = await this.courseService.getInstructorCourse(instructorId);
-            return { files };
+            return await this.courseService.getInstructorCourse(instructorId);
         } else {
             throw new InternalServerErrorException()
         }
@@ -59,6 +60,14 @@ export class CourseController {
         @Param('id') id: string
     ) {
         return await this.courseService.editCourse(id)
+    }
+
+    //get instructor course content to edit
+    @Get('editCourseContent/:id')
+    async editCourseContent(
+        @Param('id') id: string
+    ) {
+        return await this.courseService.editCourseContent(id)
     }
 
 

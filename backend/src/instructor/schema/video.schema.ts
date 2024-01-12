@@ -7,6 +7,9 @@ export class Video extends Document {
     instructorId: Types.ObjectId;
 
     @Prop({ required: true })
+    index: number;
+
+    @Prop({ required: true })
     title: string;
 
     @Prop({ required: true })

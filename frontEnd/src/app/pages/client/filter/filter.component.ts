@@ -13,25 +13,20 @@ export class FilterComponent implements OnInit, OnDestroy {
   range = 0
   categories!: categoryInterface[]
   instructors!: instrctorModel[]
-  years: number[] = [];
-  year = ''
   instructor = ''
   category = ''
   instructorsSubscription!: Subscription
   categorySubscription!: Subscription
   filterClicked = false
+  selectedLevel = '';
+  levels = ['beginner', 'intermediate', 'professional'];
 
   @Output() fillteredCourse = new EventEmitter()
 
 
   constructor(
     private filterService: FilterService
-  ) {
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= currentYear - 10; i--) {
-      this.years.push(i);
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.instructorsSubscription = this.filterService.getInstructors().subscribe((res) => {
@@ -45,27 +40,27 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.rating = 0
-    this.range = 0
+    this.selectedLevel = ''
+    this.instructor = ''
     this.category = ''
-    this.year = ''
-    this.instructors = []
   }
 
 
 
   filterCourse() {
-    if (this.rating || this.range || this.instructor || this.category || this.year) {
+    if (this.selectedLevel || this.instructor || this.category) {
+
+      console.log(this.selectedLevel, this.instructor, this.category)
+
+
       const filterCredentials: filterInterFace = {
-        rating: this.rating,
-        range: this.range,
+        level: this.selectedLevel,
         instructor: this.instructor,
-        category: this.category,
-        year: +this.year
+        category: this.category
       }
       //filter call
       this.filterService.filterCourse(filterCredentials).subscribe((res) => {
-        // console.log(res)
+        console.log(res)
         this.fillteredCourse.emit(res)
       })
     }

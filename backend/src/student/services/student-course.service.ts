@@ -1,7 +1,10 @@
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+
 import { Model, Types } from 'mongoose';
 import { Category } from 'src/admin/schema/category.schema';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 import { Course } from 'src/instructor/schema/course.schema';
 import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Student } from 'src/student/schema/student.schema';
@@ -17,38 +20,54 @@ export class StudentCourseService {
         @InjectModel(Category.name)
         private readonly categoryModel: Model<Category>,
         @InjectModel(Student.name)
-        private readonly studentModel: Model<Student>
+        private readonly studentModel: Model<Student>,
+        private signedUrlService: SignedUrlService
 
     ) { }
 
+    ////////////////////////////////// method  starts //////////////////////////
+
+    //get all courses
     async getAllCourse() {
-        const courses = await this.courseModel.aggregate([
-            {
-                $lookup: {
-                    from: 'instructors',
-                    localField: 'instructorId',
-                    foreignField: '_id',
-                    as: 'instructor',
+
+        try {
+            const courses = await this.courseModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'instructors',
+                        localField: 'instructorId',
+                        foreignField: '_id',
+                        as: 'instructor',
+                    },
                 },
-            },
-            {
-                $project: {
-                    _id: 1,
-                    courseName: 1,
-                    price: 1,
-                    estimatedPrice: 1,
-                    thumbnail: 1,
-                    updatedAt: 1,
-                    instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                {
+                    $project: {
+                        _id: 1,
+                        courseName: 1,
+                        price: 1,
+                        estimatedPrice: 1,
+                        thumbnail: 1,
+                        updatedAt: 1,
+                        instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                    },
                 },
-            },
-            {
-                $limit: 8
-            }
-        ])
-        return courses
+                {
+                    $limit: 8
+                }
+            ]);
+
+            const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
+
+            console.log(signedCourses)
+            return signedCourses
+
+        } catch (error) {
+            throw new Error(error.message);
+        }
+
     }
 
+    //get limited courses for home
     async getLimitedCourse() {
         const courses = await this.courseModel.aggregate([
             {
@@ -73,10 +92,16 @@ export class StudentCourseService {
             {
                 $limit: 8
             }
-        ])
-        return courses
+        ]);
+
+        const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
+
+        console.log(signedCourses)
+
+        return signedCourses
     }
 
+    //get searched courses
     async searchCourse(searchText: string) {
         const regexPattern = new RegExp(searchText, 'i');
         const result = await this.courseModel.aggregate([
@@ -105,9 +130,13 @@ export class StudentCourseService {
                 },
             }
         ]);
-        return result
+        const signedCourses = await this.signedUrlService.generateSignedUrl(result)
+
+        console.log(signedCourses)
+        return signedCourses
     }
 
+    //get course details
     async courseDetails(id: string) {
 
         try {
@@ -147,7 +176,11 @@ export class StudentCourseService {
                 throw new NotFoundException('Course not found');
             }
 
-            return courses[0];
+            const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
+
+            console.log(signedCourses)
+
+            return signedCourses[0]
 
         } catch (error) {
             console.log(error.message)
@@ -155,6 +188,7 @@ export class StudentCourseService {
         }
     }
 
+    //get instructor
     async getInstructors() {
         const instructors = await this.instructorModel.find({}, { _id: 1, fullName: 1 })
         if (instructors.length < 1) {
@@ -163,6 +197,7 @@ export class StudentCourseService {
         return instructors
     }
 
+    //get categories
     async getCategories() {
         const categories = await this.categoryModel.find({}, { _id: 1, categoryName: 1 })
         if (categories.length < 1) {
@@ -171,7 +206,20 @@ export class StudentCourseService {
         return categories
     }
 
+    //get filteredcourses
     async getFilteredCourses(filterData) {
+
+        const matchData = []
+
+        if (filterData.level !== '') {
+            matchData.push({ courseLevel: { $in: [filterData.level] } });
+        }
+        if (filterData.instructor !== '') {
+            matchData.push({ instructorId: new Types.ObjectId(filterData.instructor) });
+        }
+        if (filterData.category !== '') {
+            matchData.push({ categoryId: new Types.ObjectId(filterData.category) });
+        }
         const filterDataResult = await this.courseModel.aggregate([
             {
                 $lookup: {
@@ -199,26 +247,25 @@ export class StudentCourseService {
                     estimatedPrice: 1,
                     thumbnail: 1,
                     updatedAt: 1,
+                    courseLevel: 1,
                     instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
                     categoryName: { $arrayElemAt: ['$category.categoryName', 0] },
                 },
             },
             {
-                $match: {
-                    instructorId: new Types.ObjectId(filterData.instructor),
-                    categoryId: new Types.ObjectId(filterData.category),
-                }
+                $match: { $and: matchData }
             }
         ]);
 
-        return filterDataResult
+        const signedCourses = await this.signedUrlService.generateSignedUrl(filterDataResult)
+
+        console.log(signedCourses)
+        return signedCourses
 
 
     }
 
-    YOUR_DOMAIN = 'http://localhost:3000';
-
-
+    //checkout
     async checkout(courseData, studentId) {
 
         // const price = Number(courseData.course.price)
@@ -247,5 +294,7 @@ export class StudentCourseService {
             throw new Error(error)
         }
     }
+
+    ////////////////////////////////// method  ends //////////////////////////
 
 }

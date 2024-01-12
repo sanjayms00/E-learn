@@ -14,24 +14,34 @@ export class CourseFormService {
 
   progressbar = 0
 
-
   constructor(
     private http: HttpClient,
     private router: Router
   ) { }
 
-
   createCourse(courseData: any) {
     return this.http.post(`${constant.baseUrl}/instructor/createCourse`, courseData)
   }
 
+  //update course
   updateCourse(courseData: any) {
-    return this.http.post(`${constant.baseUrl}/instructor/updateCourse`, courseData)
+    return this.http.post(`${constant.baseUrl}/instructor/update-course-information`, courseData)
+  }
+
+  //update course content
+  updateCourseContent(courseData: any) {
+    return this.http.post(`${constant.baseUrl}/instructor/update-course-content`, courseData)
   }
 
   editCourseData(id: string): Observable<instructorCourse[]> {
     return this.http.get<instructorCourse[]>(`${constant.baseUrl}/instructor/editCourse/${id}`)
   }
+
+
+  editCourseContentData(id: string): Observable<instructorCourse[]> {
+    return this.http.get<instructorCourse[]>(`${constant.baseUrl}/instructor/editCourseContent/${id}`)
+  }
+
 
 
 }

@@ -42,7 +42,8 @@ export interface Course {
     video?: string,
     createdAt: Date,
     updatedAt: Date,
-    instructorName?: string
+    instructorName?: string,
+    thumbnailUrl?: string
 }
 
 export interface instrctorModel {
@@ -58,26 +59,25 @@ export interface categoryInterface {
 
 
 export interface filterInterFace {
-    rating?: number;
-    range?: number;
-    instructor?: string,
-    category?: string,
-    year?: number
+    level?: string;
+    instructor?: string;
+    category?: string;
 }
+
 
 
 
 export interface instructorCourse {
     _id: string;
-    courseName: string;
-    description: string;
-    price: string;
-    categoryId: string;
-    thumbnail: string;
-    instructorId: string;
-    courseTags: string;
-    courseLevel: string[];
-    videos: Video[];
+    courseName?: string;
+    description?: string;
+    price?: string;
+    categoryId?: string;
+    thumbnail?: string;
+    instructorId?: string;
+    courseTags?: string;
+    courseLevel?: string[];
+    videos?: Video[];
 }
 
 export interface Video {

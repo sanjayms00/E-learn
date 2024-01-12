@@ -13,7 +13,6 @@ export class ClientHomeComponent implements OnInit {
   homeCourses!: Course[]
   thumbnail = constant.thumbnail
 
-
   constructor(
     private courseService: CourseService
   ) { }

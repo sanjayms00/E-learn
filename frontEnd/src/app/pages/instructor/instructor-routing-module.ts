@@ -11,6 +11,7 @@ import { instructorGuard } from 'src/app/shared/guards/instructor/instructor.gua
 import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
+import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
 
 
 
@@ -30,6 +31,7 @@ const routes: Routes = [
           { path: 'dashboard', component: InstructorDashboardComponent },
           { path: 'courses', component: InstructorCoursesComponent },
           { path: 'edit/:id', component: EditCourseComponent },
+          { path: 'edit/content/:id', component: EditCourseContentComponent },
           { path: 'create', component: CreateCourseComponent },
         ]
       }

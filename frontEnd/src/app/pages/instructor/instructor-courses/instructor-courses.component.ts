@@ -21,7 +21,8 @@ export class InstructorCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseService.getInstructorCourse().subscribe((res: any) => {
-      this.courses = res.files
+      console.log(res)
+      this.courses = res
     })
   }
 

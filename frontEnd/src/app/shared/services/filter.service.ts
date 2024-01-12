@@ -28,14 +28,6 @@ export class FilterService {
     // Build the query parameters
     let params = new HttpParams();
 
-    if (filterCredentials.rating !== undefined) {
-      params = params.set('rating', filterCredentials.rating.toString());
-    }
-
-    if (filterCredentials.range !== undefined) {
-      params = params.set('range', filterCredentials.range.toString());
-    }
-
     if (filterCredentials.instructor !== undefined) {
       params = params.set('instructor', filterCredentials.instructor);
     }
@@ -44,8 +36,8 @@ export class FilterService {
       params = params.set('category', filterCredentials.category);
     }
 
-    if (filterCredentials.year !== undefined) {
-      params = params.set('year', filterCredentials.year.toString());
+    if (filterCredentials.level !== undefined) {
+      params = params.set('level', filterCredentials.level);
     }
     console.log(params)
 
