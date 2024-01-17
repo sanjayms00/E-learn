@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-cancel',
-  templateUrl: './cancel.component.html',
-  styleUrls: ['./cancel.component.css']
+  template: `
+    <section>
+      <p>Forgot to add something to your cart? Shop     around then come back to pay!</p>
+    </section>
+  `
 })
 export class CancelComponent {
 

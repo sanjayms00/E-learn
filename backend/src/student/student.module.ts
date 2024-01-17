@@ -17,6 +17,9 @@ import { studentJwtAuthGuard } from './guards/student.guard';
 import { CategoryController } from './controllers/category.controller';
 import { CategoryService } from 'src/common/service/category.service';
 import { SignedUrlService } from 'src/common/service/signed-url.service';
+import { LearningController } from './controllers/learning.controller';
+import { LearningService } from './services/learning.service';
+import { VideoSchema } from 'src/instructor/schema/video.schema';
 
 
 @Module({
@@ -41,13 +44,14 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
-
+    MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
   ],
   controllers: [
     StudentAuthController,
     ProfileController,
     StudentCourseController,
-    CategoryController
+    CategoryController,
+    LearningController
   ],
   providers: [
     StudentAuthService,
@@ -56,7 +60,8 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
     JwtService,
     studentJwtAuthGuard,
     CategoryService,
-    SignedUrlService
+    SignedUrlService,
+    LearningService
   ],
   exports: [StudentJwtStrategy, PassportModule, studentJwtAuthGuard],
 })

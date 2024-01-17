@@ -1,44 +1,46 @@
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
     <!-- card -->
-    <div class="shadow-xl border border-gray-300 rounded-xl p-4 bg-red-100 relative overflow-hidden"
-        [routerLink]="['/courses/video']" routerLinkActive="router-link-active">
-        <div class="w-full h-full block">
-            <div class="flex items-center border-b-2 mb-2 py-2">
-                <img class='w-10 h-10 object-cover rounded-full' alt='User avatar'
-                    src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'>
+    <ng-container *ngFor="let course of myCourse">
 
-                <div class="pl-3">
-                    <div class="font-medium">
-                        Jessica White
-                    </div>
-                    <div class="text-gray-600 text-sm">
-                        Sr. Frontend Developer
+        <!-- {{ course?.myCourses[0]?.videos[0] | json}} -->
+
+        <div class="shadow-xl border cursor-pointer border-gray-300 rounded-xl p-4 relative overflow-hidden"
+            [routerLink]="['/courses/video', course?.myCourses[0]?.videos[0]]" routerLinkActive="router-link-active">
+            <div class="w-full h-full block">
+                <div class="flex items-center border-b-2 mb-2 py-2">
+                    <div class="">
+                        <div class="font-bold mb-2 text-md uppercase">
+                            {{ course.myCourses[0].courseName }}
+                        </div>
+                        <div class="text-gray-600 text-sm">
+                            By
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="w-full">
-                <p class="text-gray-800 text-sm font-medium mb-2">
-                    Working On:
-                </p>
-                <p class="text-gray-800 text-xl font-medium mb-2">
-                    Improve CSS design of the carousel
-                </p>
-                <p class="text-blue-600 text-xs font-medium mb-2">
-                    Due: Sunday, 23 August
-                </p>
-                <p class="text-gray-400 text-sm mb-4">
-                    You’ve been coding for a while now and know your way around...
-                </p>
-            </div>
-            <div class="flex items-center justify-between my-2">
-                <p class="text-gray-300 text-sm">
-                    4/6 tasks completed
-                </p>
-            </div>
-            <div class="w-full h-2 bg-blue-200 rounded-full">
-                <div class="w-2/3 h-full text-center text-xs text-white bg-blue-600 rounded-full">
+                <div class="w-full">
+                    <!-- <p class="text-gray-800 text-xl font-medium mb-2">
+                        {{ course.myCourses[0].courseName }}
+                    </p> -->
+                    <p class="text-blue-600 text-xs font-medium mb-2">
+                        Last Updated At : {{ course.myCourses[0].updatedAt | date }}
+                    </p>
+                    <p class="text-gray-700 text-sm mb-4 text-justify">
+                        {{ course.myCourses[0].description | slice:0:150 }}
+                    </p>
                 </div>
+                <div class="flex items-center justify-between my-3">
+                    <p class="text-black text-sm font-semibold">
+                        4/6 tasks completed
+                    </p>
+                </div>
+
+                <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                        [style.width.%]="course.courses.progress"> {{ course.courses.progress }}%</div>
+                </div>
+
             </div>
         </div>
-    </div>
+    </ng-container>
+
 </div>

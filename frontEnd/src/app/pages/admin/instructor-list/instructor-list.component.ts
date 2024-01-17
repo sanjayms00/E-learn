@@ -11,7 +11,6 @@ import { appState } from 'src/app/shared/store/state/app.state';
 @Component({
   selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
-  styleUrls: ['./instructor-list.component.css'],
   providers: [ListingService]
 })
 export class InstructorListComponent implements OnInit {

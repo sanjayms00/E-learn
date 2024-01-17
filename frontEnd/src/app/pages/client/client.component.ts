@@ -1,6 +1,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { categories } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/shared/services/category.service';
@@ -9,8 +10,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.css']
+  templateUrl: './client.component.html'
 })
 export class ClientComponent implements OnInit, DoCheck {
   togg = true
@@ -25,7 +25,8 @@ export class ClientComponent implements OnInit, DoCheck {
     private authService: AuthService,
     private router: Router,
     private store: Store<appState>,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toastr: ToastrService
   ) {
   }
   ngOnInit(): void {
@@ -73,6 +74,7 @@ export class ClientComponent implements OnInit, DoCheck {
     if (clientToken) {
       this.authService.clientLogout()
       this.router.navigate(["/login"])
+      this.toastr.success('logout successfull')
     }
   }
 }

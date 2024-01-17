@@ -9,8 +9,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-admin-login',
-  templateUrl: './admin-login.component.html',
-  styleUrls: ['./admin-login.component.css']
+  templateUrl: './admin-login.component.html'
 })
 export class AdminLoginComponent implements OnInit, OnDestroy {
 

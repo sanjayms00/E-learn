@@ -5,8 +5,7 @@ import { categoryInterface } from 'src/app/shared/interface/common.interface';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  templateUrl: './category.component.html'
 })
 export class CategoryComponent implements OnInit {
 

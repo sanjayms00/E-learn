@@ -5,8 +5,7 @@ import { Course } from 'src/app/shared/interface/common.interface';
 
 @Component({
   selector: 'app-instructor-courses',
-  templateUrl: './instructor-courses.component.html',
-  styleUrls: ['./instructor-courses.component.css']
+  templateUrl: './instructor-courses.component.html'
 })
 export class InstructorCoursesComponent implements OnInit {
 

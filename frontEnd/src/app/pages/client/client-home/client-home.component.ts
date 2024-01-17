@@ -5,8 +5,7 @@ import { Course } from 'src/app/shared/interface/common.interface';
 
 @Component({
   selector: 'app-client-home',
-  templateUrl: './client-home.component.html',
-  styleUrls: ['./client-home.component.css']
+  templateUrl: './client-home.component.html'
 })
 export class ClientHomeComponent implements OnInit {
 

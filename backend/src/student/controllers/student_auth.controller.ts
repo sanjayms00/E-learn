@@ -6,7 +6,11 @@ import { userAuthReturn } from 'src/common/types/type';
 
 @Controller('auth')
 export class StudentAuthController {
+
   constructor(private studentAuthService: StudentAuthService) { }
+
+
+
 
   @Post('/signup')
   async signUp(@Body() signUpDto: SignupDto) {
@@ -23,18 +27,18 @@ export class StudentAuthController {
     }
   }
 
+
   @Put('/verifyOtp')
   async verifyOtp(@Body() otpData): Promise<userAuthReturn> {
     const studentData = await this.studentAuthService.verifyOtp(otpData);
     return studentData
   }
 
+
   @Put('/resendOtp')
   async resendOtp(@Body() otpData) {
     await this.studentAuthService.sendOTP(otpData.email);
   }
-
-
 
   @Post('/login')
   async login(@Body() loginData): Promise<userAuthReturn> {

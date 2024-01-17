@@ -9,8 +9,7 @@ import { CourseFormService } from 'src/app/shared/services/course-form.service';
 
 @Component({
   selector: 'app-edit-course',
-  templateUrl: './edit-course.component.html',
-  styleUrls: ['./edit-course.component.css']
+  templateUrl: './edit-course.component.html'
 })
 export class EditCourseComponent implements OnInit {
 

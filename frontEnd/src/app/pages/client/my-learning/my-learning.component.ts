@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LearningService } from 'src/app/core/services/client/learning.service';
 
 @Component({
   selector: 'app-my-learning',
-  templateUrl: './my-learning.component.html',
-  styleUrls: ['./my-learning.component.css']
+  templateUrl: './my-learning.component.html'
 })
-export class MyLearningComponent {
+export class MyLearningComponent implements OnInit {
+
+  myCourse: any = []
+
+
+  constructor(
+    private learningService: LearningService
+  ) { }
+
+  ngOnInit(): void {
+    this.learningService.getMyCourses().subscribe((res) => {
+      this.myCourse = res
+    })
+  }
+
+
+
 
 }

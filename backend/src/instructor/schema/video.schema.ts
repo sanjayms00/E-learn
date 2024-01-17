@@ -3,8 +3,11 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Video extends Document {
-    @Prop({ required: true, type: Types.ObjectId, ref: 'courses' })
+    @Prop({ required: true, type: Types.ObjectId, ref: 'instructors' })
     instructorId: Types.ObjectId;
+
+    @Prop({ required: true, type: Types.ObjectId, ref: 'courses' })
+    courseId: Types.ObjectId;
 
     @Prop({ required: true })
     index: number;

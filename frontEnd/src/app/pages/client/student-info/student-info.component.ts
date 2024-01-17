@@ -8,8 +8,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-student-info',
-  templateUrl: './student-info.component.html',
-  styleUrls: ['./student-info.component.css']
+  templateUrl: './student-info.component.html'
 })
 export class StudentInfoComponent implements OnInit, OnDestroy {
 

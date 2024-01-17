@@ -27,7 +27,10 @@ import { SuccessComponent } from './success/success.component';
 import { ClientSearchBarComponent } from 'src/app/shared/components/client-search-bar/client-search-bar.component';
 import { AccordionModule } from 'primeng/accordion';
 
-
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,11 @@ import { AccordionModule } from 'primeng/accordion';
     SliderModule,
     ProgressBarModule,
     NgOtpInputModule,
-    AccordionModule
+    AccordionModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   providers: [],
 

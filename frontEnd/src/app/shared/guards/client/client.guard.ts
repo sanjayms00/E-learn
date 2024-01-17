@@ -8,7 +8,7 @@ export const clientGuard: CanActivateFn = (route, state) => {
   const token = authservice.getClientToken()
 
   if (!token) {
-    router.navigate(["/"])
+    router.navigate(["/login"])
     return false
   }
   return true

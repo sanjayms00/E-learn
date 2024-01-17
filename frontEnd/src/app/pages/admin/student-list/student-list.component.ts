@@ -12,9 +12,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
   selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css'],
-  providers: [ListingService]
+  templateUrl: './student-list.component.html', providers: [ListingService]
 })
 export class StudentListComponent implements OnInit {
 

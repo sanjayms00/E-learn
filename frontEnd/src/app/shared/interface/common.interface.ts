@@ -97,3 +97,11 @@ export interface categories {
     _id: string,
     status?: boolean
 }
+
+export interface ChapterInterface {
+    videoId: string;
+    oldVideo: string;
+    title: string;
+    description: string;
+    file: any;
+}

@@ -38,16 +38,16 @@ const routes: Routes = [
       {
         path: 'courses', children: [
           { path: 'details/:id', component: CourseDetailsComponent },
-          { path: 'video', component: StreamVideoComponent },
+          { path: 'video/:id', component: StreamVideoComponent },
         ]
       },
-      { path: 'checkout/:id', component: CheckoutComponent },
-      { path: 'success', component: SuccessComponent },
-      { path: 'cancel', component: CancelComponent },
-      { path: 'profile', component: StudentInfoComponent },
+      { path: 'checkout/:id', component: CheckoutComponent, canActivate: [clientGuard] },
+      { path: 'success', component: SuccessComponent, canActivate: [clientGuard] },
+      { path: 'cancel', component: CancelComponent, canActivate: [clientGuard] },
+      { path: 'profile', component: StudentInfoComponent, canActivate: [clientGuard] },
       // { path: '', component: StudentInfoComponent },
-      { path: 'learning', component: MyLearningComponent },
-      { path: 'communication', component: ChatComponent },
+      { path: 'learning', component: MyLearningComponent, canActivate: [clientGuard] },
+      { path: 'communication', component: ChatComponent, canActivate: [clientGuard] },
     ]
   }
 ];

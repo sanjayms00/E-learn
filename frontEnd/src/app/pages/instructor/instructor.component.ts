@@ -6,8 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-instructor',
-    templateUrl: './instructor.component.html',
-    styleUrls: ['./instructor.component.css']
+    templateUrl: './instructor.component.html'
 })
 export class InstructorComponent {
     items!: MenuItem[];

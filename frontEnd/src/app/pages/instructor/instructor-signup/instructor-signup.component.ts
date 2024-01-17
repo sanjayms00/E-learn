@@ -8,8 +8,7 @@ import { FormsService } from 'src/app/shared/services/forms.service';
 
 @Component({
   selector: 'app-instructor-signup',
-  templateUrl: './instructor-signup.component.html',
-  styleUrls: ['./instructor-signup.component.css']
+  templateUrl: './instructor-signup.component.html'
 })
 export class InstructorSignupComponent {
 

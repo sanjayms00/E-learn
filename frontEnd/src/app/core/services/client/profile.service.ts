@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ProfileService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+    constructor(
+        private http: HttpClient
+    ) { }
 
-  getProfileData() {
-    return this.http.get(`${constant.baseUrl}/profile`)
-  }
+    getProfileData() {
+        return this.http.get(`${constant.baseUrl}/profile`)
+    }
 
 
 }

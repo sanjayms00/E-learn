@@ -4,8 +4,7 @@ import { studentInterface } from '../../interface/common.interface';
 
 @Component({
   selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  templateUrl: './table.component.html'
 })
 export class TableComponent {
 

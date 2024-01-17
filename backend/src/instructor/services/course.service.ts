@@ -5,7 +5,7 @@ import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import * as crypto from 'crypto';
 
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -108,7 +108,8 @@ export class CourseService {
                         index: index,
                         title: fields[index].videoTitle,
                         description: fields[index].videoDescription,
-                        file: videoName
+                        file: videoName,
+                        courseId: course._id
                     });
 
                     if (!saveVideo) return new Error("Unable to save video");
@@ -181,87 +182,120 @@ export class CourseService {
         }
     }
 
+
+    //update a single chapter
+    async updateSingleChapter(files, id, formData) {
+        try {
+            const { videoId, oldVideo, title, description, courseId } = formData
+
+            if (files.length > 0) {
+                //replace existing video
+                const videoParams = {
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: oldVideo,
+                    Body: files[0].buffer,
+                    contentType: files[0].mimetype
+                };
+
+                const command = new PutObjectCommand(videoParams);
+                const videoUploadResult = await this.client.send(command)
+
+                if (!videoUploadResult) throw new Error('video upload failed')
+            }
+
+            if (videoId) {
+                await this.videoModel.updateOne(
+                    { _id: new Types.ObjectId(videoId) },
+                    {
+                        $set: {
+                            title,
+                            description
+                        }
+                    }
+                )
+            }
+
+            console.log(courseId)
+
+            const instructorCourseContentData = await this.editCourseContent(courseId)
+
+            if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
+
+            // console.log("Data is", instructorCourseContentData)
+
+            return instructorCourseContentData
+
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     //update courseContent
     async updateCourseContent(files, otherData, instructorId) {
         try {
-            // console.log("otherData", otherData)
             const videoFiles = files.filter(item => item.mimetype.includes('video'))
-            // console.log(videoFiles)
-            const courseId = new Types.ObjectId(otherData.id);
+
+
             const instructorObjectId = new Types.ObjectId(instructorId);
+            const courseId = new Types.ObjectId(otherData.courseId);
 
+            //parse fields data 
             const fields = JSON.parse(otherData.fields)
-            const oldVideoData = JSON.parse(otherData.oldVideoData)
 
-            let i = 0;
+            //upload videos
+            const uploadedVideos = await Promise.all(
+                videoFiles.map(async (videoFile, index) => {
 
-            const Data = await Promise.all(
-                fields.map(async (item, index) => {
-                    console.log(index)
-                    console.log(oldVideoData[index]?.file)
-                    if (item.files !== null) {
-                        console.log(item.videoTitle, item.videoDescription)
-                        console.log(videoFiles[i])
+                    const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-                        // if (otherData.oldVideo[index].file && )
+                    const videoName = videoKey()
 
+                    const videoParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: videoName,
+                        Body: videoFile.buffer,
+                        contentType: videoFile.mimetype
+                    };
 
+                    const command = new PutObjectCommand(videoParams);
+                    await this.client.send(command)
 
-                        //     if (videoFiles[i]) {
+                    const saveVideo = await this.videoModel.create({
+                        instructorId: instructorObjectId,
+                        index: index,
+                        title: fields[index].videoTitle,
+                        description: fields[index].videoDescription,
+                        file: videoName,
+                        courseId: courseId
+                    });
 
-                        //         const imageKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+                    console.log("here")
+                    if (!saveVideo) return new Error("Unable to save video");
+                    console.log(courseId)
+                    const updateCourse = await this.courseModel.updateOne(
+                        { _id: courseId },
+                        {
+                            $push: { videos: saveVideo._id }
+                        }
+                    );
+                    console.log("here2")
+                    console.log(updateCourse)
+                    if (!updateCourse) throw new Error("Video saving to course failed")
 
-                        //         const imageName = imageKey()
+                    return true
+                })
+            );
 
-                        //         const imageParams = {
-                        //             Bucket: process.env.BUCKET_NAME,
-                        //             Key: otherData.oldImage,
-                        //             Body: imageFile.buffer,
-                        //             contentType: imageFile.mimetype
-                        //         };
-                        //         const command = new PutObjectCommand(imageParams);
-                        //         await this.s3.send(command)
+            if (!uploadedVideos) return new Error("upload failed")
+            console.log(otherData.courseId)
+            const instructorCourseContentData = await this.editCourseContent(otherData.courseId)
 
-                        //         const videoId = new Types.ObjectId(oldVideoData[index]._id)
+            if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
 
-                        //         const saveVideo = await this.videoModel.findByIdAndUpdate(
-                        //             videoId,
-                        //             {
-                        //                 $set: {
-                        //                     instructorId: instructorObjectId,
-                        //                     title: '' + fields[i].videoTitle,
-                        //                     description: '' + fields[i].videoDescription,
-                        //                     file: videoKey
-                        //                 }
-                        //             },
-                        //             {
-                        //                 upsert: true,
-                        //                 new: true,
-                        //                 lean: true
-                        //             }
-                        //         );
+            console.log("Data is", instructorCourseContentData)
 
-                        //         if (!saveVideo) {
-                        //             throw new Error("Unable to save video");
-                        //         }
+            return instructorCourseContentData
 
-                        //         const updateCourse = await this.courseModel.updateOne(
-                        //             { _id: courseId },
-                        //             {
-                        //                 $push: { videos: saveVideo._id }
-                        //             }
-                        //         );
-
-                        //         if (!updateCourse) throw new Error("Video save to course failed")
-                        //         return videoResult.Location;
-                        //     }
-                        i++
-                    }
-                }))
-
-            if (!Data) return new Error("upload failed")
-
-            return { status: "success", message: "Course Updated successfully" };
         } catch (error) {
             console.log(error.message);
             throw error;
@@ -278,6 +312,7 @@ export class CourseService {
         return signedCourses
     }
 
+    //generate signed url for images
     async generateSignedUrl(courses) {
         const signedCourses = await Promise.all(
             courses.map(async (course) => {
@@ -299,7 +334,6 @@ export class CourseService {
 
         return signedCourses;
     }
-
 
     //edit course details
     async editCourse(id: string) {
@@ -385,6 +419,20 @@ export class CourseService {
                     courseLevel: { $first: '$courseLevel' },
                     videos: { $push: '$videoData' },
                 }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    courseName: 1,
+                    description: 1,
+                    price: 1,
+                    categoryId: 1,
+                    thumbnail: 1,
+                    instructorId: 1,
+                    courseTags: 1,
+                    courseLevel: 1,
+                    videos: { $reverseArray: '$videos' } // Reverse the order of videos
+                }
             }
         ])
         // console.log(course)
@@ -400,6 +448,55 @@ export class CourseService {
         return course
     }
 
+    //delete ca chapter
+    async deleteChapter(videoId) {
 
+        try {
+            if (!videoId) throw new Error('Id is not present')
+
+            const videoObjId = new Types.ObjectId(videoId)
+            //find video
+            const findVideo = await this.videoModel.findOne({ _id: videoObjId })
+
+            const videoParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: findVideo.file,
+            };
+
+            const command = new DeleteObjectCommand(videoParams);
+
+            const deleteFromS3 = await this.client.send(command)
+
+            if (!deleteFromS3) throw new Error('Unable to delete the video')
+
+            const courserObjId = new Types.ObjectId(findVideo.courseId)
+
+            const deleteVideo = await this.videoModel.deleteOne({ _id: videoObjId })
+
+            const deleteVideoFromCourse = await this.courseModel.updateOne(
+                { _id: courserObjId },
+                {
+                    $pull: {
+                        videos: videoObjId
+                    }
+                }
+            )
+
+            const result = Promise.all([deleteVideo, deleteVideoFromCourse])
+
+            if (!result) throw new Error('issue deleting the video')
+
+            const instructorCourseContentData = await this.editCourseContent(String(findVideo.courseId))
+
+            if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
+
+            console.log("Data is", instructorCourseContentData)
+
+            return instructorCourseContentData
+
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 
 }

@@ -42,6 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
       })
     } else {
       // clone and create new request
+      console.log("innnn")
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.clientToken}`,

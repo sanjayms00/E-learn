@@ -17,8 +17,8 @@ import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.comp
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
-
-
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,9 @@ import { EditCourseContentComponent } from './edit-course-content/edit-course-co
     MenubarModule,
     ChartModule,
     CardModule,
-    ProgressBarModule
+    ProgressBarModule,
+    DialogModule,
+    ButtonModule
   ],
   providers: [CourseService]
 })

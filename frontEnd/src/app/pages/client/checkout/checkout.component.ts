@@ -16,8 +16,7 @@ import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  templateUrl: './checkout.component.html'
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
 
@@ -59,7 +58,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.isButtonClicked = true;
     this.courseService.checkout(this.courseContent).subscribe(res => {
       console.log(res)
-      this.router.navigateByUrl('/profile/my-learning')
+      this.router.navigateByUrl('/learning')
     })
     // this.http.post(`${constant.baseUrl}/student/checkout`, {
     //   course: this.courseContent

@@ -8,15 +8,18 @@ import { CategoryService } from 'src/app/core/services/admin/category.service';
 
 @Component({
   selector: 'app-create-course',
-  templateUrl: './create-course.component.html',
-  styleUrls: ['./create-course.component.css']
+  templateUrl: './create-course.component.html'
 })
 export class CreateCourseComponent implements OnInit {
 
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
   categoryData: categoryInterface[] = []
-  imageType = ['image/png', 'image/jpeg']
+
+  imageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'image/webp'];
+
+  videoTypes = ['video/mp4', 'video/webm', 'video/x-msvideo', 'video/x-matroska', 'video/quicktime', 'video/x-flv'];
+
   submit = false;
   formData = new FormData()
 
@@ -90,10 +93,15 @@ export class CreateCourseComponent implements OnInit {
     if (fileInput) {
       const file = fileInput.files?.[0];
       if (file) {
-        this.formData.append('files', file);
-        const fieldsArray = this.course.get('fields') as FormArray;
-        const fieldGroup = fieldsArray.at(index) as FormGroup;
-        fieldGroup.get('files')?.patchValue(file);
+        if (this.videoTypes.find(item => item === file.type)) {
+          this.formData.append('files', file);
+          const fieldsArray = this.course.get('fields') as FormArray;
+          const fieldGroup = fieldsArray.at(index) as FormGroup;
+          fieldGroup.get('files')?.patchValue(file);
+        }
+        else {
+          this.toastr.error("File not supported")
+        }
       }
     }
 
@@ -126,7 +134,7 @@ export class CreateCourseComponent implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = (input.files as FileList)[0];
-    if (this.imageType.find(item => item === file.type)) {
+    if (this.imageTypes.find(item => item === file.type)) {
 
       this.formData.append('files', file);
       this.displayPreview(file);

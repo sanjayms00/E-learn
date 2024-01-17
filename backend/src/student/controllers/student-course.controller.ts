@@ -60,7 +60,7 @@ export class StudentCourseController {
     @UseGuards(studentJwtAuthGuard)
     @Post('checkout')
     async checkout(@Body() courseData, @Request() req) {
-
+        console.log(req.user._id)
         return await this.studentCourseService.checkout(courseData, req.user._id)
     }
 

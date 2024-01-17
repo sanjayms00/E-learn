@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-instructor-dashboard',
-  templateUrl: './instructor-dashboard.component.html',
-  styleUrls: ['./instructor-dashboard.component.css']
+  templateUrl: './instructor-dashboard.component.html'
 })
 export class InstructorDashboardComponent {
   data: any;

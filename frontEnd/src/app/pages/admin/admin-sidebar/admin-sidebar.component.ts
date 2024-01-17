@@ -4,8 +4,7 @@ import { NavBarService } from 'src/app/shared/services/nav-bar.service';
 
 @Component({
   selector: 'app-admin-sidebar',
-  templateUrl: './admin-sidebar.component.html',
-  styleUrls: ['./admin-sidebar.component.css']
+  templateUrl: './admin-sidebar.component.html'
 })
 export class AdminSidebarComponent implements OnDestroy {
   showNavBar = true
