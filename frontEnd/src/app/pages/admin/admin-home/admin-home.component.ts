@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './admin-home.component.html'
 })
 export class AdminHomeComponent {
-  
+
 }

@@ -9,9 +9,7 @@ export class StudentAuthController {
 
   constructor(private studentAuthService: StudentAuthService) { }
 
-
-
-
+  //signup
   @Post('/signup')
   async signUp(@Body() signUpDto: SignupDto) {
     try {
@@ -27,28 +25,37 @@ export class StudentAuthController {
     }
   }
 
-
+  //verify otp
   @Put('/verifyOtp')
   async verifyOtp(@Body() otpData): Promise<userAuthReturn> {
     const studentData = await this.studentAuthService.verifyOtp(otpData);
     return studentData
   }
 
-
+  //resend otp
   @Put('/resendOtp')
-  async resendOtp(@Body() otpData) {
-    await this.studentAuthService.sendOTP(otpData.email);
+  async resendOtp(@Body() data: { email: string }) {
+    console.log(data)
+    await this.studentAuthService.sendOTP(data.email);
   }
 
+  //login
   @Post('/login')
   async login(@Body() loginData): Promise<userAuthReturn> {
     console.log(loginData)
     return await this.studentAuthService.login(loginData);
   }
 
-  // @Post('/forgot-password')
-  // forgotPassword(@Body() loginData: LoginDto): Promise<userAuthReturn> {
-  //   return this.studentAuthService.login(loginData);
-  // }
+  //forgot password
+  @Post('/forgotPassword')
+  async forgotPassword(@Body() data: { email: string }) {
+    return this.studentAuthService.forgotPassword(data.email)
+  }
+
+  //reset password
+  @Post('/resetPassword')
+  async resetPassword(@Body() data: { token: string, password: string }) {
+    return this.studentAuthService.resetPassword(data.token, data.password)
+  }
 
 }

@@ -44,6 +44,7 @@ export class InstructorComponent {
             {
                 label: 'Students List',
                 icon: 'pi pi-fw pi-users',
+                routerLink: '/instructor/student-list'
             },
             {
                 label: 'Notifications',
@@ -79,6 +80,7 @@ export class InstructorComponent {
             {
                 label: 'Profile',
                 icon: 'pi pi-fw pi-user',
+                routerLink: '/instructor/profile'
             },
             {
                 label: 'Logout',
@@ -88,12 +90,11 @@ export class InstructorComponent {
         ];
     }
 
+    //instructor logout
     logout() {
         this.authService.instructorLogout()
         this.toastr.success("Logout successful")
         this.router.navigateByUrl("/instructor/login")
     }
-
-
 
 }

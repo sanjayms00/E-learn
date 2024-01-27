@@ -23,7 +23,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   id: string | null;
   courseContent!: Course
   courseSubscription!: Subscription
-  thumbnail = constant.thumbnail
   isButtonClicked = false;
 
 
@@ -56,21 +55,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   paymentBtnClick() {
 
     this.isButtonClicked = true;
-    this.courseService.checkout(this.courseContent).subscribe(res => {
-      console.log(res)
-      this.router.navigateByUrl('/learning')
-    })
-    // this.http.post(`${constant.baseUrl}/student/checkout`, {
-    //   course: this.courseContent
-    // }).subscribe(async (res: any) => {
+    // this.courseService.checkout(this.courseContent).subscribe(res => {
     //   console.log(res)
-    //   const stripe = await loadStripe(environment.stripe.publicKey);
-    //   stripe?.redirectToCheckout({
-    //     sessionId: res.id
-    //   })
+    //   this.router.navigateByUrl('/learning')
     // })
-
-
+    this.http.post(`${constant.baseUrl}/student/checkout`, {
+      course: this.courseContent
+    }).subscribe(async (res: any) => {
+      console.log("response", res)
+      console.log("response", res.id)
+      const stripe = await loadStripe(environment.stripe.publicKey);
+      stripe?.redirectToCheckout({
+        sessionId: res.id
+      })
+    })
   }
 
 

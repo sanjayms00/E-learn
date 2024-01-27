@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -20,7 +20,11 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
 import { LearningController } from './controllers/learning.controller';
 import { LearningService } from './services/learning.service';
 import { VideoSchema } from 'src/instructor/schema/video.schema';
-
+import { join } from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { tokenSchema } from './schema/token.schema';
+import { StudentMiddleware } from './middlewares/student.middleware';
 
 @Module({
   imports: [
@@ -30,14 +34,28 @@ import { VideoSchema } from 'src/instructor/schema/video.schema';
       secret: process.env.JWT_SECRET_CLIENT,
       signOptions: { expiresIn: process.env.JWT_EXPIRE_CLIENT },
     }),
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        auth: {
-          user: 'sanjayms1321999@gmail.com',
-          pass: 'bnovdijcbozmyvgx'
-        }
-      },
+    MailerModule.forRootAsync({
+      useFactory: async (config: ConfigService) => ({
+        transport: {
+          host: config.get('MAIL_HOST'),
+          secure: false,
+          auth: {
+            user: config.get('MAIL_USER'),
+            pass: config.get('MAIL_PASSWORD'),
+          },
+        },
+        defaults: {
+          from: `"No Reply" <${config.get('MAIL_FROM')}>`,
+        },
+        template: {
+          dir: join(__dirname, 'mail'),
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
     }),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
@@ -45,6 +63,7 @@ import { VideoSchema } from 'src/instructor/schema/video.schema';
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
+    MongooseModule.forFeature([{ name: 'Token', schema: tokenSchema }]),
   ],
   controllers: [
     StudentAuthController,
@@ -65,4 +84,13 @@ import { VideoSchema } from 'src/instructor/schema/video.schema';
   ],
   exports: [StudentJwtStrategy, PassportModule, studentJwtAuthGuard],
 })
-export class StudentModule { }
+export class StudentModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(StudentMiddleware)
+      .exclude(
+        { path: 'student/webhook', method: RequestMethod.ALL },
+      )
+      .forRoutes('student');
+  }
+}

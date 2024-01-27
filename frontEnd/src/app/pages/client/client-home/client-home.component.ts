@@ -10,13 +10,16 @@ import { Course } from 'src/app/shared/interface/common.interface';
 export class ClientHomeComponent implements OnInit {
 
   homeCourses!: Course[]
-  thumbnail = constant.thumbnail
 
   constructor(
     private courseService: CourseService
   ) { }
 
   ngOnInit(): void {
+   this.getHomeCourse();
+  }
+
+  getHomeCourse(){
     this.courseService.getHomeCourses().subscribe(res => {
       this.homeCourses = res
     })

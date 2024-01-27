@@ -19,6 +19,11 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
 import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { NumericDirective } from 'src/app/shared/customeDirectives/numeric.directive';
+import { StudentListComponent } from './student-list/student-list.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +36,9 @@ import { ButtonModule } from 'primeng/button';
     SpinnerComponent,
     EditCourseComponent,
     CreateCourseComponent,
-    EditCourseContentComponent
+    EditCourseContentComponent,
+    NumericDirective,
+    StudentListComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +50,9 @@ import { ButtonModule } from 'primeng/button';
     CardModule,
     ProgressBarModule,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [CourseService]
 })

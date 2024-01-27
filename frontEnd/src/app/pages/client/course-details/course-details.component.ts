@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { constant } from 'src/app/core/constant/constant';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { Course } from 'src/app/shared/interface/common.interface';
+import { Course, studentInterface } from 'src/app/shared/interface/common.interface';
 
 @Component({
   selector: 'app-course-details',
@@ -10,13 +11,14 @@ import { Course } from 'src/app/shared/interface/common.interface';
 })
 export class CourseDetailsComponent implements OnInit {
 
-  thumbnail = constant.thumbnail
+  student: any;
   courseDetails: Course = {
     _id: '',
     courseName: '',
     slug: '',
     description: '',
     price: '',
+    students: [],
     estimatedPrice: '',
     thumbnail: '',
     updatedAt: new Date(),
@@ -26,25 +28,40 @@ export class CourseDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private authSservice: AuthService
   ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-
     if (id) {
-      this.courseService.courseDetails(id)
-        .subscribe((res: Course) => {
-          this.courseDetails = res
-        })
+      this.getStudent();
+      this.getCourseData(id);
     } else {
       alert("Unable to show the details")
     }
-
-
-
   }
 
+  //fetch course Data
+  getCourseData(id: string) {
+    this.courseService.courseDetails(id)
+      .subscribe((res: Course) => {
+        this.courseDetails = res
+      })
+  }
+
+  //get student Data from local
+  getStudent() {
+    const studentData = this.authSservice.getLocalClientData()
+    if (studentData) {
+      this.student = JSON.parse(studentData)
+    }
+    console.log(this.student._id)
+  }
+
+  isStudentEnrolled(): boolean | undefined {
+    return this.courseDetails?.students?.includes(this.student._id);
+  }
 
 
 }

@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, RawBodyRequest, Req, Request, UseGuards } from '@nestjs/common';
 import { studentJwtAuthGuard } from 'src/student/guards/student.guard';
 import { StudentCourseService } from 'src/student/services/student-course.service';
 
 @Controller('student')
 export class StudentCourseController {
+
+    private endpointSecret = "whsec_1007ae8b5de184dab542de855dbe68bc3030730d13ab4a0ecb39f788facd6f5e";
 
     constructor(
         private studentCourseService: StudentCourseService
@@ -60,9 +62,31 @@ export class StudentCourseController {
     @UseGuards(studentJwtAuthGuard)
     @Post('checkout')
     async checkout(@Body() courseData, @Request() req) {
-        console.log(req.user._id)
         return await this.studentCourseService.checkout(courseData, req.user._id)
     }
+
+    @Post('webhook')
+    async webhookStripe(@Req() req: RawBodyRequest<Request>) {
+        const raw = req.rawBody;
+        console.log("web hook")
+        try {
+            if (this.endpointSecret) {
+                const eventData = JSON.parse(raw.toString());
+                if (eventData.type === 'checkout.session.completed') {
+                    const paymentIntentId = eventData.data.object.payment_intent;
+                    const studentId = JSON.parse(eventData.data.object.metadata.studentId);
+                    const courseId = eventData.data.object.metadata.courseId;
+
+                    // console.log(eventData.data.object.metadata)
+                    console.log(`Payment succeeded. PaymentIntent ID: ${paymentIntentId}`, studentId, courseId);
+                    return await this.studentCourseService.paymentSuccessService(paymentIntentId, studentId, courseId)
+                }
+            }
+        } catch (error) {
+            console.error('Error parsing webhook event:', error.message);
+        }
+    }
+
 
 
 }

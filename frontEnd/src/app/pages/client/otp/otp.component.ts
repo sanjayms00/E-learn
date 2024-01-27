@@ -46,17 +46,18 @@ export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
   }
 
   otpResend() {
-    if(this.clientMail){
-      this.authService.resendOtp(this.clientMail).subscribe(res=>{
+    if (this.clientMail) {
+      this.authService.resendOtp(this.clientMail).subscribe(res => {
         console.log(res)
       })
       this.minutes = 2
       this.seconds = 0;
       this.startCountdown();
-    }else{
+      this.resend = false;
+    } else {
       alert("email is empty")
     }
-   
+
   }
 
   onOtpChange(event: string) {

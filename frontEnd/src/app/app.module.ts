@@ -37,7 +37,7 @@ import { WelcomeComponent } from './shared/components/welcome/welcome.component'
     ClientComponent,
     NotFoundComponent,
     ErrorComponent,
-    WelcomeComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

@@ -13,29 +13,23 @@
             <p class="text-gray-800 mb-4 font-semibold">By {{ courseDetails.instructorName }}</p>
             <p class="leading-relaxed">{{ courseDetails.description | slice:0:500 }}</p>
             <div class="my-5 flex items-end justify-between">
-                <button
+                <!-- buy course -->
+                <button *ngIf="!isStudentEnrolled()"
                     class="ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded cursor-pointer"
                     [routerLink]="['/checkout', courseDetails._id ]" routerLinkActive="router-link-active">
                     Buy
                 </button>
-                <!-- <button
-                    class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4 cursor-pointer">
-                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        class="w-5 h-5" viewBox="0 0 24 24">
-                        <path
-                            d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
-                        </path>
-                    </svg>
-                </button> -->
+                <!-- open the course from here -->
+                <button *ngIf="isStudentEnrolled()"
+                    class="ml-auto text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded cursor-pointer"
+                    [routerLink]="['/learning' ]" routerLinkActive="router-link-active">
+                    Go to the course
+                </button>
             </div>
-
         </div>
     </div>
 </section>
 
-
-
-<!-- 
 
 <div class="flex items-center mb-2">
     <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -162,4 +156,4 @@
                 abuse</a>
         </div>
     </aside>
-</article> -->
+</article>

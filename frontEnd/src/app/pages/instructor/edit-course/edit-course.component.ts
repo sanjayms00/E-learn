@@ -20,7 +20,6 @@ export class EditCourseComponent implements OnInit {
   submit = false;
   formData = new FormData()
   courseData!: instructorCourse
-  thumbnail = constant.thumbnail
   id: string | null = ''
 
   constructor(

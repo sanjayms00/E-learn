@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, InternalServerErrorException, Param, Post, Put, Query, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, InternalServerErrorException, NotFoundException, Param, Post, Query, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor, } from '@nestjs/platform-express';
 import { CourseService } from 'src/instructor/services/course.service';
 
@@ -6,7 +6,7 @@ import { InstructorJwtAuthGuard } from 'src/instructor/guard/instructor.guard';
 import { CourseData } from 'src/common/interfaces/course.interface';
 
 @Controller('instructor')
-export class CourseController {
+export class InstructorCourseController {
 
     constructor(
         private readonly courseService: CourseService
@@ -29,7 +29,6 @@ export class CourseController {
     @UseInterceptors(FilesInterceptor('files'))
     async updateCourseInformation(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
         const instructorId = req.user.id
-        // console.log(files,formData, instructorId)
         return await this.courseService.updateCourseInformation(files, formData, instructorId);
     }
 
@@ -39,7 +38,6 @@ export class CourseController {
     @UseInterceptors(FilesInterceptor('files'))
     async updateSingleChapter(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
         const instructorId = req.user.id
-        // console.log(formData)
         return await this.courseService.updateSingleChapter(files, instructorId, formData);
     }
 
@@ -50,9 +48,6 @@ export class CourseController {
     @UseInterceptors(FilesInterceptor('files'))
     async updateCourseContent(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
         const instructorId = req.user.id
-        console.log("files", files)
-        console.log("formData", formData)
-        console.log("instructor", instructorId)
         return await this.courseService.updateCourseContent(files, formData, instructorId);
     }
 
@@ -61,11 +56,10 @@ export class CourseController {
     @Get("courses")
     async getInstructorCourse(@Request() req) {
         const instructorId = req.user.id
-        // console.log(instructorId)
         if (instructorId) {
             return await this.courseService.getInstructorCourse(instructorId);
         } else {
-            throw new InternalServerErrorException()
+            throw new NotFoundException("Intstructor id not found")
         }
     }
 
@@ -86,18 +80,25 @@ export class CourseController {
     }
 
     //delete a course
-    @Get('delete-course/:id')
+    @UseGuards(InstructorJwtAuthGuard)
+    @Delete('delete-course/:id')
     async deleteCourse(
-        @Param('id') id: string
+        @Param('id') courseId: string,
+        @Request() req
     ) {
-        return await this.courseService.deleteCourse(id)
+        const instructorId = req.user.id
+        if (instructorId) {
+            return await this.courseService.deleteCourse(courseId, instructorId)
+        } else {
+            throw new NotFoundException("Intstructor id not found")
+        }
     }
 
     // add new chapter to existing course
     @UseGuards(InstructorJwtAuthGuard)
     @Delete('delete-chapter')
     async deleteChapter(@Query('videoId') videoId: string) {
-        // console.log("videoId", videoId);
+
         return await this.courseService.deleteChapter(videoId);
     }
 

@@ -9,18 +9,21 @@ export class MyLearningComponent implements OnInit {
 
   myCourse: any = []
 
-
   constructor(
     private learningService: LearningService
   ) { }
 
   ngOnInit(): void {
-    this.learningService.getMyCourses().subscribe((res) => {
-      this.myCourse = res
-    })
+    this.getMyCourses()
   }
 
-
+  //get the purchased courses.
+  getMyCourses() {
+    this.learningService.getMyCourses().subscribe((res) => {
+      this.myCourse = res
+      console.log(res)
+    })
+  }
 
 
 }

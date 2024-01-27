@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-admin-navbar',
@@ -9,15 +7,5 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class AdminNavbarComponent {
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastr: ToastrService
-  ) { }
 
-  adminLogout() {
-    this.authService.adminLogout()
-    this.toastr.success("Logout successful")
-    this.router.navigateByUrl("/admin/login")
-  }
 }

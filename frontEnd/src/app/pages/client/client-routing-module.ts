@@ -19,6 +19,8 @@ import { StreamVideoComponent } from './stream-video/stream-video.component';
 import { WelcomeComponent } from 'src/app/shared/components/welcome/welcome.component';
 import { SuccessComponent } from './success/success.component';
 import { CancelComponent } from './cancel/cancel.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 // import { PaymentComponent } from './payment/payment.component';
 
 
@@ -27,27 +29,28 @@ const routes: Routes = [
     path: '',
     component: ClientComponent,
     children: [
-      { path: 'welcome', component: WelcomeComponent },
       { path: 'home', component: ClientHomeComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
       { path: 'otp', component: OtpComponent },
       { path: 'search', component: SearchComponent },
       { path: 'courses', component: SearchComponent },
       {
-        path: 'courses', children: [
+        path: 'courses',
+        canActivateChild: [clientGuard],
+        children: [
           { path: 'details/:id', component: CourseDetailsComponent },
-          { path: 'video/:id', component: StreamVideoComponent },
+          { path: 'learn', component: StreamVideoComponent },
         ]
       },
       { path: 'checkout/:id', component: CheckoutComponent, canActivate: [clientGuard] },
       { path: 'success', component: SuccessComponent, canActivate: [clientGuard] },
       { path: 'cancel', component: CancelComponent, canActivate: [clientGuard] },
       { path: 'profile', component: StudentInfoComponent, canActivate: [clientGuard] },
-      // { path: '', component: StudentInfoComponent },
       { path: 'learning', component: MyLearningComponent, canActivate: [clientGuard] },
       { path: 'communication', component: ChatComponent, canActivate: [clientGuard] },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password/:token', component: ResetPasswordComponent },
     ]
   }
 ];
@@ -57,3 +60,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class ClientRoutingModule { }
+
+
+// https://www.udemy.com/course/javascript-based-website-in-minutes-using-the-mean-stack/learn/lecture/2802038#overview

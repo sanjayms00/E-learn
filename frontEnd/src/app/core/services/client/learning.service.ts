@@ -1,28 +1,27 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { constant } from '../../constant/constant';
-import { Observable } from 'rxjs';
-import { videoInterface } from 'src/app/shared/interface/video.interface';
+import { StreamResponse } from 'src/app/shared/interface/video.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LearningService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
+  http = inject(HttpClient)
 
   getMyCourses() {
     return this.http.get(`${constant.baseUrl}/learning/my-courses`)
   }
 
+  //streaming video and fetcvh other course related data
+  streamCourse(courseId: string, videoId: string) {
 
-  getCourseVideo(videoId: string):Observable<videoInterface>
-  {
-    return this.http.get<videoInterface>(`${constant.baseUrl}/learning/get-video/${videoId}`)
+    const params = new HttpParams()
+      .set('courseId', courseId)
+      .set('videoId', videoId);
+
+    return this.http.get<StreamResponse>(`${constant.baseUrl}/learning/stream-course`, { params })
   }
-
 
 }

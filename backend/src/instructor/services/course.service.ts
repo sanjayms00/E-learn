@@ -5,38 +5,24 @@ import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import * as crypto from 'crypto';
-
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
 
 @Injectable()
 export class CourseService {
 
-    // private s3 = new S3();
-    // private s3 = new S3Client({
-    //     credentials: {
-    //         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    //         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    //     },
-    //     region: process.env.AWS_S3_REGION
-    // });
-
-    private client: any = new S3Client({
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        },
-        region: process.env.AWS_S3_REGION
+    private readonly s3Client = new S3Client({
+        region: this.configService.getOrThrow('AWS_S3_REGION')
     });
 
     constructor(
         @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
-        private configService: ConfigService,
+        private readonly configService: ConfigService,
         @InjectModel(Course.name) private courseModel: Model<Course>,
-        @InjectModel(Video.name) private videoModel: Model<Video>
+        @InjectModel(Video.name) private videoModel: Model<Video>,
     ) { }
+
+
 
     //upload the course
     async uploadCourse(files, otherData, instructorId) {
@@ -57,11 +43,12 @@ export class CourseService {
                 Bucket: process.env.BUCKET_NAME,
                 Key: imageName,
                 Body: imageFile.buffer,
-                contentType: imageFile.mimetype
+                ContentType: imageFile.mimetype
             };
 
-            const command = new PutObjectCommand(imageParams);
-            const imageResult = await this.client.send(command)
+            const imageResult = await this.s3Client.send(
+                new PutObjectCommand(imageParams)
+            )
 
             if (!imageResult) throw new Error("unable to upload the image")
 
@@ -91,17 +78,21 @@ export class CourseService {
                 videoFiles.map(async (videoFile, index) => {
                     const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-                    const videoName = videoKey()
+                    const videoExtension = videoFile.mimetype.split('/')[1];
+                    const videoName = videoKey() + '.' + videoExtension;
 
                     const videoParams = {
                         Bucket: process.env.BUCKET_NAME,
                         Key: videoName,
                         Body: videoFile.buffer,
-                        contentType: videoFile.mimetype
+                        ContentType: videoFile.mimetype
                     };
 
-                    const command = new PutObjectCommand(videoParams);
-                    await this.client.send(command)
+                    const videoResult = await this.s3Client.send(
+                        new PutObjectCommand(videoParams)
+                    )
+
+                    if (!videoResult) throw new Error("unable to upload the video")
 
                     const saveVideo = await this.videoModel.create({
                         instructorId: instructorObjectId,
@@ -136,6 +127,8 @@ export class CourseService {
         }
     }
 
+
+
     //update course informations
     async updateCourseInformation(files, otherData, instructorId) {
         try {
@@ -148,10 +141,10 @@ export class CourseService {
                     Bucket: process.env.BUCKET_NAME,
                     Key: otherData.oldImage,
                     Body: imageFile.buffer,
-                    contentType: imageFile.mimetype
+                    ContentType: imageFile.mimetype
                 };
                 const command = new PutObjectCommand(imageParams);
-                await this.client.send(command)
+                await this.s3Client.send(command)
             }
 
             const categoryId = new Types.ObjectId(otherData.courseCategory);
@@ -183,6 +176,7 @@ export class CourseService {
     }
 
 
+
     //update a single chapter
     async updateSingleChapter(files, id, formData) {
         try {
@@ -194,11 +188,11 @@ export class CourseService {
                     Bucket: process.env.BUCKET_NAME,
                     Key: oldVideo,
                     Body: files[0].buffer,
-                    contentType: files[0].mimetype
+                    ContentType: files[0].mimetype
                 };
 
                 const command = new PutObjectCommand(videoParams);
-                const videoUploadResult = await this.client.send(command)
+                const videoUploadResult = await this.s3Client.send(command)
 
                 if (!videoUploadResult) throw new Error('video upload failed')
             }
@@ -230,6 +224,8 @@ export class CourseService {
         }
     }
 
+
+
     //update courseContent
     async updateCourseContent(files, otherData, instructorId) {
         try {
@@ -254,11 +250,11 @@ export class CourseService {
                         Bucket: process.env.BUCKET_NAME,
                         Key: videoName,
                         Body: videoFile.buffer,
-                        contentType: videoFile.mimetype
+                        ContentType: videoFile.mimetype
                     };
 
                     const command = new PutObjectCommand(videoParams);
-                    await this.client.send(command)
+                    await this.s3Client.send(command)
 
                     const saveVideo = await this.videoModel.create({
                         instructorId: instructorObjectId,
@@ -298,42 +294,20 @@ export class CourseService {
 
         } catch (error) {
             console.log(error.message);
-            throw error;
+            throw new Error(error)
         }
     }
 
+
+
     //get instructor courses
-    async getInstructorCourse(id: string) {
-        const instructorId = new Types.ObjectId(id)
-        const courses = await this.courseModel.find({ instructorId }, { video: 0 })
-
-        const signedCourses = await this.generateSignedUrl(courses)
-
-        return signedCourses
+    async getInstructorCourse(instructorId: string) {
+        const objInstructorId = new Types.ObjectId(instructorId)
+        const courses = await this.courseModel.find({ instructorId: objInstructorId }, { video: 0 })
+        return courses
     }
 
-    //generate signed url for images
-    async generateSignedUrl(courses) {
-        const signedCourses = await Promise.all(
-            courses.map(async (course) => {
-                const getImageObjectParams = {
-                    Bucket: process.env.BUCKET_NAME,
-                    Key: course.thumbnail,
-                };
 
-                const command: any = new GetObjectCommand(getImageObjectParams);
-
-                const signedUrl = await getSignedUrl(this.client, command, { expiresIn: 60 * 60 });
-
-                console.log(course);
-                console.log(signedUrl);
-
-                return { ...course.toObject(), thumbnailUrl: signedUrl };
-            })
-        );
-
-        return signedCourses;
-    }
 
     //edit course details
     async editCourse(id: string) {
@@ -382,6 +356,8 @@ export class CourseService {
         }
 
     }
+
+
 
     //edit the course content
     async editCourseContent(id: string) {
@@ -439,14 +415,62 @@ export class CourseService {
         return course
     }
 
-    //delete a course
-    async deleteCourse(id: string) {
-        const courseId = new Types.ObjectId(id)
-        const course = await this.courseModel.deleteOne({ _id: courseId })
-        // console.log(course)
 
-        return course
+
+    //delete a course
+    async deleteCourse(courseId: string, instructorId: string) {
+        const objCourseId = new Types.ObjectId(courseId)
+
+        //find course
+        const course = await this.courseModel.findOne({ _id: objCourseId })
+
+        if (!course) throw new NotFoundException("Course not found")
+
+        //check students are enrolled
+        if (course.videos.length > 0) throw new NotFoundException("Students are enrolled unable to delete")
+
+        //delete thumbnail
+        const imageParams = {
+            Bucket: this.configService.getOrThrow('BUCKET_NAME'),
+            Key: course.thumbnail,
+        };
+
+        const deleteImageFromS3 = await this.s3Client.send(
+            new DeleteObjectCommand(imageParams)
+        )
+
+        if (!deleteImageFromS3) throw new Error("Unable to delete the thumbnail")
+
+        //delete videos
+        course.videos.forEach(async (item) => {
+            const video = await this.videoModel.findOne({ _id: item })
+
+            if (!video) throw new NotFoundException("Video not found")
+
+            //delete video Data
+            const deleteVideo = await this.videoModel.deleteOne({ _id: item })
+
+            if (!deleteVideo) throw new Error("Unable to delete video")
+
+            const videoParams = {
+                Bucket: this.configService.getOrThrow('BUCKET_NAME'),
+                Key: video.file,
+            };
+
+            const deleteVideoFromS3 = await this.s3Client.send(
+                new DeleteObjectCommand(videoParams)
+            )
+
+            if (!deleteVideoFromS3) throw new Error("Unable to delete the video")
+        })
+
+        //delete course
+        const deleteCourse = await this.courseModel.deleteOne({ _id: objCourseId })
+
+        return this.getInstructorCourse(instructorId)
     }
+
+
 
     //delete ca chapter
     async deleteChapter(videoId) {
@@ -463,9 +487,9 @@ export class CourseService {
                 Key: findVideo.file,
             };
 
-            const command = new DeleteObjectCommand(videoParams);
-
-            const deleteFromS3 = await this.client.send(command)
+            const deleteFromS3 = await this.s3Client.send(
+                new DeleteObjectCommand(videoParams)
+            )
 
             if (!deleteFromS3) throw new Error('Unable to delete the video')
 

@@ -1,11 +1,10 @@
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
     <!-- card -->
     <ng-container *ngFor="let course of myCourse">
-
-        <!-- {{ course?.myCourses[0]?.videos[0] | json}} -->
-
         <div class="shadow-xl border cursor-pointer border-gray-300 rounded-xl p-4 relative overflow-hidden"
-            [routerLink]="['/courses/video', course?.myCourses[0]?.videos[0]]" routerLinkActive="router-link-active">
+            [routerLink]="['/courses/learn']"
+            [queryParams]="{courseId: course.myCourses[0]._id, videoId:course.myCourses[0].videos[0] }">
+
             <div class="w-full h-full block">
                 <div class="flex items-center border-b-2 mb-2 py-2">
                     <div class="">
@@ -25,12 +24,12 @@
                         Last Updated At : {{ course.myCourses[0].updatedAt | date }}
                     </p>
                     <p class="text-gray-700 text-sm mb-4 text-justify">
-                        {{ course.myCourses[0].description | slice:0:150 }}
+                        {{ course.myCourses[0].description | truncate:60 }}
                     </p>
                 </div>
                 <div class="flex items-center justify-between my-3">
                     <p class="text-black text-sm font-semibold">
-                        4/6 tasks completed
+                        4/6 chapter completed
                     </p>
                 </div>
 

@@ -1,11 +1,11 @@
 <main class="bg-white">
-    <p-menubar [model]=" items" class="flex justify-around pb-1 border-b-2"
-        [style]="{'background-color': 'transparent', 'border': 'none' }">
-        <ng-template pTemplate="start">
-            <img src="./assets/logo/elearn-logo.png" class="mr-10 h-16 rounded-full">
-        </ng-template>
-    </p-menubar>
-    <div class="px-14 xl:px-32 my-10">
+    <div class="flex justify-between px-5 ">
+        <img src="./assets/logo/elearn-logo.png" class="mr-10 my-3 h-14 rounded-full">
+        <p-menubar [model]=" items" [style]="{'background-color': 'transparent', 'border': 'none' }">
+        </p-menubar>
+    </div>
+
+    <div class="">
         <router-outlet></router-outlet>
     </div>
 </main>

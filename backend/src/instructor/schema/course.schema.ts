@@ -18,8 +18,8 @@ export class Course extends Document {
   @Prop({ required: true })
   price: string;
 
-  // @Prop({ required: true })
-  // estimatedPrice: number;
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Students' }] })
+  students: Types.ObjectId[];
 
   @Prop()
   video: string;

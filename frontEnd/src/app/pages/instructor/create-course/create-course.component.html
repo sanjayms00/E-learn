@@ -33,7 +33,7 @@
                     ( press control to select multiple levels )</label>
                 <div class="text-red-600 font-medium"
                     *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
-                    <div *ngIf="courseLevelErrors['required']">Course Level is required</div>
+                    <div *ngIf="courseLevelErrors['required']">Course Leve l is required</div>
                 </div>
                 <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
                     class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[103px]">
@@ -57,7 +57,7 @@
                 </div>
                 <input type="text" accept="" name="coursePrice" id="coursePrice" formControlName="coursePrice"
                     class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Course price">
+                    placeholder="Course price" appNumeric>
             </div>
 
             <div>
@@ -99,7 +99,8 @@
             <div class="w-full relative border-2 border-gray-500 border-dashed rounded-lg p-6" id="dropzone"
                 (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                 <input type="file" name="videoThumbnail" id="videoThumbnail"
-                    class="absolute inset-0 w-full h-full opacity-0 z-50" (change)="onFileSelected($event)" />
+                    class="absolute inset-0 w-full h-full opacity-0 z-50" (change)="onFileSelected($event)"
+                    formControlName="files" />
                 <div class="text-center">
                     <img class="mx-auto h-12 w-12" src="https://www.svgrepo.com/show/357902/image-upload.svg" alt="">
 
@@ -113,7 +114,7 @@
                         </label>
                     </h3>
                     <p class="mt-1 text-xs text-gray-500">
-                        PNG, JPG up to 2 MB
+                        PNG, JPG
                     </p>
                 </div>
                 <img src="" class="mt-4 mx-auto max-h-40 hidden" id="preview" #previewImage>
@@ -143,37 +144,36 @@
                         placeholder="Write your thoughts here..."></textarea>
                 </div>
 
-                <div class="grid md:grid-cols-2 sm:grid-cols-1 pt-2">
+                <div class="grid grid-cols-1 pt-2">
                     <div>
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
-                            Upload*</label>
-                        <input type="file" (change)="onFileChange($event, i)" class="form-input" />
+                            upload*</label>
+                        <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm" />
                     </div>
-                    <div class="flex items-end justify-end">
-                        <div class="flex items-end justify-end">
-                            <button type="button" (click)="removeFileds(i)"
-                                class="px-4 mt-3 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
+
+                    <button type="button" (click)="removeFileds(i)"
+                        class="px-4 mt-3 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
+                        Remove
+                    </button>
                 </div>
             </div>
-        </div>
-        <div class="flex justify-center">
-            <button type="button" (click)="addfields()" class="px-4 py-2 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50">
-                    <path
-                        d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z">
-                    </path>
-                </svg>
-            </button>
-        </div>
-        <div class="flex border-t py-5 justify-end">
-            <button type="submit"
-                class="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
-                Create course
-            </button>
+            <div class="flex justify-center min-h-[400px] items-center">
+                <div class="mx-auto">
+                    <button type="button" (click)="addfields()" class="px-4 py-2 mb-4 mx-auto block">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40"
+                            viewBox="0 0 50 50">
+                            <path
+                                d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z">
+                            </path>
+                        </svg>
+                    </button>
+                    <br>
+                    <button type="submit"
+                        class="px-7 mt-3 py-2 h-[45px] text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green  active:bg-green -800">
+                        Upload
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
 </section>

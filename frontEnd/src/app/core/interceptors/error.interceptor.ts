@@ -22,10 +22,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     //handle error response
     return next.handle(request).pipe(catchError((err) => {
+      console.log(err)
       this.toastr.error(err.error?.message)
       if (err.status === 401) {
         this.authservice.clientLogout();
-        // this.router.navigate(['/'])
+        this.router.navigate(['/'])
       }
       const error = err.error.message || err.statusText
       return throwError(() => Error(error))

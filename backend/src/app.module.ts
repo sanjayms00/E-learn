@@ -7,17 +7,18 @@ import { JwtService } from '@nestjs/jwt';
 import { InstructorModule } from './instructor/instructor.module';
 
 
+
 @Module({
   imports: [
     StudentModule,
     AdminModule,
     InstructorModule,
     ConfigModule.forRoot({
-      envFilePath: ".env",
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI)
   ],
   providers: [JwtService],
+  controllers: [],
 })
 export class AppModule { }

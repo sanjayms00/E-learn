@@ -31,6 +31,12 @@ import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +56,10 @@ import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
     CourseCardComponent,
     CancelComponent,
     SuccessComponent,
-    ClientSearchBarComponent
+    ClientSearchBarComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    TruncatePipe,
 
   ],
   imports: [
@@ -66,7 +75,10 @@ import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
-    VgBufferingModule
+    VgBufferingModule,
+    AvatarModule,
+    AvatarGroupModule
+
   ],
   providers: [],
 

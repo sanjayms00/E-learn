@@ -85,6 +85,8 @@ export class CreateCourseComponent implements OnInit {
       }, (err) => {
         this.toastr.error(err.message)
       })
+    } else {
+      this.toastr.error("Fill all fields")
     }
   }
 

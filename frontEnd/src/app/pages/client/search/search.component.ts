@@ -12,7 +12,6 @@ import { FilterService } from 'src/app/shared/services/filter.service';
 export class SearchComponent implements OnInit {
 
   searchedCourses: Course[] = [];
-  thumbnail = constant.thumbnail;
   searchText: string = ''
   result: string = ''
 
@@ -48,10 +47,31 @@ export class SearchComponent implements OnInit {
   }
 
 
-  filteredEvent(event: Course[]){
+  filteredEvent(event: Course[]) {
     this.searchedCourses = event
     console.log(event)
   }
+
+
+
+  makeAscName() {
+    this.searchedCourses.sort((a, b) => {
+      const nameA = a.courseName.toLowerCase();
+      const nameB = b.courseName.toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+    console.log(this.searchedCourses)
+  }
+
+  makeDescName() {
+    this.searchedCourses.sort((a, b) => {
+      const nameA = a.courseName.toLowerCase();
+      const nameB = b.courseName.toLowerCase();
+      return nameB.localeCompare(nameA);
+    });
+    console.log(this.searchedCourses)
+  }
+
 
 
 }

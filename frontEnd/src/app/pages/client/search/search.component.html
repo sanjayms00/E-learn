@@ -8,16 +8,16 @@
     <div
       class="absolute hidden w-[200px] bg-white border rounded-sm p-2 space-y-2 text-gray-700 group-hover:block shadow-xl top-11 right-5">
       <!-- Added left-0 class -->
-      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
+      <!-- <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
         High rated
-      </a>
-      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
+      </a> -->
+      <!-- <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
         Newest
-      </a>
-      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
+      </a> -->
+      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white" (click)="makeAscName()">
         Course A→Z
       </a>
-      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white">
+      <a class="block px-4 py-2 cursor-pointer hover:bg-black rounded-md hover:text-white" (click)="makeDescName()">
         Course Z←A
       </a>
     </div>

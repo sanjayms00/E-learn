@@ -1,5 +1,5 @@
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model, Types } from 'mongoose';
@@ -9,8 +9,14 @@ import { Course } from 'src/instructor/schema/course.schema';
 import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Student } from 'src/student/schema/student.schema';
 
+import Stripe from "stripe";
+
+
+
 @Injectable()
 export class StudentCourseService {
+
+    stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     constructor(
         @InjectModel(Course.name)
@@ -165,6 +171,7 @@ export class StudentCourseService {
                         price: 1,
                         description: 1,
                         estimatedPrice: 1,
+                        students: 1,
                         thumbnail: 1,
                         updatedAt: 1,
                         instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
@@ -268,30 +275,106 @@ export class StudentCourseService {
     //checkout
     async checkout(courseData, studentId) {
 
-        // const price = Number(courseData.course.price)
-        console.log(studentId, courseData._id)
-        try {
-            const updateStudent = await this.studentModel.updateOne(
-                {
-                    _id: studentId
-                },
-                {
-                    $addToSet: {
-                        courses: {
-                            $each: [{
-                                courseId: new Types.ObjectId(courseData._id),
-                                progress: 0,
-                            }],
-                        }
-                    }
-                }
-            )
-            console.log(updateStudent);
+        //get studentData
+        const studentData = await this.studentModel.findOne({ _id: new Types.ObjectId(studentId) }, { password: 0 })
 
-            return updateStudent
+        console.log("Id", courseData.course._id, studentId)   //Id 65a779ed21a1b6d99c1afe58 new ObjectId('6
+
+        const coursePrice = Number(courseData.course.price)
+
+        try {
+            const customer = await this.stripeClient.customers.create({
+                name: 'Jenny Rosen',
+                address: {
+                    line1: '510 Townsend St',
+                    postal_code: '98140',
+                    city: 'San Francisco',
+                    state: 'CA',
+                    country: 'US',
+                },
+            });
+
+            await this.stripeClient.paymentIntents.create({
+                amount: coursePrice * 100,
+                currency: 'inr',
+                description: 'Software development services',
+                customer: customer.id,
+            });
+
+            //create a session send back to the client
+            const session = await this.stripeClient.checkout.sessions.create({
+                payment_method_types: ['card'],
+                customer: customer.id,
+                billing_address_collection: 'required',
+                line_items: [
+                    {
+                        price_data: {
+                            currency: 'inr',
+                            product_data: {
+                                name: courseData.course.courseName,
+                            },
+                            unit_amount: coursePrice * 100,
+                        },
+                        quantity: 1,
+                    },
+                ],
+                mode: 'payment',
+                success_url: `http://localhost:4200/success`,
+                cancel_url: `http://localhost:4200/cancel`,
+                metadata: {
+                    studentId: JSON.stringify(studentId),
+                    courseId: courseData.course._id
+                },
+            });
+            // return session created
+            return session
         } catch (error) {
             console.log(error)
             throw new Error(error)
+        }
+    }
+
+    //after payment save course
+    async paymentSuccessService(paymentIntentId, studentId, courseId) {
+        // console.log("success service", paymentIntentId, studentId, courseId)
+        try {
+            const courseExists = await this.studentModel.exists({
+                _id: studentId,
+                'courses': {
+                    $elemMatch: {
+                        'courseId': new Types.ObjectId(courseId)
+                    }
+                }
+            });
+
+            if (!courseExists) {
+                await this.courseModel.updateOne(
+                    { _id: courseId },
+                    {
+                        $push: {
+                            students: new Types.ObjectId(studentId)
+                        }
+                    }
+                );
+                await this.studentModel.updateOne(
+                    { _id: studentId },
+                    {
+                        $addToSet: {
+                            courses: {
+                                $each: [{
+                                    courseId: new Types.ObjectId(courseId),
+                                    progress: 0,
+                                }],
+                            }
+                        }
+                    }
+                );
+            } else {
+                throw new HttpException('course alredy purchased', HttpStatus.CONFLICT);
+            }
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

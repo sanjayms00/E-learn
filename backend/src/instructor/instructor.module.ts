@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -6,12 +6,15 @@ import { InstructorAuthController } from './controllers/instructor-auth.controll
 import { InstructorAuthService } from './services/instructor-auth.service';
 import { instructorJwtStrategy } from './strategy/instructorJwt.strategy';
 import { instructorSchema } from './schema/instructor.schema';
-import { CourseController } from './controllers/course.controller';
+import { InstructorCourseController } from './controllers/instructor-course.controller';
 import { CourseService } from './services/course.service';
 import { courseSchema } from './schema/course.schema';
 import { InstructorJwtAuthGuard } from './guard/instructor.guard';
 import { VideoSchema } from './schema/video.schema';
-import { SignedUrlService } from 'src/common/service/signed-url.service';
+// import { SignedUrlService } from 'src/common/service/signed-url.service';
+import { InstructorProfileController } from './controllers/instructor-profile.controller';
+import { InstructorProfileService } from './services/instructor-profile.service';
+import { InstructorMiddleware } from './middlewares/instructor.middleware';
 
 @Module({
   imports: [
@@ -27,10 +30,12 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
   ],
   controllers: [
     InstructorAuthController,
-    CourseController
+    InstructorCourseController,
+    InstructorProfileController
   ],
   providers: [
     InstructorAuthService,
+    InstructorProfileService,
     CourseService,
     instructorJwtStrategy,
     JwtService,
@@ -43,4 +48,12 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
   ],
 
 })
-export class InstructorModule { }
+export class InstructorModule implements NestModule { 
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(InstructorMiddleware)
+      .forRoutes('instructor');
+  }
+
+}
