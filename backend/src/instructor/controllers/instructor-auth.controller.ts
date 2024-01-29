@@ -4,7 +4,7 @@ import { SignupDto } from 'src/common/dtos/signDto';
 import { InstructorAuthService } from 'src/instructor/services/instructor-auth.service';
 import { LoginDto } from 'src/common/dtos/loginDto';
 
-@Controller('auth-instructor')
+@Controller('auth')
 export class InstructorAuthController {
   constructor(private instructorAuthService: InstructorAuthService) { }
 

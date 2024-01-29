@@ -9,6 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { constant } from '../constant/constant';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -22,10 +23,18 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     //handle error response
     return next.handle(request).pipe(catchError((err) => {
-      console.log(err)
       this.toastr.error(err.error?.message)
+      const baseUrl = constant.baseUrl + '/';
+
       if (err.status === 401) {
-        this.authservice.clientLogout();
+        const restOfTheString = err.url.substring(baseUrl.length);
+
+        if (restOfTheString.startsWith('instructor')) {
+          this.authservice.instructorLogout();
+        }
+        else if (restOfTheString.startsWith('student')) {
+          this.authservice.clientLogout();
+        }
         this.router.navigate(['/'])
       }
       const error = err.error.message || err.statusText

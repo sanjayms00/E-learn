@@ -16,22 +16,22 @@ export class AuthService {
 
   //login api call
   studentLogin(loginData: loginInterface): Observable<{ user: clientStateInterface, accessToken: string }> {
-    return this.http.post<{ user: clientStateInterface, accessToken: string }>(`${constant.baseUrl}/auth/login`, loginData)
+    return this.http.post<{ user: clientStateInterface, accessToken: string }>(`${constant.baseUrl}/student/auth/login`, loginData)
   }
 
   //signup api call
   studentSignUp(signupData: SignUpInterface) {
-    return this.http.post<{ email: string }>(`${constant.baseUrl}/auth/signUp`, signupData)
+    return this.http.post<{ email: string }>(`${constant.baseUrl}/student/auth/signUp`, signupData)
   }
 
   //login api call instructor
   instructorLogin(loginData: loginInterface) {
-    return this.http.post(`${constant.baseUrl}/auth-instructor/login`, loginData)
+    return this.http.post(`${constant.baseUrl}/instructor/auth/login`, loginData)
   }
 
   //signup api call instructor
   instructorSignUp(signupData: SignUpInterface): Observable<object> {
-    return this.http.post(`${constant.baseUrl}/auth-instructor/signUp`, signupData)
+    return this.http.post(`${constant.baseUrl}/instructor/auth/signUp`, signupData)
   }
 
   //adminlogin api call
@@ -82,23 +82,23 @@ export class AuthService {
 
   //verify otp
   verifyotp(data: { email: string | null, otp: number }): Observable<{ user: studentInterface, access_token: string }> {
-    return this.http.put<{ user: studentInterface, access_token: string }>(`${constant.baseUrl}/auth/verifyOtp`, data)
+    return this.http.put<{ user: studentInterface, access_token: string }>(`${constant.baseUrl}/student/auth/verifyOtp`, data)
   }
 
   //resend otp
   resendOtp(email: string) {
     console.log(email)
-    return this.http.put(`${constant.baseUrl}/auth/resendOtp`, { email })
+    return this.http.put(`${constant.baseUrl}/student/auth/resendOtp`, { email })
   }
 
   //forgot password
   forgotPassword(email: string) {
-    return this.http.post<{ status: HttpStatusCode }>(`${constant.baseUrl}/auth/forgotPassword`, { email })
+    return this.http.post<{ status: HttpStatusCode }>(`${constant.baseUrl}/student/auth/forgotPassword`, { email })
   }
 
   //reset password
   resetPassword(token: string, password: string) {
-    return this.http.post<{ status: boolean, message: string }>(`${constant.baseUrl}/auth/resetPassword`, { token, password })
+    return this.http.post<{ status: boolean, message: string }>(`${constant.baseUrl}/student/auth/resetPassword`, { token, password })
   }
 
 

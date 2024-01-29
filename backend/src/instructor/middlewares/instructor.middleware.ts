@@ -15,8 +15,8 @@ export class InstructorMiddleware implements NestMiddleware {
     private instructorModel: Model<Instructor>
   ) { }
 
-
   async use(req: Request, res: Response, next: NextFunction) {
+
     const authorizationHeader = req.headers.authorization;
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
       const token = authorizationHeader.split(' ')[1];
@@ -26,11 +26,11 @@ export class InstructorMiddleware implements NestMiddleware {
         //find student blocked or not
         const instructorId = new Types.ObjectId(decodedToken.id)
         const blockedStudent = await this.instructorModel.findOne({ _id: instructorId, status: true })
-
+        console.log("instructor middleware")
         if (!blockedStudent) {
           return res.status(401).json({ message: 'Unauthorized, user is blocked' });
         }
-        console.log("instr")
+
         next();
       } catch (error) {
         res.status(401).json({ message: 'Unauthorized' });

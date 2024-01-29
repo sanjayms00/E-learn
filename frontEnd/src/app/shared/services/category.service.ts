@@ -13,8 +13,7 @@ export class CategoryService {
         private http: HttpClient
     ) { }
 
-    getCategories(): Observable<categories[]>
-    {
-        return this.http.get<categories[]>(`${constant.baseUrl}/categories/all`)
+    getCategories(): Observable<categories[]> {
+        return this.http.get<categories[]>(`${constant.baseUrl}/student/categories/all`)
     }
 }

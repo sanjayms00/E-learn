@@ -78,7 +78,7 @@ export class ClientService {
 
             return { status: "updated" };
         } catch (error) {
-            console.log(error.message)
+
             throw new HttpException("Failed to update status", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

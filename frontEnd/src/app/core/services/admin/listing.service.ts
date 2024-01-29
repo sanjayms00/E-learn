@@ -17,21 +17,21 @@ export class ListingService {
 
 
     getStudentList(): Observable<studentInterface[]> {
-        return this.http.get<studentInterface[]>(`${constant.baseUrl}/admin/client/students`)
+        return this.http.get<studentInterface[]>(`${constant.baseUrl}/admin/students`)
 
     }
 
     getInstructorList(): Observable<instructorInterface[]> {
-        return this.http.get<instructorInterface[]>(`${constant.baseUrl}/admin/client/instructors`)
+        return this.http.get<instructorInterface[]>(`${constant.baseUrl}/admin/instructors`)
     }
 
 
     changeStudentStatus(data: statusInterface) {
-        return this.http.patch(`${constant.baseUrl}/admin/client/student-status`, data)
+        return this.http.patch(`${constant.baseUrl}/admin/student-status`, data)
     }
 
     changeInstructorStatus(data: statusInterface) {
-        return this.http.patch(`${constant.baseUrl}/admin/client/instructor-status`, data)
+        return this.http.patch(`${constant.baseUrl}/admin/instructor-status`, data)
     }
 
 

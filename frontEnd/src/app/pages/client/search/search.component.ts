@@ -15,7 +15,9 @@ export class SearchComponent implements OnInit {
   searchText: string = ''
   result: string = ''
   filteredCourses: Course[] = []
+  cities: any[] | undefined;
 
+  selectedCity: any | undefined;
 
   constructor(
     private filterService: FilterService,
@@ -24,6 +26,12 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.allCourse()
+    this.cities = [
+      { name: ' Course A→Z', code: 'courseAsc' },
+      { name: ' Course Z→A', code: 'courseDesc' },
+      { name: ' price low - high', code: 'priceAsc' },
+      { name: ' price high - low', code: 'priceDesc' },
+    ];
   }
 
   allCourse() {
@@ -47,6 +55,20 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  onDropdownChange(event: any) {
+    if (event.value.code == 'courseAsc') {
+      this.makeAscName()
+    }
+    else if (event.value.code == 'courseDesc') {
+      this.makeDescName()
+    }
+    else if (event.value.code == 'priceAsc') {
+      this.makeAscPrice()
+    }
+    else if (event.value.code == 'priceDesc') {
+      this.makeDescPrice()
+    }
+  }
 
   filteredEvent(event: Course[]) {
     this.searchedCourses = event
@@ -59,7 +81,6 @@ export class SearchComponent implements OnInit {
       const nameB = b.courseName.toLowerCase();
       return nameA.localeCompare(nameB);
     });
-
   }
 
   makeDescName() {
@@ -68,7 +89,21 @@ export class SearchComponent implements OnInit {
       const nameB = b.courseName.toLowerCase();
       return nameB.localeCompare(nameA);
     });
+  }
 
+  makeAscPrice() {
+    this.searchedCourses.sort((a, b) => {
+      const nameA = a.price;
+      const nameB = b.price;
+      return nameB.localeCompare(nameA);
+    });
+  }
+  makeDescPrice() {
+    this.searchedCourses.sort((a, b) => {
+      const nameA = a.price;
+      const nameB = b.price;
+      return nameA.localeCompare(nameB);
+    });
   }
 
 

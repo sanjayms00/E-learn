@@ -2,7 +2,7 @@ import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { InstructorProfileService } from '../services/instructor-profile.service';
 import { InstructorJwtAuthGuard } from '../guard/instructor.guard';
 
-@Controller('instructor/profile')
+@Controller('profile')
 export class InstructorProfileController {
 
 

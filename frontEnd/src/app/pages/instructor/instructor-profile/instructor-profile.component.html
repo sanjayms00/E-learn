@@ -1,139 +1,127 @@
-{{ profile | json }}
+<section class="h-screen">
 
 
-<section class="banner w-full h-40 overflow-hidden relative">
-    <img src="https://marketplace.canva.com/EAFqqGQof14/1/0/1600w/canva-blue-minimalist-abstract-wave-linkedin-banner-jFsA3DjIRXM.jpg"
-        alt="">
-</section>
-
-
-<section class="w-[80%] mx-auto flex">
-    <div class="w-2/5">
-        <div class="h-52 w-52 mx-auto mt-[-90px] relative z-10 border-4 border-white rounded-full overflow-hidden">
-            <img src="https://img.freepik.com/premium-vector/avatar-profile-colorful-illustration-2_549209-82.jpg"
-                alt="">
-        </div>
-    </div>
-    <div class="pt-4 w-3/5">
-        <div class="flex gap-5 items-center">
-            <h2 class="font-bold text-2xl pb-2 uppercase">
-                {{ profile.fullName }}
-            </h2>
-            <button class="border-2 border-gray-400 p-2 rounded-md font-semibold" (click)="showDialog()">
-                <i class="pi pi-user-edit font-semibold"></i>
-                Edit
-            </button>
-        </div>
-
-        <p class="font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-        <!-- social media -->
-        <div class="flex gap-2 mt-2">
-            <!-- instagram -->
-            <span><i class="pi pi-instagram"></i></span>
-            <span>insta id</span>
-            <span>|</span>
-
-            <!-- facebook -->
-            <span><i class="pi pi-facebook"></i></span>
-            <span>fb id</span>
-            <span>|</span>
-
-            <!-- twitter -->
-            <span><i class="pi pi-twitter"></i></span>
-            <span>twitter id</span>
-            <span>|</span>
-
-            <!-- linked in id -->
-            <span><i class="pi pi-linkedin"></i></span>
-            <span>linked in id</span>
-        </div>
+    <div class="banner w-full h-40 overflow-hidden relative">
+        <img src="https://marketplace.canva.com/EAFqqGQof14/1/0/1600w/canva-blue-minimalist-abstract-wave-linkedin-banner-jFsA3DjIRXM.jpg"
+            alt="">
     </div>
 
-</section>
-
-<section class="bg-gray-100 mt-3">
     <div class="w-[80%] mx-auto flex">
-        <div class="w-2/5 p-5">
-            <div class="my-3 flex gap-3">
-                <span><i class="pi pi-phone"></i></span>
-                <span class="font-semibold">{{ profile.mobile }}</span>
+        <div class="w-2/5">
+            <div class="h-52 w-52 mx-auto mt-[-90px] relative z-10 border-4 border-white rounded-full overflow-hidden">
+                <img src="https://img.freepik.com/premium-vector/avatar-profile-colorful-illustration-2_549209-82.jpg"
+                    alt="">
             </div>
-            <div class="my-3 flex gap-3">
-                <span><i class="pi pi-send"></i></span>
-                <span class="font-semibold">{{ profile.email }}</span>
-            </div>
-
-
         </div>
-        <div class="w-3/5 p-5">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
-
-            <div class="flex items-center mt-4">
-                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
-                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                    <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
-                </div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-            </div>
-            <div class="flex items-center mt-4">
-                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
-                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                    <div class="h-5 bg-yellow-300 rounded" style="width: 17%"></div>
-                </div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
-            </div>
-            <div class="flex items-center mt-4">
-                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
-                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                    <div class="h-5 bg-yellow-300 rounded" style="width: 8%"></div>
-                </div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
-            </div>
-            <div class="flex items-center mt-4">
-                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
-                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                    <div class="h-5 bg-yellow-300 rounded" style="width: 4%"></div>
-                </div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
-            </div>
-            <div class="flex items-center mt-4">
-                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
-                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                    <div class="h-5 bg-yellow-300 rounded" style="width: 1%"></div>
-                </div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
+        <div class="pt-4 w-3/5">
+            <div class="flex gap-5 items-center">
+                <h2 class="font-bold text-2xl pb-2 uppercase">
+                    {{ profile.fullName }}
+                </h2>
+                <button class="border-2 border-gray-400 p-2 rounded-md font-semibold" (click)="showDialog()">
+                    <i class="pi pi-user-edit font-semibold"></i>
+                    Edit
+                </button>
             </div>
 
+            <p class="font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+            <!-- social media -->
+            <div class="flex gap-2 mt-2">
+                <!-- instagram -->
+                <span><i class="pi pi-instagram"></i></span>
+                <span>insta id</span>
+                <span>|</span>
+
+                <!-- facebook -->
+                <span><i class="pi pi-facebook"></i></span>
+                <span>fb id</span>
+                <span>|</span>
+
+                <!-- twitter -->
+                <span><i class="pi pi-twitter"></i></span>
+                <span>twitter id</span>
+                <span>|</span>
+
+                <!-- linked in id -->
+                <span><i class="pi pi-linkedin"></i></span>
+                <span>linked in id</span>
+            </div>
         </div>
     </div>
-</section>
+
+    <div class="bg-gray-100 mt-3">
+        <div class="w-[80%] mx-auto flex">
+            <div class="w-2/5 p-5">
+                <div class="my-3 flex gap-3">
+                    <span><i class="pi pi-phone"></i></span>
+                    <span class="font-semibold">{{ profile.mobile }}</span>
+                </div>
+                <div class="my-3 flex gap-3">
+                    <span><i class="pi pi-send"></i></span>
+                    <span class="font-semibold">{{ profile.email }}</span>
+                </div>
 
 
-
-<div class="card flex justify-content-center">
-    <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
-        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-        <ng-template pTemplate="header">
-            <div class="inline-flex align-items-center justify-content-center gap-2">
-                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
-                <span class="font-bold white-space-nowrap">Add Profile Details</span>
             </div>
-        </ng-template>
+            <div class="w-3/5 p-5">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
 
-        <ng-template pTemplate="footer">
-            <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus [autofocus]="true"></p-button>
-        </ng-template>
+                <div class="flex items-center mt-4">
+                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
+                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
+                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 17%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
+                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 8%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
+                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 4%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
+                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 1%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
+                </div>
 
-    </p-dialog>
-</div>
+            </div>
+        </div>
+    </div>
 
+    <div class="card flex justify-content-center">
+        <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
+            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+            <ng-template pTemplate="header">
+                <div class="inline-flex align-items-center justify-content-center gap-2">
+                    <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+                    <span class="font-bold white-space-nowrap">Add Profile Details</span>
+                </div>
+            </ng-template>
 
-<div class="card flex justify-content-center">
-    <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
-        <ng-template pTemplate="headless">
-            <img src="./assets/logo/elearn-logo.png" class="mr-10 my-3 h-14 rounded-full responsive top-0 left-0">
-        </ng-template>
-    </p-sidebar>
-    <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button>
-</div>
+            <ng-template pTemplate="footer">
+                <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus
+                    [autofocus]="true"></p-button>
+            </ng-template>
+
+        </p-dialog>
+    </div>
+</section>

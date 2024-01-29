@@ -1,56 +1,81 @@
-<!-- {{ courses | json }} -->
+<section class="bg-gray-100 p-10 h-screen">
+  <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
+    Instructor Courses
+  </h1>
 
-<section class="w-[80%] mx-auto">
-
-
-  <div class="flex justify-center items-center h-[500px]" *ngIf="courses.length < 1">
-    <div class=" text-center">
-      <p class="text-lg">No Course to display</p>
-      <button
-        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-        [routerLink]="['/instructor/create']" routerLinkActive="router-link-active">
-        Create Course
-      </button>
-    </div>
-  </div>
-
-
-
-  <div class="container px-5 mx-auto text-gray-700 body-font border-gray-200">
-    <div class="flex flex-wrap -m-4">
-      <!-- loop starts -->
-      <div *ngFor="let course of courses" class="p-4 cursor-pointer md:w-1/4">
-        <!-- {{course.thumbnail | json}} -->
-        <div class="flex rounded-lg h-full bg-gray-200 p-4 shadow-xl flex-col">
-          <div class="flex items-center mb-3">
-            <div
-              class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                class="w-5 h-5" viewBox="0 0 24 24">
-                <rect width="18" height="12" x="3" y="6" rx="2" ry="2"></rect>
-                <circle cx="8" cy="12" r="3"></circle>
-                <path d="M21 12a3 3 0 0 1-3 3"></path>
-              </svg>
-            </div>
-            <h3 class="text-black">
-              {{ course.courseName | truncate:50 }}
-            </h3>
-          </div>
-          <div class="flex-grow">
-            <img [src]="url+course.thumbnail" alt="Image Alt Text"
-              class="w-full h-30 object-cover mb-4 rounded h-40 overflow-hidden">
-            <div class="w-full flex justify-evenly mt-3 gap-2">
-              <p-button label="Edit" styleClass="p-button-help" [routerLink]="['/instructor', 'edit', course._id]"
-                routerLinkActive="router-link-active" icon="pi pi-pencil"></p-button>
-
-              <p-button (click)="confirm2($event, course._id)" label="Delete" icon="pi pi-trash"
-                styleClass="p-button-danger"></p-button>
-            </div>
-          </div>
-        </div>
+  <div class="pt-5">
+    <!-- No Data -->
+    <div class="h-screen flex justify-center items-center align-middle" *ngIf="courses.length < 1">
+      <div class="flex flex-col items-center gap-5">
+        <p class="text-lg font-semibold">No Course to display</p>
+        <p-button label="Create Course" [routerLink]="['/instructor/create']" routerLinkActive="router-link-active"
+          [style]="{'margin': '0 auto'}"></p-button>
       </div>
-      <!-- loop ends -->
     </div>
+
+    <!-- {{ courses | json }} -->
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg pt-5">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Image
+            </th>
+            <th scope="col" class="px-6 py-3">
+              courseName
+            </th>
+            <th scope="col" class="px-6 py-3">
+              price
+            </th>
+            <th scope="col" class="px-6 py-3">
+              chapters
+            </th>
+            <th scope="col" class="px-6 py-3">
+              levels
+            </th>
+            <th scope="col" class="px-6 py-3 text-center">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-900">
+          <tr *ngFor="let course of courses"
+            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
+              {{ course.courseName | truncate:65 }}
+            </th>
+            <td class="px-6 py-4">
+              <img [src]="url+course.thumbnail" alt="Image Alt Text" class=" mb-4 h-14">
+            </td>
+            <td class="px-6 py-4">
+              {{ course.price | truncate:65 }}
+            </td>
+            <td class="px-6 py-4">
+              {{ course?.videos?.length }} chapters
+            </td>
+            <td class="px-6 py-4">
+              {{ course.courseTags }}
+            </td>
+            <td class="px-6 py-4 flex gap-4">
+              <button type="button" class="p-3 rounded-lg bg-[#75f3ff] text-black font-semibold"
+                [routerLink]="['/instructor', 'edit', course._id]">
+                <i class="pi pi-pencil"></i>
+                Edit
+              </button>
+
+              <button type="button" class="p-3 rounded-lg bg-[#e53b3b] text-white font-semibold"
+                (click)="confirm2($event, course._id)">
+                <i class="pi pi-trash"></i>
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
   </div>
 </section>
 

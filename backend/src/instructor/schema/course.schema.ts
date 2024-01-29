@@ -16,7 +16,7 @@ export class Course extends Document {
   description: string;
 
   @Prop({ required: true })
-  price: string;
+  price: number;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Students' }] })
   students: Types.ObjectId[];

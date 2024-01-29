@@ -1,5 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { Sidebar } from 'primeng/sidebar';
+import { Component, OnInit } from '@angular/core';
 import { InstructorProfileService } from 'src/app/core/services/instructor/instructor-profile.service';
 
 export type instructorProfileType = {
@@ -21,8 +20,6 @@ export class InstructorProfileComponent implements OnInit {
     mobile: ''
   }
   visible: boolean = false;
-  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
-  sidebarVisible: boolean = false;
 
 
 
@@ -34,10 +31,6 @@ export class InstructorProfileComponent implements OnInit {
     this.profileService.InstructorProfileData().subscribe(res => {
       this.profile = res
     })
-  }
-
-  closeCallback(e: any): void {
-    this.sidebarRef.close(e);
   }
 
   showDialog() {

@@ -1,15 +1,14 @@
-<section class="mb-10 w-[80%] mx-auto">
+<section class=" bg-gray-100 p-10">
     <form [formGroup]="course" (ngSubmit)="editCourseSubmit()">
-        <div class="flex justify-between border-b py-3 border-b-gray-500 items-end mb-4">
-            <h3 class="text-lg font-bold leading-none text-gray-900 dark:text-white ">
+        <div class="flex justify-between py-3 border-b-2 border-b-gray-300  items-end mb-4">
+            <h1 class="text-xl font-bold uppercase pb-2">
                 Course Information
-            </h3>
-            <button [routerLink]="['/instructor/edit/content', id]"
-                class="px-4 py-2 text-white bg-black rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
-                Edit course Videos
+            </h1>
+            <button type="button" [routerLink]="['/instructor/edit/content', id]"
+                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Edit chapters
             </button>
         </div>
-
 
         <div class="mb-4">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
@@ -134,53 +133,10 @@
             </div>
         </div>
 
-
-        <!-- <div formArrayName="fields">
-            <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
-                class="grid gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
-                <h2 class="font-medium">Chapter {{ i+1 }}</h2>
-                <div>
-                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
-                        Title*</label>
-                    <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Title name">
-                </div>
-                <div>
-                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                        Message*</label>
-                    <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Write your thoughts here..."></textarea>
-                </div>
-
-                <div class="flex justify-between">
-                    <div>
-                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
-                            Upload*</label>
-                        <input type="file" (change)="onFileChange($event, i)" class="form-input" formControlName="files" />
-                    </div>
-
-                    <button type="button" (click)="removeFileds(i)"
-                        class="px-4 py-2 h-[45px] text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">
-                        Remove
-                    </button>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="flex justify-center">
-            <button type="button" (click)="addfields()" class="px-4 py-2 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
-                    <path
-                        d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z">
-                    </path>
-                </svg>
-            </button>
-        </div> -->
         <div class="flex border-t py-5 justify-end">
             <button type="submit"
-                class="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">
-                update course Information
+                class="px-7 mt-3 py-2 h-[50px] text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green  active:bg-green -800">
+                <i class="pi pi-cloud-upload"></i> Upload
             </button>
         </div>
     </form>

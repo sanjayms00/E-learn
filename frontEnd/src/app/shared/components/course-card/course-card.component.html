@@ -4,13 +4,13 @@
         <img [src]="course.thumbnailUrl" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
 
         <div class="flex justify-between items-center mb-2">
-            <h2 class="text-md font-semibold text-gray-800 dark:text-white">
-                {{ course.courseName | truncate:30 }}
+            <h2 class="text-md font-semibold text-gray-800 dark:text-white h-12">
+                {{ course.courseName | truncate:100 }}
             </h2>
-            <span class="text-xl font-bold text-gray-900 dark:text-white">₹ {{ course.price }}</span>
         </div>
+        <span class="text-xl font-bold text-gray-900 dark:text-white pb-3">₹ {{ course.price }}</span>
 
-        <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">By {{ course.instructorName }}</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-2 font-semibold">By {{ course.instructorName }}</p>
 
         <div class="flex items-center mb-4">
             <div class="flex items-center mt-2.5 mb-5">

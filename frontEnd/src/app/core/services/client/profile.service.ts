@@ -12,7 +12,7 @@ export class ProfileService {
     ) { }
 
     getProfileData() {
-        return this.http.get(`${constant.baseUrl}/profile`)
+        return this.http.get(`${constant.baseUrl}/student/profile`)
     }
 
 

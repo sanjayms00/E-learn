@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
+import { Sidebar } from 'primeng/sidebar';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -10,6 +11,9 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class InstructorComponent {
     items!: MenuItem[];
+    @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+    sidebarVisible: boolean = true;
+
 
     constructor(
         private authService: AuthService,
@@ -42,11 +46,6 @@ export class InstructorComponent {
                 ]
             },
             {
-                label: 'Students List',
-                icon: 'pi pi-fw pi-users',
-                routerLink: '/instructor/student-list'
-            },
-            {
                 label: 'Notifications',
                 icon: 'pi pi-fw pi-calendar',
                 items: [
@@ -76,16 +75,6 @@ export class InstructorComponent {
                         ]
                     }
                 ]
-            },
-            {
-                label: 'Profile',
-                icon: 'pi pi-fw pi-user',
-                routerLink: '/instructor/profile'
-            },
-            {
-                label: 'Logout',
-                icon: 'pi pi-fw pi-power-off',
-                command: () => this.logout(),
             }
         ];
     }
@@ -97,4 +86,8 @@ export class InstructorComponent {
         this.router.navigateByUrl("/instructor/login")
     }
 
+
+    closeCallback(e: any): void {
+        this.sidebarRef.close(e);
+    }
 }

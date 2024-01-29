@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { studentJwtAuthGuard } from 'src/student/guards/student.guard';
 import { StudentCourseService } from 'src/student/services/student-course.service';
 
-@Controller('student')
+@Controller('')
 export class StudentCourseController {
 
     private endpointSecret = this.configService.getOrThrow('END_POINT_SECRET')

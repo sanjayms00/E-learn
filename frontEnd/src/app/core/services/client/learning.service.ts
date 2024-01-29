@@ -15,7 +15,7 @@ export class LearningService {
 
   //get my courses
   getMyCourses(): Observable<myLearning[]> {
-    return this.http.get<myLearning[]>(`${constant.baseUrl}/learning/my-courses`)
+    return this.http.get<myLearning[]>(`${constant.baseUrl}/student/learning/my-courses`)
   }
 
   //streaming video and fetcvh other course related data
@@ -25,7 +25,7 @@ export class LearningService {
       .set('courseId', courseId)
       .set('videoId', videoId);
 
-    return this.http.get<StreamResponse>(`${constant.baseUrl}/learning/stream-course`, { params })
+    return this.http.get<StreamResponse>(`${constant.baseUrl}/student/learning/stream-course`, { params })
   }
 
 }

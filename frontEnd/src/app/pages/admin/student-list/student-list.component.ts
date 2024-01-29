@@ -17,7 +17,6 @@ import { appState } from 'src/app/shared/store/state/app.state';
 export class StudentListComponent implements OnInit {
 
   studentList !: studentInterface[];
-  studentSubscription !: Subscription;
   searchText = ''
 
 
@@ -43,10 +42,4 @@ export class StudentListComponent implements OnInit {
     this.store.dispatch(studentStatusChange({ id, status }))
   }
 
-
-
-
-  // ngOnDestroy(): void {
-  //   this.studentSubscription.unsubscribe()
-  // }
 }

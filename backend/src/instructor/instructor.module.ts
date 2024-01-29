@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -15,6 +15,8 @@ import { VideoSchema } from './schema/video.schema';
 import { InstructorProfileController } from './controllers/instructor-profile.controller';
 import { InstructorProfileService } from './services/instructor-profile.service';
 import { InstructorMiddleware } from './middlewares/instructor.middleware';
+import { InstructorDashboardController } from './controllers/instructor-dashboard.controller';
+import { InstructorDashboardService } from './services/instructor-dashboard.service';
 
 @Module({
   imports: [
@@ -31,11 +33,13 @@ import { InstructorMiddleware } from './middlewares/instructor.middleware';
   controllers: [
     InstructorAuthController,
     InstructorCourseController,
-    InstructorProfileController
+    InstructorProfileController,
+    InstructorDashboardController
   ],
   providers: [
     InstructorAuthService,
     InstructorProfileService,
+    InstructorDashboardService,
     CourseService,
     instructorJwtStrategy,
     JwtService,
@@ -46,14 +50,20 @@ import { InstructorMiddleware } from './middlewares/instructor.middleware';
     PassportModule,
     InstructorJwtAuthGuard
   ],
-
 })
-export class InstructorModule implements NestModule { 
+export class InstructorModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(InstructorMiddleware)
-      .forRoutes('instructor');
+      .exclude(
+      // { path: '', method: RequestMethod.ALL }
+    )
+      .forRoutes(
+        InstructorCourseController,
+        InstructorProfileController,
+        InstructorDashboardController
+      );
   }
 
 }

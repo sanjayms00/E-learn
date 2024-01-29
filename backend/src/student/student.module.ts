@@ -94,9 +94,12 @@ export class StudentModule implements NestModule {
         { path: 'student/all-courses', method: RequestMethod.ALL },
         { path: 'student/search/:searchText', method: RequestMethod.ALL },
         { path: 'student/filter', method: RequestMethod.ALL },
-        { path: 'student/categories', method: RequestMethod.ALL },
         { path: 'student/instructors', method: RequestMethod.ALL },
       )
-      .forRoutes('student');
+      .forRoutes(
+        ProfileController,
+        StudentCourseController,
+        LearningController
+        );
   }
 }

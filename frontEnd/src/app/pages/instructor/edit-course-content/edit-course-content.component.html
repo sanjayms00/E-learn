@@ -1,6 +1,4 @@
-<!-- <p>{{ courseData | json }}</p> -->
-
-<section class="w-[80%] mx-auto">
+<section class="bg-gray-100 p-10">
     <div class="grid sm:grid-cols-1 md:grid-cols-5 gap-3">
         <div *ngFor="let video of courseData.slice().reverse();; let i = index"
             class="shadow-md text-center min-h-16 cursor-pointer bg-gray-800 flex items-center justify-center hover:bg-black"
@@ -11,7 +9,6 @@
 
     <p-dialog header="Update chapter" [(visible)]="visible" [position]="position" [style]="{ width: '40vw',  }"
         [closable]="false" [modal]="true">
-        <!-- {{ data | json }} -->
 
         <div>
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
@@ -41,17 +38,14 @@
             </button>
             <p-button (click)="confirm2($event)" label="Delete" icon="pi pi-trash" styleClass="p-button-danger">
             </p-button>
-            <button type="button"
-                class="px-4 mt-3 py-2 h-[50px] min-w-20 text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800"
+            <button type="submit"
+                class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-14 py-4 text-center me-2 mb-2"
                 (click)="updateChapter()">
-                <i class="pi pi-upload"></i> Update
+                <i class="pi pi-upload"></i>
+                Update
             </button>
-
         </div>
-
     </p-dialog>
-
-
 
     <!-- create new chapter -->
     <div class="mb-10">

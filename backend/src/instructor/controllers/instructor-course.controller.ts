@@ -5,13 +5,12 @@ import { CourseService } from 'src/instructor/services/course.service';
 import { InstructorJwtAuthGuard } from 'src/instructor/guard/instructor.guard';
 import { CourseData } from 'src/common/interfaces/course.interface';
 
-@Controller('instructor')
+@Controller('')
 export class InstructorCourseController {
 
     constructor(
         private readonly courseService: CourseService
     ) { }
-
 
     //create a course
     @UseGuards(InstructorJwtAuthGuard)

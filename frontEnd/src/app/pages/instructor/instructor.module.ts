@@ -20,12 +20,14 @@ import { EditCourseContentComponent } from './edit-course-content/edit-course-co
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { NumericDirective } from 'src/app/shared/customeDirectives/numeric.directive';
-import { StudentListComponent } from './student-list/student-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
+import { RippleModule } from 'primeng/ripple';
+import { PanelMenuModule } from 'primeng/panelmenu';
+
 
 @NgModule({
   declarations: [
@@ -39,8 +41,7 @@ import { AvatarModule } from 'primeng/avatar';
     EditCourseComponent,
     CreateCourseComponent,
     EditCourseContentComponent,
-    NumericDirective,
-    StudentListComponent
+    NumericDirective
   ],
   imports: [
     CommonModule,
@@ -57,7 +58,9 @@ import { AvatarModule } from 'primeng/avatar';
     ToastModule,
     SharedModule,
     SidebarModule,
-    AvatarModule
+    RippleModule,
+    AvatarModule,
+    PanelMenuModule
   ],
   providers: [CourseService]
 })

@@ -60,7 +60,7 @@ export class CourseService {
             const course = await this.courseModel.create({
                 courseName: otherData.courseName,
                 categoryId,
-                price: otherData.coursePrice,
+                price: JSON.parse(otherData.coursePrice),
                 instructorId: instructorObjectId,
                 description: otherData.courseDescription,
                 thumbnail: imageName,
@@ -157,7 +157,7 @@ export class CourseService {
                     $set: {
                         courseName: otherData.courseName,
                         categoryId,
-                        price: otherData.coursePrice,
+                        price: JSON.parse(otherData.coursePrice),
                         description: otherData.courseDescription,
                         thumbnail: otherData.oldImage,
                         courseTags: otherData.courseTags,
@@ -427,7 +427,7 @@ export class CourseService {
         if (!course) throw new NotFoundException("Course not found")
 
         //check students are enrolled
-        if (course.videos.length > 0) throw new NotFoundException("Students are enrolled unable to delete")
+        if (course.students.length > 0) throw new NotFoundException("Students are enrolled unable to delete")
 
         //delete thumbnail
         const imageParams = {

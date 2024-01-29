@@ -40,7 +40,8 @@ export interface Course {
     students?: string[];
     estimatedPrice: string,
     thumbnail: string,
-    video?: string,
+    videos?: string[],
+    courseTags?: string,
     createdAt: Date,
     updatedAt: Date,
     instructorName?: string,

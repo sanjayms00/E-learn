@@ -18,7 +18,7 @@ export class CreateCourseComponent implements OnInit {
 
   imageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'image/webp'];
 
-  videoTypes = ['video/mp4', 'video/webm', 'video/x-msvideo', 'video/x-matroska', 'video/quicktime', 'video/x-flv'];
+  videoTypes = ['video/mp4'];
 
   submit = false;
   formData = new FormData()

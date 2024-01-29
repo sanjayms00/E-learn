@@ -1,7 +1,6 @@
 
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientComponent } from './pages/client/client.component';
@@ -19,7 +18,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { appReducer } from './shared/store/state/app.state';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { clientListEffects } from './shared/store/effects/admin/ClientList.effects';
+import { listingEffects } from './shared/store/effects/admin/listing.effects';
 import { ErrorComponent } from './shared/components/error/error.component';
 import { InstructorModule } from './pages/instructor/instructor.module';
 import { instructorEffects } from './shared/store/effects/instructor/instructor.effect';
@@ -50,7 +49,7 @@ import { SharedModule } from 'primeng/api';
     InstructorModule,
     HttpClientModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([clientEffects, adminEffects, clientListEffects, instructorEffects]),
+    EffectsModule.forRoot([clientEffects, adminEffects, listingEffects, instructorEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

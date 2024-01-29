@@ -3,7 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { IDeactivateComponent } from 'src/app/shared/services/exit-page-guard.service';
 import { OtpVerify } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -11,7 +10,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
   selector: 'app-otp',
   templateUrl: './otp.component.html',
 })
-export class OtpComponent implements OnInit, OnDestroy, IDeactivateComponent {
+export class OtpComponent implements OnInit, OnDestroy {
 
   otp!: string
   minutes: number = 2;

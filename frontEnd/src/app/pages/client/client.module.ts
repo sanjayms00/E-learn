@@ -26,11 +26,6 @@ import { CancelComponent } from './cancel/cancel.component';
 import { SuccessComponent } from './success/success.component';
 import { ClientSearchBarComponent } from 'src/app/shared/components/client-search-bar/client-search-bar.component';
 import { AccordionModule } from 'primeng/accordion';
-
-import { VgCoreModule } from '@videogular/ngx-videogular/core';
-import { VgControlsModule } from '@videogular/ngx-videogular/controls';
-import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
-import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -39,7 +34,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { DialogModule } from 'primeng/dialog';
-
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -75,15 +70,12 @@ import { DialogModule } from 'primeng/dialog';
     ProgressBarModule,
     NgOtpInputModule,
     AccordionModule,
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
     AvatarModule,
     AvatarGroupModule,
     ButtonModule,
     SharedModule,
-    DialogModule
+    DialogModule,
+    DropdownModule
 
   ],
   providers: [],

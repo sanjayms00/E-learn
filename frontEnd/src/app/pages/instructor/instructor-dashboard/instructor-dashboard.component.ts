@@ -1,20 +1,37 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { DashboardService } from 'src/app/core/services/instructor/dashboard.service';
+import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard.interface';
 
 @Component({
-  selector: 'app-instructor-dashboard',
-  templateUrl: './instructor-dashboard.component.html'
+    selector: 'app-instructor-dashboard',
+    templateUrl: './instructor-dashboard.component.html',
+    providers: [DashboardService]
 })
 export class InstructorDashboardComponent {
-  data: any;
-
+    data: any;
     options: any;
+    totalStudents: number = 0
+    totalCourses: number = 0
+
+
+    constructor(
+        private toastr: ToastrService,
+        private dashboardService: DashboardService
+    ) { }
 
     ngOnInit() {
+        this.menuConfig()
+        this.dashboardData()
+    }
+
+    //menu config data
+    menuConfig() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        
+
         this.data = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -43,7 +60,7 @@ export class InstructorDashboardComponent {
                 }
             ]
         };
-        
+
         this.options = {
             maintainAspectRatio: false,
             aspectRatio: 0.6,
@@ -74,4 +91,34 @@ export class InstructorDashboardComponent {
             }
         };
     }
+
+    //dahboard data on load
+    dashboardData() {
+        this.dashboardService.getDashboardData().subscribe(
+            {
+                next: (res) => {
+                    this.countTotalStudents(res)
+                    this.countTotalCourses(res)
+                },
+                error: (err) => {
+                    this.toastr.error(err.message)
+                }
+            }
+        )
+    }
+
+    //count total students
+    countTotalStudents(response: instructorDashboardInterface) {
+        this.totalCourses = response.courseStudentCount.reduce((acc, item) => {
+            return acc + item.totalStudents
+        }, 0)
+    }
+
+    //count total students
+    countTotalCourses(response: instructorDashboardInterface) {
+        this.totalStudents = response.courseStudentCount.length
+    }
+
+
+
 }

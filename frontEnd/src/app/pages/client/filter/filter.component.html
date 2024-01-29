@@ -1,77 +1,40 @@
-<div id="accordion-flush" data-accordion="collapse" class="mb-4 p-2"
-    data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-    data-inactive-classes="text-gray-500 dark:text-gray-400">
-    <h2 id="accordion-flush-heading-1">
-        <button type="button"
-            class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-black dark:border-gray-700 dark:text-gray-400 gap-3"
-            data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
-            <span>Skill level</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 5 5 1 1 5" />
-            </svg>
-        </button>
-    </h2>
-    <div id="accordion-flush-body-1" aria-labelledby="accordion-flush-heading-1">
-        <div *ngFor="let level of levels" class="flex items-center my-4">
-            <input [id]="level" type="radio" [value]="level" name="level" [(ngModel)]="selectedLevel"
-                class="w-4 h-4 text-black bg-gray-100 border-gray-800 focus:ring-blue-500 dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-            <label [for]="level" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ level }}</label>
-        </div>
-    </div>
-    <h2 id="accordion-flush-heading-2">
-        <button type="button"
-            class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-black dark:border-gray-700 dark:text-gray-400 gap-3"
-            data-accordion-target="#accordion-flush-body-2" aria-expanded="false"
-            aria-controls="accordion-flush-body-2">
-            <span>Categories</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 5 5 1 1 5" />
-            </svg>
-        </button>
-    </h2>
-    <div id="accordion-flush-body-2" aria-labelledby="accordion-flush-heading-2">
-        <div *ngFor="let cat of categories" class="flex items-center my-4">
-            <input [id]="cat._id" type="radio" [(ngModel)]="category" [value]="cat._id" name="default-radio"
-                class="w-4 h-4 text-black bg-gray-100 border-gray-800 focus:ring-blue-500 dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-            <label [for]="cat._id"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{cat.categoryName}}</label>
-        </div>
-    </div>
-    <h2 id="accordion-flush-heading-3">
-        <button type="button"
-            class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-black dark:border-gray-700 dark:text-gray-400 gap-3"
-            data-accordion-target="#accordion-flush-body-3" aria-expanded="false"
-            aria-controls="accordion-flush-body-3">
-            <span>Instructors</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 5 5 1 1 5" />
-            </svg>
-        </button>
-    </h2>
-    <div id="accordion-flush-body-3" aria-labelledby="accordion-flush-heading-3">
-        <div class="py-5 border-b border-black dark:border-gray-700">
-            <div *ngFor="let inst of instructors" class="flex items-center my-4">
-                <input [id]="inst._id" type="radio" [value]="inst._id" [(ngModel)]="instructor" name="instructor"
+<div class="card flex justify-content-center">
+    <p-accordion [activeIndex]="0" class="w-full">
+        <p-accordionTab header="Skill level">
+            <div *ngFor="let level of levels" class="flex items-center my-4">
+                <input [id]="level" type="radio" [value]="level" name="level" [(ngModel)]="selectedLevel"
                     class="w-4 h-4 text-black bg-gray-100 border-gray-800 focus:ring-blue-500 dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label [for]="inst._id"
-                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{inst.fullName}}</label>
+                <label [for]="level" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ level
+                    }}</label>
             </div>
-        </div>
-    </div>
+        </p-accordionTab>
+        <p-accordionTab header="Categories">
+            <div *ngFor="let cat of categories" class="flex items-center my-4">
+                <input [id]="cat._id" type="radio" [(ngModel)]="category" [value]="cat._id" name="default-radio"
+                    class="w-4 h-4 text-black bg-gray-100 border-gray-800 focus:ring-blue-500 dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label [for]="cat._id"
+                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{cat.categoryName}}</label>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Instructors">
+            <div class="py-5 border-b border-black dark:border-gray-700">
+                <div *ngFor="let inst of instructors" class="flex items-center my-4">
+                    <input [id]="inst._id" type="radio" [value]="inst._id" [(ngModel)]="instructor" name="instructor"
+                        class="w-4 h-4 text-black bg-gray-100 border-gray-800 focus:ring-blue-500 dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label [for]="inst._id"
+                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{inst.fullName}}</label>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
 </div>
 
 <!-- Reset and Filter Buttons -->
-<div class="flex w-full md:w-auto justify-end md:justify-start space-x-4">
+<div class="flex justify-between gap-2 py-3">
     <button (click)="reset()"
-        class="active:scale-95 rounded-lg border-2 border-black px-8 py-2 font-medium text-gray-600 outline-none focus:ring hover:opacity-90">Reset</button>
+        class="active:scale-95 rounded-lg border-2 border-black px-8 py-2 font-medium text-gray-600 outline-none focus:ring hover:opacity-90 w-1/2">Reset</button>
     <button (click)="filterCourse()"
-        class="active:scale-95 rounded-lg bg-black px-8 py-2 font-medium text-white outline-none focus:ring hover:opacity-90">
+        class="active:scale-95 rounded-lg border-2 border-black bg-black px-8 py-2 font-medium text-white outline-none focus:ring hover:opacity-90 w-1/2">
         Filter
     </button>
 </div>

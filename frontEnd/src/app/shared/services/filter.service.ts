@@ -52,8 +52,4 @@ export class FilterService {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/search/${searchText}`)
   }
 
-
-
-
-
 }
