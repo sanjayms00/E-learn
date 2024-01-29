@@ -6,6 +6,7 @@ import { constant } from 'src/app/core/constant/constant';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
 import { Course, categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-edit-course',
@@ -15,6 +16,7 @@ export class EditCourseComponent implements OnInit {
 
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
+  url = environment.cloudFrontUrl
   categoryData: categoryInterface[] = []
   imageType = ['image/png', 'image/jpeg']
   submit = false;
@@ -60,22 +62,14 @@ export class EditCourseComponent implements OnInit {
           coursePrice: courseData[0].price,
           courseTags: courseData[0].courseTags,
           courseLevel: courseData[0].courseLevel,
-          files: [this.courseData.thumbnail],
-          // fields: courseData[0].videos,
+          files: [this.courseData.thumbnail]
         });
-
-        // while (this.fields.length !== 0) {
-        //   this.fields.removeAt(0);
-        // }
-
-        // this.courseData.videos.forEach((video) => {
-        //   this.addVideoFields(video);
-        //   console.log(video)
-        // });
 
         this.formData.append('id', String(this.id));
         this.formData.append('oldImage', String(this.courseData.thumbnail));
-        // this.formData.append('oldVideoData', JSON.stringify(courseData[0].videos));
+
+        this.url += this.courseData.thumbnail
+
       }),
         (error: any) => {
           // Handle error, e.g., show a toast message
@@ -84,24 +78,11 @@ export class EditCourseComponent implements OnInit {
     }
   }
 
-  // get fields() {
-  //   return (this.course.get('fields') as FormArray)
-  // }
 
-  // addVideoFields(videoData: any) {
-  //   this.fields.push(this.fb.group({
-  //     videoTitle: [videoData.title, Validators.required],
-  //     videoDescription: [videoData.description, Validators.required],
-  //     files: [null],
-  //   }));
-  // }
 
-  // addfields() {
-  //   this.fields.push(this.fb.group({
-  //     videoTitle: [null, Validators.required],
-  //     videoDescription: [null, Validators.required],
-  //     files: [null, Validators.required],
-  //   }));
+  // loadImage(path: string) {
+  //   const preview = this.previewImage.nativeElement as HTMLImageElement;
+  //   preview.src = path
   // }
 
   //submit the form
@@ -125,10 +106,9 @@ export class EditCourseComponent implements OnInit {
       }, (err) => {
         this.toastr.error(err.message)
       })
-
-
     }
   }
+
 
   onFileChange(event: Event, index: number) {
     const fileInput = event.target as HTMLInputElement;
@@ -144,9 +124,6 @@ export class EditCourseComponent implements OnInit {
 
   }
 
-  // removeFileds(index: number) {
-  //   this.fields.removeAt(index)
-  // }
 
   // for image preview
   onDragOver(event: DragEvent): void {
@@ -154,15 +131,16 @@ export class EditCourseComponent implements OnInit {
     this.updateDropzoneStyles(true);
   }
 
+
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     this.updateDropzoneStyles(false);
   }
 
+
   onDrop(event: DragEvent): void {
     event.preventDefault();
     this.updateDropzoneStyles(false);
-
     const file = (event.dataTransfer?.files as FileList)[0];
     this.displayPreview(file);
   }
@@ -186,7 +164,6 @@ export class EditCourseComponent implements OnInit {
     reader.onload = () => {
       const preview = this.previewImage.nativeElement as HTMLImageElement;
       preview.src = reader.result as string;
-      preview.classList.remove('hidden');
     };
   }
 

@@ -15,7 +15,6 @@ export class InstructorCoursesComponent implements OnInit {
 
   courses: Course[] = []
   url = environment.cloudFrontUrl
-  loading: boolean = false;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -37,10 +36,12 @@ export class InstructorCoursesComponent implements OnInit {
   deleteCourse(courseId: string) {
     this.courseService.deleteCourse(courseId).subscribe((res) => {
       this.courses = res
-      console.log(res)
+      // console.log(res)
+      this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
     })
   }
 
+  //popup delete confirmation
   confirm2(event: Event, courseId: string,) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -53,21 +54,12 @@ export class InstructorCoursesComponent implements OnInit {
       rejectIcon: "none",
 
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
         this.deleteCourse(courseId)
       },
       reject: () => {
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
       }
     });
-  }
-
-  load() {
-    this.loading = true;
-
-    setTimeout(() => {
-      this.loading = false
-    }, 2000);
   }
 
 

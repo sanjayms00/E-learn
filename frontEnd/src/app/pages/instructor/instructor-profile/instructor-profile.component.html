@@ -1,3 +1,6 @@
+{{ profile | json }}
+
+
 <section class="banner w-full h-40 overflow-hidden relative">
     <img src="https://marketplace.canva.com/EAFqqGQof14/1/0/1600w/canva-blue-minimalist-abstract-wave-linkedin-banner-jFsA3DjIRXM.jpg"
         alt="">
@@ -12,9 +15,16 @@
         </div>
     </div>
     <div class="pt-4 w-3/5">
-        <h2 class="font-bold text-2xl pb-2 uppercase">
-            {{ profile.fullName }}
-        </h2>
+        <div class="flex gap-5 items-center">
+            <h2 class="font-bold text-2xl pb-2 uppercase">
+                {{ profile.fullName }}
+            </h2>
+            <button class="border-2 border-gray-400 p-2 rounded-md font-semibold" (click)="showDialog()">
+                <i class="pi pi-user-edit font-semibold"></i>
+                Edit
+            </button>
+        </div>
+
         <p class="font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
 
         <!-- social media -->
@@ -98,3 +108,32 @@
         </div>
     </div>
 </section>
+
+
+
+<div class="card flex justify-content-center">
+    <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+                <span class="font-bold white-space-nowrap">Add Profile Details</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus [autofocus]="true"></p-button>
+        </ng-template>
+
+    </p-dialog>
+</div>
+
+
+<div class="card flex justify-content-center">
+    <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
+        <ng-template pTemplate="headless">
+            <img src="./assets/logo/elearn-logo.png" class="mr-10 my-3 h-14 rounded-full responsive top-0 left-0">
+        </ng-template>
+    </p-sidebar>
+    <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button>
+</div>

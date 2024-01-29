@@ -4,8 +4,6 @@ import { Model } from 'mongoose';
 import { Student } from '../schema/student.schema';
 import { Types } from 'mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Course } from 'src/instructor/schema/course.schema';
 
 
@@ -18,47 +16,62 @@ export class LearningService {
         @InjectModel(Course.name) private courseModel: Model<Course>,
     ) { }
 
-    client: any = new S3Client({
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        },
-        region: process.env.AWS_S3_REGION
-    });
-
-
     //get student course
-    async getMyCourses(id: string) {
+    async getMyCourses(studentId: string) {
+        try {
 
-        const objId = new Types.ObjectId(id)
-        console.log(objId)
-        const courses = await this.studentModel.aggregate([
-            {
-                $match: {
-                    _id: objId
-                }
-            },
-            {
-                $unwind: '$courses'
-            },
-            {
-                $lookup: {
-                    from: 'courses',
-                    localField: 'courses.courseId',
-                    foreignField: '_id',
-                    as: 'myCourses'
-                }
-            },
-            {
-                $project: {
-                    courses: 1,
-                    myCourses: 1
-                }
-            }
-        ])
-        // console.log(JSON.stringify(courses))
-        return courses
+            if (!studentId) throw new NotFoundException("Id is not found")
 
+            const objStudentId = new Types.ObjectId(studentId)
+
+            const courses = await this.studentModel.aggregate([
+                {
+                    $match: {
+                        _id: objStudentId
+                    }
+                },
+                {
+                    $unwind: '$courses'
+                },
+                {
+                    $lookup: {
+                        from: 'courses',
+                        localField: 'courses.courseId',
+                        foreignField: '_id',
+                        as: 'myCourses'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'instructors',
+                        localField: 'myCourses.instructorId',
+                        foreignField: '_id',
+                        as: 'instructorData'
+                    }
+                },
+                {
+                    $unwind: '$myCourses'  // Add this $unwind stage
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        progress: '$courses.progress',
+                        'myCourses._id': 1,
+                        'myCourses.courseName': 1,
+                        'myCourses.thumbnail': 1,
+                        'myCourses.instructorId': 1,
+                        'myCourses.courseTags': 1,
+                        'myCourses.courseLevel': 1,
+                        'myCourses.videos': 1,
+                        'myCourses.updatedAt': 1,
+                        'instructorName': { $arrayElemAt: ['$instructorData.fullName', 0] }
+                    }
+                }
+            ])
+            return courses
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     //get course data and video for streaming
@@ -93,39 +106,44 @@ export class LearningService {
                         foreignField: "_id",
                         as: "videoData"
                     }
+                },
+                {
+                    $lookup: {
+                        from: "instructors",
+                        localField: 'instructorId',
+                        foreignField: "_id",
+                        as: "instructorData"
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        courseName: 1,
+                        description: 1,
+                        instructorId: 1,
+                        videoData: {
+                            _id: 1,
+                            title: 1,
+                            description: 1,
+                            file: 1,
+                        },
+                        instructorData: {
+                            fullName: 1,
+                            email: 1,
+                            mobile: 1,
+                        }
+                    }
                 }
             ])
 
+            console.log(courseData)
             if (!courseData) throw new NotFoundException();
 
-            const videoFile = courseData[0].videoData.filter(item => item._id == videoId)
-
-            //get the signed url for video
-            const signedVideoUrl = await this.getSignedVideo(videoFile[0].file)
-
-            if (!signedVideoUrl) throw new Error("Unablle to play the requested file")
-
-            return { courseData, signedVideoUrl }
+            return { courseData }
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
-
-    //signed video url generate
-    async getSignedVideo(videofile) {
-
-        const getImageObjectParams = {
-            Bucket: process.env.BUCKET_NAME,
-            Key: videofile
-        };
-
-        const command: any = new GetObjectCommand(getImageObjectParams);
-
-        const signedUrl = await getSignedUrl(this.client, command, { expiresIn: 60 * 60 });   //for 1 hour
-
-        return signedUrl
-    }
-
 
 
 }

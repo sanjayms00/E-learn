@@ -14,8 +14,7 @@ export class SearchComponent implements OnInit {
   searchedCourses: Course[] = [];
   searchText: string = ''
   result: string = ''
-
-  filteredCourses: any
+  filteredCourses: Course[] = []
 
 
   constructor(
@@ -24,12 +23,16 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.allCourse()
+  }
+
+  allCourse() {
     this.filterService.getAllCourse().subscribe(res => {
       this.searchedCourses = res
     })
     this.filteredCourses = this.searchedCourses
-
   }
+
 
   SearchData(event: string) {
     if (event.trim()) {
@@ -37,21 +40,17 @@ export class SearchComponent implements OnInit {
         this.result = event
         this.searchedCourses = res
       })
-    }
-    else {
-      this.searchedCourses = this.filteredCourses
-      this.toastr.error("Please enter a search term before proceeding.");
+    } else {
+      this.allCourse()
+      this.toastr.error("Please enter a search text before proceeding.");
       this.searchText = '';
-
     }
   }
 
 
   filteredEvent(event: Course[]) {
     this.searchedCourses = event
-    console.log(event)
   }
-
 
 
   makeAscName() {
@@ -60,7 +59,7 @@ export class SearchComponent implements OnInit {
       const nameB = b.courseName.toLowerCase();
       return nameA.localeCompare(nameB);
     });
-    console.log(this.searchedCourses)
+
   }
 
   makeDescName() {
@@ -69,7 +68,7 @@ export class SearchComponent implements OnInit {
       const nameB = b.courseName.toLowerCase();
       return nameB.localeCompare(nameA);
     });
-    console.log(this.searchedCourses)
+
   }
 
 

@@ -197,9 +197,30 @@ export class StudentAuthService {
     return forgotPasswordSave
   }
 
-  resetPassword(token: string, password) {
+  async resetPassword(token: string, password) {
     try {
-      console.log(token, password)
+
+      const studentEmail = await this.tokenModel.findOne({ token }, { email: 1 })
+
+      console.log(studentEmail)
+
+      if (!studentEmail) throw new NotFoundException("Student is not found")
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const resetPassword = await this.studentModel.updateOne(
+        { email: studentEmail.email },
+        {
+          $set: {
+            password: hashedPassword
+          }
+        }
+      )
+
+      if (!resetPassword) throw new Error("Unable to reset the password")
+
+      return { status: true, message: "password reset successful" }
+
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
     }

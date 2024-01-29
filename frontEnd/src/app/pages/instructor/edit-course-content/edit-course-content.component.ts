@@ -4,10 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChapterInterface } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
+import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+
+
 
 @Component({
   selector: 'app-edit-course-content',
-  templateUrl: './edit-course-content.component.html'
+  templateUrl: './edit-course-content.component.html',
+  providers: [ConfirmationService, MessageService]
 })
 export class EditCourseContentComponent implements OnInit {
 
@@ -35,7 +39,9 @@ export class EditCourseContentComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {
     this.course = this.fb.group({
       fields: this.fb.array([]),
@@ -49,6 +55,7 @@ export class EditCourseContentComponent implements OnInit {
       this.courseFormService.editCourseContentData(this.id)
         .subscribe((res) => {
           this.courseData = res[0].videos
+          console.log(this.courseData)
           this.formData.append('courseId', String(this.id))
         })
     }
@@ -65,13 +72,14 @@ export class EditCourseContentComponent implements OnInit {
       this.formData.append('oldVideo', String(this.data.oldVideo))
       this.formData.append('title', String(this.data.title))
       this.formData.append('description', String(this.data.description))
+      this.closeDialog()
       this.courseFormService.updateCourseChapter(this.formData).subscribe((res: any) => {
         console.log(res)
         this.submit = false
         this.courseData = res[0].videos
         this.formData = new FormData();
         this.formData.append('courseId', String(this.id))
-        this.closeDialog()
+        // this.closeDialog()
         this.toastr.success("chapter Updated")
 
         // this.router.navigate(['/instructor/edit/content', this.id])
@@ -112,22 +120,23 @@ export class EditCourseContentComponent implements OnInit {
       });
 
       this.courseFormService.updateCourseContent(this.formData)
-        .subscribe(res => {
-          this.courseData = res[0].videos
-          this.submit = false
-          this.toastr.success('Course content added')
-          const newFieldsArray = this.fb.array([]);
-          this.course?.setControl('fields', newFieldsArray);
-          this.addfields()
-          this.formData = new FormData()
-          this.formData.append('courseId', String(this.id))
-          if (this.fileInput) {
-            this.fileInput.nativeElement.value = '';
+        .subscribe({
+          next: (res) => {
+            this.courseData = res[0].videos
+            this.submit = false
+            this.toastr.success('Course content added')
+            const newFieldsArray = this.fb.array([]);
+            this.course?.setControl('fields', newFieldsArray);
+            this.addfields()
+            this.formData = new FormData()
+            this.formData.append('courseId', String(this.id))
+            if (this.fileInput) {
+              this.fileInput.nativeElement.value = '';
+            }
+          },
+          error: (err) => {
+            this.toastr.error(err.message)
           }
-
-          // this.router.navigateByUrl('instructor/courses')
-        }, (err) => {
-          this.toastr.error(err.message)
         })
     }
   }
@@ -163,7 +172,7 @@ export class EditCourseContentComponent implements OnInit {
   deleteChapter(): void {
     if (this.id) {
       this.courseFormService.deleteChapter(this.data.videoId).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.courseData = res[0]?.videos
         this.toastr.success('Chapter deleted')
         this.closeDialog()
@@ -188,6 +197,29 @@ export class EditCourseContentComponent implements OnInit {
     }
 
   }
+
+
+  //popup delete confirmation
+  confirm2(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+      accept: () => {
+        this.deleteChapter()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+      }
+    });
+  }
+
 
 
 

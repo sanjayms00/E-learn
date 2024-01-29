@@ -9,15 +9,15 @@ export class LearningController {
         private learningService: LearningService
     ) { }
 
+    //student courses
     @UseGuards(studentJwtAuthGuard)
     @Get('my-courses')
     getMyCourses(@Request() req) {
-
         const studentId = req.user._id
         return this.learningService.getMyCourses(studentId)
-
     }
 
+    //stream the course
     @UseGuards(studentJwtAuthGuard)
     @Get('stream-course')
     streamCourseData(
@@ -29,14 +29,5 @@ export class LearningController {
         console.log(courseId, videoId, studentId)
         return this.learningService.streamCourseData(courseId, videoId, studentId)
     }
-
-    // @UseGuards(studentJwtAuthGuard)
-    // @Get('get-video/:videoId')
-    // getChapters(@Request() req, @Param('videoId') videoId: string) {
-    //     console.log(videoId)
-    //     const studentId = req.user._id
-    //     return this.learningService.getMyCourses(videoId)
-    // }
-
 
 }

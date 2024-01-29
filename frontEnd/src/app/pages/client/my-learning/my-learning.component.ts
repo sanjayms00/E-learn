@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { LearningService } from 'src/app/core/services/client/learning.service';
+import { myLearning } from 'src/app/shared/interface/myLearning.interface';
 
 @Component({
   selector: 'app-my-learning',
@@ -7,10 +9,11 @@ import { LearningService } from 'src/app/core/services/client/learning.service';
 })
 export class MyLearningComponent implements OnInit {
 
-  myCourse: any = []
+  myCourse: myLearning[] = []
 
   constructor(
-    private learningService: LearningService
+    private learningService: LearningService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -19,10 +22,15 @@ export class MyLearningComponent implements OnInit {
 
   //get the purchased courses.
   getMyCourses() {
-    this.learningService.getMyCourses().subscribe((res) => {
-      this.myCourse = res
-      console.log(res)
-    })
+    this.learningService.getMyCourses().subscribe({
+      next: (res) => {
+        this.myCourse = res;
+      },
+      error: (err) => {
+        this.toastr.error(err);
+      }
+    });
+    
   }
 
 

@@ -34,7 +34,7 @@ export class CourseFormService {
   }
 
   //update course content
-  deleteChapter(videoId: string): Observable<instructorCourse[]> {
+  deleteChapter(videoId: string) {
     const params = new HttpParams()
       .set('videoId', videoId)
     return this.http.delete<instructorCourse[]>(`${constant.baseUrl}/instructor/delete-chapter`, { params })

@@ -35,7 +35,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+import { VideoPlayerComponent } from './video-player/video-player.component';
+import { ButtonModule } from 'primeng/button';
+import { SharedModule } from 'src/app/shared/modules/shared.module';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -59,7 +62,7 @@ import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
     ClientSearchBarComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    TruncatePipe,
+    VideoPlayerComponent,
 
   ],
   imports: [
@@ -77,7 +80,10 @@ import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
     VgOverlayPlayModule,
     VgBufferingModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    ButtonModule,
+    SharedModule,
+    DialogModule
 
   ],
   providers: [],

@@ -23,7 +23,9 @@ import { NumericDirective } from 'src/app/shared/customeDirectives/numeric.direc
 import { StudentListComponent } from './student-list/student-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-
+import { SharedModule } from 'src/app/shared/modules/shared.module';
+import { SidebarModule } from 'primeng/sidebar';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,10 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     ButtonModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    SharedModule,
+    SidebarModule,
+    AvatarModule
   ],
   providers: [CourseService]
 })

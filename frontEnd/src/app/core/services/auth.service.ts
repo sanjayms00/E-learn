@@ -98,7 +98,7 @@ export class AuthService {
 
   //reset password
   resetPassword(token: string, password: string) {
-    return this.http.post<{ status: HttpStatusCode }>(`${constant.baseUrl}/auth/resetPassword`, { token, password })
+    return this.http.post<{ status: boolean, message: string }>(`${constant.baseUrl}/auth/resetPassword`, { token, password })
   }
 
 

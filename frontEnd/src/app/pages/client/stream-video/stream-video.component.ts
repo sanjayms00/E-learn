@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LearningService } from 'src/app/core/services/client/learning.service';
-import { StreamResponse } from 'src/app/shared/interface/video.interface';
+import { InstructorData, StreamResponse, VideoData } from 'src/app/shared/interface/video.interface';
 import { environment } from 'src/environment/environment';
 
 
@@ -10,37 +10,25 @@ import { environment } from 'src/environment/environment';
   templateUrl: './stream-video.component.html'
 })
 export class StreamVideoComponent implements OnInit {
-  streamData: StreamResponse = {
-    courseData: [],
-  };
+  streamData!: StreamResponse
   url: string = environment.cloudFrontUrl;
-  activeVideoData!: any;
+  activeVideoData!: VideoData[];
   activeVideo: string | null = null;
-  chapters!: any;
+  chapters: VideoData[] = []
   activeIndex: number | undefined = 0;
   courseId!: string;
   videoId!: string;
+  activeChapterData: string = ''
+  activeChapterTitle: string = ''
+  instructorData!: InstructorData;
 
-  @ViewChild('videoPlayer') videoPlayer!: ElementRef;
-  dataLoaded = false;
-  videoStarted = false;
-
-  constructor(private route: ActivatedRoute, private learningService: LearningService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private learningService: LearningService
+  ) { }
 
   ngOnInit(): void {
     this.getCourse();
-  }
-
-  ngAfterViewInit() {
-    this.videoPlayer.nativeElement.onloadeddata = () => {
-      console.log('Video data is loaded.');
-      this.dataLoaded = true;
-    };
-
-    this.videoPlayer.nativeElement.onplaying = () => {
-      console.log('Video is no longer paused.');
-      this.videoStarted = true;
-    };
   }
 
   activeIndexChange(index: number) {
@@ -49,26 +37,33 @@ export class StreamVideoComponent implements OnInit {
 
   getCourse() {
     this.route.queryParams.subscribe((params) => {
-      this.courseId = params['courseId'];
-      this.videoId = params['videoId'];
+      this.courseId = params['course'];
+      this.videoId = params['video'];
     });
 
     if (this.courseId && this.videoId) {
       this.learningService.streamCourse(this.courseId, this.videoId).subscribe((res) => {
         this.streamData = res;
+        console.log(this.streamData)
         this.chapters = this.streamData.courseData[0].videoData;
         this.activeVideoData = this.streamData.courseData[0].videoData.filter(
           (item) => item._id == this.videoId
         );
         this.activeVideo = this.activeVideoData[0].file;
+        this.activeChapterData = this.activeVideoData[0].description;
+        this.activeChapterTitle = this.activeVideoData[0].title;
+
+        this.instructorData = this.streamData.courseData[0].instructorData[0]
+
       });
     }
   }
 
-  // Change the video when a chapter is clicked
-  changeActiveVideo(file: string) {
-    this.activeVideo = file;
-  }
 
+  changeActiveVideo(file: string, description: string, title: string) {
+    this.activeVideo = file;
+    this.activeChapterData = description
+    this.activeChapterTitle = title
+  }
 
 }

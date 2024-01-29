@@ -1,24 +1,128 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div class="md:col-span-2">
-        <video width="100%" height="800" controls *ngIf="activeVideo">
-            <source [src]="url + activeVideo" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <p>Video loaded: {{ dataLoaded }}</p>
-        <p>Video started: {{ videoStarted }}</p>
+
+        <!-- video player compnent -->
+        <app-video-player [videoUrl]="url+activeVideo"></app-video-player>
+
+        <!-- video heading  and buttons-->
+        <div class="flex justify-between mt-2 items-center">
+            <p-button severity="secondary">
+                <i class="pi pi-arrow-left"></i>
+            </p-button>
+            <h2 class="text-xl font-bold uppercase">
+                {{ streamData.courseData[0].courseName }}
+            </h2>
+            <p-button severity="secondary">
+                <i class="pi pi-arrow-right"></i>
+            </p-button>
+        </div>
+
+        <!-- course details -->
+        <article class="text-lg text-justify py-5">
+            {{ streamData.courseData[0].description }}
+        </article>
+
+        <hr>
+
+        <!-- chapter details -->
+        <div class="py-5">
+            <h2 class="text-lg font-semibold uppercase">
+                {{ activeChapterTitle }}
+            </h2>
+            <article class="text-lg text-justify pt-5">
+                {{ activeChapterData }}
+            </article>
+        </div>
+
+        <hr>
+        <!-- instructor details -->
+        <div class="py-5">
+            <h2 class="text-lg font-semibold uppercase">
+                Instructor Details
+            </h2>
+            <div class="py-5 flex gap-5 items-center">
+                <div class="w-[150px] h-[150px">
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                        alt="instructor-image" class="rounded-full">
+                </div>
+                <div>
+                    <h2 class="text-md font-bold uppercase">
+                        {{ instructorData.fullName }}
+                    </h2>
+                    <h4 class="text-sm uppercase mt-2">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. qualification
+                    </h4>
+                    <div class="flex gap-3 mt-2">
+                        <!-- instagram -->
+                        <span><i class="pi pi-instagram"></i></span>
+                        <span>insta id</span>
+                        <span>|</span>
+
+                        <!-- facebook -->
+                        <span><i class="pi pi-facebook"></i></span>
+                        <span>fb id</span>
+                        <span>|</span>
+
+                        <!-- twitter -->
+                        <span><i class="pi pi-twitter"></i></span>
+                        <span>twitter id</span>
+                        <span>|</span>
+
+                        <!-- linked in id -->
+                        <span><i class="pi pi-linkedin"></i></span>
+                        <span>linked in id</span>
+                    </div>
+                </div>
+            </div>
+            <article class="text-lg text-justify pt-5">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore soluta inventore tenetur eveniet sint
+                corrupti, possimus cum dolorem error nobis, culpa asperiores? Deleniti, beatae nam quibusdam quisquam
+                odio
+                accusantium sapiente?
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore soluta inventore tenetur eveniet sint
+                corrupti, possimus cum dolorem error nobis, culpa asperiores? Deleniti, beatae nam quibusdam quisquam
+                odio
+                accusantium sapiente?
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore soluta inventore tenetur eveniet sint
+                corrupti, possimus cum dolorem error nobis, culpa asperiores? Deleniti, beatae nam quibusdam quisquam
+                odio
+                accusantium sapiente?
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore soluta inventore tenetur eveniet sint
+                corrupti, possimus cum dolorem error nobis, culpa asperiores? Deleniti, beatae nam quibusdam quisquam
+                odio
+                accusantium sapiente?
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore soluta inventore tenetur eveniet sint
+                corrupti, possimus cum dolorem error nobis, culpa asperiores? Deleniti, beatae nam quibusdam quisquam
+                odio
+                accusantium sapiente?
+
+            </article>
+        </div>
+
+
+
     </div>
+
+    <!-- chapters -->
     <div>
         <p-accordion [activeIndex]="activeIndex">
             <ng-container *ngFor="let item of chapters; let i = index">
                 <p-accordionTab header="Chapter {{ i + 1 }}" class="cursor-pointer">
-                    <h3 class="text-md text-black font-semibold" (click)="changeActiveVideo(item.file)">
+                    <h3 class="text-md uppercase pb-2 text-black font-semibold"
+                        (click)="changeActiveVideo(item.file, item.description, item.title)"
+                        [routerLink]="['/courses/learn']"
+                        [queryParams]="{course: streamData.courseData[0]._id , video: item._id }">
                         {{ item.title }}
                     </h3>
                     <p class="text-sm">
                         {{ item.description | truncate: 200 }}
+                        <!-- {{ item | json }} -->
                     </p>
                 </p-accordionTab>
             </ng-container>
         </p-accordion>
     </div>
 </div>
+
+
+<!-- {{ chapters | json}} -->

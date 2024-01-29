@@ -1,14 +1,16 @@
 import { Body, Controller, Get, Param, Post, Query, RawBodyRequest, Req, Request, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { studentJwtAuthGuard } from 'src/student/guards/student.guard';
 import { StudentCourseService } from 'src/student/services/student-course.service';
 
 @Controller('student')
 export class StudentCourseController {
 
-    private endpointSecret = "whsec_1007ae8b5de184dab542de855dbe68bc3030730d13ab4a0ecb39f788facd6f5e";
+    private endpointSecret = this.configService.getOrThrow('END_POINT_SECRET')
 
     constructor(
-        private studentCourseService: StudentCourseService
+        private studentCourseService: StudentCourseService,
+        private configService: ConfigService
     ) { }
 
     @Get('home-courses')

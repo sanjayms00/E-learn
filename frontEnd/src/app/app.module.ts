@@ -29,6 +29,7 @@ import { RouterModule } from '@angular/router';
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from 'src/environment/environment';
 import { WelcomeComponent } from './shared/components/welcome/welcome.component';
+import { SharedModule } from 'primeng/api';
 
 
 @NgModule({
@@ -37,13 +38,14 @@ import { WelcomeComponent } from './shared/components/welcome/welcome.component'
     ClientComponent,
     NotFoundComponent,
     ErrorComponent,
-    WelcomeComponent
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ClientModule,
+    SharedModule,
     AdminModule,
     InstructorModule,
     HttpClientModule,
@@ -64,6 +66,6 @@ import { WelcomeComponent } from './shared/components/welcome/welcome.component'
     },
     FormsService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

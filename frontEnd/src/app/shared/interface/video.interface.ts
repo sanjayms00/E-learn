@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+
 
 export interface VideoCourseInterface {
   _id: string;
@@ -33,35 +33,27 @@ export interface Video {
 
 export interface VideoData {
   _id: string;
-  instructorId: string;
-  courseId: string;
-  index: number;
   title: string;
   description: string;
   file: string;
-  createdAt?: string;
-  updatedAt?: string;
-  __v?: number;
+}
+
+export interface InstructorData {
+  fullName: string;
+  email: string;
+  mobile: number;
 }
 
 export interface CourseData {
   _id: string;
-  categoryId: string;
   courseName: string;
   description: string;
-  price: string;
-  students: string[];
-  thumbnail: string;
   instructorId: string;
-  courseTags: string;
-  videos: string[];
-  courseLevel: string[];
-  createdAt: string;
-  updatedAt: string;
-  __v?: number;
   videoData: VideoData[];
+  instructorData: InstructorData[];
 }
 
 export interface StreamResponse {
   courseData: CourseData[]
 }
+

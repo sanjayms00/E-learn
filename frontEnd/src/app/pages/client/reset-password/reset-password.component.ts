@@ -39,22 +39,20 @@ export class ResetPasswordComponent {
       const confPassword = this.resetForm.value.confirmPassword
       //check passwords
       if (password === confPassword) {
-        this.authService.resetPassword(this.token, password)
+        this.authService.resetPassword(this.token, password).subscribe(
+          res => {
+            this.toastr.success(res.message)
+          },
+          error => {
+            this.toastr.error(error);
+          },
+        )
       } else {
         this.toastr.error("password does not match")
       }
-
-
-
     } else {
       this.toastr.error("fill all the fields")
     }
-
-
-
-
-
-
   }
 
 }

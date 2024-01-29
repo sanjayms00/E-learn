@@ -90,6 +90,12 @@ export class StudentModule implements NestModule {
       .apply(StudentMiddleware)
       .exclude(
         { path: 'student/webhook', method: RequestMethod.ALL },
+        { path: 'student/home-courses', method: RequestMethod.ALL },
+        { path: 'student/all-courses', method: RequestMethod.ALL },
+        { path: 'student/search/:searchText', method: RequestMethod.ALL },
+        { path: 'student/filter', method: RequestMethod.ALL },
+        { path: 'student/categories', method: RequestMethod.ALL },
+        { path: 'student/instructors', method: RequestMethod.ALL },
       )
       .forRoutes('student');
   }

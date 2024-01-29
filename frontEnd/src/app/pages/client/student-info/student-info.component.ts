@@ -12,8 +12,9 @@ import { appState } from 'src/app/shared/store/state/app.state';
 })
 export class StudentInfoComponent implements OnInit, OnDestroy {
 
-  profileData !: studentInterface
+  profile !: studentInterface
   profileSubscription !: Subscription
+  visible = false
 
   constructor(
     private store: Store<appState>
@@ -21,9 +22,16 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.profileSubscription = this.store.select(getclient).subscribe((res) => {
-      this.profileData = res
+      this.profile = res
     })
   }
+
+
+  showDialog() {
+    this.visible = true;
+  }
+
+
 
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe()
