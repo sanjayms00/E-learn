@@ -36,7 +36,7 @@ export interface Course {
     slug: string;
     description?: string;
     categoryId?: string,
-    price: string;
+    price: number;
     students?: string[];
     estimatedPrice: string,
     thumbnail: string,

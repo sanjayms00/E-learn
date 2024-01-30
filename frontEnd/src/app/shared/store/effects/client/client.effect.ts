@@ -72,6 +72,7 @@ export class clientEffects {
             localStorage.setItem('clientData', JSON.stringify(response.user));
             this.router.navigateByUrl('/home')
             this.toastr.success("signup")
+            localStorage.removeItem("clientMail")
             return clientSignUpSuccess({ user: response.user })
 
           }),

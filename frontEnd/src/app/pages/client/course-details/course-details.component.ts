@@ -17,7 +17,7 @@ export class CourseDetailsComponent implements OnInit {
     courseName: '',
     slug: '',
     description: '',
-    price: '',
+    price: 0,
     students: [],
     estimatedPrice: '',
     thumbnail: '',

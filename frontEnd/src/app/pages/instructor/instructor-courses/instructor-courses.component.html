@@ -11,12 +11,8 @@
 
   <div class="pt-5">
     <!-- No Data -->
-    <div class="h-screen flex justify-center items-center align-middle" *ngIf="courses.length < 1">
-      <div class="flex flex-col items-center gap-5">
-        <p class="text-lg font-semibold">No Course to display</p>
-        <p-button label="Create Course" [routerLink]="['/instructor/create']" routerLinkActive="router-link-active"
-          [style]="{'margin': '0 auto'}"></p-button>
-      </div>
+    <div class="h-screen" *ngIf="courses.length < 1">
+      <p class="text-lg text-center font-semibold">No Course to display</p>
     </div>
 
     <!-- {{ courses | json }} -->

@@ -47,6 +47,7 @@ export class SearchComponent implements OnInit {
       this.filterService.searchCourse(event).subscribe(res => {
         this.result = event
         this.searchedCourses = res
+
       })
     } else {
       this.allCourse()
@@ -92,18 +93,10 @@ export class SearchComponent implements OnInit {
   }
 
   makeAscPrice() {
-    this.searchedCourses.sort((a, b) => {
-      const nameA = a.price;
-      const nameB = b.price;
-      return nameB.localeCompare(nameA);
-    });
+    this.searchedCourses.sort((a, b) => a.price - b.price);
   }
   makeDescPrice() {
-    this.searchedCourses.sort((a, b) => {
-      const nameA = a.price;
-      const nameB = b.price;
-      return nameA.localeCompare(nameB);
-    });
+    this.searchedCourses.sort((a, b) => b.price - a.price);
   }
 
 

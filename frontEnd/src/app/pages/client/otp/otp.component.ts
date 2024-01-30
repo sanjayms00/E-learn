@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { OtpVerify } from 'src/app/shared/store/actions/client.action';
+import { getclient } from 'src/app/shared/store/selectors/client.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
@@ -25,8 +26,13 @@ export class OtpComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private store: Store<appState>
   ) {
+    this.store.select(getclient).subscribe(res => {
+      if (res._id) {
+        this.router.navigateByUrl('/home')
+      }
+    })
     this.clientMail = localStorage.getItem("clientMail")
-    if (!this.clientMail) this.router.navigateByUrl('/')
+    if (!this.clientMail) this.router.navigateByUrl('/home')
   }
 
   ngOnInit(): void {

@@ -45,13 +45,10 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.category = ''
   }
 
-
-
   filterCourse() {
     if (this.selectedLevel || this.instructor || this.category) {
 
       console.log(this.selectedLevel, this.instructor, this.category)
-
 
       const filterCredentials: filterInterFace = {
         level: this.selectedLevel,
