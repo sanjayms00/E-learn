@@ -411,7 +411,7 @@ export class CourseService {
                 }
             }
         ])
-        // console.log(course)
+
         return course
     }
 

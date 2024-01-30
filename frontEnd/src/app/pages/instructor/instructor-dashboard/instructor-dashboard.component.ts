@@ -97,26 +97,14 @@ export class InstructorDashboardComponent {
         this.dashboardService.getDashboardData().subscribe(
             {
                 next: (res) => {
-                    this.countTotalStudents(res)
-                    this.countTotalCourses(res)
+                    this.totalCourses = res.courseStudentCount[0].totalCourses
+                    this.totalStudents = res.courseStudentCount[0].totalStudents
                 },
                 error: (err) => {
                     this.toastr.error(err.message)
                 }
             }
         )
-    }
-
-    //count total students
-    countTotalStudents(response: instructorDashboardInterface) {
-        this.totalCourses = response.courseStudentCount.reduce((acc, item) => {
-            return acc + item.totalStudents
-        }, 0)
-    }
-
-    //count total students
-    countTotalCourses(response: instructorDashboardInterface) {
-        this.totalStudents = response.courseStudentCount.length
     }
 
 

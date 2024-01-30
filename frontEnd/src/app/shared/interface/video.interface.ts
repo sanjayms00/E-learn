@@ -30,7 +30,6 @@ export interface Video {
   __v: number;
 }
 
-
 export interface VideoData {
   _id: string;
   title: string;

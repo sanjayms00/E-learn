@@ -1,11 +1,19 @@
+<!-- {{ courseData | json}} -->
+
 <section class="bg-gray-100 p-10">
-    <div class="grid sm:grid-cols-1 md:grid-cols-5 gap-3">
-        <div *ngFor="let video of courseData.slice().reverse();; let i = index"
+    <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
+        Edit chapters
+    </h1>
+
+    <div class="grid sm:grid-cols-1 md:grid-cols-5 gap-3 pt-5">
+        <div *ngFor="let video of courseData; let i = index"
             class="shadow-md text-center min-h-16 cursor-pointer bg-gray-800 flex items-center justify-center hover:bg-black"
             label="Top" (click)="showDialog('top', video)">
             <h2 class="font-semibold uppercase text-white">chapter {{ i+1 }}</h2>
         </div>
     </div>
+
+
 
     <p-dialog header="Update chapter" [(visible)]="visible" [position]="position" [style]="{ width: '40vw',  }"
         [closable]="false" [modal]="true">
@@ -20,7 +28,7 @@
         <div class="pt-2">
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                 message*</label>
-            <textarea id="videoDescription" rows="4" name="videoDescription"
+            <textarea id="videoDescription" rows="8" name="videoDescription"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your thoughts here..." [(ngModel)]="data.description"></textarea>
         </div>
@@ -32,14 +40,18 @@
         </div>
         <div class="flex items-end justify-center gap-2 border-t mt-4 pt-2 mr-3">
             <button type="button"
-                class="px-4 mt-3 py-2 h-[50px] min-w-20 text-white bg-yellow-500 rounded hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-800"
+                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-14 py-4 text-center"
                 (click)="closeDialog()">
-                <i class="pi pi-times-circle"></i> Close
+                <i class="pi pi-times-circle"></i>
+                Close
             </button>
-            <p-button (click)="confirm2($event)" label="Delete" icon="pi pi-trash" styleClass="p-button-danger">
-            </p-button>
+            <button type="button" (click)="confirm2($event)"
+                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-14 py-4 text-center">
+                <i class="pi pi-trash"></i>
+                Delete
+            </button>
             <button type="submit"
-                class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-14 py-4 text-center me-2 mb-2"
+                class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-14 py-4 text-center"
                 (click)="updateChapter()">
                 <i class="pi pi-upload"></i>
                 Update

@@ -21,7 +21,7 @@ export class EditCourseComponent implements OnInit {
   imageType = ['image/png', 'image/jpeg']
   submit = false;
   formData = new FormData()
-  courseData!: instructorCourse
+  courseData!: instructorCourse[]
   id: string | null = ''
 
   constructor(
@@ -54,7 +54,10 @@ export class EditCourseComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.courseFormService.editCourseData(this.id).subscribe((courseData) => {
-        this.courseData = courseData[0]
+        this.courseData = courseData
+        console.log(this.courseData)
+
+
         this.course.patchValue({
           courseName: courseData[0].courseName,
           courseDescription: courseData[0].description,
@@ -62,13 +65,13 @@ export class EditCourseComponent implements OnInit {
           coursePrice: courseData[0].price,
           courseTags: courseData[0].courseTags,
           courseLevel: courseData[0].courseLevel,
-          files: [this.courseData.thumbnail]
+          files: [courseData[0].thumbnail]
         });
 
         this.formData.append('id', String(this.id));
-        this.formData.append('oldImage', String(this.courseData.thumbnail));
+        this.formData.append('oldImage', String(this.courseData[0].thumbnail));
 
-        this.url += this.courseData.thumbnail
+        this.url += this.courseData[0].thumbnail
 
       }),
         (error: any) => {

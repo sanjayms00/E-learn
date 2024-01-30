@@ -4,11 +4,10 @@ import { AdminDto } from 'src/admin/dtos/adminDto';
 import { AdminAuthService } from 'src/admin/services/admin-auth.service';
 import { LoginDto } from 'src/common/dtos/loginDto';
 
-@Controller('admin/auth')
+@Controller('auth')
 export class AdminAuthController {
 
     constructor(private adminAuthService: AdminAuthService) { }
-
 
     @Post('login')
     async adminLogin(@Body() adminLoginData: LoginDto) {

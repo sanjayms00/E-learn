@@ -20,14 +20,13 @@ export class InstructorDashboardService {
                     $match: { instructorId: objInstructorId }
                 },
                 {
-                    $unwind: "$students"
-                },
-                {
                     $group: {
-                        _id: "$students",
-                        totalStudents: { $sum: 1 }
+                        _id: null,
+                        totalCourses: { $sum: 1 },
+                        totalStudents: { $sum: { $size: "$students" } }
                     }
                 }
+
             ])
 
             return {

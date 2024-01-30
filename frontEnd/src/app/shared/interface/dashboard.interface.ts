@@ -1,5 +1,6 @@
 export interface courseStudentCount {
-    _id: string
+    _id?: null
+    totalCourses: number
     totalStudents: number
 }
 

@@ -48,6 +48,7 @@ export interface Course {
     thumbnailUrl?: string
 }
 
+
 export interface instrctorModel {
     _id: string,
     fullName: string
@@ -65,9 +66,6 @@ export interface filterInterFace {
     instructor?: string;
     category?: string;
 }
-
-
-
 
 export interface instructorCourse {
     _id: string;

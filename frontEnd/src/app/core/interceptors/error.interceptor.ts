@@ -31,11 +31,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         if (restOfTheString.startsWith('instructor')) {
           this.authservice.instructorLogout();
+          this.router.navigate(['/instructor/login'])
         }
         else if (restOfTheString.startsWith('student')) {
           this.authservice.clientLogout();
+          this.router.navigate(['/login'])
         }
-        this.router.navigate(['/'])
+
       }
       const error = err.error.message || err.statusText
       return throwError(() => Error(error))
