@@ -1,13 +1,18 @@
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
     <!-- card -->
     <ng-container *ngFor="let course of myCourse">
-        <div class="shadow-xl border cursor-pointer border-gray-300 rounded-xl p-4 relative overflow-hidden"
+        <div class="shadow-xl border cursor-pointer border-gray-300 rounded-xl p-4 relative overflow-hidden transition-transform transform hover:scale-105"
             [routerLink]="['/courses/learn']"
             [queryParams]="{course: course.myCourses._id, video: course.myCourses.videos[0] }">
+
+            <!-- Image -->
+            <img src="{{ url+course.myCourses.thumbnail }}" alt="Course Thumbnail"
+                class="w-full h-32 object-cover mb-4 rounded-md">
 
             <div class="w-full h-full block">
                 <div class="flex items-center border-b-2 mb-2 py-2">
                     <div class="">
+                        <!-- Course Name and Instructor -->
                         <div class="font-bold mb-2 text-md uppercase h-[60px]">
                             {{ course.myCourses.courseName }}
                         </div>
@@ -16,28 +21,46 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Last Updated -->
                 <div class="w-full">
-                    <p class="text-blue-600 text-xs font-medium mb-2">
-                        Last Updated At : {{ course.myCourses.updatedAt | date }}
+                    <p class="text-black text-xs font-medium mb-2">
+                        Last Updated At: {{ course.myCourses.updatedAt | date }}
                     </p>
                 </div>
+
+                <!-- Chapters Completed -->
                 <div class="flex items-center justify-between my-3">
                     <p class="text-black text-sm font-semibold">
-                        4/6 chapter completed
+                        {{ course.watched.length }}/{{ course.myCourses.videos.length }} chapters completed
                     </p>
                 </div>
 
+                <!-- Progress Bar -->
                 <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
                     <div class="bg-green-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                        [style.width.%]="course.progress">
-                        {{ course.progress }} %
+                        [style.width.%]="(course.watched.length / course.myCourses.videos.length) * 100">
+                        {{ (course.watched.length / course.myCourses.videos.length) * 100 }}%
                     </div>
+                </div>
 
+                <!-- rating -->
+                <div class="flex items-center justify-end py-3">
+                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 22 20">
+                        <path
+                            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    
+                    <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
+                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                    <a [routerLink]="['/courses/details/', course.myCourses._id]"
+                        class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">73
+                        reviews</a>
                 </div>
             </div>
         </div>
     </ng-container>
-
 </div>
 
-<pre>{{ myCourse | json }}</pre>
+<!-- <pre>{{ myCourse | json }}</pre> -->

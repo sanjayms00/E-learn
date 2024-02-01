@@ -12,7 +12,7 @@
                     <i class="pi pi-arrow-left"></i>
                 </p-button>
                 <h2 class="text-xl font-bold uppercase">
-                    <!-- {{ streamData.courseData[0].courseName }} -->
+                    {{ courseHeading }}
                 </h2>
                 <p-button severity="secondary">
                     <i class="pi pi-arrow-right"></i>
@@ -21,7 +21,7 @@
 
             <!-- course details -->
             <article class="text-lg text-justify py-5">
-                <!-- {{ streamData.courseData[0].description }} -->
+                {{ courseDescription }}
             </article>
 
             <hr>
@@ -137,8 +137,7 @@
                         {{ item.title }}
                     </h3>
                     <p class="text-sm">
-                        <!-- {{ item.description | truncate: 200 }} -->
-                        <!-- {{ item | json }} -->
+                        {{ item.description | truncate: 200 }}
                     </p>
                 </p-accordionTab>
             </ng-container>
@@ -151,5 +150,3 @@
     <img src="https://img.freepik.com/free-vector/group-student-celebrating-their-graduation_52683-39859.jpg"
         alt="course completed" class="w-full">
 </p-dialog>
-
-<pre>{{ streamData | json }}</pre>

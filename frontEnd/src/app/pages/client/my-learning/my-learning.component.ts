@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { LearningService } from 'src/app/core/services/client/learning.service';
 import { myLearning } from 'src/app/shared/interface/myLearning.interface';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-my-learning',
@@ -11,6 +12,7 @@ export class MyLearningComponent implements OnInit {
 
   myCourse: myLearning[] = []
   visible: boolean = false;
+  url = environment.cloudFrontUrl
 
   constructor(
     private learningService: LearningService,

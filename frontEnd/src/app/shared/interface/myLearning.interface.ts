@@ -8,11 +8,13 @@ export interface MyCourse {
   courseLevel: string[];
   videos: string[];
   updatedAt: Date;
+
 }
 
 export interface myLearning {
   _id: string;
   myCourses: MyCourse;
   progress: number;
+  watched: string[];
   instructorName: string;
 }

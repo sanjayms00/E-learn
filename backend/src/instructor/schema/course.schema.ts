@@ -39,6 +39,9 @@ export class Course extends Document {
   @Prop({ type: [String] })
   courseLevel: string[];
 
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Reviews' }] })
+  reviews: Types.ObjectId[];
+
 }
 
 export const courseSchema = SchemaFactory.createForClass(Course);
