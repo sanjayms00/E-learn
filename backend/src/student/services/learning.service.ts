@@ -50,12 +50,13 @@ export class LearningService {
                     }
                 },
                 {
-                    $unwind: '$myCourses'  // Add this $unwind stage
+                    $unwind: '$myCourses'
                 },
                 {
                     $project: {
                         _id: 1,
                         progress: '$courses.progress',
+                        watched: '$courses.watched',
                         'myCourses._id': 1,
                         'myCourses.courseName': 1,
                         'myCourses.thumbnail': 1,
@@ -144,7 +145,6 @@ export class LearningService {
         }
     }
 
-
     // update Chapter Viewed in course
     async updateChapterViewed(studentId, chapterId, courseId) {
         try {
@@ -174,7 +174,6 @@ export class LearningService {
         }
 
     }
-
 
     //get the viewed videos of course added in student
     async findStudentCourse(objStudentId, objCourseId) {

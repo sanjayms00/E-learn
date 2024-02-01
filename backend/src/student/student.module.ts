@@ -25,6 +25,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { tokenSchema } from './schema/token.schema';
 import { StudentMiddleware } from './middlewares/student.middleware';
+import { ReviewRatingController } from './controllers/review-rating.controller';
+import { ReviewRatingService } from './services/review-rating.service';
+
 
 @Module({
   imports: [
@@ -70,7 +73,8 @@ import { StudentMiddleware } from './middlewares/student.middleware';
     ProfileController,
     StudentCourseController,
     CategoryController,
-    LearningController
+    LearningController,
+    ReviewRatingController
   ],
   providers: [
     StudentAuthService,
@@ -80,7 +84,8 @@ import { StudentMiddleware } from './middlewares/student.middleware';
     studentJwtAuthGuard,
     CategoryService,
     SignedUrlService,
-    LearningService
+    LearningService,
+    ReviewRatingService
   ],
   exports: [StudentJwtStrategy, PassportModule, studentJwtAuthGuard],
 })

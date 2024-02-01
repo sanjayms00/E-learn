@@ -26,7 +26,7 @@ export class LearningController {
         @Query('videoId') videoId: string
     ) {
         const studentId = req.user._id
-        console.log(courseId, videoId, studentId)
+        // console.log(courseId, videoId, studentId)
         return this.learningService.streamCourseData(courseId, videoId, studentId)
     }
 
@@ -40,9 +40,6 @@ export class LearningController {
         const studentId = req.user._id
         return this.learningService.updateChapterViewed(studentId, data.chapterId, data.courseId)
     }
-
-
-
 
 
 }
