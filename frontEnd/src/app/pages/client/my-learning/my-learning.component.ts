@@ -10,6 +10,7 @@ import { myLearning } from 'src/app/shared/interface/myLearning.interface';
 export class MyLearningComponent implements OnInit {
 
   myCourse: myLearning[] = []
+  visible: boolean = false;
 
   constructor(
     private learningService: LearningService,
@@ -30,8 +31,14 @@ export class MyLearningComponent implements OnInit {
         this.toastr.error(err);
       }
     });
-    
+
   }
+
+  //modal open  
+  showDialog() {
+    this.visible = true;
+  }
+
 
 
 }

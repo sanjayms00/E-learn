@@ -5,6 +5,7 @@ section {
     align-items: center;
     min-height: 100vh;
     /* background: linear-gradient(15deg, #85223d, #34dca7) */
+    background-color: #f7f7f7;
 }
 
 .container {
@@ -27,8 +28,9 @@ section {
     height: 300px;
     background: #FFF;
     border-radius: 20px;
+    border: 1px solid #dedede;
     transition: 0.5s;
-    box-shadow: 2px 8px 8px rgba(0, 0, 0, .5);
+    box-shadow: 20px 20px 40px rgba(0, 0, 0, .2);
 }
 
 .container .card:hover {
@@ -80,7 +82,7 @@ section {
 
 .container .card .content h2 {
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 500;
     color: var(--clr);
 }
 

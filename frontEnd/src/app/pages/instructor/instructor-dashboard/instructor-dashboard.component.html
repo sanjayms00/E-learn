@@ -4,72 +4,20 @@
     </h1>
     <div class="flex justify-evenly pt-5 gap-5">
         <div class="flex flex-col gap-5">
-            <div class="w-full bg-white border-2 border-gray-200 rounded-xl shadow-lg">
-                <div class="surface-card shadow-2 p-6 border-round">
-                    <div class="flex justify-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3 min-w-32">Total Students</span>
-                            <div class="text-900 font-medium text-xl text-green-600">
-                                {{ totalStudents }}
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-center bg-blue-100 border-round"
-                            style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-user text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-dashboard-box title="Total Students" [value]="totalStudents" icon="pi-user"
+                color="red"></app-dashboard-box>
 
-            <div class="w-full bg-white border-2 border-gray-200 rounded-md shadow-lg">
-                <div class="surface-card shadow-2 p-6 border-round">
-                    <div class="flex justify-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Avg Rating</span>
-                            <div class="text-900 font-medium text-xl text-blue-600">5</div>
-                        </div>
-                        <div class="flex items-center justify-center bg-blue-100 border-round"
-                            style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-star text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-dashboard-box title="Avg Rating" [value]="5" icon="pi-star" color="blue"></app-dashboard-box>
 
-            <div class="w-full bg-white border-2 border-gray-200 rounded-lg shadow-lg">
-                <div class="surface-card shadow-2 p-6 border-round">
-                    <div class="flex justify-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Revenue</span>
-                            <div class="text-900 font-medium text-xl text-orange-600">₹ 10000</div>
-                        </div>
-                        <div class="flex items-center justify-center bg-blue-100 border-round"
-                            style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-money-bill text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-dashboard-box title="Revenue" [value]="1000" icon="pi-money-bill" color="green"></app-dashboard-box>
 
-            <div class="w-full bg-white border-2 border-gray-200 rounded-lg shadow-lg">
-                <div class="surface-card shadow-2 p-6 border-round">
-                    <div class="flex justify-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Total Courses</span>
-                            <div class="text-900 font-medium text-xl text-indigo-600">
-                                {{ totalCourses }}
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-center bg-blue-100 border-round"
-                            style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-video text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-dashboard-box title="Total Courses" [value]="totalCourses" icon="pi-video"
+                color="indigo"></app-dashboard-box>
         </div>
         <div class="flex-grow bg-white p-5 rounded-lg shadow-lg border-2 border-gray-200">
-            <p-chart type="line" [data]="data" [options]="options"></p-chart>
+            <app-graph></app-graph>
         </div>
+
+
     </div>
 </section>

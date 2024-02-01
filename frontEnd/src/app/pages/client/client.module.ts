@@ -35,6 +35,9 @@ import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
+
 
 @NgModule({
   declarations: [
@@ -75,7 +78,20 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     SharedModule,
     DialogModule,
-    DropdownModule
+    DropdownModule,
+    NgCircleProgressModule.forRoot({
+      radius: 100,
+      outerStrokeWidth: 20,
+      titleFontSize: '100',
+      innerStrokeWidth: 5,
+      outerStrokeColor: "#000",
+      innerStrokeColor: "#000",
+      animationDuration: 300,
+      animation: true,
+      showSubtitle: false,
+      showUnits: false,
+      responsive: true
+    })
 
   ],
   providers: [],

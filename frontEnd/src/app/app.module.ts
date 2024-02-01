@@ -31,13 +31,15 @@ import { WelcomeComponent } from './shared/components/welcome/welcome.component'
 import { SharedModule } from 'primeng/api';
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
     NotFoundComponent,
     ErrorComponent,
-    WelcomeComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

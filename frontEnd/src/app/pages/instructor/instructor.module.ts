@@ -8,7 +8,6 @@ import { InstructorProfileComponent } from './instructor-profile/instructor-prof
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenubarModule } from 'primeng/menubar';
 import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
-import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
@@ -27,7 +26,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { PanelMenuModule } from 'primeng/panelmenu';
-
+import { DashboardBoxComponent } from 'src/app/shared/components/dashboard-box/dashboard-box.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +40,8 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     EditCourseComponent,
     CreateCourseComponent,
     EditCourseContentComponent,
-    NumericDirective
+    NumericDirective,
+    DashboardBoxComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +49,6 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     ReactiveFormsModule,
     FormsModule,
     MenubarModule,
-    ChartModule,
     CardModule,
     ProgressBarModule,
     DialogModule,

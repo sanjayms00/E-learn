@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { StudentListComponent } from './student-list/student-list.component';
@@ -16,12 +15,13 @@ import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 import { ListingService } from 'src/app/core/services/admin/listing.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CategoryComponent } from './category/category.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { SharedModule } from 'src/app/shared/modules/shared.module';
 
 
 @NgModule({
   declarations: [
     AdminLoginComponent,
-    AdminHomeComponent,
     StudentListComponent,
     InstructorListComponent,
     SearchBarComponent,
@@ -30,14 +30,16 @@ import { CategoryComponent } from './category/category.component';
     AdminNavbarComponent,
     TableComponent,
     SearchPipe,
-    CategoryComponent
+    CategoryComponent,
+    AdminDashboardComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   providers: [AuthService, ListingService]
 })

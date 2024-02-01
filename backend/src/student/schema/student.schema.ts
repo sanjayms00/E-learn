@@ -18,10 +18,14 @@ export class Student extends Document {
   mobile: number;
 
   @Prop({
-    type: [{ courseId: { type: Types.ObjectId, ref: 'Course' }, progress: { type: Number, default: 0 } }],
+    type: [{
+      courseId: { type: Types.ObjectId, ref: 'Course' },
+      progress: { type: Number, default: 0 },
+      watched: { type: [Types.ObjectId], default: [] }
+    }],
     default: [],
   })
-  courses: { courseId: Course['_id']; progress: number }[];
+  courses: { courseId: Course['_id']; progress: number, watched: Types.ObjectId[] }[];
 
   @Prop({ required: true })
   password: string;

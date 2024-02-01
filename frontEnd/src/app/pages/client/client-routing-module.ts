@@ -25,6 +25,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 
 const routes: Routes = [
+  // { path: 'courses/learn', component: StreamVideoComponent },
   {
     path: '',
     component: ClientComponent,

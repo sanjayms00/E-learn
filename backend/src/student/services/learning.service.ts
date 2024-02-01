@@ -82,12 +82,9 @@ export class LearningService {
             const objVideoId = new Types.ObjectId(videoId);
 
             //find course present in student
-            const checkCourseValid = await this.studentModel.findOne(
-                { _id: objStudentId, "courses.courseId": objCourseId },
-                { password: 0 }
-            )
+            const studentData = await this.findStudentCourse(objStudentId, objCourseId)
 
-            if (!checkCourseValid) throw new UnauthorizedException("Not allowed")
+            if (!studentData) throw new UnauthorizedException("Not allowed")
 
             //get cousedata and the present video data
             const courseData = await this.courseModel.aggregate([
@@ -139,10 +136,52 @@ export class LearningService {
             console.log(courseData)
             if (!courseData) throw new NotFoundException();
 
-            return { courseData }
+            console.log(studentData)
+
+            return { courseData, studentData }
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
+    }
+
+
+    // update Chapter Viewed in course
+    async updateChapterViewed(studentId, chapterId, courseId) {
+        try {
+            const objStudentId = new Types.ObjectId(studentId)
+            const objChapterId = new Types.ObjectId(chapterId)
+            const objCourseId = new Types.ObjectId(courseId)
+
+            const updateResult = await this.studentModel.updateOne(
+                {
+                    _id: objStudentId,
+                    "courses.courseId": objCourseId
+                },
+                {
+                    $addToSet: { "courses.$.watched": objChapterId }
+                }
+            )
+            if (updateResult.modifiedCount < 1) throw new NotFoundException('Document not found or not updated.')
+
+            const studentupdatedCourse = this.findStudentCourse(objStudentId, objCourseId)
+
+            if (!studentupdatedCourse) throw new NotFoundException('Document not found or not updated.')
+
+            return studentupdatedCourse
+        } catch (error) {
+            // console.log(error.message)
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+
+    }
+
+
+    //get the viewed videos of course added in student
+    async findStudentCourse(objStudentId, objCourseId) {
+        return await this.studentModel.findOne(
+            { _id: objStudentId, "courses.courseId": objCourseId },
+            { "courses.$": 1 }
+        )
     }
 
 

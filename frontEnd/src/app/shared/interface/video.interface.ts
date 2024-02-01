@@ -53,6 +53,18 @@ export interface CourseData {
 }
 
 export interface StreamResponse {
-  courseData: CourseData[]
+  courseData: CourseData[],
+  studentData: studentDataViewResponse
 }
 
+export interface studentDataViewResponse {
+  id: string,
+  courses: [
+    {
+      courseId: string,
+      progress: number,
+      _id: string,
+      watched: string[]
+    }
+  ]
+}

@@ -28,6 +28,7 @@
     "@videogular/ngx-videogular": "^8.0.0",
     "chart.js": "^4.4.1",
     "flowbite": "^2.2.1",
+    "ng-circle-progress": "^1.7.1",
     "ng-otp-input": "^1.9.3",
     "ngx-pagination": "^6.0.3",
     "ngx-stripe": "^16.3.2",

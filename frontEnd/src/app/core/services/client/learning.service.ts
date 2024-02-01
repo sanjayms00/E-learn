@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { constant } from '../../constant/constant';
-import { StreamResponse } from 'src/app/shared/interface/video.interface';
+import { StreamResponse, studentDataViewResponse } from 'src/app/shared/interface/video.interface';
 import { myLearning } from 'src/app/shared/interface/myLearning.interface';
 import { Observable } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class LearningService {
   }
 
   //streaming video and fetcvh other course related data
-  streamCourse(courseId: string, videoId: string) {
+  streamCourse(courseId: string, videoId: string): Observable<StreamResponse> {
 
     const params = new HttpParams()
       .set('courseId', courseId)
@@ -27,5 +27,18 @@ export class LearningService {
 
     return this.http.get<StreamResponse>(`${constant.baseUrl}/student/learning/stream-course`, { params })
   }
+
+  //change chapter viewed
+  updateChapterViewed(chapterId: string, courseId: string): Observable<studentDataViewResponse> {
+    return this.http.patch<studentDataViewResponse>(`${constant.baseUrl}/student/learning/update-chapter-viewed`, {
+      chapterId, courseId
+    })
+  }
+
+  //find the progress
+  findProgress(totalChapters: number, viewedChapters: number) {
+    return (viewedChapters / totalChapters) * 100
+  }
+
 
 }

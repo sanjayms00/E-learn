@@ -86,7 +86,6 @@ export class InstructorComponent {
         this.router.navigateByUrl("/instructor/login")
     }
 
-
     closeCallback(e: any): void {
         this.sidebarRef.close(e);
     }

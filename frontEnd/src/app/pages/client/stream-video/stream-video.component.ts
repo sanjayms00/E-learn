@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LearningService } from 'src/app/core/services/client/learning.service';
 import { InstructorData, StreamResponse, VideoData } from 'src/app/shared/interface/video.interface';
-import { environment } from 'src/environment/environment';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stream-video',
@@ -11,9 +11,9 @@ import { environment } from 'src/environment/environment';
 })
 export class StreamVideoComponent implements OnInit {
   streamData!: StreamResponse
-  url: string = environment.cloudFrontUrl;
   activeVideoData!: VideoData[];
   activeVideo: string | null = null;
+  activeVideoId: string | null = null;
   chapters: VideoData[] = []
   activeIndex: number | undefined = 0;
   courseId!: string;
@@ -21,10 +21,15 @@ export class StreamVideoComponent implements OnInit {
   activeChapterData: string = ''
   activeChapterTitle: string = ''
   instructorData!: InstructorData;
+  progress: number = 0
+  viewedChapters: string[] = []
+  visible: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private learningService: LearningService
+    private learningService: LearningService,
+    private destroyRef: DestroyRef,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +40,10 @@ export class StreamVideoComponent implements OnInit {
     this.activeIndex = index;
   }
 
+  showDialog() {
+    this.visible = true;
+  }
+
   getCourse() {
     this.route.queryParams.subscribe((params) => {
       this.courseId = params['course'];
@@ -42,28 +51,53 @@ export class StreamVideoComponent implements OnInit {
     });
 
     if (this.courseId && this.videoId) {
-      this.learningService.streamCourse(this.courseId, this.videoId).subscribe((res) => {
-        this.streamData = res;
-        console.log(this.streamData)
-        this.chapters = this.streamData.courseData[0].videoData;
-        this.activeVideoData = this.streamData.courseData[0].videoData.filter(
-          (item) => item._id == this.videoId
-        );
-        this.activeVideo = this.activeVideoData[0].file;
-        this.activeChapterData = this.activeVideoData[0].description;
-        this.activeChapterTitle = this.activeVideoData[0].title;
+      this.learningService.streamCourse(this.courseId, this.videoId)
+        .pipe(takeUntilDestroyed(this.destroyRef))   //for unsubscribing the observable
+        .subscribe((res) => {
+          this.streamData = res;
+          // console.log(this.streamData)
+          this.chapters = this.streamData.courseData[0].videoData;
+          this.viewedChapters = this.streamData.studentData.courses[0].watched;
+          //find progress
+          this.progress = this.learningService.findProgress(this.chapters.length, this.viewedChapters.length)
 
-        this.instructorData = this.streamData.courseData[0].instructorData[0]
+          if (this.progress >= 100) this.showDialog()
 
-      });
+          this.activeVideoData = this.streamData.courseData[0].videoData.filter(
+            (item) => item._id == this.videoId
+          );
+          this.activeVideo = this.activeVideoData[0].file;
+          this.activeVideoId = this.activeVideoData[0]._id;
+          this.activeChapterData = this.activeVideoData[0].description;
+          this.activeChapterTitle = this.activeVideoData[0].title;
+
+          this.instructorData = this.streamData.courseData[0].instructorData[0]
+        });
     }
   }
 
-
-  changeActiveVideo(file: string, description: string, title: string) {
+  changeActiveVideo(file: string, description: string, title: string, videoId: string) {
     this.activeVideo = file;
+    this.activeVideoId = videoId;
     this.activeChapterData = description
     this.activeChapterTitle = title
   }
+
+  updateChapterInfo(event: string) {
+    this.learningService.updateChapterViewed(event, this.courseId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          // console.log(res)
+          this.viewedChapters = res.courses[0].watched;
+          this.progress = this.learningService.findProgress(this.chapters.length, this.viewedChapters.length)
+          if (this.progress >= 100) this.showDialog()
+        },
+        error: err => {
+          this.toastr.error(err)
+        }
+      })
+  }
+
 
 }

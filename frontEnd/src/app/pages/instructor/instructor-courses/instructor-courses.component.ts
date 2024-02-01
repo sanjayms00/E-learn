@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { environment } from 'src/environment/environment';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,9 +12,10 @@ import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/a
   templateUrl: './instructor-courses.component.html',
   providers: [ConfirmationService, MessageService]
 })
-export class InstructorCoursesComponent implements OnInit {
+export class InstructorCoursesComponent implements OnInit, OnDestroy {
 
   courses: Course[] = []
+  coursesSubscription!: Subscription
   url = environment.cloudFrontUrl
 
   constructor(
@@ -22,19 +24,20 @@ export class InstructorCoursesComponent implements OnInit {
     private courseService: CourseService
   ) { }
 
+
   ngOnInit(): void {
     this.instructorCourse()
   }
 
   instructorCourse() {
-    this.courseService.getInstructorCourse().subscribe((res: any) => {
+    this.coursesSubscription = this.courseService.getInstructorCourse().subscribe((res: any) => {
       this.courses = res
     })
   }
 
   //delete course
   deleteCourse(courseId: string) {
-    this.courseService.deleteCourse(courseId).subscribe((res) => {
+    this.coursesSubscription = this.courseService.deleteCourse(courseId).subscribe((res) => {
       this.courses = res
       // console.log(res)
       this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
@@ -62,5 +65,9 @@ export class InstructorCoursesComponent implements OnInit {
     });
   }
 
+
+  ngOnDestroy(): void {
+    this.coursesSubscription.unsubscribe()
+  }
 
 }
