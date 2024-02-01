@@ -31,7 +31,6 @@ export class MyLearningComponent implements OnInit {
         this.toastr.error(err);
       }
     });
-
   }
 
   //modal open  
