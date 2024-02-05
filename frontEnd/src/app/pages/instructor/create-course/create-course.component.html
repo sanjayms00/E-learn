@@ -1,123 +1,158 @@
 <section class="bg-gray-100 p-10">
-    <form [formGroup]="course" (ngSubmit)="createCourseSubmit()">
-        <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
-            Create Course
-        </h1>
+    <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
+        Create Course
+    </h1>
 
-        <div class="my-5">
-            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                Name*</label>
-            <div class="text-red-600 font-medium"
+    <!-- form serction -->
+    <form [formGroup]="course" (ngSubmit)="createCourseSubmit()" class="py-5">
+        <!-- coursename start -->
+        <div class="my-8">
+            <span class="p-float-label">
+                <input pInputText formControlName="courseName" style="width: 100%;" />
+                <label for="courseName">Course Name</label>
+            </span>
+            <ng-container
                 *ngIf="course.controls['courseName'].touched && course.controls['courseName'].errors as courseNameErrors">
-                <div *ngIf="courseNameErrors['required']">Course name is required</div>
-            </div>
-            <input type="text" name="courseName" id="courseName" formControlName="courseName"
-                class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Course Name">
+                <span *ngIf="courseNameErrors['required']" class="text-red-600 font-medium">
+                    Course name is required
+                </span>
+            </ng-container>
         </div>
+        <!-- coursename end -->
 
-        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 mb-4">
-            <div class="mb-4">
-                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                    Description*</label>
-                <div class="text-red-600 font-medium"
-                    *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
-                    <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
+
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 my-8">
+            <div class="flex flex-col">
+                <!-- courseDescription start -->
+                <div>
+                    <span class="p-float-label">
+                        <textarea id="float-input" formControlName="courseDescription" rows="5" pInputTextarea
+                            style="width: 100%"></textarea>
+                        <label for="float-input">Description</label>
+                    </span>
+                    <ng-container
+                        *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
+                        <span *ngIf="courseDescriptionErrors['required']" class="text-red-600 font-medium">
+                            Course Description is required
+                        </span>
+                    </ng-container>
                 </div>
-                <textarea id="courseDescription" rows="4" name="courseDescription" formControlName="courseDescription"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Write your course description here..."></textarea>
+                <!-- courseDescription ends -->
+
+                <!-- coursePrice start -->
+                <div class="my-8">
+                    <span class="p-float-label">
+                        <input pInputText formControlName="coursePrice" style="width: 100%" appNumeric />
+                        <label for="coursePrice">Course price</label>
+                    </span>
+                    <ng-container
+                        *ngIf="course.controls['coursePrice'].touched && course.controls['coursePrice'].errors as coursePriceErrors">
+                        <span *ngIf="coursePriceErrors['required']" class="text-red-600 font-medium">
+                            Course price is required
+                        </span>
+                    </ng-container>
+                </div>
+                <!-- coursePrice ends -->
+
+                <!-- courseCategory start -->
+                <div>
+                    <select
+                        class="block w-full text-sm h-[49px] text-gray-600 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-400"
+                        formControlName="courseCategory">
+                        <option value="" selected>-- Choose a category --</option>
+                        <option *ngFor="let category of categoryData" [value]="category._id">{{ category.categoryName }}
+                        </option>
+                    </select>
+                    <ng-container
+                        *ngIf="course.controls['courseCategory'].touched && course.controls['courseCategory'].errors as courseCategoryErrors">
+                        <span *ngIf="courseCategoryErrors['required']" class="text-red-600 font-medium">
+                            Course category is required
+                        </span>
+                    </ng-container>
+                </div>
+                <!-- courseCategory ends -->
             </div>
             <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Level*
-                    ( press control to select multiple levels )</label>
-                <div class="text-red-600 font-medium"
-                    *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
-                    <div *ngIf="courseLevelErrors['required']">Course Leve l is required</div>
-                </div>
+                <p-editor formControlName="content" [style]="{ height: '275px' }"></p-editor>
+                <ng-container
+                    *ngIf="course.controls['content'].touched && course.controls['content'].errors as contentErrors">
+                    <span *ngIf="contentErrors['required']" class="text-red-600 font-medium">
+                        Course content is required
+                    </span>
+                </ng-container>
+            </div>
+        </div>
+        <!-- coursename end -->
+
+
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 my-8">
+            <!-- courseTags start -->
+            <div class="my-5">
+                <span class="p-float-label">
+                    <input pInputText formControlName="courseTags" style="width: 100%;" />
+                    <label for="username">Course Tags (use commas ',' to sepperate)</label>
+                </span>
+                <ng-container
+                    *ngIf="course.controls['courseTags'].touched && course.controls['courseTags'].errors as courseTagsErrors">
+                    <span *ngIf="courseTagsErrors['required']" class="text-red-600 font-medium">
+                        Course Tags is required
+                    </span>
+                </ng-container>
+            </div>
+            <!-- courseTags end -->
+
+            <!-- courseLevel start -->
+            <div class="my-5">
                 <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
                     class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[103px]">
                     <option value="beginner">beginner</option>
                     <option value="intermediate">intermediate</option>
                     <option value="professional">professional</option>
                 </select>
+
+                <ng-container
+                    *ngIf="course.controls['courseLevel'].touched && course.controls['courseLevel'].errors as courseLevelErrors">
+                    <span *ngIf="courseLevelErrors['required']" class="text-red-600 font-medium">
+                        Course level is required
+                    </span>
+                </ng-container>
             </div>
+            <!-- courseLevel ends -->
         </div>
 
-        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 mb-4">
+        <!-- fileupload part -->
+
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 my-8">
             <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                    Price*</label>
-                <div class="text-red-600 font-medium"
-                    *ngIf="course.controls['coursePrice'].touched && course.controls['coursePrice'].errors as coursePriceErrors">
-                    <div *ngIf="coursePriceErrors['required']">Course price is required</div>
-                    <div *ngIf="coursePriceErrors['pattern']">Only numbers are allowed</div>
-                    <div *ngIf="coursePriceErrors['minlength']">minumum length is 2</div>
-                    <div *ngIf="coursePriceErrors['maxlength']">maximum length is 4</div>
-                </div>
-                <input type="text" accept="" name="coursePrice" id="coursePrice" formControlName="coursePrice"
-                    class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Course price" appNumeric>
-            </div>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    for="file_input">Thumbnail</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="file_input_help" id="file_input" type="file" formControlName="files"
+                    (change)="onFileSelected($event)">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG only</p>
 
+                <ng-container
+                    *ngIf="course.controls['files'].touched && course.controls['files'].errors as filesErrors">
+                    <span *ngIf="filesErrors['required']" class="text-red-600 font-medium">
+                        Thumbnail is required
+                    </span>
+                </ng-container>
+            </div>
             <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                    Category*</label>
-                <div class="text-red-600 font-medium"
-                    *ngIf="course.controls['courseCategory'].touched && course.controls['courseCategory'].errors as courseDescriptionErrors">
-                    <div *ngIf="courseDescriptionErrors['required']">Course Description is required</div>
-                </div>
-                <select id="large"
-                    class="block w-full px-4 py-2 text-sm h-[42px] text-gray-900 border border-gray-600 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="courseCategory" id="courseCategory" formControlName="courseCategory">
-                    <option value="" selected>--Choose a category--</option>
-                    <option *ngFor="let category of categoryData" [value]="category._id">{{ category.categoryName }}
-                    </option>
-                </select>
-            </div>
-
-            <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
-                    tags*</label>
-                <div class="text-red-600 font-medium"
-                    *ngIf="course.controls['courseTags'].touched && course.controls['courseTags'].errors as courseTagsErrors">
-                    <div *ngIf="courseTagsErrors['required']">Course Tags is required</div>
-                </div>
-                <input type="text" name="courseTags" id="courseTags" formControlName="courseTags"
-                    class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="programming, technology ...">
-            </div>
-        </div>
-
-        <div>
-            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
-                Thumbnail*</label>
-            <div class="text-red-600 font-medium"
-                *ngIf="course.controls['files'].touched && course.controls['files'].errors as courseFilesErrors">
-                <div *ngIf="courseFilesErrors['required']">Video thumbnail is required</div>
-            </div>
-            <div class="w-full relative border-2 border-gray-500 border-dashed rounded-lg p-6" id="dropzone"
-                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-                <input type="file" name="videoThumbnail" id="videoThumbnail"
-                    class="absolute inset-0 w-full h-full opacity-0 z-50" (change)="onFileSelected($event)"
-                    formControlName="files" />
-                <div class="text-center">
-                    <img class="mx-auto h-12 w-12" src="https://www.svgrepo.com/show/357902/image-upload.svg" alt="">
-
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">
-                        <label for="file-upload" class="relative cursor-pointer">
-                            <span>Drag and drop</span>
-                            <span class="text-indigo-600"> or browse </span>
-                            <span>to upload</span>
-                            <input id="file-upload" name="file-upload" type="file" class="sr-only"
-                                (change)="onFileSelected($event)">
-                        </label>
-                    </h3>
-                    <p class="mt-1 text-xs text-gray-500">
-                        PNG, JPG
-                    </p>
-                </div>
-                <img src="" class="mt-4 mx-auto max-h-40 hidden" id="preview" #previewImage>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    for="file_input">Trailer</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="file_input_help" id="file_input" type="file" formControlName="trailer"
+                    (change)="onTrailerSelected($event)">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">mp4 only</p>
+                <ng-container
+                    *ngIf="course.controls['trailer'].touched && course.controls['trailer'].errors as trailerErrors">
+                    <span *ngIf="trailerErrors['required']" class="text-red-600 font-medium">
+                        Trailer is required
+                    </span>
+                </ng-container>
             </div>
         </div>
 
@@ -175,8 +210,13 @@
                 </div>
             </div>
         </div>
+
+
     </form>
+
+
 </section>
+
 
 <!-- spinner -->
 <ng-container *ngIf="submit">

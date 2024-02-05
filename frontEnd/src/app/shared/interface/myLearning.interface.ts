@@ -8,7 +8,13 @@ export interface MyCourse {
   courseLevel: string[];
   videos: string[];
   updatedAt: Date;
-
+  reviews: [
+    {
+      studentId: string,
+      reviewId: string,
+      _id: string
+    }
+  ]
 }
 
 export interface myLearning {

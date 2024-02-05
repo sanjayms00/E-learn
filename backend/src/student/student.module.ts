@@ -27,6 +27,7 @@ import { tokenSchema } from './schema/token.schema';
 import { StudentMiddleware } from './middlewares/student.middleware';
 import { ReviewRatingController } from './controllers/review-rating.controller';
 import { ReviewRatingService } from './services/review-rating.service';
+import { RatingReviewSchema } from './schema/ratingReview.schema';
 
 
 @Module({
@@ -67,6 +68,7 @@ import { ReviewRatingService } from './services/review-rating.service';
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
     MongooseModule.forFeature([{ name: 'Token', schema: tokenSchema }]),
+    MongooseModule.forFeature([{ name: 'RatingReview', schema: RatingReviewSchema }]),
   ],
   controllers: [
     StudentAuthController,
@@ -105,6 +107,6 @@ export class StudentModule implements NestModule {
         ProfileController,
         StudentCourseController,
         LearningController
-        );
+      );
   }
 }

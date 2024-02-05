@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div *ngFor="let course of Courses" [routerLink]="['/courses', 'details', course._id]"
-        class="border-2 border-gray-200 bg-white rounded-lg p-4 mb-8 transition-transform transform hover:shadow-lg">
-        <img [src]="course.thumbnailUrl" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
+    <div *ngFor="let course of Courses; trackBy: courseTrackBy" [routerLink]="['/courses', 'details', course._id]"
+        class="border-2 border-gray-200 bg-white rounded-lg p-4 mb-8 relative overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg">
+        <img [src]="url+course.thumbnail" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
 
         <div class="flex justify-between items-center mb-2">
             <h2 class="text-md font-semibold text-gray-800 dark:text-white h-12">

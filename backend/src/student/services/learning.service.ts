@@ -57,6 +57,7 @@ export class LearningService {
                         _id: 1,
                         progress: '$courses.progress',
                         watched: '$courses.watched',
+                        'myCourses.reviews': 1,
                         'myCourses._id': 1,
                         'myCourses.courseName': 1,
                         'myCourses.thumbnail': 1,

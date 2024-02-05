@@ -26,8 +26,7 @@ export class StudentCourseService {
         @InjectModel(Category.name)
         private readonly categoryModel: Model<Category>,
         @InjectModel(Student.name)
-        private readonly studentModel: Model<Student>,
-        private signedUrlService: SignedUrlService
+        private readonly studentModel: Model<Student>
 
     ) { }
 
@@ -62,10 +61,7 @@ export class StudentCourseService {
                 }
             ]);
 
-            const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
-
-            console.log(signedCourses)
-            return signedCourses
+            return courses
 
         } catch (error) {
             throw new Error(error.message);
@@ -100,11 +96,7 @@ export class StudentCourseService {
             }
         ]);
 
-        const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
-
-        console.log(signedCourses)
-
-        return signedCourses
+        return courses
     }
 
     //get searched courses
@@ -136,15 +128,12 @@ export class StudentCourseService {
                 },
             }
         ]);
-        const signedCourses = await this.signedUrlService.generateSignedUrl(result)
 
-        console.log(signedCourses)
-        return signedCourses
+        return result
     }
 
     //get course details
     async courseDetails(id: string) {
-
         try {
             if (!id || id.length !== 24) {
                 throw new NotFoundException("id is not found")
@@ -161,33 +150,59 @@ export class StudentCourseService {
                         from: 'instructors',
                         localField: 'instructorId',
                         foreignField: '_id',
-                        as: 'instructor',
+                        as: 'instructorData',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'categoryId',
+                        foreignField: '_id',
+                        as: 'categoryData',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'videos',
+                        localField: 'videos',
+                        foreignField: '_id',
+                        as: 'videoData',
                     },
                 },
                 {
                     $project: {
-                        _id: 1,
-                        courseName: 1,
-                        price: 1,
-                        description: 1,
-                        estimatedPrice: 1,
-                        students: 1,
-                        thumbnail: 1,
-                        updatedAt: 1,
-                        instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
-                    },
+                        "instructorName": { $arrayElemAt: ['$instructorData.fullName', 0] },
+                        "categoryName": { $arrayElemAt: ['$categoryData.categoryName', 0] },
+                        "videoData.title": 1,
+                        "videoData.description": 1,
+                        "_id": 1,
+                        "courseName": 1,
+                        "description": 1,
+                        "price": 1,
+                        "students": 1,
+                        "thumbnail": 1,
+                        "trailer": 1,
+                        "courseTags": 1,
+                        "content": 1,
+                        "videos": 1,
+                        "courseLevel": 1,
+                        "reviews": 1,
+                        "createdAt": 1,
+                        "updatedAt": 1,
+                    }
                 }
             ]);
+
+            //get the course data
+
+
+            // if reviews get reviews
 
             if (courses.length < 1) {
                 throw new NotFoundException('Course not found');
             }
 
-            const signedCourses = await this.signedUrlService.generateSignedUrl(courses)
-
-            console.log(signedCourses)
-
-            return signedCourses[0]
+            return courses[0]
 
         } catch (error) {
             console.log(error.message)
@@ -264,10 +279,7 @@ export class StudentCourseService {
             }
         ]);
 
-        const signedCourses = await this.signedUrlService.generateSignedUrl(filterDataResult)
-
-        console.log(signedCourses)
-        return signedCourses
+        return filterDataResult
 
 
     }

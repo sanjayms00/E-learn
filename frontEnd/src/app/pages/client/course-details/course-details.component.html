@@ -1,159 +1,203 @@
-<section class="container mx-auto mt-8 p-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="">
-            <img alt="ecommerce" class="object-cover object-center rounded cursor-pointer"
-                [src]="courseDetails.thumbnailUrl">
-        </div>
-        <div class="md:col-span-2">
-            <h1 class="text-3xl font-bold mb-4 uppercase">{{ courseDetails.courseName }}</h1>
-            <p class="text-gray-600 mb-4">
-                Last updated at : {{ courseDetails.updatedAt | date }}
-            </p>
-            <p class="text-gray-800 mb-4 font-semibold">Price: ₹ {{ courseDetails.price }}</p>
-            <p class="text-gray-800 mb-4 font-semibold">By {{ courseDetails.instructorName }}</p>
-            <p class="leading-relaxed">{{ courseDetails.description | slice:0:500 }}</p>
-            <div class="my-5 flex items-end justify-between">
-                <!-- buy course -->
-                <button *ngIf="!isStudentEnrolled()"
-                    class="ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded cursor-pointer"
-                    [routerLink]="['/checkout', courseDetails._id ]" routerLinkActive="router-link-active">
-                    Buy
-                </button>
-                <!-- open the course from here -->
-                <button *ngIf="isStudentEnrolled()"
-                    class="ml-auto text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded cursor-pointer"
-                    [routerLink]="['/learning' ]" routerLinkActive="router-link-active">
-                    Go to the course
-                </button>
+<!-- <pre>{{ courseDetails.courseName | json }}</pre> -->
+
+
+<section class="container mx-auto mt-8">
+    <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2 border-l-4 border-l-black bg-gray-200 p-4">
+            <div class="flex gap-3 items-center">
+                <div class="stars flex gap-1 text-yellow-500">
+                    <i class="pi pi-star-fill checked"></i>
+                    <i class="pi pi-star-fill checked"></i>
+                    <i class="pi pi-star-fill checked"></i>
+                    <i class="pi pi-star-fill checked"></i>
+                    <i class="pi pi-star"></i>
+                </div>
+
+                <span>4.5</span>
+                <!-- <span>{{ courseDetails?.reviews?.length || 0 }} reviews </span> -->
+                <!-- <span>{{ courseDetails.categoryName }} </span> -->
+
             </div>
+            <h1 class="text-2xl font-bold max-w-[60%] uppercase py-5">{{ courseDetails.courseName }}</h1>
+            <h2 class="text-lg pb-10">{{ courseDetails.description | truncate:200 }}</h2>
+            <p class="text-lg pb-10">{{ courseDetails.courseTags }}</p>
+
+            <div class="flex items-center bottom-0 left-4 gap-2">
+                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                    shape="circle"></p-avatar> -->
+                <p class="text-md font-semibold pb-2 uppercase"> By {{ courseDetails.instructorName }}</p>
+                <p class="pb-2 pl-5">{{ courseDetails.students.length }} students Enrolled</p>
+                <p class="text-md font-semibold pb-2 pl-5">Last updated 07/2023</p>
+                <p class="pb-2 pl-5">English</p>
+            </div>
+        </div>
+        <div class="border-b-4 border-b-black pt-3">
+            <div class="relative min-h-28" (click)="showDialog()">
+                <img [src]="url + courseDetails.thumbnail" alt="course image"
+                    class="w-full h-full object-cover rounded-md">
+
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <!-- Play Button -->
+                    <div class="bg-white w-20 h-20 flex justify-center items-center rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+
+            <button *ngIf="!isStudentEnrolled()"
+                class="mt-1 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14"
+                [routerLink]="['/checkout', courseDetails._id ]" routerLinkActive="router-link-active">
+                Enroll ₹ {{ courseDetails.price }}
+            </button>
+            <!-- open the course from here -->
+            <button *ngIf="isStudentEnrolled()"
+                class="mt-1 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14"
+                [routerLink]="['/learning' ]" routerLinkActive="router-link-active">
+                Go to the course
+            </button>
+        </div>
+
+        <div class="col-span-2 border-l-4 border-l-black bg-gray-200 p-4 mt-10">
+            <div class="">
+                <h2 class="text-lg font-semibold pb-5">Course Description</h2>
+                <div [innerHTML]="courseDetails.content"></div>
+            </div>
+            <div class="pt-5">
+                <h2 class="text-lg font-semibold pb-5">Reviews</h2>
+                <!-- reviews -->
+
+                <!-- <p *ngIf="courseDetails?.reviews?.length < 1">No reviews</p> -->
+                <!-- 
+                <ng-container *ngFor="let review of courseDetails.ratingreview">
+                    <article>
+                        <div class="flex items-center mb-4">
+                            <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                            <div class="font-medium dark:text-white">
+                                <p>Jese Leos <time datetime="2014-08-16 19:00"
+                                        class="block text-sm text-gray-500 dark:text-gray-400">Joined
+                                        on August 2014</time></p>
+                            </div>
+                        </div>
+                        <div class="stars flex gap-1 text-yellow-500">
+                            <i class="pi pi-star-fill checked"></i>
+                            <i class="pi pi-star-fill checked"></i>
+                            <i class="pi pi-star-fill checked"></i>
+                            <i class="pi pi-star-fill checked"></i>
+                            <i class="pi pi-star"></i>
+                        </div>
+                        <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                            <p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time>
+                            </p>
+                        </footer>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are
+                            just
+                            fantastic value
+                            for money. This one arrived yesterday and the first thing I did was set the time, popped on
+                            an
+                            identical strap
+                            from another Invicta and went in the shower with it to test the waterproofing.... No
+                            problems.
+                        </p>
+                        <p class="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as
+                            those
+                            very expensive
+                            watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100!
+                            An
+                            absolute bargain.
+                        </p>
+                        <a href="#"
+                            class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read
+                            more</a>
+                        <aside>
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
+                            <div class="flex items-center mt-3">
+                                <a href="#"
+                                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Helpful</a>
+                                <a href="#"
+                                    class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report
+                                    abuse</a>
+                            </div>
+                        </aside>
+                    </article>
+                </ng-container> -->
+
+
+            </div>
+        </div>
+        <div class="mt-10 border-b-4 border-b-black pb-3">
+            <div class="">
+                <h2 class="text-lg font-semibold pb-5">Rating</h2>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5&nbsp;star</p>
+                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4&nbsp;star</p>
+                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 60%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3&nbsp;star</p>
+                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 40%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2&nbsp;star</p>
+                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 30%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1&nbsp;star</p>
+                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="h-5 bg-yellow-300 rounded" style="width: 11%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                </div>
+            </div>
+            <div class="my-5">
+                <h2 class="text-lg font-semibold pb-5">Chapters</h2>
+                <p-accordion [activeIndex]="0">
+                    <ng-container *ngFor="let item of courseDetails.videoData">
+                        <p-accordionTab header="{{ item.title }}" class="cursor-pointer">
+                            <p class="text-sm">
+                                {{ item.description }}
+                            </p>
+                        </p-accordionTab>
+                    </ng-container>
+                </p-accordion>
+            </div>
+
         </div>
     </div>
 </section>
 
-<!-- 
-<div class="flex items-center mb-2">
-    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        viewBox="0 0 22 20">
-        <path
-            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-    </svg>
-    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        viewBox="0 0 22 20">
-        <path
-            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-    </svg>
-    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        viewBox="0 0 22 20">
-        <path
-            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-    </svg>
-    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        viewBox="0 0 22 20">
-        <path
-            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-    </svg>
-    <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor" viewBox="0 0 22 20">
-        <path
-            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-    </svg>
-    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
-    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
-    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
-</div>
-<p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
-<div class="flex items-center mt-4">
-    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
-    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
-    </div>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-</div>
-<div class="flex items-center mt-4">
-    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
-    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-        <div class="h-5 bg-yellow-300 rounded" style="width: 17%"></div>
-    </div>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
-</div>
-<div class="flex items-center mt-4">
-    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
-    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-        <div class="h-5 bg-yellow-300 rounded" style="width: 8%"></div>
-    </div>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
-</div>
-<div class="flex items-center mt-4">
-    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
-    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-        <div class="h-5 bg-yellow-300 rounded" style="width: 4%"></div>
-    </div>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
-</div>
-<div class="flex items-center mt-4">
-    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
-    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-        <div class="h-5 bg-yellow-300 rounded" style="width: 1%"></div>
-    </div>
-    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
-</div> -->
 
-
-
-<!-- <article>
-    <div class="flex items-center mb-4">
-        <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
-        <div class="font-medium dark:text-white">
-            <p>Jese Leos <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">Joined
-                    on August 2014</time></p>
-        </div>
-    </div>
-    <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-            viewBox="0 0 22 20">
-            <path
-                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-        </svg>
-        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-            viewBox="0 0 22 20">
-            <path
-                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-        </svg>
-        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-            viewBox="0 0 22 20">
-            <path
-                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-        </svg>
-        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-            viewBox="0 0 22 20">
-            <path
-                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-        </svg>
-        <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor" viewBox="0 0 22 20">
-            <path
-                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-        </svg>
-        <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
-    </div>
-    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
-        <p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time></p>
-    </footer>
-    <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are just fantastic value
-        for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap
-        from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-    <p class="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as those very expensive
-        watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.
-    </p>
-    <a href="#" class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
-    <aside>
-        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
-        <div class="flex items-center mt-3">
-            <a href="#"
-                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Helpful</a>
-            <a href="#"
-                class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report
-                abuse</a>
-        </div>
-    </aside>
-</article> -->
+<div class="card flex justify-content-center">
+    <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" />
+                <span class="font-bold white-space-nowrap">{{ courseDetails.courseName }}</span>
+            </div>
+        </ng-template>
+        <app-video-player [videoUrl]="activeVideo"></app-video-player>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus [autofocus]="true"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>

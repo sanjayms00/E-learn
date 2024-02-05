@@ -27,6 +27,11 @@ import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardBoxComponent } from 'src/app/shared/components/dashboard-box/dashboard-box.component';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { EditorModule } from 'primeng/editor';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ import { DashboardBoxComponent } from 'src/app/shared/components/dashboard-box/d
     SidebarModule,
     RippleModule,
     AvatarModule,
-    PanelMenuModule
+    PanelMenuModule,
+    MultiSelectModule,
+    InputTextModule,
+    InputTextareaModule,
+    EditorModule,
+    InputMaskModule
   ],
   providers: [CourseService]
 })

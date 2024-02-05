@@ -36,8 +36,7 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-
-
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -60,7 +59,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     ClientSearchBarComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    VideoPlayerComponent,
+    VideoPlayerComponent
 
   ],
   imports: [
@@ -79,6 +78,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     SharedModule,
     DialogModule,
     DropdownModule,
+    PaginatorModule,
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 20,

@@ -102,7 +102,7 @@ export class StudentAuthService {
 
       const clientObject = client.toJSON();
 
-      const { password, __v, ...result } = clientObject;
+      const { password, courses, __v, ...result } = clientObject;
 
       return {
         access_token,

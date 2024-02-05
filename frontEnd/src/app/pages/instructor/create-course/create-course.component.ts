@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
 
+
+
 @Component({
   selector: 'app-create-course',
   templateUrl: './create-course.component.html'
@@ -15,11 +17,10 @@ export class CreateCourseComponent implements OnInit {
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
   categoryData: categoryInterface[] = []
-
-  imageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'image/webp'];
-
+  value: string | undefined;
+  imageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   videoTypes = ['video/mp4'];
-
+  trailerTypes = ['video/mp4'];
   submit = false;
   formData = new FormData()
 
@@ -34,12 +35,14 @@ export class CreateCourseComponent implements OnInit {
     this.course = this.fb.group({
       courseName: [null, Validators.required],
       courseDescription: [null, Validators.required],
+      content: [null, Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
       // estimatedPrice: [null, [Validators.required, Validators.min(1)]],
       courseTags: [null, Validators.required],
       courseLevel: [null, Validators.required],
       files: [null, Validators.required],
+      trailer: [null, Validators.required],
       fields: this.fb.array([]),
     })
   }
@@ -78,12 +81,15 @@ export class CreateCourseComponent implements OnInit {
         }
       });
 
-      this.courseFormService.createCourse(this.formData).subscribe(res => {
-        console.log(res)
-        this.toastr.success('Course created')
-        this.router.navigateByUrl('instructor/courses')
-      }, (err) => {
-        this.toastr.error(err.message)
+      this.courseFormService.createCourse(this.formData).subscribe({
+        next: res => {
+          console.log(res)
+          this.toastr.success('Course created')
+          this.router.navigateByUrl('instructor/courses')
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
       })
     } else {
       this.toastr.error("Fill all fields")
@@ -106,30 +112,10 @@ export class CreateCourseComponent implements OnInit {
         }
       }
     }
-
   }
 
   removeFileds(index: number) {
     this.fields.removeAt(index)
-  }
-
-  // for image preview
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(true);
-  }
-
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(false);
-  }
-
-  onDrop(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(false);
-
-    const file = (event.dataTransfer?.files as FileList)[0];
-    this.displayPreview(file);
   }
 
 
@@ -139,30 +125,22 @@ export class CreateCourseComponent implements OnInit {
     if (this.imageTypes.find(item => item === file.type)) {
 
       this.formData.append('files', file);
-      this.displayPreview(file);
     } else {
       this.toastr.error("File not supported")
     }
   }
 
-  displayPreview(file: File): void {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const preview = this.previewImage.nativeElement as HTMLImageElement;
-      preview.src = reader.result as string;
-      preview.classList.remove('hidden');
-    };
-  }
+  onTrailerSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0];
+    if (this.trailerTypes.find(item => item === file.type)) {
 
-  private updateDropzoneStyles(isOver: boolean): void {
-    const dropzone = document.getElementById('dropzone');
-    if (isOver) {
-      dropzone?.classList.add('border-indigo-600');
+      this.formData.append('trailer', file);
     } else {
-      dropzone?.classList.remove('border-indigo-600');
+      this.toastr.error("File not supported")
     }
   }
+
 
 
 }
