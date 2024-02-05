@@ -30,8 +30,8 @@ const routes: Routes = [
           { path: 'profile', component: InstructorProfileComponent },
           { path: 'dashboard', component: InstructorDashboardComponent },
           { path: 'courses', component: InstructorCoursesComponent },
-          { path: 'edit/:id', component: EditCourseComponent },
-          { path: 'edit/content/:id', component: EditCourseContentComponent },
+          { path: 'edit/:id', component: EditCourseComponent, canDeactivate: [formLeaveGuard] },
+          { path: 'edit/content/:id', component: EditCourseContentComponent, canDeactivate: [formLeaveGuard] },
           { path: 'create', component: CreateCourseComponent, canDeactivate: [formLeaveGuard] }
         ]
       }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { constant } from 'src/app/core/constant/constant';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
+import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
 import { Course, categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 import { environment } from 'src/environment/environment';
@@ -12,7 +13,7 @@ import { environment } from 'src/environment/environment';
   selector: 'app-edit-course',
   templateUrl: './edit-course.component.html'
 })
-export class EditCourseComponent implements OnInit {
+export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
@@ -95,6 +96,7 @@ export class EditCourseComponent implements OnInit {
   //submit the form
   editCourseSubmit() {
     if (this.course.valid) {
+      this.submit = true
       // Append course information
       const formValue = this.course.getRawValue();
 
@@ -195,9 +197,12 @@ export class EditCourseComponent implements OnInit {
     }
   }
 
-
-
-
+  canExit() {
+    if ((this.course.dirty) && !this.submit) {
+      return confirm("You have unsaved changes, Do you want to navigate away?")
+    }
+    return true
+  }
 
 }
 

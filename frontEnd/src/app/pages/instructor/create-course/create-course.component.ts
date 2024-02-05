@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
+import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
 
 
 
@@ -12,7 +13,7 @@ import { CategoryService } from 'src/app/core/services/admin/category.service';
   selector: 'app-create-course',
   templateUrl: './create-course.component.html'
 })
-export class CreateCourseComponent implements OnInit {
+export class CreateCourseComponent implements OnInit, IDeactivateComponent {
 
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
@@ -142,13 +143,10 @@ export class CreateCourseComponent implements OnInit {
   }
 
   canExit() {
-    if (this.course.dirty && this.submit == false) {
+    if (this.course.dirty && !this.submit) {
       return confirm("You have unsaved changes, Do you want to navigate away?")
     }
     return true
   }
-
-
-
 
 }

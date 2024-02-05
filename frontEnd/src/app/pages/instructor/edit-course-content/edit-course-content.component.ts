@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChapterInterface } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
 
 
 
@@ -13,7 +14,7 @@ import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/a
   templateUrl: './edit-course-content.component.html',
   providers: [ConfirmationService, MessageService]
 })
-export class EditCourseContentComponent implements OnInit {
+export class EditCourseContentComponent implements OnInit, IDeactivateComponent {
 
   visible: boolean = false;
   position: any = 'center';
@@ -220,7 +221,13 @@ export class EditCourseContentComponent implements OnInit {
     });
   }
 
+  canExit() {
 
+    if (((this.data.title || this.data.description || this.data.file) || this.course.dirty) && !this.submit) {
+      return confirm("You have unsaved changes, Do you want to navigate away?")
+    }
+    return true
+  }
 
 
 }
