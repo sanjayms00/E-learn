@@ -32,8 +32,20 @@
         <p>No contents to display</p>
       </div>
       <!-- Courses -->
-      <app-course-card [Courses]="searchedCourses"></app-course-card>
-      <!-- Courses -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ng-container
+          *ngFor="let Course of searchedCourses | paginate: { itemsPerPage: 10, currentPage: p }; trackBy: courseTrackBy">
+          <app-course-card [course]="Course"></app-course-card>
+        </ng-container>
+      </div>
+
+      <!-- pagination controls -->
+      <ng-container *ngIf="searchedCourses.length > 0">
+        <div class="flex justify-end">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </ng-container>
+     
     </div>
   </div>
 </section>
