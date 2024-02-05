@@ -18,7 +18,7 @@ export class StudentMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const authorizationHeader = req.headers.authorization;
-    console.log("student middleware")
+    // console.log("student middleware")
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
       const token = authorizationHeader.split(' ')[1];
       try {

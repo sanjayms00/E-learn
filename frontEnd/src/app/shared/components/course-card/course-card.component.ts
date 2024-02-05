@@ -13,4 +13,9 @@ export class CourseCardComponent {
 
   @Input() Courses!: Course[];
 
+  courseTrackBy(index: number, user: Course) {
+    return user._id;
+  }
+
+
 }

@@ -7,6 +7,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import * as crypto from 'crypto';
+import ffmpeg from 'fluent-ffmpeg';
+import { SharpService } from 'nestjs-sharp';
+import { Readable } from 'stream';
 
 @Injectable()
 export class CourseService {
@@ -20,12 +23,36 @@ export class CourseService {
         private readonly configService: ConfigService,
         @InjectModel(Course.name) private courseModel: Model<Course>,
         @InjectModel(Video.name) private videoModel: Model<Video>,
+        private sharpService: SharpService,
     ) { }
 
+    async compressImage(inputBuffer: Buffer): Promise<Buffer> {
+        return await this.sharpService
+            .edit(inputBuffer)
+            .jpeg({ quality: 80 })
+            .toBuffer();
+    }
+
+
+    // async compressVideo(inputBuffer: Buffer): Promise<Buffer> {
+    //     return new Promise((resolve, reject) => {
+    //       const inputStream = Readable.from(inputBuffer);
+
+    //       const outputStream = ffmpeg()
+    //         .input(inputStream)
+    //         .videoCodec('libx264')
+    //         .audioCodec('aac')
+    //         .outputOptions('-movflags frag_keyframe+empty_moov')
+    //         .on('end', () => resolve(outputStream.toBuffer()))
+    //         .on('error', (err) => reject(err))
+    //         .toFormat('mp4')
+    //         .pipe();
+    //     });
+    //   }
 
 
     //upload the course
-    async uploadCourse(files, otherData, instructorId) {
+    async uploadCourse(files, trailer, otherData, instructorId) {
         try {
             const imageFile = files.find(item => item.mimetype.includes('image'));
 
@@ -35,14 +62,18 @@ export class CourseService {
 
             const videoFiles = files.filter(item => item.mimetype.includes('video'))
 
+            const trailerFile = trailer.find(item => item.mimetype.includes('video'))
+
             const imageKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
             const imageName = imageKey()
 
+            const imageBuffer = await this.compressImage(imageFile.buffer)
+
             const imageParams = {
                 Bucket: process.env.BUCKET_NAME,
                 Key: imageName,
-                Body: imageFile.buffer,
+                Body: imageBuffer,
                 ContentType: imageFile.mimetype
             };
 
@@ -51,6 +82,25 @@ export class CourseService {
             )
 
             if (!imageResult) throw new Error("unable to upload the image")
+
+            const trailerKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+
+            const trailerName = trailerKey()
+
+            // const compressedVideoBuffer = await this.compressVideo(trailer.buffer);
+
+            const trailerParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: trailerName,
+                Body: trailerFile.buffer,
+                ContentType: trailerFile.mimetype
+            };
+
+            const trailerResult = await this.s3Client.send(
+                new PutObjectCommand(trailerParams)
+            )
+
+            if (!trailerResult) throw new Error("unable to upload the image")
 
             // to object id
             const categoryId = new Types.ObjectId(otherData.courseCategory);
@@ -64,12 +114,14 @@ export class CourseService {
                 instructorId: instructorObjectId,
                 description: otherData.courseDescription,
                 thumbnail: imageName,
+                trailer: trailerName,
+                content: otherData.content,
                 courseTags: otherData.courseTags,
                 courseLevel: JSON.parse(otherData.courseLevel)
             });
 
             if (!course) throw new Error("Unable to create the course")
-
+            console.log("in4")
             //parse fields data 
             const fields = JSON.parse(otherData.fields)
 
@@ -78,8 +130,9 @@ export class CourseService {
                 videoFiles.map(async (videoFile, index) => {
                     const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-                    const videoExtension = videoFile.mimetype.split('/')[1];
-                    const videoName = videoKey() + '.' + videoExtension;
+                    const videoName = videoKey()
+
+                    // const compressedVideoBuffer = await this.compressVideo(videoFile.buffer)
 
                     const videoParams = {
                         Bucket: process.env.BUCKET_NAME,
@@ -117,7 +170,7 @@ export class CourseService {
                     return true
                 })
             );
-
+            console.log("in5")
             if (!uploadedVideos) return new Error("upload failed")
 
             return { status: "success", message: "Course created successfully" };
@@ -135,12 +188,14 @@ export class CourseService {
 
             const imageFile = files.find(item => item.mimetype.includes('image'));
 
+            const imageBuffer = await this.compressImage(imageFile.buffer)
+
             //new image replace old image
             if (imageFile) {
                 const imageParams = {
                     Bucket: process.env.BUCKET_NAME,
                     Key: otherData.oldImage,
-                    Body: imageFile.buffer,
+                    Body: imageBuffer,
                     ContentType: imageFile.mimetype
                 };
                 const command = new PutObjectCommand(imageParams);

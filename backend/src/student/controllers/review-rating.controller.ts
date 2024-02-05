@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { ReviewRatingService } from '../services/review-rating.service';
+import { studentJwtAuthGuard } from '../guards/student.guard';
 
 
 @Controller('review-rating')
@@ -9,13 +10,13 @@ export class ReviewRatingController {
         private reviewRatingService: ReviewRatingService
     ) { }
 
-
-    @Post()
+    @UseGuards(studentJwtAuthGuard)
+    @Post('')
     reviewAndRateCourse(
-        @Body() data
+        @Body() data,
+        @Request() req
     ) {
-        console.log(data)
-        this.reviewRatingService.reviewAndRateCourse()
+        return this.reviewRatingService.reviewAndRateCourse(data, req.user.id)
     }
 
 

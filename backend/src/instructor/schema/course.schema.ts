@@ -1,6 +1,13 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+
+
+interface ReviewObject {
+  studentId: Types.ObjectId;
+  reviewId: Types.ObjectId;
+}
+
 @Schema({
   timestamps: true,
 })
@@ -27,20 +34,32 @@ export class Course extends Document {
   @Prop()
   thumbnail: string;
 
+  @Prop()
+  trailer: string;
+
   @Prop({ type: Types.ObjectId, required: true })
   instructorId: Types.ObjectId;
 
   @Prop()
   courseTags: string;
 
+  @Prop()
+  content: string;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Videos' }] })
   videos: Types.ObjectId[];
 
-  @Prop({ type: [String] })
+  @Prop()
   courseLevel: string[];
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Reviews' }] })
-  reviews: Types.ObjectId[];
+  @Prop({
+    type: [{
+      studentId: { type: Types.ObjectId, ref: 'Students' },
+      reviewId: { type: Types.ObjectId, ref: 'Reviews' },
+    }],
+    default: [],
+  })
+  reviews: { studentId: Types.ObjectId; reviewId: Types.ObjectId }[];
 
 }
 
@@ -49,24 +68,3 @@ export const courseSchema = SchemaFactory.createForClass(Course);
 
 
 
-
-
-//   @Prop()
-//   prerequisites: string[];
-
-//   @Prop({
-//     type: [
-//       {
-//         title: String,
-//         videoTitle: String,
-//         videoUrl: String,
-//         videoLength: Number,
-//         videoDescription: String,
-//         ResourceLinks: [String],
-//       },
-//     ],
-//   })
-//   courseContent: Record<string, any>[];
-
-//   @Prop({ type: [{ rating: Number, message: String }] })
-//   review: Record<string, any>[];

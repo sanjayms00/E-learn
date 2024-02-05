@@ -29,25 +29,51 @@ export interface instructorInterface {
     createdAt: Date
     updatedAt: Date
 }
-
 export interface Course {
-    _id: string,
+    _id: string;
     courseName: string;
-    slug: string;
-    description?: string;
-    categoryId?: string,
+    description: string;
+    categoryId: string;
     price: number;
-    students?: string[];
-    estimatedPrice: string,
-    thumbnail: string,
-    videos?: string[],
-    courseTags?: string,
-    createdAt: Date,
-    updatedAt: Date,
-    instructorName?: string,
-    thumbnailUrl?: string
+    students: string[];
+    // estimatedPrice: string;
+    thumbnail: string;
+    trailer: string;
+    videos?: string[];
+    courseTags: string;
+    content: string;
+    courseLevel: string[];
+    reviews?: [
+        {
+            studentId: string,
+            reviewId: string,
+            _id: string
+        }
+    ]
+    createdAt: Date;
+    updatedAt: Date;
+    instructorName: string;
+    categoryName: string;
+    ratingreview: RatingReview[];
+    videoData: [{
+        title: string,
+        description: string
+    }]
 }
 
+export interface RatingReview {
+    _id: string;
+    courseId: string;
+    createdAt: Date;
+    rating: number;
+    studentId: string;
+    updatedAt: Date;
+}
+
+export interface VideoData {
+    title: string;
+    description: string;
+}
 
 export interface instrctorModel {
     _id: string,
@@ -69,15 +95,17 @@ export interface filterInterFace {
 
 export interface instructorCourse {
     _id: string;
-    courseName?: string;
-    description?: string;
-    price?: string;
-    categoryId?: string;
-    thumbnail?: string;
-    instructorId?: string;
-    courseTags?: string;
-    courseLevel?: string[];
-    videos?: Video[];
+    courseName: string;
+    description: string;
+    content: string;
+    price: string;
+    categoryId: string;
+    thumbnail: string;
+    trailer: string;
+    instructorId: string;
+    courseTags: string;
+    courseLevel: string[];
+    videos: Video[];
 }
 
 export interface Video {

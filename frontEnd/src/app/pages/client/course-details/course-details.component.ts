@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { constant } from 'src/app/core/constant/constant';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { Course, studentInterface } from 'src/app/shared/interface/common.interface';
+import { CourseDetail, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-course-details',
@@ -12,27 +14,23 @@ import { Course, studentInterface } from 'src/app/shared/interface/common.interf
 export class CourseDetailsComponent implements OnInit {
 
   student: any;
-  courseDetails: Course = {
-    _id: '',
-    courseName: '',
-    slug: '',
-    description: '',
-    price: 0,
-    students: [],
-    estimatedPrice: '',
-    thumbnail: '',
-    updatedAt: new Date(),
-    createdAt: new Date()
-  };
+  visible: boolean = false;
+  activeVideo: string | null = null;
+  url = environment.cloudFrontUrl
+  courseDetails: CourseDetail = initialCourseDetails;
+  @ViewChild('trailerVideo') trailerVideo!: ElementRef
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private courseService: CourseService,
-    private authSservice: AuthService
+    private destroyRef: DestroyRef,
+    private authSservice: AuthService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    // this.trailerVideo.nativeElement.focus()
     const id = this.route.snapshot.paramMap.get('id')
     if (id) {
       this.getStudent();
@@ -42,12 +40,27 @@ export class CourseDetailsComponent implements OnInit {
     }
   }
 
+
+
+  showDialog() {
+    this.visible = true;
+  }
+
   //fetch course Data
   getCourseData(id: string) {
     this.courseService.courseDetails(id)
-      .subscribe((res: Course) => {
-        this.courseDetails = res
-      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        {
+          next: res => {
+            this.courseDetails = res
+            // console.log(this.courseDetails.categoryName)
+            this.activeVideo = this.courseDetails.trailer
+          },
+          error: err => {
+            this.toastr.error(err)
+          }
+        })
   }
 
   //get student Data from local

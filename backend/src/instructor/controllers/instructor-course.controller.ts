@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, InternalServerErrorException, NotFoundException, Param, Post, Query, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FilesInterceptor, } from '@nestjs/platform-express';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor, FilesInterceptor, } from '@nestjs/platform-express';
 import { CourseService } from 'src/instructor/services/course.service';
-
 import { InstructorJwtAuthGuard } from 'src/instructor/guard/instructor.guard';
 import { CourseData } from 'src/common/interfaces/course.interface';
+
 
 @Controller('')
 export class InstructorCourseController {
@@ -15,10 +15,20 @@ export class InstructorCourseController {
     //create a course
     @UseGuards(InstructorJwtAuthGuard)
     @Post('createCourse')
-    @UseInterceptors(FilesInterceptor('files'))
-    async createCourse(@UploadedFiles() files, @Body() formData, @Request() req) {
+    @UseInterceptors(FileFieldsInterceptor([
+        { name: 'files' },
+        { name: 'trailer', maxCount: 1 },
+    ]))
+    async createCourse(
+        @UploadedFiles() files: { files?: Express.Multer.File[], trailer?: Express.Multer.File[] },
+        @Body() formData,
+        @Request() req
+    ) {
         const instructorId = req.user.id
-        return await this.courseService.uploadCourse(files, formData, instructorId);
+
+        // console.log("files", files)
+        // console.log("formData", formData)
+        return await this.courseService.uploadCourse(files.files, files.trailer, formData, instructorId);
     }
 
 

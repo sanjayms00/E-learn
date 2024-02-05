@@ -17,6 +17,7 @@ import { InstructorProfileService } from './services/instructor-profile.service'
 import { InstructorMiddleware } from './middlewares/instructor.middleware';
 import { InstructorDashboardController } from './controllers/instructor-dashboard.controller';
 import { InstructorDashboardService } from './services/instructor-dashboard.service';
+import { SharpModule } from 'nestjs-sharp';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { InstructorDashboardService } from './services/instructor-dashboard.serv
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
     MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
+    SharpModule
   ],
   controllers: [
     InstructorAuthController,

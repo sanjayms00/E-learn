@@ -19,6 +19,7 @@ export class EditCourseComponent implements OnInit {
   url = environment.cloudFrontUrl
   categoryData: categoryInterface[] = []
   imageType = ['image/png', 'image/jpeg']
+  trailerTypes = ['video/mp4'];
   submit = false;
   formData = new FormData()
   courseData!: instructorCourse[]
@@ -36,6 +37,7 @@ export class EditCourseComponent implements OnInit {
     this.course = this.fb.group({
       courseName: [null, Validators.required],
       courseDescription: [null, Validators.required],
+      content: [null, Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
       courseTags: [null, Validators.required],
@@ -61,11 +63,13 @@ export class EditCourseComponent implements OnInit {
         this.course.patchValue({
           courseName: courseData[0].courseName,
           courseDescription: courseData[0].description,
+          content: courseData[0].content,
           courseCategory: courseData[0].categoryId,
           coursePrice: courseData[0].price,
           courseTags: courseData[0].courseTags,
           courseLevel: courseData[0].courseLevel,
-          files: [courseData[0].thumbnail]
+          files: [courseData[0].thumbnail],
+          trailer: [courseData[0].trailer],
         });
 
         this.formData.append('id', String(this.id));
@@ -178,6 +182,20 @@ export class EditCourseComponent implements OnInit {
       dropzone?.classList.remove('border-indigo-600');
     }
   }
+
+
+  onTrailerSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0];
+    if (this.trailerTypes.find(item => item === file.type)) {
+
+      this.formData.append('trailer', file);
+    } else {
+      this.toastr.error("File not supported")
+    }
+  }
+
+
 
 
 
