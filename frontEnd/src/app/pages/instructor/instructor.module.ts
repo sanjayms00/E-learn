@@ -32,6 +32,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
+import { formLeaveGuard } from 'src/app/shared/guards/instructor/form-leave.guard';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     CreateCourseComponent,
     EditCourseContentComponent,
     NumericDirective,
-    DashboardBoxComponent
+    DashboardBoxComponent,
+
   ],
   imports: [
     CommonModule,

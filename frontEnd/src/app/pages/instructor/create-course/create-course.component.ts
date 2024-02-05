@@ -141,6 +141,14 @@ export class CreateCourseComponent implements OnInit {
     }
   }
 
+  canExit() {
+    if (this.course.dirty && this.submit == false) {
+      return confirm("You have unsaved changes, Do you want to navigate away?")
+    }
+    return true
+  }
+
+
 
 
 }
