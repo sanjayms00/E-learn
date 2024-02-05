@@ -17,6 +17,7 @@ export class InstructorCoursesComponent implements OnInit, OnDestroy {
   courses: Course[] = []
   coursesSubscription!: Subscription
   url = environment.cloudFrontUrl
+  p: number = 1;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -63,6 +64,10 @@ export class InstructorCoursesComponent implements OnInit, OnDestroy {
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
       }
     });
+  }
+
+  courseTrackBy(index: number, course: Course) {
+    return course._id;
   }
 
 

@@ -12,11 +12,11 @@ import { FilterService } from 'src/app/shared/services/filter.service';
 export class SearchComponent implements OnInit {
 
   searchedCourses: Course[] = [];
+  p: number = 1;
   searchText: string = ''
   result: string = ''
   filteredCourses: Course[] = []
   cities: any[] | undefined;
-
   selectedCity: any | undefined;
 
   constructor(
@@ -99,6 +99,10 @@ export class SearchComponent implements OnInit {
     this.searchedCourses.sort((a, b) => b.price - a.price);
   }
 
+
+  courseTrackBy(index: number, course: Course) {
+    return course._id;
+  }
 
 
 }

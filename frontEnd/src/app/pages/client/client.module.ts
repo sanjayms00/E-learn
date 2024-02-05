@@ -36,7 +36,11 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-import { PaginatorModule } from 'primeng/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -78,7 +82,7 @@ import { PaginatorModule } from 'primeng/paginator';
     SharedModule,
     DialogModule,
     DropdownModule,
-    PaginatorModule,
+    NgxPaginationModule,
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 20,

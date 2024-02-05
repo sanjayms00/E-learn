@@ -11,11 +11,7 @@ export class CourseCardComponent {
 
   url: string = environment.cloudFrontUrl
 
-  @Input() Courses!: Course[];
-
-  courseTrackBy(index: number, user: Course) {
-    return user._id;
-  }
+  @Input() course!: Course;
 
 
 }

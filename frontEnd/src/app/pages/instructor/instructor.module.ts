@@ -32,7 +32,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
-import { formLeaveGuard } from 'src/app/shared/guards/instructor/form-leave.guard';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { formLeaveGuard } from 'src/app/shared/guards/instructor/form-leave.guar
     InputTextModule,
     InputTextareaModule,
     EditorModule,
-    InputMaskModule
+    InputMaskModule,
+    NgxPaginationModule
   ],
   providers: [CourseService]
 })
