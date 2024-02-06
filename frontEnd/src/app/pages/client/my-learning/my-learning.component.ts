@@ -14,7 +14,7 @@ import { environment } from 'src/environment/environment';
 })
 export class MyLearningComponent implements OnInit {
 
-  myCourse!: myLearning[]
+  myCourse: myLearning[] = []
   visible = false;
   url = environment.cloudFrontUrl;
   rating!: number;
@@ -24,6 +24,7 @@ export class MyLearningComponent implements OnInit {
   modalCourseId = ''
   student!: any
   studentId!: string
+
 
   constructor(
     private learningService: LearningService,
@@ -101,8 +102,6 @@ export class MyLearningComponent implements OnInit {
     } else {
       return false
     }
-
-
   }
 
 

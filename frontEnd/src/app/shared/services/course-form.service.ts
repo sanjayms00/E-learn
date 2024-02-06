@@ -46,8 +46,8 @@ export class CourseFormService {
   }
 
   //get course Data information
-  editCourseData(id: string): Observable<instructorCourse[]> {
-    return this.http.get<instructorCourse[]>(`${constant.baseUrl}/instructor/editCourse/${id}`)
+  editCourseData(id: string): Observable<instructorCourse> {
+    return this.http.get<instructorCourse>(`${constant.baseUrl}/instructor/editCourse/${id}`)
   }
 
   //get course data content

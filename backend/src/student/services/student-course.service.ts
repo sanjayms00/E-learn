@@ -10,6 +10,7 @@ import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Student } from 'src/student/schema/student.schema';
 
 import Stripe from "stripe";
+import { ReviewRatingService } from './review-rating.service';
 
 
 
@@ -26,7 +27,8 @@ export class StudentCourseService {
         @InjectModel(Category.name)
         private readonly categoryModel: Model<Category>,
         @InjectModel(Student.name)
-        private readonly studentModel: Model<Student>
+        private readonly studentModel: Model<Student>,
+        private reviewRatingService: ReviewRatingService
 
     ) { }
 
@@ -46,27 +48,36 @@ export class StudentCourseService {
                     },
                 },
                 {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'categoryId',
+                        foreignField: '_id',
+                        as: 'categoryData',
+                    },
+                },
+                {
                     $project: {
                         _id: 1,
                         courseName: 1,
                         price: 1,
                         estimatedPrice: 1,
+                        students: 1,
+                        description: 1,
+                        coursetags: 1,
+                        videos: 1,
+                        courseLevel: 1,
+                        reviews: 1,
                         thumbnail: 1,
                         updatedAt: 1,
                         instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                        categoryName: { $arrayElemAt: ['$categoryData.categoryName', 0] },
                     },
-                },
-                {
-                    $limit: 8
                 }
             ]);
-
             return courses
-
         } catch (error) {
             throw new Error(error.message);
         }
-
     }
 
     //get limited courses for home
@@ -81,20 +92,37 @@ export class StudentCourseService {
                 },
             },
             {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'categoryId',
+                    foreignField: '_id',
+                    as: 'categoryData',
+                },
+            },
+            {
                 $project: {
                     _id: 1,
                     courseName: 1,
                     price: 1,
                     estimatedPrice: 1,
+                    students: 1,
+                    description: 1,
+                    coursetags: 1,
+                    videos: 1,
+                    courseLevel: 1,
+                    reviews: 1,
                     thumbnail: 1,
                     updatedAt: 1,
                     instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                    categoryName: { $arrayElemAt: ['$categoryData.categoryName', 0] },
                 },
             },
             {
-                $limit: 8
+                $limit: 9
             }
         ]);
+
+        console.log(courses)
 
         return courses
     }
@@ -133,17 +161,17 @@ export class StudentCourseService {
     }
 
     //get course details
-    async courseDetails(id: string) {
+    async courseDetails(courseId: string) {
         try {
-            if (!id || id.length !== 24) {
+            if (!courseId || courseId.length !== 24) {
                 throw new NotFoundException("id is not found")
             }
 
-            const objectId = new Types.ObjectId(id)
+            const objcourseId = new Types.ObjectId(courseId)
 
             const courses = await this.courseModel.aggregate([
                 {
-                    $match: { _id: objectId }
+                    $match: { _id: objcourseId }
                 },
                 {
                     $lookup: {
@@ -193,16 +221,21 @@ export class StudentCourseService {
                 }
             ]);
 
-            //get the course data
-
-
-            // if reviews get reviews
 
             if (courses.length < 1) {
                 throw new NotFoundException('Course not found');
             }
+            let ratingreview = []
+            // check reviews if reviews get reviews
+            if (courses[0].reviews && courses[0].reviews.length > 0) {
+                // get reviews 
+                ratingreview = await this.reviewRatingService.getReviewsForDetailpage(courseId)
+            }
 
-            return courses[0]
+            return {
+                ...courses[0],
+                ratingreview
+            }
 
         } catch (error) {
             console.log(error.message)

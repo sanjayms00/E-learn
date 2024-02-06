@@ -183,24 +183,79 @@ export class CourseService {
 
 
     //update course informations
-    async updateCourseInformation(files, otherData, instructorId) {
+    async updateCourseInformation(files, trailer, otherData, instructorId) {
         try {
 
-            const imageFile = files.find(item => item.mimetype.includes('image'));
+            const key = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-            const imageBuffer = await this.compressImage(imageFile.buffer)
+            let newImageFileName = key()
 
-            //new image replace old image
-            if (imageFile) {
-                const imageParams = {
-                    Bucket: process.env.BUCKET_NAME,
-                    Key: otherData.oldImage,
-                    Body: imageBuffer,
-                    ContentType: imageFile.mimetype
-                };
-                const command = new PutObjectCommand(imageParams);
-                await this.s3Client.send(command)
+            let newTrailerFileName = key()
+
+            if (files) {
+
+                const imageFile = files.find(item => item.mimetype.includes('image'));
+
+                if (imageFile) {
+
+                    //delete the old file
+                    const deleteImageParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: otherData.oldImage,
+                    };
+                    const deleteImageCommand = new DeleteObjectCommand(deleteImageParams);
+                    await this.s3Client.send(deleteImageCommand);
+
+                    const imageBuffer = await this.compressImage(imageFile.buffer)
+
+                    //insert new file
+                    const imageParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: newImageFileName,
+                        Body: imageBuffer,
+                        ContentType: imageFile.mimetype
+                    };
+                    const command = new PutObjectCommand(imageParams);
+                    await this.s3Client.send(command)
+                } else {
+                    newImageFileName = otherData.oldImage
+                }
+            } else {
+                newImageFileName = otherData.oldImage
             }
+
+            if (trailer) {
+
+                const trailerFile = trailer.find(item => item.mimetype.includes('video'));
+
+
+
+                if (trailerFile) {
+                    //delete old trailer
+                    const deleteTrailerParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: otherData.oldTrailer,
+                    };
+                    const deleteTrailerCommand = new DeleteObjectCommand(deleteTrailerParams);
+                    await this.s3Client.send(deleteTrailerCommand);
+
+                    //insert new trailer
+                    const videoParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: newTrailerFileName,
+                        Body: trailerFile.buffer,
+                        ContentType: trailerFile.mimetype
+                    };
+                    const command = new PutObjectCommand(videoParams);
+                    await this.s3Client.send(command)
+                } else {
+                    newTrailerFileName = otherData.oldTrailer
+                }
+
+            } else {
+                newTrailerFileName = otherData.oldTrailer
+            }
+
 
             const categoryId = new Types.ObjectId(otherData.courseCategory);
             const courseId = new Types.ObjectId(otherData.id);
@@ -214,7 +269,9 @@ export class CourseService {
                         categoryId,
                         price: JSON.parse(otherData.coursePrice),
                         description: otherData.courseDescription,
-                        thumbnail: otherData.oldImage,
+                        content: otherData.content,
+                        thumbnail: newImageFileName,
+                        trailer: newTrailerFileName,
                         courseTags: otherData.courseTags,
                         courseLevel: JSON.parse(otherData.courseLevel)
                     }
@@ -237,20 +294,40 @@ export class CourseService {
         try {
             const { videoId, oldVideo, title, description, courseId } = formData
 
+            const ObjVideoId = new Types.ObjectId(videoId)
+
+            const key = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+
+            let newVidoeFileName = key()
+
             if (files.length > 0) {
-                //replace existing video
-                const videoParams = {
-                    Bucket: process.env.BUCKET_NAME,
-                    Key: oldVideo,
-                    Body: files[0].buffer,
-                    ContentType: files[0].mimetype
-                };
+                const videoFile = files.find(item => item.mimetype.includes('video'));
+                if (videoFile) {
+                    //delete old trailer
+                    const deleteVideoParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: oldVideo,
+                    };
+                    const deleteTrailerCommand = new DeleteObjectCommand(deleteVideoParams);
+                    await this.s3Client.send(deleteTrailerCommand);
 
-                const command = new PutObjectCommand(videoParams);
-                const videoUploadResult = await this.s3Client.send(command)
+                    //insert new trailer
+                    const videoParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: newVidoeFileName,
+                        Body: videoFile.buffer,
+                        ContentType: videoFile.mimetype
+                    };
+                    const command = new PutObjectCommand(videoParams);
+                    await this.s3Client.send(command)
+                } else {
+                    newVidoeFileName = oldVideo
+                }
 
-                if (!videoUploadResult) throw new Error('video upload failed')
+            } else {
+                newVidoeFileName = oldVideo
             }
+
 
             if (videoId) {
                 await this.videoModel.updateOne(
@@ -258,7 +335,8 @@ export class CourseService {
                     {
                         $set: {
                             title,
-                            description
+                            description,
+                            file: newVidoeFileName
                         }
                     }
                 )
@@ -285,7 +363,6 @@ export class CourseService {
     async updateCourseContent(files, otherData, instructorId) {
         try {
             const videoFiles = files.filter(item => item.mimetype.includes('video'))
-
 
             const instructorObjectId = new Types.ObjectId(instructorId);
             const courseId = new Types.ObjectId(otherData.courseId);
@@ -320,7 +397,6 @@ export class CourseService {
                         courseId: courseId
                     });
 
-                    console.log("here")
                     if (!saveVideo) return new Error("Unable to save video");
                     console.log(courseId)
                     const updateCourse = await this.courseModel.updateOne(
@@ -357,9 +433,15 @@ export class CourseService {
 
     //get instructor courses
     async getInstructorCourse(instructorId: string) {
-        const objInstructorId = new Types.ObjectId(instructorId)
-        const courses = await this.courseModel.find({ instructorId: objInstructorId }, { video: 0 })
-        return courses
+        try {
+            const objInstructorId = new Types.ObjectId(instructorId)
+            const courses = await this.courseModel.find({ instructorId: objInstructorId }, { video: 0 })
+            return courses
+        } catch (error) {
+            console.error('Error in getInstructorCourse:', error);
+            throw new Error(error);
+        }
+
     }
 
 
@@ -367,7 +449,63 @@ export class CourseService {
     //edit course details
     async editCourse(id: string) {
         const courseId = new Types.ObjectId(id)
+
         try {
+            const course = await this.courseModel.aggregate([
+                {
+                    $match: {
+                        _id: courseId
+                    }
+                },
+                {
+                    $unwind: '$videos'
+                },
+                {
+                    $lookup: {
+                        from: 'videos',
+                        localField: "videos",
+                        foreignField: "_id",
+                        as: "videoData"
+                    }
+                },
+                {
+                    $unwind: '$videoData',
+                },
+                {
+                    $group: {
+                        _id: '$_id',
+                        courseName: { $first: '$courseName' },
+                        description: { $first: '$description' },
+                        price: { $first: '$price' },
+                        categoryId: { $first: '$categoryId' },
+                        content: { $first: '$content' },
+                        thumbnail: { $first: '$thumbnail' },
+                        trailer: { $first: '$trailer' },
+                        instructorId: { $first: '$instructorId' },
+                        courseTags: { $first: '$courseTags' },
+                        courseLevel: { $first: '$courseLevel' },
+                        videos: { $push: '$videoData' },
+                    }
+                }
+            ])
+
+            if (course.length < 1) throw new NotFoundException("Course not found");
+
+            return course[0]
+
+        } catch (error) {
+            console.log(error.message)
+            throw new Error(error)
+        }
+
+    }
+
+
+
+    //edit the course content
+    async editCourseContent(id: string) {
+        try {
+            const courseId = new Types.ObjectId(id)
             const course = await this.courseModel.aggregate([
                 {
                     $match: {
@@ -401,73 +539,31 @@ export class CourseService {
                         courseLevel: { $first: '$courseLevel' },
                         videos: { $push: '$videoData' },
                     }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        courseName: 1,
+                        description: 1,
+                        price: 1,
+                        categoryId: 1,
+                        thumbnail: 1,
+                        instructorId: 1,
+                        courseTags: 1,
+                        courseLevel: 1,
+                        videos: '$videos'
+                    }
                 }
             ])
-            // console.log(course)
+
+            if (course.length < 1) throw new NotFoundException("No data found")
             return course
+
         } catch (error) {
             console.log(error.message)
-            throw new Error(error.message)
+            throw new Error(error)
         }
 
-    }
-
-
-
-    //edit the course content
-    async editCourseContent(id: string) {
-        const courseId = new Types.ObjectId(id)
-        const course = await this.courseModel.aggregate([
-            {
-                $match: {
-                    _id: courseId
-                }
-            },
-            {
-                $unwind: '$videos'
-            },
-            {
-                $lookup: {
-                    from: 'videos',
-                    localField: "videos",
-                    foreignField: "_id",
-                    as: "videoData"
-                }
-            },
-            {
-                $unwind: '$videoData',
-            },
-            {
-                $group: {
-                    _id: '$_id',
-                    courseName: { $first: '$courseName' },
-                    description: { $first: '$description' },
-                    price: { $first: '$price' },
-                    categoryId: { $first: '$categoryId' },
-                    thumbnail: { $first: '$thumbnail' },
-                    instructorId: { $first: '$instructorId' },
-                    courseTags: { $first: '$courseTags' },
-                    courseLevel: { $first: '$courseLevel' },
-                    videos: { $push: '$videoData' },
-                }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    courseName: 1,
-                    description: 1,
-                    price: 1,
-                    categoryId: 1,
-                    thumbnail: 1,
-                    instructorId: 1,
-                    courseTags: 1,
-                    courseLevel: 1,
-                    videos: { $reverseArray: '$videos' } // Reverse the order of videos
-                }
-            }
-        ])
-
-        return course
     }
 
 
@@ -574,7 +670,7 @@ export class CourseService {
             return instructorCourseContentData
 
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
+import { CourseService } from 'src/app/core/services/instructor/CourseService';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { FilterService } from 'src/app/shared/services/filter.service';
 

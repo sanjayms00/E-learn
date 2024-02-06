@@ -1,11 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { constant } from 'src/app/core/constant/constant';
+import { Editor } from 'primeng/editor';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
 import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
-import { Course, categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
+import { categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 import { environment } from 'src/environment/environment';
 
@@ -18,13 +19,17 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   @ViewChild('previewImage') previewImage!: ElementRef;
   course: FormGroup;
   url = environment.cloudFrontUrl
-  categoryData: categoryInterface[] = []
+  categoryData!: categoryInterface[]
   imageType = ['image/png', 'image/jpeg']
   trailerTypes = ['video/mp4'];
   submit = false;
   formData = new FormData()
-  courseData!: instructorCourse[]
+  courseData!: instructorCourse
   id: string | null = ''
+  activeVideo: string | null = null;
+  @ViewChild('editor') editor!: Editor;
+
+
 
   constructor(
     public courseFormService: CourseFormService,
@@ -32,69 +37,79 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
     private router: Router,
     private toastr: ToastrService,
     private categoryService: CategoryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private destroyRef: DestroyRef
   ) {
 
     this.course = this.fb.group({
       courseName: [null, Validators.required],
       courseDescription: [null, Validators.required],
-      content: [null, Validators.required],
+      content: ['', Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
       courseTags: [null, Validators.required],
       courseLevel: [null, Validators.required],
       files: [null],
-      // fields: this.fb.array([]),
+      trailer: [null]
     })
   }
 
+
   ngOnInit(): void {
-    // this.addfields();
-    this.categoryService.getActiveCategories().subscribe(res => {
-      this.categoryData = res
-    })
+    this.getCategories()
+    this.getCourseData()
+  }
+
+  getCourseData() {
     //get id from params
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.courseFormService.editCourseData(this.id).subscribe((courseData) => {
-        this.courseData = courseData
-        console.log(this.courseData)
+      this.courseFormService.editCourseData(this.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(
+          {
+            next: (courseData) => {
+              this.courseData = courseData
 
+              this.course.patchValue({
+                courseName: courseData.courseName,
+                courseDescription: courseData.description,
+                content: courseData.content,
+                courseCategory: courseData.categoryId,
+                coursePrice: courseData.price,
+                courseTags: courseData.courseTags,
+                courseLevel: courseData.courseLevel
+              });
 
-        this.course.patchValue({
-          courseName: courseData[0].courseName,
-          courseDescription: courseData[0].description,
-          content: courseData[0].content,
-          courseCategory: courseData[0].categoryId,
-          coursePrice: courseData[0].price,
-          courseTags: courseData[0].courseTags,
-          courseLevel: courseData[0].courseLevel,
-          files: [courseData[0].thumbnail],
-          trailer: [courseData[0].trailer],
-        });
+              this.activeVideo = courseData.trailer
 
-        this.formData.append('id', String(this.id));
-        this.formData.append('oldImage', String(this.courseData[0].thumbnail));
+              this.formData.append('id', String(this.id));
+              this.formData.append('oldImage', String(this.courseData.thumbnail));
+              this.formData.append('oldTrailer', String(this.courseData.trailer));
 
-        this.url += this.courseData[0].thumbnail
-
-      }),
+              this.url += this.courseData.thumbnail
+            },
+            error: err => {
+              this.toastr.error("unable to show the course Data " + err,)
+            }
+          }),
         (error: any) => {
-          // Handle error, e.g., show a toast message
           console.error('Error fetching course data:', error);
         }
     }
   }
 
 
-
-  // loadImage(path: string) {
-  //   const preview = this.previewImage.nativeElement as HTMLImageElement;
-  //   preview.src = path
-  // }
+  getCategories() {
+    this.categoryService.getActiveCategories().subscribe(res => {
+      this.categoryData = res
+    })
+  }
 
   //submit the form
   editCourseSubmit() {
+    // console.log(this.course.value)
+
     if (this.course.valid) {
       this.submit = true
       // Append course information
@@ -108,13 +123,19 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
         }
       });
 
-      this.courseFormService.updateCourse(this.formData).subscribe(res => {
-        console.log(res)
-        this.toastr.success('Course created')
-        this.router.navigateByUrl('instructor/courses')
-      }, (err) => {
-        this.toastr.error(err.message)
-      })
+      this.courseFormService.updateCourse(this.formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.toastr.success('Course information updated')
+            this.router.navigateByUrl('instructor/courses')
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
+    } else {
+      this.toastr.error('fill all fields')
     }
   }
 
@@ -134,54 +155,15 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   }
 
 
-  // for image preview
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(true);
-  }
-
-
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(false);
-  }
-
-
-  onDrop(event: DragEvent): void {
-    event.preventDefault();
-    this.updateDropzoneStyles(false);
-    const file = (event.dataTransfer?.files as FileList)[0];
-    this.displayPreview(file);
-  }
-
-
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = (input.files as FileList)[0];
     if (this.imageType.find(item => item === file.type)) {
 
       this.formData.append('files', file);
-      this.displayPreview(file);
+
     } else {
       this.toastr.error("File not supported")
-    }
-  }
-
-  displayPreview(file: File): void {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const preview = this.previewImage.nativeElement as HTMLImageElement;
-      preview.src = reader.result as string;
-    };
-  }
-
-  private updateDropzoneStyles(isOver: boolean): void {
-    const dropzone = document.getElementById('dropzone');
-    if (isOver) {
-      dropzone?.classList.add('border-indigo-600');
-    } else {
-      dropzone?.classList.remove('border-indigo-600');
     }
   }
 
@@ -190,7 +172,6 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
     const input = event.target as HTMLInputElement;
     const file = (input.files as FileList)[0];
     if (this.trailerTypes.find(item => item === file.type)) {
-
       this.formData.append('trailer', file);
     } else {
       this.toastr.error("File not supported")
@@ -203,6 +184,13 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
     }
     return true
   }
+
+
+  courseLevelCheck(value: string) {
+    return this.courseData && this.courseData.courseLevel && this.courseData.courseLevel.includes(value);
+  }
+
+
 
 }
 

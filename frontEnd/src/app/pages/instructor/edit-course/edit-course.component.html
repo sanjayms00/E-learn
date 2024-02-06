@@ -1,3 +1,5 @@
+<!-- <pre> {{ course | json }} </pre> -->
+
 <section class=" bg-gray-100 p-10">
     <form [formGroup]="course" (ngSubmit)="editCourseSubmit()">
         <div class="flex justify-between py-3 border-b-2 border-b-gray-300  items-end mb-4">
@@ -32,6 +34,16 @@
             <textarea id="courseDescription" rows="4" name="courseDescription" formControlName="courseDescription"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your course description here..."></textarea>
+        </div>
+
+        <div>
+            <p-editor formControlName="content" [style]="{ height: '275px' }" #editor></p-editor>
+            <ng-container
+                *ngIf="course.controls['content'].touched && course.controls['content'].errors as contentErrors">
+                <span *ngIf="contentErrors['required']" class="text-red-600 font-medium">
+                    Course content is required
+                </span>
+            </ng-container>
         </div>
 
         <div class="grid gap-4 grid-cols-4 mb-4 sm:grid-cols-2">
@@ -87,12 +99,12 @@
                 </div>
                 <select formControlName="courseLevel" multiple name="courseLevel" id="courseLevel"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-[80px]">
-                    <option value="beginner" [selected]="course.value.courseLevel.includes('beginner')">beginner
+                    <option value="beginner" [selected]="courseLevelCheck('beginner')">beginner
                     </option>
-                    <option value="intermediate" [selected]="course.value.courseLevel.includes('intermediate')">
+                    <option value="intermediate" [selected]="courseLevelCheck('intermediate')">
                         intermediate
                     </option>
-                    <option value="professional" [selected]="course.value.courseLevel.includes('professional')">
+                    <option value="professional" [selected]="courseLevelCheck('professional')">
                         professional
                     </option>
                 </select>
@@ -116,6 +128,7 @@
                         Thumbnail is required
                     </span>
                 </ng-container>
+                <img [src]="url" alt="thumbnail" #thumbnail>
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -131,6 +144,7 @@
                         Trailer is required
                     </span>
                 </ng-container>
+                <app-video-player [videoUrl]="activeVideo"></app-video-player>
             </div>
         </div>
 
@@ -144,3 +158,8 @@
         </div>
     </form>
 </section>
+
+<!-- spinner -->
+<ng-container *ngIf="submit">
+    <app-spinner></app-spinner>
+</ng-container>
