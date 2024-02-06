@@ -70,86 +70,13 @@
         </h1>
     </div>
 
-    <!-- Courses -->
-    <!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Courses start -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <ng-container *ngFor="let Course of homeCourses">
             <app-course-card [course]="Course"></app-course-card>
         </ng-container>
-    </div> -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <ng-container *ngFor="let course of homeCourses">
-            <div [routerLink]="['/courses', 'details', course._id]"
-                class="border-2 border-gray-200 bg-white rounded-lg p-4 relative overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg">
-
-                <!-- Course Thumbnail -->
-                <img [src]="course.thumbnail" alt="Course Thumbnail" class="w-full object-cover mb-4 rounded-lg">
-
-                <!-- Course Name -->
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">{{ course.courseName | truncate:50
-                    }}</h2>
-
-                <!-- Course Description -->
-                <p class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">{{ course.description |
-                    truncate:140 }}</p>
-
-                <!-- Enrolled Students and Video Chapters -->
-                <div class="flex justify-between mb-2">
-                    <p class="text-md font-medium text-gray-600 dark:text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                            </path>
-                        </svg>
-                        {{ course.students?.length }} Enrolled
-                    </p>
-                    <p class="text-md font-medium text-gray-600 dark:text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M9.293 5.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 9.414V15a1 1 0 11-2 0V9.414L6.707 10.707a1 1 0 01-1.414-1.414l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        {{ course.videos?.length }} Chapters
-                    </p>
-                </div>
-
-                <!-- Course Level -->
-                <p class="text-md font-medium text-gray-600 dark:text-gray-400 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M12 14v3a1 1 0 01-2 0v-3H7a1 1 0 010-2h3V9a1 1 0 112 0v3h3a1 1 0 010 2h-3z"
-                            clip-rule="evenodd" />
-                        <path fill-rule="evenodd"
-                            d="M4 4a1 1 0 011-1h10a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm10 10a1 1 0 011 1H5a1 1 0 01-1-1v-4a1 1 0 011-1h10a1 1 0 011 1v4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ course.courseLevel?.join(', ') }}
-                </p>
-
-                <!-- Category Name -->
-                <p class="text-md font-medium text-gray-600 dark:text-gray-400 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M14 3H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2zm-1 7.414l-2 2V14h4v-1.586l-2-2z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ course.categoryName }}
-                </p>
-
-                <!-- Course Price -->
-                <p class="text-xl font-bold text-gray-900 dark:text-white pb-3">₹ {{ course.price }}</p>
-
-                <!-- Instructor Name -->
-                <p class="text-md font-medium text-gray-600 dark:text-gray-400">By {{ course.instructorName }}</p>
-
-            </div>
-        </ng-container>
     </div>
-
-    <!-- Courses -->
+    <!-- Courses end -->
 
     <div class="flex justify-center my-5">
         <button [routerLink]="['/courses']"
