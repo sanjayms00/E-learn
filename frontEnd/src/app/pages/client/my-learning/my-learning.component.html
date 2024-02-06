@@ -1,6 +1,12 @@
-<pre>{{ myCourse | json }}</pre>
+<div class="flex flex-col items-center" *ngIf="myCourse.length < 1">
+    <p class="text-lg font-semibold py-5">No Courses to show</p>
+    <button type="button"
+        class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+        routerLink="'/search'">Browse courses</button>
+</div>
 
-<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
+
+<section class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
     <!-- card -->
     <ng-container *ngFor="let course of myCourse">
         <div
@@ -73,10 +79,10 @@
             </div>
         </div>
     </ng-container>
-</div>
+</section>
 
 
-<div class="card flex justify-content-center">
+<section class="card flex justify-content-center">
     <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
         <ng-template pTemplate="header">
@@ -95,7 +101,7 @@
             <p-button icon="pi pi-check" (click)="modalSubmit()" label="Ok" pAutoFocus [autofocus]="true"></p-button>
         </ng-template>
     </p-dialog>
-</div>
+</section>
 
 
 <!-- <pre>{{ myCourse..myCourses.updatedAt | json }}</pre> -->

@@ -1,22 +1,18 @@
-<!-- <pre>{{ courseDetails.courseName | json }}</pre> -->
-
+<!-- <pre>{{ courseDetails | json }}</pre> -->
 
 <section class="container mx-auto mt-8">
     <div class="grid grid-cols-3 gap-4">
         <div class="col-span-2 border-l-4 border-l-black bg-gray-200 p-4">
             <div class="flex gap-3 items-center">
-                <div class="stars flex gap-1 text-yellow-500">
-                    <i class="pi pi-star-fill checked"></i>
-                    <i class="pi pi-star-fill checked"></i>
-                    <i class="pi pi-star-fill checked"></i>
-                    <i class="pi pi-star-fill checked"></i>
-                    <i class="pi pi-star"></i>
-                </div>
-
-                <span>4.5</span>
-                <!-- <span>{{ courseDetails?.reviews?.length || 0 }} reviews </span> -->
-                <!-- <span>{{ courseDetails.categoryName }} </span> -->
-
+                <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length > 0">
+                    <p-rating [(ngModel)]="averageRating" [readonly]="true" [cancel]="false"
+                        class="star-rating"></p-rating>
+                    <span>{{ averageRating }}</span>
+                </ng-container>
+                <ng-container *ngIf="courseDetails.reviews">
+                    <span>{{ courseDetails.reviews.length || 0 }} reviews </span>
+                </ng-container>
+                <span>{{ courseDetails.categoryName }} </span>
             </div>
             <h1 class="text-2xl font-bold max-w-[60%] uppercase py-5">{{ courseDetails.courseName }}</h1>
             <h2 class="text-lg pb-10">{{ courseDetails.description | truncate:200 }}</h2>
@@ -28,7 +24,7 @@
                 <p class="text-md font-semibold pb-2 uppercase"> By {{ courseDetails.instructorName }}</p>
                 <p class="pb-2 pl-5">{{ courseDetails.students.length }} students Enrolled</p>
                 <p class="text-md font-semibold pb-2 pl-5">Last updated 07/2023</p>
-                <p class="pb-2 pl-5">English</p>
+                <!-- <p class="pb-2 pl-5">English</p> -->
             </div>
         </div>
         <div class="border-b-4 border-b-black pt-3">
@@ -47,7 +43,6 @@
                     </div>
                 </div>
             </div>
-
 
             <button *ngIf="!isStudentEnrolled()"
                 class="mt-1 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14"
@@ -68,105 +63,103 @@
                 <div [innerHTML]="courseDetails.content"></div>
             </div>
             <div class="pt-5">
-                <h2 class="text-lg font-semibold pb-5">Reviews</h2>
+                <div class="flex items-center text-lg font-semibold gap-1">
+                    <span>Reviews</span>
+                    <ng-container *ngIf="courseDetails.reviews">
+                        <span> ({{ courseDetails.reviews.length || 0 }}) </span>
+                    </ng-container>
+                </div>
                 <!-- reviews -->
+                <ng-container *ngIf="courseDetails.reviews">
+                    <p *ngIf="courseDetails.reviews.length < 1">No reviews to show</p>
+                </ng-container>
+                <ng-container *ngIf="courseDetails.ratingreview">
+                    <ng-container *ngFor="let review of courseDetails.ratingreview">
+                        <article
+                            class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900 my-5">
+                            <div class="flex justify-between items-center my-2">
+                                <div class="flex items-center gap-2">
+                                    <img class="mr-2 w-6 h-6 rounded-full"
+                                        src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                                        alt="student image">
+                                    <p class="text-sm text-gray-900 dark:text-white font-semibold uppercase">
 
-                <!-- <p *ngIf="courseDetails?.reviews?.length < 1">No reviews</p> -->
-                <!-- 
-                <ng-container *ngFor="let review of courseDetails.ratingreview">
-                    <article>
-                        <div class="flex items-center mb-4">
-                            <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
-                            <div class="font-medium dark:text-white">
-                                <p>Jese Leos <time datetime="2014-08-16 19:00"
-                                        class="block text-sm text-gray-500 dark:text-gray-400">Joined
-                                        on August 2014</time></p>
+                                        {{ review.reviewData.student}}
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate
+                                            datetime="2022-03-12" title="March 12th, 2022">{{
+                                            review.reviewData.createdAt | date:'mediumDate' }}</time></p>
+                                    <p-rating [(ngModel)]="review.reviewData.rating" [readonly]="true"
+                                        [cancel]="false"></p-rating>
+                                </div>
+                                <!-- <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3"
+                                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                    type="button">
+                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor" viewBox="0 0 16 3">
+                                        <path
+                                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                    </svg>
+                                    <span class="sr-only">Comment settings</span>
+                                </button> -->
+                                <!-- Dropdown menu -->
+                                <!-- <div id="dropdownComment3"
+                                    class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdownMenuIconHorizontalButton">
+                                        <li>
+                                            <a href="#"
+                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                        </li>
+                                    </ul>
+                                </div> -->
                             </div>
-                        </div>
-                        <div class="stars flex gap-1 text-yellow-500">
-                            <i class="pi pi-star-fill checked"></i>
-                            <i class="pi pi-star-fill checked"></i>
-                            <i class="pi pi-star-fill checked"></i>
-                            <i class="pi pi-star-fill checked"></i>
-                            <i class="pi pi-star"></i>
-                        </div>
-                        <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                            <p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time>
-                            </p>
-                        </footer>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">This is my third Invicta Pro Diver. They are
-                            just
-                            fantastic value
-                            for money. This one arrived yesterday and the first thing I did was set the time, popped on
-                            an
-                            identical strap
-                            from another Invicta and went in the shower with it to test the waterproofing.... No
-                            problems.
-                        </p>
-                        <p class="mb-3 text-gray-500 dark:text-gray-400">It is obviously not the same build quality as
-                            those
-                            very expensive
-                            watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100!
-                            An
-                            absolute bargain.
-                        </p>
-                        <a href="#"
-                            class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read
-                            more</a>
-                        <aside>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
-                            <div class="flex items-center mt-3">
-                                <a href="#"
-                                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Helpful</a>
-                                <a href="#"
-                                    class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report
-                                    abuse</a>
-                            </div>
-                        </aside>
-                    </article>
-                </ng-container> -->
-
-
+                            <p class="text-gray-500 dark:text-gray-400">{{ review.reviewData.review}}</p>
+                            <!-- <div class="flex items-center mt-4 space-x-4">
+                                <button type="button"
+                                    class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
+                                    <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
+                                    </svg>
+                                    Reply
+                                </button>
+                            </div> -->
+                        </article>
+                    </ng-container>
+                </ng-container>
             </div>
         </div>
         <div class="mt-10 border-b-4 border-b-black pb-3">
             <div class="">
                 <h2 class="text-lg font-semibold pb-5">Rating</h2>
-                <div class="flex items-center justify-between mt-4">
-                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5&nbsp;star</p>
-                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
+                <ng-container *ngFor="let entry of individualStars | keyvalue">
+                    <div class="flex items-center justify-between mt-4 gap-2">
+                        <p class="text-sm font-medium text-black">{{ entry.key
+                            }}&nbsp;star</p>
+                        <div class="w-full h-5 bg-gray-200 rounded dark:bg-gray-700">
+                            <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length">
+                                <div class="h-5 bg-yellow-300 rounded"
+                                    [style.width]="(entry.value / courseDetails.reviews.length * 100) + '%'"></div>
+                            </ng-container>
+                        </div>
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 ml-2">
+                            <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length">
+                                {{ (entry.value / courseDetails.reviews.length) * 100 | number:'1.0-1' }}%
+                            </ng-container>
+                        </span>
                     </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4&nbsp;star</p>
-                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 60%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3&nbsp;star</p>
-                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 40%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2&nbsp;star</p>
-                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 30%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <p class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1&nbsp;star</p>
-                    <div class="w-full h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 11%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                </div>
+                </ng-container>
             </div>
             <div class="my-5">
                 <h2 class="text-lg font-semibold pb-5">Chapters</h2>
@@ -174,13 +167,12 @@
                     <ng-container *ngFor="let item of courseDetails.videoData">
                         <p-accordionTab header="{{ item.title }}" class="cursor-pointer">
                             <p class="text-sm">
-                                {{ item.description }}
+                                {{ item.description | truncate:100 }}
                             </p>
                         </p-accordionTab>
                     </ng-container>
                 </p-accordion>
             </div>
-
         </div>
     </div>
 </section>
@@ -190,13 +182,13 @@
     <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
         <ng-template pTemplate="header">
-            <div class="inline-flex align-items-center justify-content-center gap-2">
+            <div class="inline-flex align-items-center justify-content-center gap-2 uppercase">
                 <span class="font-bold white-space-nowrap">{{ courseDetails.courseName }}</span>
             </div>
         </ng-template>
         <app-video-player [videoUrl]="activeVideo"></app-video-player>
-        <ng-template pTemplate="footer">
-            <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus [autofocus]="true"></p-button>
-        </ng-template>
+        <p class="my-5">
+            {{ courseDetails.description }}
+        </p>
     </p-dialog>
 </div>

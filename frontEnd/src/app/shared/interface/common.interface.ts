@@ -1,3 +1,5 @@
+import { RatingReview } from "./courseDetails.interface";
+
 export interface loginInterface {
     email: string;
     password: string;
@@ -29,6 +31,7 @@ export interface instructorInterface {
     createdAt: Date
     updatedAt: Date
 }
+
 export interface Course {
     _id: string;
     courseName: string;
@@ -59,15 +62,6 @@ export interface Course {
         title: string,
         description: string
     }]
-}
-
-export interface RatingReview {
-    _id: string;
-    courseId: string;
-    createdAt: Date;
-    rating: number;
-    studentId: string;
-    updatedAt: Date;
 }
 
 export interface VideoData {

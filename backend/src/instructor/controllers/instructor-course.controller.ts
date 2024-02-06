@@ -35,10 +35,18 @@ export class InstructorCourseController {
     //update course information
     @UseGuards(InstructorJwtAuthGuard)
     @Post('update-course-information')
-    @UseInterceptors(FilesInterceptor('files'))
-    async updateCourseInformation(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
+    @UseInterceptors(FileFieldsInterceptor([
+        { name: 'files' },
+        { name: 'trailer', maxCount: 1 },
+    ]))
+    async updateCourseInformation(
+        @UploadedFiles() files: { files?: Express.Multer.File[], trailer?: Express.Multer.File[] },
+        @Body() formData: CourseData,
+        @Request() req
+    ) {
         const instructorId = req.user.id
-        return await this.courseService.updateCourseInformation(files, formData, instructorId);
+
+        return await this.courseService.updateCourseInformation(files.files, files.trailer, formData, instructorId);
     }
 
     //update chapter by one

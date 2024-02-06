@@ -30,7 +30,6 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { VideoPlayerComponent } from './video-player/video-player.component';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { DialogModule } from 'primeng/dialog';
@@ -62,8 +61,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SuccessComponent,
     ClientSearchBarComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent,
-    VideoPlayerComponent
+    ResetPasswordComponent
 
   ],
   imports: [
@@ -98,7 +96,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     })
 
   ],
-  providers: [],
+  providers: []
 
 })
 export class ClientModule { }

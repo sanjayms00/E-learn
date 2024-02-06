@@ -29,8 +29,8 @@ export class StudentCourseController {
     }
 
     @Get('course-details/:id')
-    async courseDetails(@Param('id') id) {
-        return await this.studentCourseService.courseDetails(id)
+    async courseDetails(@Param('id') courseId: string) {
+        return await this.studentCourseService.courseDetails(courseId)
     }
 
     @Get('instructors')

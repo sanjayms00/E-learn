@@ -1,4 +1,4 @@
-import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { RatingReview } from '../schema/ratingReview.schema';
@@ -30,23 +30,22 @@ export class ReviewRatingService {
 
             if (checkReviewAdded) throw new ConflictException('Review already added')
 
-            const result = await this.ratingReviewModel.updateOne(
-                { courseId: objCourseId, studentId: objStudentId },
+            const findReview = await this.ratingReviewModel.findOne(
+                { courseId: objCourseId, studentId: objStudentId }
+            )
+
+            if (findReview) throw new ConflictException("Review Already added")
+
+            const result = await this.ratingReviewModel.create(
                 {
-                    $set: {
-                        courseId: objCourseId,
-                        studentId: objStudentId,
-                        rating: rating,
-                        review: review
-                    }
-                },
-                { upsert: true }
+                    courseId: objCourseId,
+                    studentId: objStudentId,
+                    rating: rating,
+                    review: review
+                }
             );
+
             if (!result) throw new Error("Unable to save the data")
-
-            const updatedDocument = await this.ratingReviewModel.findOne({ courseId: objCourseId })
-
-            if (!updatedDocument) throw new Error("Unable to save the data")
 
             const courseUpdate = await this.courseModel.updateOne(
                 { _id: objCourseId },
@@ -54,7 +53,7 @@ export class ReviewRatingService {
                     $addToSet: {
                         reviews: {
                             studentId: objStudentId,
-                            reviewId: updatedDocument._id
+                            reviewId: result._id
                         }
                     }
                 }
@@ -70,5 +69,61 @@ export class ReviewRatingService {
         }
     }
 
+
+
+    async getReviewsForDetailpage(courseId) {
+        //get review details
+
+        try {
+            const objCourseId = new Types.ObjectId(courseId)
+            const reviewData = await this.courseModel.aggregate([
+                {
+                    $match: {
+                        _id: objCourseId
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "ratingreviews",
+                        localField: "reviews.reviewId",
+                        foreignField: "_id",
+                        as: "reviewData"
+                    }
+                },
+                {
+                    $unwind: "$reviewData"
+                },
+                {
+                    $lookup: {
+                        from: "students",
+                        localField: "reviewData.studentId",
+                        foreignField: "_id",
+                        as: "reviewData.student"
+                    }
+                },
+                {
+                    $project: {
+                        "reviewData._id": 1,
+                        "reviewData.studentId": 1,
+                        "reviewData.createdAt": 1,
+                        "reviewData.rating": 1,
+                        "reviewData.review": 1,
+                        "reviewData.student": { $arrayElemAt: ['$reviewData.student.fullName', 0] },
+                    }
+                }
+            ])
+
+            console.log(reviewData)
+
+            if (!reviewData || reviewData.length < 1) {
+                throw new NotFoundException("reviews not found")
+            }
+
+            return reviewData
+        } catch (error) {
+            throw error
+        }
+
+    }
 
 }

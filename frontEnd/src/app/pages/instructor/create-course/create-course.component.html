@@ -16,7 +16,14 @@
                 <span *ngIf="courseNameErrors['required']" class="text-red-600 font-medium">
                     Course name is required
                 </span>
+                <span *ngIf="courseNameErrors['maxlength']" class="text-red-600 font-medium">
+                    Maximum 100 characters are allowed
+                </span>
+                <span *ngIf="courseNameErrors['minlength']" class="text-red-600 font-medium">
+                    Maximum 10 characters are required
+                </span>
             </ng-container>
+
         </div>
         <!-- coursename end -->
 
@@ -34,6 +41,12 @@
                         *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
                         <span *ngIf="courseDescriptionErrors['required']" class="text-red-600 font-medium">
                             Course Description is required
+                        </span>
+                        <span *ngIf="courseDescriptionErrors['maxlength']" class="text-red-600 font-medium">
+                            Maximum 1000 characters are allowed
+                        </span>
+                        <span *ngIf="courseDescriptionErrors['minlength']" class="text-red-600 font-medium">
+                            Minimum 100 characters are required
                         </span>
                     </ng-container>
                 </div>
@@ -96,6 +109,9 @@
                     *ngIf="course.controls['courseTags'].touched && course.controls['courseTags'].errors as courseTagsErrors">
                     <span *ngIf="courseTagsErrors['required']" class="text-red-600 font-medium">
                         Course Tags is required
+                    </span>
+                    <span *ngIf="courseTagsErrors['maxlength']" class="text-red-600 font-medium">
+                        Maximum 100 words are allowed
                     </span>
                 </ng-container>
             </div>
@@ -160,9 +176,9 @@
             class="mb-4 text-lg leading-none text-gray-900 dark:text-white border-b py-3 mt-8 border-b-gray-500 font-medium">
             Course content
         </h3>
-        <div formArrayName="fields" class="grid sm:grid-cols-1 md:grid-cols-3 gap-3">
+        <div formArrayName="fields" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             <div *ngFor="let item of fields.controls; let i = index" [formGroupName]="i"
-                class="gap-4 mb-4 border border-gray-500 p-4 rounded shadow-md">
+                class="gap-4 mb-4 border border-gray-500 overflow-hidden p-4 rounded shadow-md">
                 <h2 class="font-medium">Chapter {{ i+1 }}</h2>
                 <div class="pt-2">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
@@ -170,6 +186,9 @@
                     <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
                         class="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-full p-2.5 placeholder-gray-400"
                         placeholder="Title name">
+                    <div *ngIf="getFieldError(i, 'videoTitle')" class="text-red-600 font-medium">
+                        {{ getFieldError(i, 'videoTitle') }}
+                    </div>
                 </div>
                 <div class="pt-2">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
@@ -177,13 +196,20 @@
                     <textarea id="videoDescription" rows="4" name="videoDescription" formControlName="videoDescription"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Write your thoughts here..."></textarea>
+                    <div *ngIf="getFieldError(i, 'videoDescription')" class="text-red-600 font-medium">
+                        {{ getFieldError(i, 'videoDescription') }}
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 pt-2">
                     <div>
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                             upload*</label>
-                        <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm" />
+                        <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm"
+                            formControlName="files" />
+                        <div *ngIf="getFieldError(i, 'files')" class="text-red-600 font-medium">
+                            {{ getFieldError(i, 'files') }}
+                        </div>
                     </div>
 
                     <button type="button" (click)="removeFileds(i)"

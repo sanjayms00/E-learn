@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
+import { CourseService } from 'src/app/core/services/instructor/CourseService';
 import { Course } from 'src/app/shared/interface/common.interface';
 
 import { StripeService } from 'ngx-stripe';
@@ -45,43 +45,43 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.courseSubscription = this.courseService.courseDetails(this.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next : res => {
-          this.courseContent = res  
-        }, 
-        error : err => {
-          this.toastr.error(err)
-        }
-      })
-  }
+          next: res => {
+            this.courseContent = res
+          },
+          error: err => {
+            this.toastr.error(err)
+          }
+        })
+    }
     else {
-  this.toastr.error("id is not found")
-}
+      this.toastr.error("id is not found")
+    }
   }
 
 
-paymentBtnClick() {
+  paymentBtnClick() {
 
-  this.isButtonClicked = true;
-  // this.courseService.checkout(this.courseContent).subscribe(res => {
-  //   console.log(res)
-  //   this.router.navigateByUrl('/learning')
-  // })
-  this.http.post(`${constant.baseUrl}/student/checkout`, {
-    course: this.courseContent
-  }).subscribe(async (res: any) => {
-    console.log("response", res)
-    console.log("response", res.id)
-    const stripe = await loadStripe(environment.stripe.publicKey);
-    stripe?.redirectToCheckout({
-      sessionId: res.id
+    this.isButtonClicked = true;
+    // this.courseService.checkout(this.courseContent).subscribe(res => {
+    //   console.log(res)
+    //   this.router.navigateByUrl('/learning')
+    // })
+    this.http.post(`${constant.baseUrl}/student/checkout`, {
+      course: this.courseContent
+    }).subscribe(async (res: any) => {
+      console.log("response", res)
+      console.log("response", res.id)
+      const stripe = await loadStripe(environment.stripe.publicKey);
+      stripe?.redirectToCheckout({
+        sessionId: res.id
+      })
     })
-  })
-}
+  }
 
 
-ngOnDestroy(): void {
-  this.courseSubscription.unsubscribe()
-}
+  ngOnDestroy(): void {
+    this.courseSubscription.unsubscribe()
+  }
 
 
 

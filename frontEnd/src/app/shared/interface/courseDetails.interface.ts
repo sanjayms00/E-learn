@@ -28,12 +28,18 @@ export interface Review {
 
 export interface RatingReview {
     _id: string;
-    courseId: string;
-    createdAt: Date;
-    rating: number;
-    studentId: string;
-    updatedAt: Date;
+    reviewData: reviewData
 }
+
+export interface reviewData {
+    _id: string;
+    studentId: string;
+    rating: number;
+    review: string;
+    createdAt: Date;
+    student: string;
+}
+
 
 export interface VideoData {
     title: string;
@@ -47,11 +53,14 @@ const emptyReview: Review = {
 
 const emptyRatingReview: RatingReview = {
     _id: '',
-    courseId: '',
-    createdAt: new Date(),
-    rating: 0,
-    studentId: '',
-    updatedAt: new Date(),
+    reviewData: {
+        _id: '',
+        studentId: '',
+        rating: 0,
+        review: '',
+        createdAt: new Date(),
+        student: ''
+    }
 };
 
 const emptyVideoData: VideoData = {

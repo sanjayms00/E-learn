@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
@@ -42,7 +42,5 @@ export class CourseService {
   deleteCourse(courseId: string) {
     return this.http.delete<Course[]>(`${constant.baseUrl}/instructor/delete-course/${courseId}`)
   }
-
-
 
 }

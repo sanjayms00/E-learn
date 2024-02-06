@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
+import { CourseService } from 'src/app/core/services/instructor/CourseService';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { environment } from 'src/environment/environment';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';

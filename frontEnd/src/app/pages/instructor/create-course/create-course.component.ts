@@ -34,13 +34,13 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
   ) {
 
     this.course = this.fb.group({
-      courseName: [null, Validators.required],
-      courseDescription: [null, Validators.required],
+      courseName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]],
+      courseDescription: [null, [Validators.required, Validators.maxLength(1000), Validators.minLength(100)]],
       content: [null, Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
       // estimatedPrice: [null, [Validators.required, Validators.min(1)]],
-      courseTags: [null, Validators.required],
+      courseTags: [null, [Validators.required, Validators.maxLength(100)]],
       courseLevel: [null, Validators.required],
       files: [null, Validators.required],
       trailer: [null, Validators.required],
@@ -141,6 +141,29 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
       this.toastr.error("File not supported")
     }
   }
+
+
+  getFieldError(index: number, fieldName: string): string {
+    const field = this.fields.at(index);
+    const control = field.get(fieldName);
+
+    console.log('Control:', control);
+
+    if (control?.invalid && (control.dirty || control.touched)) {
+      if (fieldName === 'videoTitle' && control?.errors?.['required']) {
+        return 'Title is required.';
+      }
+      if (fieldName === 'videoDescription' && control?.errors?.['required']) {
+        return 'Message is required.';
+      }
+      if (fieldName === 'files' && control?.errors?.['required']) {
+        return 'Video is required.';
+      }
+    }
+
+    return '';
+  }
+
 
   canExit() {
     if (this.course.dirty && !this.submit) {
