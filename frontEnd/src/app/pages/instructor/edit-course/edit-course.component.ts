@@ -16,7 +16,7 @@ import { environment } from 'src/environment/environment';
 })
 export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
-  @ViewChild('previewImage') previewImage!: ElementRef;
+  @ViewChild('previewImage') previewImage!: ElementRef<HTMLImageElement>;
   course: FormGroup;
   url = environment.cloudFrontUrl
   categoryData!: categoryInterface[]
@@ -28,6 +28,7 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   id: string | null = ''
   activeVideo: string | null = null;
   @ViewChild('editor') editor!: Editor;
+  @ViewChild('thumbnail') thumbnail!: ElementRef;
 
 
 
@@ -162,6 +163,13 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
       this.formData.append('files', file);
 
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          this.thumbnail.nativeElement.src = e.target.result.toString();
+        }
+      };
+      reader.readAsDataURL(file);
     } else {
       this.toastr.error("File not supported")
     }
