@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
+import { Subscription } from 'rxjs';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { FilterService } from 'src/app/shared/services/filter.service';
 
@@ -9,7 +8,7 @@ import { FilterService } from 'src/app/shared/services/filter.service';
   selector: 'app-search',
   templateUrl: './search.component.html'
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   searchedCourses: Course[] = [];
   p: number = 1;
@@ -18,6 +17,8 @@ export class SearchComponent implements OnInit {
   filteredCourses: Course[] = []
   cities: any[] | undefined;
   selectedCity: any | undefined;
+  filterSubscription!: Subscription
+  allCourseSubscription!: Subscription
 
   constructor(
     private filterService: FilterService,
@@ -35,8 +36,14 @@ export class SearchComponent implements OnInit {
   }
 
   allCourse() {
-    this.filterService.getAllCourse().subscribe(res => {
-      this.searchedCourses = res
+    this.allCourseSubscription = this.filterService.getAllCourse()
+    .subscribe({
+      next: res => {
+        this.searchedCourses = res
+      }, 
+      error: err => {
+        this.toastr.error(err.message)
+      }
     })
     this.filteredCourses = this.searchedCourses
   }
@@ -44,10 +51,15 @@ export class SearchComponent implements OnInit {
 
   SearchData(event: string) {
     if (event.trim()) {
-      this.filterService.searchCourse(event).subscribe(res => {
-        this.result = event
-        this.searchedCourses = res
-
+      this.filterSubscription = this.filterService.searchCourse(event)
+      .subscribe({
+        next: res => {
+          this.result = event
+          this.searchedCourses = res
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
       })
     } else {
       this.allCourse()
@@ -95,14 +107,18 @@ export class SearchComponent implements OnInit {
   makeAscPrice() {
     this.searchedCourses.sort((a, b) => a.price - b.price);
   }
+
   makeDescPrice() {
     this.searchedCourses.sort((a, b) => b.price - a.price);
   }
-
 
   courseTrackBy(index: number, course: Course) {
     return course._id;
   }
 
+  ngOnDestroy(): void {
+    this.filterSubscription.unsubscribe()
+    this.allCourseSubscription.unsubscribe()
+  }
 
 }

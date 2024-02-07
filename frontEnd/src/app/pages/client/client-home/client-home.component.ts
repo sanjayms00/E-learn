@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { constant } from 'src/app/core/constant/constant';
 import { CourseService } from 'src/app/core/services/instructor/CourseService';
 import { Course } from 'src/app/shared/interface/common.interface';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-client-home',
@@ -12,6 +13,7 @@ export class ClientHomeComponent implements OnInit, OnDestroy {
 
   homeCourses!: Course[]
   homeCourseSubscription!: Subscription
+  url: string = environment.cloudFrontUrl;
 
   constructor(
     private courseService: CourseService
