@@ -47,6 +47,7 @@ export interface CourseData {
   _id: string;
   courseName: string;
   description: string;
+  content: string;
   instructorId: string;
   videoData: VideoData[];
   instructorData: InstructorData[];

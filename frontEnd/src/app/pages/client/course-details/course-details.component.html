@@ -7,7 +7,7 @@
                 <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length > 0">
                     <p-rating [(ngModel)]="averageRating" [readonly]="true" [cancel]="false"
                         class="star-rating"></p-rating>
-                    <span>{{ averageRating }}</span>
+                    <!-- <span>{{ averageRating }}</span> -->
                 </ng-container>
                 <ng-container *ngIf="courseDetails.reviews">
                     <span>{{ courseDetails.reviews.length || 0 }} reviews </span>
@@ -23,7 +23,8 @@
                     shape="circle"></p-avatar> -->
                 <p class="text-md font-semibold pb-2 uppercase"> By {{ courseDetails.instructorName }}</p>
                 <p class="pb-2 pl-5">{{ courseDetails.students.length }} students Enrolled</p>
-                <p class="text-md font-semibold pb-2 pl-5">Last updated 07/2023</p>
+                <p class="text-md font-semibold pb-2 pl-5">Updated at {{ courseDetails.updatedAt | date:'mediumDate'}}
+                </p>
                 <!-- <p class="pb-2 pl-5">English</p> -->
             </div>
         </div>
@@ -162,7 +163,7 @@
                 </ng-container>
             </div>
             <div class="my-5">
-                <h2 class="text-lg font-semibold pb-5">Chapters</h2>
+                <h2 class="text-lg font-semibold pb-5">Chapters ({{ courseDetails.videoData.length || 0}})</h2>
                 <p-accordion [activeIndex]="0">
                     <ng-container *ngFor="let item of courseDetails.videoData">
                         <p-accordionTab header="{{ item.title }}" class="cursor-pointer">

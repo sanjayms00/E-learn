@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Course } from 'src/app/shared/interface/common.interface';
@@ -8,7 +9,7 @@ import { FilterService } from 'src/app/shared/services/filter.service';
   selector: 'app-search',
   templateUrl: './search.component.html'
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
 
   searchedCourses: Course[] = [];
   p: number = 1;
@@ -17,12 +18,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredCourses: Course[] = []
   cities: any[] | undefined;
   selectedCity: any | undefined;
-  filterSubscription!: Subscription
-  allCourseSubscription!: Subscription
 
   constructor(
     private filterService: FilterService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private destroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
@@ -36,31 +36,33 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   allCourse() {
-    this.allCourseSubscription = this.filterService.getAllCourse()
-    .subscribe({
-      next: res => {
-        this.searchedCourses = res
-      }, 
-      error: err => {
-        this.toastr.error(err.message)
-      }
-    })
-    this.filteredCourses = this.searchedCourses
-  }
-
-
-  SearchData(event: string) {
-    if (event.trim()) {
-      this.filterSubscription = this.filterService.searchCourse(event)
+    this.filterService.getAllCourse()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: res => {
-          this.result = event
           this.searchedCourses = res
         },
         error: err => {
           this.toastr.error(err.message)
         }
       })
+    this.filteredCourses = this.searchedCourses
+  }
+
+
+  SearchData(event: string) {
+    if (event.trim()) {
+      this.filterService.searchCourse(event)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.result = event
+            this.searchedCourses = res
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
     } else {
       this.allCourse()
       this.toastr.error("Please enter a search text before proceeding.");
@@ -114,11 +116,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   courseTrackBy(index: number, course: Course) {
     return course._id;
-  }
-
-  ngOnDestroy(): void {
-    this.filterSubscription.unsubscribe()
-    this.allCourseSubscription.unsubscribe()
   }
 
 }

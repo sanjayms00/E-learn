@@ -7,21 +7,25 @@
 
         <div class="px-5">
             <!-- video heading  and buttons-->
-            <div class="flex justify-between mt-2 items-center">
-                <p-button severity="secondary">
+            <div class="flex justify-center mt-2">
+                <!-- <p-button severity="secondary">
                     <i class="pi pi-arrow-left"></i>
-                </p-button>
+                </p-button> -->
                 <h2 class="text-xl font-bold uppercase">
                     {{ courseHeading }}
                 </h2>
-                <p-button severity="secondary">
+                <!-- <p-button severity="secondary">
                     <i class="pi pi-arrow-right"></i>
-                </p-button>
+                </p-button> -->
             </div>
 
             <!-- course details -->
             <article class="text-lg text-justify py-5">
                 {{ courseDescription }}
+            </article>
+
+            <article class="text-lg text-justify py-5">
+                {{ courseContent }}
             </article>
 
             <hr>
@@ -49,7 +53,7 @@
                     </div>
                     <div>
                         <h2 class="text-md font-bold uppercase">
-                            <!-- {{ instructorData.fullName }} -->
+                            {{ instructorData?.fullName }}
                         </h2>
                         <h4 class="text-sm uppercase mt-2">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. qualification

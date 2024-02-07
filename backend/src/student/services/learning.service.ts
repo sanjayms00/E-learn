@@ -119,6 +119,7 @@ export class LearningService {
                         _id: 1,
                         courseName: 1,
                         description: 1,
+                        content: 1,
                         instructorId: 1,
                         videoData: {
                             _id: 1,

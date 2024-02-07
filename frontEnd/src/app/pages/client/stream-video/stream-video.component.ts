@@ -26,6 +26,7 @@ export class StreamVideoComponent implements OnInit {
   visible: boolean = false;
   courseHeading: string = ''
   courseDescription: string = ''
+  courseContent: string = ''
 
   constructor(
     private route: ActivatedRoute,
@@ -57,8 +58,10 @@ export class StreamVideoComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))   //for unsubscribing the observable
         .subscribe((res) => {
           this.streamData = res;
+          console.log(this.streamData)
           this.courseHeading = this.streamData.courseData[0].courseName
           this.courseDescription = this.streamData.courseData[0].description
+          this.courseContent = this.streamData.courseData[0].description
           this.chapters = this.streamData.courseData[0].videoData;
           this.viewedChapters = this.streamData.studentData.courses[0].watched;
           //find progress
