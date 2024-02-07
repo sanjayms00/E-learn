@@ -43,12 +43,12 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   ) {
 
     this.course = this.fb.group({
-      courseName: [null, Validators.required],
-      courseDescription: [null, Validators.required],
+      courseName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]],
+      courseDescription: [null, [Validators.required, Validators.maxLength(1000), Validators.minLength(100)]],
       content: ['', Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
-      courseTags: [null, Validators.required],
+      courseTags: [null, [Validators.required, Validators.maxLength(100)]],
       courseLevel: [null, Validators.required],
       files: [null],
       trailer: [null]
