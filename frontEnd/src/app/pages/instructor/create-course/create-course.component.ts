@@ -147,8 +147,6 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
     const field = this.fields.at(index);
     const control = field.get(fieldName);
 
-    console.log('Control:', control);
-
     if (control?.invalid && (control.dirty || control.touched)) {
       if (fieldName === 'videoTitle' && control?.errors?.['required']) {
         return 'Title is required.';

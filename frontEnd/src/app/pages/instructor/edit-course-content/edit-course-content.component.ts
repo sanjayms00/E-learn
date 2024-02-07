@@ -1,11 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChapterInterface } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
-import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 
@@ -40,9 +41,9 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private destroyRef: DestroyRef
   ) {
     this.course = this.fb.group({
       fields: this.fb.array([]),
@@ -54,6 +55,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     this.addfields()
     if (this.id) {
       this.courseFormService.editCourseContentData(this.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((res) => {
           this.courseData = res[0].videos
           console.log(this.courseData)
@@ -67,25 +69,32 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
 
   //update chapter
   updateChapter() {
-    if (this.data.title || this.data.description || this.data.file) {
-      this.submit = true
-      this.formData.append('videoId', String(this.data.videoId))
-      this.formData.append('oldVideo', String(this.data.oldVideo))
-      this.formData.append('title', String(this.data.title))
-      this.formData.append('description', String(this.data.description))
-      this.closeDialog()
-      this.courseFormService.updateCourseChapter(this.formData).subscribe((res: any) => {
-        console.log(res)
+
+    if (!this.data.title.trim()) {
+      this.toastr.error("Title is required")
+      return
+    }
+    if (!this.data.description.trim()) {
+      this.toastr.error("Chapter message is required")
+      return
+    }
+
+    this.submit = true
+    this.formData.append('videoId', String(this.data.videoId))
+    this.formData.append('oldVideo', String(this.data.oldVideo))
+    this.formData.append('title', String(this.data.title))
+    this.formData.append('description', String(this.data.description))
+    this.closeDialog()
+    this.courseFormService.updateCourseChapter(this.formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res: any) => {
         this.submit = false
         this.courseData = res[0].videos
         this.formData = new FormData();
         this.formData.append('courseId', String(this.id))
         // this.closeDialog()
         this.toastr.success("chapter Updated")
-
-        // this.router.navigate(['/instructor/edit/content', this.id])
       })
-    }
   }
 
   get fields() {
@@ -106,9 +115,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
 
   createChapters() {
     if (this.course.valid) {
-
       this.submit = true
-
       // Append course information
       const formValue = this.course.getRawValue();
 
@@ -121,6 +128,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
       });
 
       this.courseFormService.updateCourseContent(this.formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
             this.courseData = res[0].videos
@@ -172,14 +180,18 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
   //delete a chapter
   deleteChapter(): void {
     if (this.id) {
-      this.courseFormService.deleteChapter(this.data.videoId).subscribe(res => {
-        // console.log(res)
-        this.courseData = res[0]?.videos
-        this.toastr.success('Chapter deleted')
-        this.closeDialog()
-      }, (err) => {
-        this.toastr.error(err.message)
-      })
+      this.courseFormService.deleteChapter(this.data.videoId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.courseData = res[0]?.videos
+            this.toastr.success('Chapter deleted')
+            this.closeDialog()
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
     }
 
   }
@@ -220,6 +232,27 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
       }
     });
   }
+
+  getFieldError(index: number, fieldName: string): string {
+    const field = this.fields.at(index);
+    const control = field.get(fieldName);
+
+    if (control?.invalid && (control.dirty || control.touched)) {
+      if (fieldName === 'videoTitle' && control?.errors?.['required']) {
+        return 'Title is required.';
+      }
+      if (fieldName === 'videoDescription' && control?.errors?.['required']) {
+        return 'Message is required.';
+      }
+      if (fieldName === 'files' && control?.errors?.['required']) {
+        return 'Video is required.';
+      }
+    }
+
+    return '';
+  }
+
+
 
   canExit() {
 

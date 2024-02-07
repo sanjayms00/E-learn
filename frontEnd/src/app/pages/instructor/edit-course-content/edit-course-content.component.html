@@ -24,6 +24,7 @@
             <input type="text" name="videoTitle" id="videoTitle"
                 class="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-full p-2.5 placeholder-gray-400"
                 placeholder="Title name" [(ngModel)]="data.title">
+
         </div>
         <div class="pt-2">
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
@@ -31,12 +32,14 @@
             <textarea id="videoDescription" rows="8" name="videoDescription"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your thoughts here..." [(ngModel)]="data.description"></textarea>
+
         </div>
 
         <div class="pt-2">
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                 Upload*</label>
             <input type="file" (change)="onChapterVideoChange($event)" class="form-input" [(ngModel)]="data.file" />
+
         </div>
         <div class="flex items-end justify-center gap-2 border-t mt-4 pt-2 mr-3">
             <button type="button"
@@ -76,6 +79,9 @@
                         <input type="text" name="videoTitle" id="videoTitle" formControlName="videoTitle"
                             class="border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-full p-2.5 placeholder-gray-400"
                             placeholder="Title name">
+                        <div *ngIf="getFieldError(i, 'videoTitle')" class="text-red-600 font-medium">
+                            {{ getFieldError(i, 'videoTitle') }}
+                        </div>
                     </div>
                     <div class="pt-2">
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
@@ -84,6 +90,9 @@
                             formControlName="videoDescription"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Write your thoughts here..."></textarea>
+                        <div *ngIf="getFieldError(i, 'videoDescription')" class="text-red-600 font-medium">
+                            {{ getFieldError(i, 'videoDescription') }}
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 pt-2">
@@ -93,6 +102,9 @@
                                 upload*</label>
                             <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm"
                                 formControlName="files" />
+                            <div *ngIf="getFieldError(i, 'files')" class="text-red-600 font-medium">
+                                {{ getFieldError(i, 'files') }}
+                            </div>
                         </div>
 
                         <button type="button" (click)="removeFileds(i)"
