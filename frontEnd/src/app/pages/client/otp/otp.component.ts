@@ -24,17 +24,11 @@ export class OtpComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private store: Store<appState>
   ) {
-    this.store.select(getclient).subscribe(res => {
-      if (res._id) {
-        this.router.navigateByUrl('/home')
-      }
-    })
     this.clientMail = localStorage.getItem("clientMail")
-
+    if (!this.clientMail) {
+      this.router.navigateByUrl('/home')
+    }
     console.log(this.clientMail)
-
-
-    if (!this.clientMail) this.router.navigateByUrl('/home')
   }
 
   ngOnInit(): void {

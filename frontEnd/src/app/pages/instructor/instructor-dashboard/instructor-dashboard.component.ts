@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from 'src/app/core/services/instructor/dashboard.service';
 import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard.interface';
@@ -9,13 +10,14 @@ import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard
     providers: [DashboardService]
 })
 export class InstructorDashboardComponent {
-    totalStudents: number = 0
-    totalCourses: number = 0
+
+    dashboard!: instructorDashboardInterface
 
 
     constructor(
         private toastr: ToastrService,
-        private dashboardService: DashboardService
+        private dashboardService: DashboardService,
+        private destroyRef: DestroyRef
     ) { }
 
     ngOnInit() {
@@ -25,17 +27,18 @@ export class InstructorDashboardComponent {
 
     //dahboard data on load
     dashboardData() {
-        this.dashboardService.getDashboardData().subscribe(
-            {
-                next: (res) => {
-                    this.totalCourses = res.courseStudentCount[0].totalCourses
-                    this.totalStudents = res.courseStudentCount[0].totalStudents
-                },
-                error: (err) => {
-                    this.toastr.error(err.message)
+        this.dashboardService.getDashboardData()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(
+                {
+                    next: (res) => {
+                        this.dashboard = res
+                    },
+                    error: (err) => {
+                        this.toastr.error(err.message)
+                    }
                 }
-            }
-        )
+            )
     }
 
 
