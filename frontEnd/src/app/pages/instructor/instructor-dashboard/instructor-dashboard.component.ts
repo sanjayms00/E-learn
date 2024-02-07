@@ -12,7 +12,7 @@ import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard
 export class InstructorDashboardComponent {
 
     dashboard!: instructorDashboardInterface
-
+    rating!: number
 
     constructor(
         private toastr: ToastrService,
@@ -33,6 +33,7 @@ export class InstructorDashboardComponent {
                 {
                     next: (res) => {
                         this.dashboard = res
+                        this.rating = Number(res.rating.toFixed(2))
                     },
                     error: (err) => {
                         this.toastr.error(err.message)
