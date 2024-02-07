@@ -18,13 +18,16 @@
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg pt-5">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
           <tr>
-            <th scope="col" class="px-6 py-3">
-              Image
+            <th class="px-6 py-3">
+              NO.
             </th>
             <th scope="col" class="px-6 py-3">
               courseName
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Image
             </th>
             <th scope="col" class="px-6 py-3">
               price
@@ -40,9 +43,11 @@
             </th>
           </tr>
         </thead>
-        <tbody class="text-gray-900">
-          <tr *ngFor="let course of courses | paginate: { itemsPerPage: 8, currentPage: p }; trackBy: courseTrackBy"
+        <tbody class="text-gray-900 text-center">
+          <tr
+            *ngFor=" let course of courses | paginate: { itemsPerPage: 8, currentPage: p }; let i = index; trackBy: courseTrackBy"
             class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th>{{ (p - 1) * 8 + i + 1 }}</th>
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
               {{ course.courseName | truncate:65 }}
             </th>

@@ -1,18 +1,19 @@
+<!-- <pre>{{ dashboard | json }}</pre> -->
 <section class="bg-gray-100 p-10 h-screen">
     <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
         Instructor Dashboard
     </h1>
     <div class="flex justify-evenly pt-5 gap-5">
         <div class="flex flex-col gap-5">
-            <app-dashboard-box title="Total Students" [value]="totalStudents" icon="pi-user"
+            <app-dashboard-box title="Courses" [value]="dashboard.courses" icon="pi-user"
                 color="red"></app-dashboard-box>
 
-            <!-- <app-dashboard-box title="Avg Rating" [value]="5" icon="pi-star" color="blue"></app-dashboard-box> -->
+            <app-dashboard-box title="Avg Rating" [value]="dashboard.rating" icon="pi-star"
+                color="blue"></app-dashboard-box>
 
-            <!-- <app-dashboard-box title="Revenue" [value]="1000" icon="pi-money-bill" color="green"></app-dashboard-box> -->
+            <!-- <app-dashboard-box title="students Enrolled" [value]="1000" icon="pi-money-bill" color="green"></app-dashboard-box> -->
 
-            <app-dashboard-box title="Total Courses" [value]="totalCourses" icon="pi-video"
-                color="indigo"></app-dashboard-box>
+            <app-dashboard-box title="sold" [value]="dashboard.sold" icon="pi-video" color="green"></app-dashboard-box>
         </div>
         <div class="flex-grow bg-white p-5 rounded-lg shadow-lg border-2 border-gray-200">
             <app-graph></app-graph>

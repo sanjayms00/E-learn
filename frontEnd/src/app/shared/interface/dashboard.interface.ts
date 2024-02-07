@@ -1,9 +1,6 @@
-export interface courseStudentCount {
-    _id?: null
-    totalCourses: number
-    totalStudents: number
-}
 
 export interface instructorDashboardInterface {
-    courseStudentCount: courseStudentCount[]
+    courses: number;
+    sold: number;
+    rating: number;
 }
