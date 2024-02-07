@@ -48,8 +48,8 @@ export class clientEffects {
         return this.authService.studentSignUp(data).pipe(
           map((response: { email: string }) => {
             this.toastr.success("OTP send")
-            this.router.navigate(['/otp'])
             localStorage.setItem('clientMail', response.email);
+            this.router.navigateByUrl('/otp')
             return clientSignUpFirstStep()
           }),
           catchError(error => {

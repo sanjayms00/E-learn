@@ -59,6 +59,7 @@ export class AuthService {
 
   //logout client
   clientLogout() {
+    localStorage.removeItem("clientData")
     return localStorage.removeItem("clientToken")
   }
 
@@ -69,6 +70,7 @@ export class AuthService {
 
   //logout client
   instructorLogout() {
+    localStorage.removeItem('instructorData')
     return localStorage.removeItem('instructorToken')
   }
 

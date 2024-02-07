@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -21,7 +20,6 @@ export class OtpComponent implements OnInit, OnDestroy {
   clientMail: string | null
 
   constructor(
-    private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
     private store: Store<appState>
@@ -32,6 +30,10 @@ export class OtpComponent implements OnInit, OnDestroy {
       }
     })
     this.clientMail = localStorage.getItem("clientMail")
+
+    console.log(this.clientMail)
+
+
     if (!this.clientMail) this.router.navigateByUrl('/home')
   }
 

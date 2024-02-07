@@ -4,8 +4,6 @@ import { Store } from "@ngrx/store";
 import { clientSignUp } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 import { FormsService } from 'src/app/shared/services/forms.service';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-signup',
@@ -18,10 +16,7 @@ export class ClientSignupComponent {
 
   constructor(
     private store: Store<appState>,
-    private formsService: FormsService,
-    private toastr: ToastrService,
-    private router: Router
-  ) {
+    private formsService: FormsService  ) {
 
     this.signUpForm = new FormGroup({
       fullName: new FormControl(null, [
