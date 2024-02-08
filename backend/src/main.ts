@@ -8,7 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
   app.setGlobalPrefix('api');
   app.use('/public', express.static(path.join(__dirname, '..', 'public')));
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:4200']      //only for angular port
+  });
 
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);

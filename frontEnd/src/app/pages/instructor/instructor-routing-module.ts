@@ -7,12 +7,12 @@ import { InstructorSignupComponent } from './instructor-signup/instructor-signup
 import { InstructorProfileComponent } from './instructor-profile/instructor-profile.component';
 import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
-import { instructorGuard } from 'src/app/shared/guards/instructor/instructor.guard';
-import { authGuard } from 'src/app/shared/guards/admin/auth.guard';
+import { instructorGuard } from 'src/app/shared/guards/instructor.guard';
+import { authGuard } from 'src/app/shared/guards/auth.guard';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
-import { formLeaveGuard } from 'src/app/shared/guards/instructor/form-leave.guard';
+import { formLeaveGuard } from 'src/app/shared/guards/form-leave.guard';
 
 
 const routes: Routes = [

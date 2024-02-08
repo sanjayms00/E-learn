@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Editor } from 'primeng/editor';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
+import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
 import { categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 import { environment } from 'src/environment/environment';

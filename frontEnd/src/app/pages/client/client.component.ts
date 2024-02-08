@@ -19,7 +19,7 @@ export class ClientComponent implements OnInit, DoCheck {
   courseSearch: string = ''
   showMenu = false;
   categories: categories[] = []
-  profileArr = ['profile', 'learning', 'certificates', 'communication']
+  profileArr = ['profile', 'learning', 'chat']
 
   constructor(
     private authService: AuthService,

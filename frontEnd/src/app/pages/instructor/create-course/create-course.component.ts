@@ -5,9 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
-
-
+import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
 
 @Component({
   selector: 'app-create-course',
