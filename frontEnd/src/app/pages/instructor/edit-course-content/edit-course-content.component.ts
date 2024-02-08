@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChapterInterface } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { IDeactivateComponent } from 'src/app/shared/guards/instructor/form-leave.guard';
+import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
