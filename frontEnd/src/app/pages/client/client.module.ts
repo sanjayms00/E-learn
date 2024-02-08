@@ -36,6 +36,7 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NotificationComponent } from './notification/notification.component';
 
 
 
@@ -61,7 +62,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SuccessComponent,
     ClientSearchBarComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    NotificationComponent
 
   ],
   imports: [

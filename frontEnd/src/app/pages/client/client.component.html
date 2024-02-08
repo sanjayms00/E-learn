@@ -12,7 +12,8 @@
 
     <!-- navbar -->
     <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/">Home</a>
+      <a class="mr-5 hover:text-gray-900 cursor-pointer" [routerLink]="['/home']"
+        routerLinkActive="border-b-2 border-b-gray-800 pb-2 ransition duration-200 ease-in-out">Home</a>
       <!-- Dropdown Container -->
       <!-- <div class="relative group z-40">
         <a class="mr-5 hover:text-gray-900 cursor-pointer">Category</a>
@@ -24,8 +25,14 @@
           </a>
         </div>
       </div> -->
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/instructor/login">Instructor</a>
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/learning">My learning</a>
+      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/instructor/login"
+        routerLinkActive="border-b-2 border-b-gray-800 pb-2 ransition duration-200 ease-in-out">Instructor</a>
+      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/learning"
+        routerLinkActive="border-b-2 border-b-gray-800 pb-2 ransition duration-200 ease-in-out">My learning</a>
+      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/notification"
+        routerLinkActive="border-b-2 border-b-gray-800 pb-2 ransition duration-200 ease-in-out">
+        <i class="pi pi-bell"></i>
+      </a>
       <button class="border-2 mx-3 text-white h-11 w-11 rounded-full hover:border-black" routerLink="/search">
         <svg class="w-4 h-4 text-black text-center mx-auto " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
           fill="none" viewBox="0 0 20 20">
