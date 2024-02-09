@@ -37,10 +37,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './notification/notification.component';
-
-
-
-
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -83,6 +80,7 @@ import { NotificationComponent } from './notification/notification.component';
     DialogModule,
     DropdownModule,
     NgxPaginationModule,
+    PickerComponent,
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 20,
