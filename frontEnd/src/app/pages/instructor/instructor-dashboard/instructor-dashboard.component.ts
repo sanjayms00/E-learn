@@ -11,8 +11,11 @@ import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard
 })
 export class InstructorDashboardComponent {
 
-    dashboard!: instructorDashboardInterface
-    rating!: number
+    dashboard: instructorDashboardInterface = {
+        courses: 0,
+        sold: 0,
+        rating: 0
+    }
 
     constructor(
         private toastr: ToastrService,
@@ -24,16 +27,15 @@ export class InstructorDashboardComponent {
         this.dashboardData()
     }
 
-
     //dahboard data on load
     dashboardData() {
         this.dashboardService.getDashboardData()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(
                 {
-                    next: (res) => {
+                    next: res => {
                         this.dashboard = res
-                        this.rating = Number(res.rating.toFixed(2))
+                        this.dashboard.rating = Number(res.rating.toFixed(2))
                     },
                     error: (err) => {
                         this.toastr.error(err.message)
@@ -41,7 +43,4 @@ export class InstructorDashboardComponent {
                 }
             )
     }
-
-
-
 }

@@ -7,9 +7,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import * as crypto from 'crypto';
-import ffmpeg from 'fluent-ffmpeg';
 import { SharpService } from 'nestjs-sharp';
-import { Readable } from 'stream';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 
 @Injectable()
 export class CourseService {
@@ -24,6 +23,7 @@ export class CourseService {
         @InjectModel(Course.name) private courseModel: Model<Course>,
         @InjectModel(Video.name) private videoModel: Model<Video>,
         private sharpService: SharpService,
+        private signedUrlService: SignedUrlService
     ) { }
 
     async compressImage(inputBuffer: Buffer): Promise<Buffer> {
@@ -342,13 +342,11 @@ export class CourseService {
                 )
             }
 
-            console.log(courseId)
-
             const instructorCourseContentData = await this.editCourseContent(courseId)
 
             if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
 
-            // console.log("Data is", instructorCourseContentData)
+            console.log(instructorCourseContentData)
 
             return instructorCourseContentData
 
@@ -436,7 +434,13 @@ export class CourseService {
         try {
             const objInstructorId = new Types.ObjectId(instructorId)
             const courses = await this.courseModel.find({ instructorId: objInstructorId }, { video: 0 })
-            return courses
+
+            const courseWithPreSignedUrls = await Promise.all(courses.map(async (item) => {
+                item.thumbnail = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+                return item
+            }));
+
+            return courseWithPreSignedUrls
         } catch (error) {
             console.error('Error in getInstructorCourse:', error);
             throw new Error(error);
@@ -491,7 +495,12 @@ export class CourseService {
 
             if (course.length < 1) throw new NotFoundException("Course not found");
 
-            return course[0]
+            const courseWithPreSignedUrls = await Promise.all(course.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+                return item
+            }));
+
+            return courseWithPreSignedUrls[0]
 
         } catch (error) {
             console.log(error.message)

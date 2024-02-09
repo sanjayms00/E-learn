@@ -18,6 +18,7 @@ import { InstructorMiddleware } from './middlewares/instructor.middleware';
 import { InstructorDashboardController } from './controllers/instructor-dashboard.controller';
 import { InstructorDashboardService } from './services/instructor-dashboard.service';
 import { SharpModule } from 'nestjs-sharp';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import { SharpModule } from 'nestjs-sharp';
     CourseService,
     instructorJwtStrategy,
     JwtService,
-    InstructorJwtAuthGuard
+    InstructorJwtAuthGuard,
+    SignedUrlService
   ],
   exports: [
     instructorJwtStrategy,

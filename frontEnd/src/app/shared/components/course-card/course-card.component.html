@@ -1,11 +1,11 @@
 <div [routerLink]="['/courses', 'details', course._id]"
-    class="border-2 border-gray-200 bg-white rounded-lg p-4 mb-8 relative overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg">
+    class="border-2 border-gray-200 bg-white rounded-lg p-4 mb-8 relative overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer">
 
     <!-- Course Thumbnail -->
-    <img [src]="url + course.thumbnail" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
+    <img [src]="course.signedUrl" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
 
     <!-- Course Name -->
-    <div class="flex justify-between items-center mb-2">
+    <div class="flex justify-between items-center mb-2 cursor-pointer">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ course.courseName | truncate:50 }}</h2>
     </div>
 
@@ -20,7 +20,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                 </path>
             </svg>
-            {{ course.students?.length }} Enrolled
+            {{ course.students.length }} Enrolled
         </p>
         <p class="text-md font-medium text-gray-600 dark:text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
@@ -43,7 +43,7 @@
                 d="M4 4a1 1 0 011-1h10a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm10 10a1 1 0 011 1H5a1 1 0 01-1-1v-4a1 1 0 011-1h10a1 1 0 011 1v4z"
                 clip-rule="evenodd" />
         </svg>
-        {{ course.courseLevel?.join(', ') }}
+        {{ course.courseLevel.join(', ') }}
     </p>
 
     <!-- Category Name -->

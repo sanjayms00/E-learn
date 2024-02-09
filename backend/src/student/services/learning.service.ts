@@ -5,6 +5,7 @@ import { Student } from '../schema/student.schema';
 import { Types } from 'mongoose';
 import { Video } from 'src/instructor/schema/video.schema';
 import { Course } from 'src/instructor/schema/course.schema';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class LearningService {
         @InjectModel(Student.name) private studentModel: Model<Student>,
         @InjectModel(Video.name) private videoModel: Model<Video>,
         @InjectModel(Course.name) private courseModel: Model<Course>,
+        private signedUrlService: SignedUrlService
     ) { }
 
     //get student course
@@ -69,10 +71,17 @@ export class LearningService {
                         'instructorName': { $arrayElemAt: ['$instructorData.fullName', 0] }
                     }
                 }
-            ])
-            return courses
+            ]);
+
+            const courseWithPresignedUrls = await Promise.all(courses.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.myCourses.thumbnail)
+                return item
+            }));
+
+            return courseWithPresignedUrls
+
         } catch (error) {
-            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new Error(error)
         }
     }
 
@@ -136,12 +145,19 @@ export class LearningService {
                 }
             ])
 
-            console.log(courseData)
-            if (!courseData) throw new NotFoundException();
+            if (courseData.length < 1) throw new NotFoundException();
 
-            console.log(studentData)
+            courseData[0].videoData = await Promise.all(courseData[0].videoData.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.file)
+                return item
+            }));
 
-            return { courseData, studentData }
+            console.log("courseData", courseData)
+
+            return {
+                courseData,
+                studentData
+            }
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
@@ -168,6 +184,8 @@ export class LearningService {
             const studentupdatedCourse = this.findStudentCourse(objStudentId, objCourseId)
 
             if (!studentupdatedCourse) throw new NotFoundException('Document not found or not updated.')
+
+            console.log(studentupdatedCourse)
 
             return studentupdatedCourse
         } catch (error) {

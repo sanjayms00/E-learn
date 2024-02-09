@@ -1,4 +1,6 @@
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- <pre> {{ streamData | json }}</pre> -->
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div class="md:col-span-2">
 
         <!-- video player compnent -->
@@ -53,7 +55,7 @@
                     </div>
                     <div>
                         <h2 class="text-md font-bold uppercase">
-                            {{ instructorData?.fullName }}
+                            {{ instructorData.fullName }}
                         </h2>
                         <h4 class="text-sm uppercase mt-2">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. qualification
@@ -137,7 +139,7 @@
             <ng-container *ngFor="let item of chapters; let i = index">
                 <p-accordionTab header="Chapter {{ i + 1 }}" class="cursor-pointer">
                     <h3 class="text-md uppercase pb-2 text-black font-semibold"
-                        (click)="changeActiveVideo(item.file, item.description, item.title, item._id)">
+                        (click)="changeActiveVideo(item.signedUrl, item.description, item.title, item._id)">
                         {{ item.title }}
                     </h3>
                     <p class="text-sm">
@@ -147,7 +149,7 @@
             </ng-container>
         </p-accordion>
     </div>
-</div>
+</section>
 
 
 <p-dialog [(visible)]="visible" [style]="{width: '50vw'}">

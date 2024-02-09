@@ -11,7 +11,6 @@ import { InstructorDashboardComponent } from './instructor-dashboard/instructor-
 import { CardModule } from 'primeng/card';
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
@@ -75,7 +74,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     InputMaskModule,
     NgxPaginationModule
   ],
-  providers: [CourseService]
+  providers: []
 })
 export class InstructorModule {
 

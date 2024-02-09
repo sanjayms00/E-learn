@@ -6,6 +6,8 @@ export interface CourseDetail {
     price: number;
     students: string[];
     thumbnail: string;
+    signedUrl: string;
+    signedTrailerUrl: string;
     trailer: string;
     videos?: string[];
     courseTags: string;
@@ -87,6 +89,8 @@ const emptyCourse: CourseDetail = {
     categoryName: '',
     ratingreview: [emptyRatingReview],
     videoData: [emptyVideoData],
+    signedUrl: "",
+    signedTrailerUrl: ""
 };
 
 export const initialCourseDetails: CourseDetail = { ...emptyCourse };

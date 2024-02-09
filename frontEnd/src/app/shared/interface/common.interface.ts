@@ -39,7 +39,7 @@ export interface Course {
     categoryId: string;
     price: number;
     students: string[];
-    // estimatedPrice: string;
+    signedUrl: string;
     thumbnail: string;
     trailer: string;
     videos?: string[];
@@ -95,6 +95,7 @@ export interface instructorCourse {
     price: string;
     categoryId: string;
     thumbnail: string;
+    signedUrl: string;
     trailer: string;
     instructorId: string;
     courseTags: string;

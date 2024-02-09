@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
+import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { environment } from 'src/environment/environment';
 
@@ -16,7 +16,8 @@ export class ClientHomeComponent implements OnInit, OnDestroy {
   url: string = environment.cloudFrontUrl;
 
   constructor(
-    private courseService: CourseService
+    private courseService: CourseService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -25,14 +26,17 @@ export class ClientHomeComponent implements OnInit, OnDestroy {
 
   getHomeCourse() {
     this.homeCourseSubscription = this.courseService.getHomeCourses()
-      .subscribe(res => {
-        this.homeCourses = res
+      .subscribe({
+        next: res => {
+          this.homeCourses = res
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
       })
   }
-
 
   ngOnDestroy(): void {
     this.homeCourseSubscription.unsubscribe()
   }
-
 }

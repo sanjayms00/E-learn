@@ -1,5 +1,3 @@
-<!-- <pre> {{ course | json }} </pre> -->
-
 <section class=" bg-gray-100 p-10">
     <form [formGroup]="course" (ngSubmit)="editCourseSubmit()">
         <div class="flex justify-between py-3 border-b-2 border-b-gray-300  items-end mb-4">
@@ -151,7 +149,7 @@
                         Thumbnail is required
                     </span>
                 </ng-container>
-                <img [src]="url" alt="thumbnail" #thumbnail>
+                <img [src]="courseData.signedUrl" alt="thumbnail" #thumbnail>
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

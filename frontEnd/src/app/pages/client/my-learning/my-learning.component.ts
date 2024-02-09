@@ -10,7 +10,7 @@ import { environment } from 'src/environment/environment';
 @Component({
   selector: 'app-my-learning',
   templateUrl: './my-learning.component.html',
-  styleUrls: ['/my-learning.component.css']
+  styleUrls: ['./my-learning.component.css']
 })
 export class MyLearningComponent implements OnInit {
 
@@ -93,18 +93,16 @@ export class MyLearningComponent implements OnInit {
 
 
   checkStudent(reviews: any) {
-    if (reviews.length < 1) return false
+    if (reviews.length < 1) {
+      return false
+    }
 
     const data = reviews.some((review: any) => review.studentId === this.studentId)
 
-    if (data) {
-      return true
-    } else {
+    if (!data) {
       return false
     }
+
+    return true
   }
-
-
-
-
 }

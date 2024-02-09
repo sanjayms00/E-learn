@@ -12,8 +12,6 @@ import { Student } from 'src/student/schema/student.schema';
 import Stripe from "stripe";
 import { ReviewRatingService } from './review-rating.service';
 
-
-
 @Injectable()
 export class StudentCourseService {
 
@@ -28,7 +26,8 @@ export class StudentCourseService {
         private readonly categoryModel: Model<Category>,
         @InjectModel(Student.name)
         private readonly studentModel: Model<Student>,
-        private reviewRatingService: ReviewRatingService
+        private reviewRatingService: ReviewRatingService,
+        private signedUrlService: SignedUrlService
 
     ) { }
 
@@ -74,90 +73,114 @@ export class StudentCourseService {
                     },
                 }
             ]);
-            return courses
+
+            const courseWithPresignedUrls = await Promise.all(courses.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+                return item
+            }));
+
+            return courseWithPresignedUrls
+
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
     //get limited courses for home
     async getLimitedCourse() {
-        const courses = await this.courseModel.aggregate([
-            {
-                $lookup: {
-                    from: 'instructors',
-                    localField: 'instructorId',
-                    foreignField: '_id',
-                    as: 'instructor',
+        try {
+            const courses = await this.courseModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'instructors',
+                        localField: 'instructorId',
+                        foreignField: '_id',
+                        as: 'instructor',
+                    },
                 },
-            },
-            {
-                $lookup: {
-                    from: 'categories',
-                    localField: 'categoryId',
-                    foreignField: '_id',
-                    as: 'categoryData',
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'categoryId',
+                        foreignField: '_id',
+                        as: 'categoryData',
+                    },
                 },
-            },
-            {
-                $project: {
-                    _id: 1,
-                    courseName: 1,
-                    price: 1,
-                    estimatedPrice: 1,
-                    students: 1,
-                    description: 1,
-                    coursetags: 1,
-                    videos: 1,
-                    courseLevel: 1,
-                    reviews: 1,
-                    thumbnail: 1,
-                    updatedAt: 1,
-                    instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
-                    categoryName: { $arrayElemAt: ['$categoryData.categoryName', 0] },
+                {
+                    $project: {
+                        _id: 1,
+                        courseName: 1,
+                        price: 1,
+                        estimatedPrice: 1,
+                        students: 1,
+                        description: 1,
+                        coursetags: 1,
+                        videos: 1,
+                        courseLevel: 1,
+                        reviews: 1,
+                        thumbnail: 1,
+                        updatedAt: 1,
+                        instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                        categoryName: { $arrayElemAt: ['$categoryData.categoryName', 0] },
+                    },
                 },
-            },
-            {
-                $limit: 9
-            }
-        ]);
+                {
+                    $limit: 9
+                }
+            ]);
 
-        console.log(courses)
+            const courseWithPresignedUrls = await Promise.all(courses.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+                return item
+            }));
 
-        return courses
+            return courseWithPresignedUrls
+        } catch (error) {
+            throw new Error(error)
+        }
     }
 
     //get searched courses
     async searchCourse(searchText: string) {
-        const regexPattern = new RegExp(searchText, 'i');
-        const result = await this.courseModel.aggregate([
-            {
-                $match: {
-                    courseName: { $regex: regexPattern }
+        try {
+            const regexPattern = new RegExp(searchText, 'i');
+            const result = await this.courseModel.aggregate([
+                {
+                    $match: {
+                        courseName: { $regex: regexPattern }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'instructors',
+                        localField: 'instructorId',
+                        foreignField: '_id',
+                        as: 'instructor',
+                    },
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        courseName: 1,
+                        price: 1,
+                        estimatedPrice: 1,
+                        thumbnail: 1,
+                        updatedAt: 1,
+                        instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
+                    },
                 }
-            },
-            {
-                $lookup: {
-                    from: 'instructors',
-                    localField: 'instructorId',
-                    foreignField: '_id',
-                    as: 'instructor',
-                },
-            },
-            {
-                $project: {
-                    _id: 1,
-                    courseName: 1,
-                    price: 1,
-                    estimatedPrice: 1,
-                    thumbnail: 1,
-                    updatedAt: 1,
-                    instructorName: { $arrayElemAt: ['$instructor.fullName', 0] },
-                },
-            }
-        ]);
+            ]);
 
-        return result
+            const courseWithPresignedUrls = await Promise.all(result.map(async (item) => {
+                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+                return item
+            }));
+
+            return courseWithPresignedUrls
+        } catch (error) {
+            throw new Error(error)
+        }
+
     }
 
     //get course details
@@ -221,10 +244,13 @@ export class StudentCourseService {
                 }
             ]);
 
-
             if (courses.length < 1) {
                 throw new NotFoundException('Course not found');
             }
+
+            courses[0].signedUrl = await this.signedUrlService.generateSignedUrl(courses[0].thumbnail)
+            courses[0].signedTrailerUrl = await this.signedUrlService.generateSignedUrl(courses[0].trailer)
+
             let ratingreview = []
             // check reviews if reviews get reviews
             if (courses[0].reviews && courses[0].reviews.length > 0) {
@@ -238,8 +264,7 @@ export class StudentCourseService {
             }
 
         } catch (error) {
-            console.log(error.message)
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -262,7 +287,9 @@ export class StudentCourseService {
     }
 
     //get filteredcourses
-    async getFilteredCourses(filterData) {
+    async getFilteredCourses(filterData ) {
+
+        console.log(filterData)
 
         const matchData = []
 
@@ -312,9 +339,12 @@ export class StudentCourseService {
             }
         ]);
 
-        return filterDataResult
+        const courseWithPresignedUrls = await Promise.all(filterDataResult.map(async (item) => {
+            item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail)
+            return item
+        }));
 
-
+        return courseWithPresignedUrls
     }
 
     //checkout

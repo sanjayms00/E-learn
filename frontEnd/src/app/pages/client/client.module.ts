@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ClientRoutingModule } from './client-routing-module';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientSignupComponent } from './client-signup/client-signup.component';
 import { ClientHomeComponent } from './client-home/client-home.component';
@@ -61,7 +59,6 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     NotificationComponent
-
   ],
   imports: [
     CommonModule,

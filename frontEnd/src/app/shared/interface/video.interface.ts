@@ -35,6 +35,7 @@ export interface VideoData {
   title: string;
   description: string;
   file: string;
+  signedUrl:string;
 }
 
 export interface InstructorData {
