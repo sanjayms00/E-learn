@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { InstructorModule } from './instructor/instructor.module';
 import { RouterModule } from '@nestjs/core';
+import { MessagesModule } from './messages/messages.module';
 
 
 
@@ -35,7 +36,8 @@ import { RouterModule } from '@nestjs/core';
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI)
+    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MessagesModule
   ],
   providers: [JwtService],
   controllers: [],
