@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +8,6 @@ import { CategoryService } from 'src/app/core/services/admin/category.service';
 import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
 import { categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
-import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-edit-course',
@@ -16,9 +15,7 @@ import { environment } from 'src/environment/environment';
 })
 export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
-  @ViewChild('previewImage') previewImage!: ElementRef<HTMLImageElement>;
   course: FormGroup;
-  url = environment.cloudFrontUrl
   categoryData!: categoryInterface[]
   imageType = ['image/png', 'image/jpeg']
   trailerTypes = ['video/mp4'];
@@ -27,6 +24,7 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   courseData!: instructorCourse
   id: string | null = ''
   activeVideo: string | null = null;
+
   @ViewChild('editor') editor!: Editor;
   @ViewChild('thumbnail') thumbnail!: ElementRef;
 
@@ -71,7 +69,6 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
           {
             next: (courseData) => {
               this.courseData = courseData
-
               this.course.patchValue({
                 courseName: courseData.courseName,
                 courseDescription: courseData.description,
@@ -87,23 +84,25 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
               this.formData.append('id', String(this.id));
               this.formData.append('oldImage', String(this.courseData.thumbnail));
               this.formData.append('oldTrailer', String(this.courseData.trailer));
-
-              this.url += this.courseData.thumbnail
             },
             error: err => {
               this.toastr.error("unable to show the course Data " + err,)
             }
-          }),
-        (error: any) => {
-          console.error('Error fetching course data:', error);
-        }
+          })
     }
   }
 
 
   getCategories() {
-    this.categoryService.getActiveCategories().subscribe(res => {
-      this.categoryData = res
+    this.categoryService.getActiveCategories()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: res => {
+        this.categoryData = res
+      },
+      error: err => {
+        this.toastr.error(err.message)
+      }
     })
   }
 
@@ -197,8 +196,6 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   courseLevelCheck(value: string) {
     return this.courseData && this.courseData.courseLevel && this.courseData.courseLevel.includes(value);
   }
-
-
-
+  
 }
 

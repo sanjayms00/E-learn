@@ -1,5 +1,3 @@
-<!-- {{ courseData | json}} -->
-
 <section class="bg-gray-100 p-10">
     <h1 class="text-xl font-bold uppercase border-b-2 border-b-gray-300 pb-2">
         Edit chapters
@@ -12,8 +10,6 @@
             <h2 class="font-semibold uppercase text-white">chapter {{ i+1 }}</h2>
         </div>
     </div>
-
-
 
     <p-dialog header="Update chapter" [(visible)]="visible" [position]="position" [style]="{ width: '40vw',  }"
         [closable]="false" [modal]="true">
@@ -142,8 +138,5 @@
 
 <!-- toast -->
 <div class="card flex justify-content-center gap-2">
-    <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
 </div>
-
-<!-- <pre>{{ course.value | json }}</pre> -->

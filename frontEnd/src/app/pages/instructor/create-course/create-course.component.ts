@@ -1,11 +1,12 @@
 import { CourseFormService } from 'src/app/shared/services/course-form.service';
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, DestroyRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { categoryInterface } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/core/services/admin/category.service';
 import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-create-course',
@@ -28,7 +29,8 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private destroyRef: DestroyRef
   ) {
 
     this.course = this.fb.group({
@@ -48,9 +50,16 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
 
   ngOnInit(): void {
     this.addfields();
-    this.categoryService.getActiveCategories().subscribe(res => {
-      this.categoryData = res
-    })
+    this.categoryService.getActiveCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.categoryData = res
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
+      })
   }
 
   get fields() {
@@ -69,6 +78,7 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
   createCourseSubmit() {
     if (this.course.valid) {
       this.submit = true
+
       // Append course information
       const formValue = this.course.getRawValue();
 
@@ -80,16 +90,18 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
         }
       });
 
-      this.courseFormService.createCourse(this.formData).subscribe({
-        next: res => {
-          console.log(res)
-          this.toastr.success('Course created')
-          this.router.navigateByUrl('instructor/courses')
-        },
-        error: err => {
-          this.toastr.error(err.message)
-        }
-      })
+      this.courseFormService.createCourse(this.formData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            console.log(res)
+            this.toastr.success('Course created')
+            this.router.navigateByUrl('instructor/courses')
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
     } else {
       this.toastr.error("Fill all fields")
     }

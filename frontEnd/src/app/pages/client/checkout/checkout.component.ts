@@ -1,19 +1,10 @@
 import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
-import { Course } from 'src/app/shared/interface/common.interface';
-
-import { StripeService } from 'ngx-stripe';
-import { HttpClient } from '@angular/common/http';
-import { loadStripe } from '@stripe/stripe-js';
-import { environment } from 'src/environment/environment';
+import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-
-
+import { CourseDetail } from 'src/app/shared/interface/courseDetails.interface';
 
 @Component({
   selector: 'app-checkout',
@@ -22,19 +13,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class CheckoutComponent implements OnInit, OnDestroy {
 
   id: string | null;
-  courseContent!: Course
+  courseContent!: CourseDetail
   courseSubscription!: Subscription
   isButtonClicked = false;
-  url = environment.cloudFrontUrl
-  //constructor
+
   constructor(
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private courseService: CourseService,
-    private http: HttpClient,
-    private stripeService: StripeService,
     private destroyRef: DestroyRef,
-    private router: Router
   ) {
     this.id = this.route.snapshot.paramMap.get('id')
   }
@@ -62,30 +49,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   paymentBtnClick() {
 
     this.isButtonClicked = true;
-    // this.courseService.checkout(this.courseContent).subscribe(res => {
-    //   console.log(res)
-    //   this.router.navigateByUrl('/learning')
-    // })
-    this.http.post(`${constant.baseUrl}/student/checkout`, {
-      course: this.courseContent
-    }).subscribe(async (res: any) => {
-      console.log("response", res)
-      console.log("response", res.id)
-      const stripe = await loadStripe(environment.stripe.publicKey);
-      stripe?.redirectToCheckout({
-        sessionId: res.id
-      })
-    })
+    this.courseService.checkout(this.courseContent)
   }
 
 
   ngOnDestroy(): void {
     this.courseSubscription.unsubscribe()
   }
-
-
-
-
-
 
 }

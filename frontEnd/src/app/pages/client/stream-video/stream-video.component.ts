@@ -20,7 +20,11 @@ export class StreamVideoComponent implements OnInit {
   videoId!: string;
   activeChapterData: string = ''
   activeChapterTitle: string = ''
-  instructorData!: InstructorData;
+  instructorData: InstructorData = {
+    fullName: '',
+    email: '',
+    mobile: 0
+  };
   progress: number = 0
   viewedChapters: string[] = []
   visible: boolean = false;
@@ -58,7 +62,6 @@ export class StreamVideoComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))   //for unsubscribing the observable
         .subscribe((res) => {
           this.streamData = res;
-          console.log(this.streamData)
           this.courseHeading = this.streamData.courseData[0].courseName
           this.courseDescription = this.streamData.courseData[0].description
           this.courseContent = this.streamData.courseData[0].description
@@ -72,7 +75,7 @@ export class StreamVideoComponent implements OnInit {
           this.activeVideoData = this.streamData.courseData[0].videoData.filter(
             (item) => item._id == this.videoId
           );
-          this.activeVideo = this.activeVideoData[0].file;
+          this.activeVideo = this.activeVideoData[0].signedUrl;
           this.activeVideoId = this.activeVideoData[0]._id;
           this.activeChapterData = this.activeVideoData[0].description;
           this.activeChapterTitle = this.activeVideoData[0].title;
@@ -94,7 +97,6 @@ export class StreamVideoComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: res => {
-          // console.log(res)
           this.viewedChapters = res.courses[0].watched;
           this.progress = this.learningService.findProgress(this.chapters.length, this.viewedChapters.length)
           if (this.progress >= 100) this.showDialog()

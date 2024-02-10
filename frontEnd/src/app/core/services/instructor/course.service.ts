@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
 import { Course } from 'src/app/shared/interface/common.interface';
+import { CourseDetail } from 'src/app/shared/interface/courseDetails.interface';
+import { loadStripe } from '@stripe/stripe-js';
+import { environment } from 'src/environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +33,25 @@ export class CourseService {
     return this.http.get<Course[]>(`${constant.baseUrl}/student/home-courses`)
   }
 
-  courseDetails(id: string): Observable<Course> {
-    return this.http.get<Course>(`${constant.baseUrl}/student/course-details/${id}`)
+  courseDetails(id: string): Observable<CourseDetail> {
+    return this.http.get<CourseDetail>(`${constant.baseUrl}/student/course-details/${id}`)
   }
 
-  checkout(data: Course) {
-    return this.http.post(`${constant.baseUrl}/student/checkout`, data)
+  checkout(courseContent: CourseDetail) {
+    this.http.post(`${constant.baseUrl}/student/checkout`, {
+      course: courseContent
+    }).subscribe(async (res: any) => {
+      console.log("response", res)
+      console.log("response", res.id)
+      const stripe = await loadStripe(environment.stripe.publicKey);
+      stripe?.redirectToCheckout({
+        sessionId: res.id
+      })
+    })
   }
 
   //delete Course
-  deleteCourse(courseId: string) {
+  deleteCourse(courseId: string): Observable<Course[]> {
     return this.http.delete<Course[]>(`${constant.baseUrl}/instructor/delete-course/${courseId}`)
   }
 

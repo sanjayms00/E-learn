@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-edit-course-content',
   templateUrl: './edit-course-content.component.html',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService]
 })
 export class EditCourseContentComponent implements OnInit, IDeactivateComponent {
 
@@ -53,23 +53,30 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.addfields()
-    if (this.id) {
-      this.courseFormService.editCourseContentData(this.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((res) => {
-          this.courseData = res[0].videos
-          console.log(this.courseData)
-          this.formData.append('courseId', String(this.id))
-        })
-    }
   }
 
 
   ///////////////////// methods ////////////////////////////////////
 
+
+  getcourseContent() {
+    if (this.id) {
+      this.courseFormService.editCourseContentData(this.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.courseData = res[0].videos
+            this.formData.append('courseId', String(this.id))
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
+    }
+  }
+
   //update chapter
   updateChapter() {
-
     if (!this.data.title.trim()) {
       this.toastr.error("Title is required")
       return
@@ -87,13 +94,17 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     this.closeDialog()
     this.courseFormService.updateCourseChapter(this.formData)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((res: any) => {
-        this.submit = false
-        this.courseData = res[0].videos
-        this.formData = new FormData();
-        this.formData.append('courseId', String(this.id))
-        // this.closeDialog()
-        this.toastr.success("chapter Updated")
+      .subscribe({
+        next: (res: any) => {
+          this.submit = false
+          this.courseData = res[0].videos
+          this.formData = new FormData();
+          this.formData.append('courseId', String(this.id))
+          this.toastr.success("chapter Updated")
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
       })
   }
 

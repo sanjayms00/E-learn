@@ -5,7 +5,6 @@
         routerLink="/search">Browse courses</button>
 </div>
 
-
 <section class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-10">
     <!-- card -->
     <ng-container *ngFor="let course of myCourse">
@@ -13,8 +12,7 @@
             class="shadow-xl border cursor-pointer border-gray-300 rounded-xl p-4 relative overflow-hidden transition-transform transform hover:scale-105">
 
             <!-- Image -->
-            <img src="{{ url+course.myCourses.thumbnail }}" alt="Course Thumbnail"
-                class="w-full h-32 object-cover mb-4 rounded-md">
+            <img src="{{ course.signedUrl }}" alt="Course Thumbnail" class="w-full h-32 object-cover mb-4 rounded-md">
 
             <div class="w-full h-full block">
                 <div class="flex items-center border-b-2 mb-2 py-2">

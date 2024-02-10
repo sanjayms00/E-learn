@@ -23,4 +23,5 @@ export interface myLearning {
   progress: number;
   watched: string[];
   instructorName: string;
+  signedUrl: string;
 }

@@ -7,7 +7,6 @@
                 <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length > 0">
                     <p-rating [(ngModel)]="averageRating" [readonly]="true" [cancel]="false"
                         class="star-rating"></p-rating>
-                    <!-- <span>{{ averageRating }}</span> -->
                 </ng-container>
                 <ng-container *ngIf="courseDetails.reviews">
                     <span>{{ courseDetails.reviews.length || 0 }} reviews </span>
@@ -30,8 +29,7 @@
         </div>
         <div class="border-b-4 border-b-black pt-3">
             <div class="relative min-h-28" (click)="showDialog()">
-                <img [src]="url + courseDetails.thumbnail" alt="course image"
-                    class="w-full h-full object-cover rounded-md">
+                <img [src]="courseDetails.signedUrl" alt="course image" class="w-full h-full object-cover rounded-md">
 
                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <!-- Play Button -->
@@ -187,7 +185,7 @@
                 <span class="font-bold white-space-nowrap">{{ courseDetails.courseName }}</span>
             </div>
         </ng-template>
-        <app-video-player [videoUrl]="activeVideo"></app-video-player>
+        <app-video-player [videoUrl]="courseDetails.signedTrailerUrl"></app-video-player>
         <p class="my-5">
             {{ courseDetails.description }}
         </p>

@@ -1,7 +1,6 @@
-import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
 import { Course } from 'src/app/shared/interface/common.interface';
 import { FilterService } from 'src/app/shared/services/filter.service';
 

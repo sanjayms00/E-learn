@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Store } from '@ngrx/store';
 import { adminLogin } from 'src/app/shared/store/actions/admin.action';
 import { NavBarService } from 'src/app/shared/services/nav-bar.service';
-import { SignUpInterface, loginInterface } from 'src/app/shared/interface/common.interface';
 import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({

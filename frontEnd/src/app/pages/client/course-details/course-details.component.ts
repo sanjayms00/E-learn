@@ -1,23 +1,21 @@
 import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
+import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { CourseDetail, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
-import { environment } from 'src/environment/environment';
+
 
 @Component({
   selector: 'app-course-details',
   templateUrl: './course-details.component.html',
-  styleUrls: ['/course-details.component.css']
+  styleUrls: ['./course-details.component.css']
 })
 export class CourseDetailsComponent implements OnInit {
 
   student: any;
   visible: boolean = false;
-  activeVideo: string | null = null;
-  url = environment.cloudFrontUrl
   courseDetails: CourseDetail = initialCourseDetails;
   averageRating: number = 0
   individualStars = new Map()
@@ -59,12 +57,10 @@ export class CourseDetailsComponent implements OnInit {
         {
           next: res => {
             this.courseDetails = res
-            // console.log(this.courseDetails.categoryName)
-            this.activeVideo = this.courseDetails.trailer
             this.calculateRating()
           },
-          error: err => {
-            this.toastr.error(err)
+          error: (err: any) => {
+            this.toastr.error(err.message)
           }
         })
   }

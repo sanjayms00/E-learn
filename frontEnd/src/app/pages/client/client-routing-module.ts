@@ -57,6 +57,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class ClientRoutingModule { }
-
-
-// https://www.udemy.com/course/javascript-based-website-in-minutes-using-the-mean-stack/learn/lecture/2802038#overview

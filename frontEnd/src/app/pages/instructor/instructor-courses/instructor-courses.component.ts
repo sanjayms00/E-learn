@@ -1,28 +1,27 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { constant } from 'src/app/core/constant/constant';
-import { CourseService } from 'src/app/core/services/instructor/CourseService';
+import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
+import { CourseService } from 'src/app/core/services/instructor/course.service';
 import { Course } from 'src/app/shared/interface/common.interface';
-import { environment } from 'src/environment/environment';
-import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
   selector: 'app-instructor-courses',
   templateUrl: './instructor-courses.component.html',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService]
 })
-export class InstructorCoursesComponent implements OnInit, OnDestroy {
+export class InstructorCoursesComponent implements OnInit {
 
   courses: Course[] = []
-  coursesSubscription!: Subscription
-  url = environment.cloudFrontUrl
   p: number = 1;
 
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private toastr: ToastrService,
+    private destroyRef: DestroyRef
   ) { }
 
 
@@ -31,18 +30,26 @@ export class InstructorCoursesComponent implements OnInit, OnDestroy {
   }
 
   instructorCourse() {
-    this.coursesSubscription = this.courseService.getInstructorCourse().subscribe((res: any) => {
-      this.courses = res
-    })
+    this.courseService.getInstructorCourse()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res) => {
+        this.courses = res
+      })
   }
 
   //delete course
   deleteCourse(courseId: string) {
-    this.coursesSubscription = this.courseService.deleteCourse(courseId).subscribe((res) => {
-      this.courses = res
-      // console.log(res)
-      this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
-    })
+    this.courseService.deleteCourse(courseId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.courses = res
+          this.toastr.success("Record deleted")
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
+      })
   }
 
   //popup delete confirmation
@@ -61,7 +68,7 @@ export class InstructorCoursesComponent implements OnInit, OnDestroy {
         this.deleteCourse(courseId)
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        this.toastr.error("You have rejected")
       }
     });
   }
@@ -69,10 +76,4 @@ export class InstructorCoursesComponent implements OnInit, OnDestroy {
   courseTrackBy(index: number, course: Course) {
     return course._id;
   }
-
-
-  ngOnDestroy(): void {
-    this.coursesSubscription.unsubscribe()
-  }
-
 }
