@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { graphDataInterface } from '../../interface/admin.interface';
 
 @Component({
   selector: 'app-graph',
@@ -7,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class GraphComponent implements OnInit {
   data: any;
   options: any;
+  @Input() graphData!: graphDataInterface[] | undefined
 
   ngOnInit(): void {
     this.menuConfig()
   }
-
 
   //menu config data
   menuConfig() {
@@ -20,8 +21,11 @@ export class GraphComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+
+
+
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.getLabels(),
       datasets: [
         {
           type: 'line',
@@ -30,22 +34,22 @@ export class GraphComponent implements OnInit {
           borderWidth: 2,
           fill: false,
           tension: 0.4,
-          data: [50, 25, 12, 48, 56, 76, 42]
+          data: this.getData()
         },
-        {
-          type: 'bar',
-          label: 'Dataset 2',
-          backgroundColor: documentStyle.getPropertyValue('--red-300'),
-          data: [21, 84, 24, 75, 37, 65, 34],
-          borderColor: 'white',
-          borderWidth: 2
-        },
-        {
-          type: 'bar',
-          label: 'Dataset 3',
-          backgroundColor: documentStyle.getPropertyValue('--pink-300'),
-          data: [41, 52, 24, 74, 23, 21, 32]
-        }
+        // {
+        //   type: 'bar',
+        //   label: 'Dataset 2',
+        //   backgroundColor: documentStyle.getPropertyValue('--red-300'),
+        //   data: [21, 84, 24, 75, 37, 65, 34],
+        //   borderColor: 'white',
+        //   borderWidth: 2
+        // },
+        // {
+        //   type: 'bar',
+        //   label: 'Dataset 3',
+        //   backgroundColor: documentStyle.getPropertyValue('--pink-300'),
+        //   data: [41, 52, 24, 74, 23, 21, 32]
+        // }
       ]
     };
 
@@ -79,6 +83,19 @@ export class GraphComponent implements OnInit {
       }
     };
   }
+
+
+  getLabels() {
+    return this.graphData?.map(item => item._id)
+  }
+
+
+  getData() {
+    return this.graphData?.map(item => item.count)
+  }
+
+
+
 
 
 }

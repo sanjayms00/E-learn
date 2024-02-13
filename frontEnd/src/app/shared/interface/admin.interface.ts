@@ -17,3 +17,19 @@ export interface statusInterface {
         id: string,
         status: boolean
 }
+
+export interface dashboardResponse {
+        student: countInterface[],
+        instructor: countInterface[],
+        graph: graphDataInterface[]
+}
+
+export interface graphDataInterface {
+        _id: Date,
+        count: number
+}
+
+export interface countInterface {
+        _id: boolean,
+        count: number
+}

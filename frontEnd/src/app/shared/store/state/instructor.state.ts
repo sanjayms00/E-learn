@@ -8,6 +8,14 @@ export const instructorState: instructorStateInterface = {
         status: false,
         mobile: '',
         createdAt: new Date,
-        updatedAt: new Date
+        updatedAt: new Date,
+        headline: "",
+        biography: "",
+        twitter: "",
+        facebook: "",
+        instagram: "",
+        linkedin: "",
+        website: "",
+        image: ""
     }   
 }

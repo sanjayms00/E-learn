@@ -73,7 +73,8 @@
                     <p *ngIf="courseDetails.reviews.length < 1">No reviews to show</p>
                 </ng-container>
                 <ng-container *ngIf="courseDetails.ratingreview">
-                    <ng-container *ngFor="let review of courseDetails.ratingreview">
+                    <ng-container
+                        *ngFor="let review of courseDetails.ratingreview | paginate: { itemsPerPage: 3, currentPage: p };">
                         <article
                             class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900 my-5">
                             <div class="flex justify-between items-center my-2">
@@ -136,6 +137,9 @@
                             </div> -->
                         </article>
                     </ng-container>
+                    <div class="flex justify-center pt-5">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
                 </ng-container>
             </div>
         </div>

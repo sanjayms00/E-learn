@@ -29,7 +29,8 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let instructor of instructorList; let i=index">
+            <ng-container
+                *ngFor="let instructor of instructorList | paginate: { itemsPerPage: 10, currentPage: p }; let i=index">
                 <tr class="bg-white border-b dark:bg-gray-50 dark:border-gray-700  text-gray-900 ">
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
@@ -64,4 +65,7 @@
             </ng-container>
         </tbody>
     </table>
+    <div class="flex justify-end pt-5">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
 </div>

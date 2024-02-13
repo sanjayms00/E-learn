@@ -16,6 +16,7 @@ export class StudentListComponent implements OnInit {
 
   studentList !: studentInterface[];
   searchText = ''
+  p: number = 1;
 
 
   constructor(

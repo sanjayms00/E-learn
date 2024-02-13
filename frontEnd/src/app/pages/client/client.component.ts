@@ -1,9 +1,8 @@
-import { Component, DestroyRef, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, DoCheck, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { categories } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/shared/services/category.service';

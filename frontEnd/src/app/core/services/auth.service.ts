@@ -94,8 +94,8 @@ export class AuthService {
   }
 
   //forgot password
-  forgotPassword(email: string) {
-    return this.http.post<{ status: HttpStatusCode }>(`${constant.baseUrl}/student/auth/forgotPassword`, { email })
+  forgotPassword(email: string): Observable<{ status: boolean, message: string }> {
+    return this.http.post<{ status: boolean, message: string }>(`${constant.baseUrl}/student/auth/forgotPassword`, { email })
   }
 
   //reset password

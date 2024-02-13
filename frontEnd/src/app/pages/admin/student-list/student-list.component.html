@@ -11,6 +11,9 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+                <th scope="col">
+                    no.
+                </th>
                 <th scope="col" class="px-6 py-3">
                     Full Name
                 </th>
@@ -29,10 +32,13 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let student of studentList; let i=index">
-                <tr class="bg-white border-b dark:bg-gray-50 dark:border-gray-700  text-gray-900 ">
+            <ng-container
+                *ngFor="let student of studentList | paginate: { itemsPerPage: 10, currentPage: p }; let i=index">
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
+                    <th scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ (p - 1) * 8 + i + 1 }}
+                    </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ student.fullName }}
                     </th>
@@ -64,4 +70,7 @@
             </ng-container>
         </tbody>
     </table>
+    <div class="flex justify-end pt-5">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
 </div>

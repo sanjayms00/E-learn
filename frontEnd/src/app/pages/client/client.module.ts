@@ -36,6 +36,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './notification/notification.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 
 @NgModule({
   declarations: [
@@ -78,6 +80,7 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     DropdownModule,
     NgxPaginationModule,
     PickerComponent,
+    ImageCropperModule,
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 20,

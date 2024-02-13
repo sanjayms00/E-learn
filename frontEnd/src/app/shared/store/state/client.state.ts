@@ -2,13 +2,14 @@ import { clientStateInterface } from "../../interface/client.interface";
 
 
 export const clientState: clientStateInterface = {
-    user : {
+    user: {
         _id: '',
         fullName: '',
         email: '',
+        image: '',
         status: false,
-        mobile: 0,
+        mobile: '',
         createdAt: new Date,
         updatedAt: new Date
-    }   
+    }
 }

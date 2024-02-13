@@ -15,7 +15,7 @@ export class Student extends Document {
   email: string;
 
   @Prop({ required: true })
-  mobile: number;
+  mobile: string;
 
   @Prop({
     type: [{
@@ -32,6 +32,30 @@ export class Student extends Document {
 
   @Prop({ required: true })
   status: boolean;
+
+  @Prop()
+  headline: string;
+
+  @Prop()
+  biography: string;
+
+  @Prop()
+  twitter: string;
+
+  @Prop()
+  facebook: string;
+
+  @Prop()
+  instagram: string;
+
+  @Prop()
+  linkedin: string;
+
+  @Prop()
+  website: string;
+
+  @Prop()
+  image: string;
 
   @Prop()
   otp: number;

@@ -21,10 +21,10 @@ export class ChatService {
   }
 
 
-  getClientName() {
+  getClientData() {
     const clientData = localStorage.getItem('clientData')
     if (clientData) {
-      return JSON.parse(clientData).fullName
+      return JSON.parse(clientData)
     }
     this.authService.clientLogout()
   }

@@ -170,12 +170,17 @@ export class StudentAuthService {
       //send mail
       const url = `http://localhost:4200/reset-password/${token}`;
 
-      await this.mailerlService.sendMail({
+      const emailSent = await this.mailerlService.sendMail({
         to: email,
         subject: 'Welcome to E-learn! Reset your password',
         html: `<p>Hello ${student.fullName},</p> <p>Welcome to Nice App! Please click the following link to reset your password:</p> <a href="${url}" target="_blank">Reset Password</a>
         `,
       });
+
+      if (!emailSent) throw new Error("email not send")
+
+      return {status : true , message : "mail sent successfully"} 
+
     } catch (error) {
       throw new HttpException("Mail not sent successfully", HttpStatus.INTERNAL_SERVER_ERROR)
     }

@@ -25,13 +25,13 @@ import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { DashboardBoxComponent } from 'src/app/shared/components/dashboard-box/dashboard-box.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -46,8 +46,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     EditCourseComponent,
     CreateCourseComponent,
     EditCourseContentComponent,
-    NumericDirective,
-    DashboardBoxComponent
+    NumericDirective
 
   ],
   imports: [
@@ -72,7 +71,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     InputTextareaModule,
     EditorModule,
     InputMaskModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ImageCropperModule
   ],
   providers: []
 })

@@ -8,8 +8,6 @@ import { InstructorModule } from './instructor/instructor.module';
 import { RouterModule } from '@nestjs/core';
 import { MessagesModule } from './messages/messages.module';
 
-
-
 @Module({
   imports: [
     StudentModule,

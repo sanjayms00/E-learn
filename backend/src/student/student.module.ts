@@ -6,7 +6,6 @@ import { StudentAuthController } from './controllers/student_auth.controller';
 import { StudentAuthService } from './services/student-auth.service';
 import { StudentJwtStrategy } from './strategy/studentJwt.strategy';
 import { studentSchema } from './schema/student.schema';
-import { ProfileController } from './controllers/profile.controller';
 import { StudentCourseController } from './controllers/student-course.controller';
 import { StudentCourseService } from './services/student-course.service';
 import { courseSchema } from 'src/instructor/schema/course.schema';
@@ -22,12 +21,15 @@ import { LearningService } from './services/learning.service';
 import { VideoSchema } from 'src/instructor/schema/video.schema';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { tokenSchema } from './schema/token.schema';
 import { StudentMiddleware } from './middlewares/student.middleware';
 import { ReviewRatingController } from './controllers/review-rating.controller';
 import { ReviewRatingService } from './services/review-rating.service';
 import { RatingReviewSchema } from './schema/ratingReview.schema';
+import { StudentProfileService } from './services/student-profile.service';
+import { StudentProfileController } from './controllers/student-profile.controller';
+import { SharpService } from 'nestjs-sharp';
 
 
 @Module({
@@ -72,7 +74,7 @@ import { RatingReviewSchema } from './schema/ratingReview.schema';
   ],
   controllers: [
     StudentAuthController,
-    ProfileController,
+    StudentProfileController,
     StudentCourseController,
     CategoryController,
     LearningController,
@@ -82,14 +84,20 @@ import { RatingReviewSchema } from './schema/ratingReview.schema';
     StudentAuthService,
     StudentJwtStrategy,
     StudentCourseService,
+    StudentProfileService,
     JwtService,
     studentJwtAuthGuard,
     CategoryService,
     SignedUrlService,
     LearningService,
-    ReviewRatingService
+    ReviewRatingService,
+    SharpService
   ],
-  exports: [StudentJwtStrategy, PassportModule, studentJwtAuthGuard],
+  exports: [
+    StudentJwtStrategy,
+    PassportModule,
+    studentJwtAuthGuard
+  ],
 })
 export class StudentModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -104,7 +112,7 @@ export class StudentModule implements NestModule {
         { path: 'student/instructors', method: RequestMethod.ALL },
       )
       .forRoutes(
-        ProfileController,
+        StudentProfileController,
         StudentCourseController,
         LearningController
       );

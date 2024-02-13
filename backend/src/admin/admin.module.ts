@@ -14,12 +14,15 @@ import { instructorSchema } from 'src/instructor/schema/instructor.schema';
 import { CategorySchema } from './schema/category.schema';
 import { CategoryController } from './controllers/category.controller';
 import { CategoryService } from '../common/service/category.service';
+import { AdminDashBoardController } from './controllers/admin-dash-board.controller';
+import { AdminDashBoardService } from './services/admin-dash-board.service';
 
 @Module({
   controllers: [
     AdminAuthController,
     ClientManagementController,
-    CategoryController
+    CategoryController,
+    AdminDashBoardController
   ],
   imports: [
     PassportModule.register({ defaultStrategy: 'admin-jwt' }),
@@ -39,7 +42,8 @@ import { CategoryService } from '../common/service/category.service';
     AdminJwtAuthGuard,
     ClientService,
     CategoryService,
-    JwtService
+    JwtService,
+    AdminDashBoardService
   ],
   exports: [
     AdminAuthService,

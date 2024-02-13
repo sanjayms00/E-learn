@@ -28,7 +28,9 @@ const routes: Routes = [
       { path: 'home', component: ClientHomeComponent },
       { path: 'signup', component: ClientSignupComponent, canActivate: [authGuard] },
       { path: 'login', component: ClientLoginComponent, canActivate: [authGuard] },
-      { path: 'otp', component: OtpComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard] },
+      { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [authGuard] },
+      { path: 'otp', component: OtpComponent, canActivate: [authGuard] },
       { path: 'search', component: SearchComponent },
       { path: 'courses', component: SearchComponent },
       {
@@ -45,9 +47,8 @@ const routes: Routes = [
       { path: 'profile', component: StudentInfoComponent, canActivate: [clientGuard] },
       { path: 'learning', component: MyLearningComponent, canActivate: [clientGuard] },
       { path: 'chat', component: ChatComponent, canActivate: [clientGuard] },
+      { path: 'chat/:id', component: ChatComponent, canActivate: [clientGuard] },
       { path: 'notification', component: NotificationComponent, canActivate: [clientGuard] },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'reset-password/:token', component: ResetPasswordComponent },
     ]
   }
 ];

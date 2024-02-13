@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { CourseDetail, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
+import { CourseDetail, RatingReview, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class CourseDetailsComponent implements OnInit {
   courseDetails: CourseDetail = initialCourseDetails;
   averageRating: number = 0
   individualStars = new Map()
+  p: number = 1;
 
   @ViewChild('trailerVideo') trailerVideo!: ElementRef
 
@@ -91,8 +92,6 @@ export class CourseDetailsComponent implements OnInit {
 
     this.averageRating = totalRating / noOfReviews
   }
-
-
 
 
 }

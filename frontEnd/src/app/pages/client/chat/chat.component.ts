@@ -1,7 +1,9 @@
 import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { io } from 'socket.io-client';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ChatService } from 'src/app/core/services/client/chat.service';
+import { CreateMessage, studentChatList } from 'src/app/shared/interface/chat.interface';
 
 @Component({
   selector: 'app-chat',
@@ -10,7 +12,7 @@ import { ChatService } from 'src/app/core/services/client/chat.service';
 })
 export class ChatComponent implements OnInit {
 
-  textArea: string = '';
+  message: string = '';
   isEmojiPickerVisible!: boolean;
   @ViewChild('messages', { static: false }) messagesElement!: ElementRef
   socket = io('http://localhost:3000')
@@ -20,18 +22,25 @@ export class ChatComponent implements OnInit {
   joined = false
   typigDisplay = ''
   timeout!: any
+  instructors!: studentChatList[]
+  noProfile = 'assets/images/no-profile.jpg'
+
 
   constructor(
     private chatService: ChatService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.client = this.chatService.getClientName()
+    this.client = this.chatService.getClientData()
+
+    const studentId = this.client._id
+    const studentName = this.client.fullName
 
     this.name = this.client.fullName
     console.log(this.name)
-    this.socket.emit('findAllMessages', {}, (res: any) => {
-      this.messages = res
+    this.socket.emit('findAllInstructors', { studentId }, (res: any) => {
+      this.instructors = res
     })
 
     this.socket.on('typing', ({ name, isTyping }) => {
@@ -45,10 +54,13 @@ export class ChatComponent implements OnInit {
     this.socket.on('messages', (message: any) => {
       this.messages.push(message)
     })
-
-
   }
 
+
+  openChat(instructorId: string) {
+    console.log(instructorId)
+    this.router.navigate(['/chat', instructorId])
+  }
 
   join() {
     this.socket.emit('join', { name: this.name }, () => {
@@ -64,15 +76,22 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    if (this.textArea !== '') {
-      this.socket.emit('createMessage', { text: this.textArea }, (res: any) => {
-        this.textArea = ''
+    if (this.message !== '') {
+
+      const createMessage: CreateMessage = {
+        sender: '',
+        content: this.message,
+        chat: ''
+      }
+
+      this.socket.emit('createMessage', createMessage, (res: any) => {
+        this.message = ''
       })
     }
   }
 
   addEmoji(event: any) {
-    this.textArea = `${this.textArea}${event.emoji.native}`;
+    this.message = `${this.message}${event.emoji.native}`;
     this.isEmojiPickerVisible = false;
   }
 

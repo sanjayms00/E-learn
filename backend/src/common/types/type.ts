@@ -13,11 +13,19 @@ export type loginType = {
 
 
 export type userReturnType = {
-    _id: number,
-    fullName: string,
+    _id: string,
+    fullName: string
     email: string,
-    status: boolean,
-    mobile: number
+    headline: string,
+    biography: string,
+    twitter: string,
+    facebook: string,
+    instagram: string,
+    linkedin: string,
+    website: string,
+    image: string,
+    mobile: string,
+    status: boolean
 }
 
 export type userAuthReturn = {
@@ -35,5 +43,5 @@ export type videoType = {
     file: string,
     createdAt: Date,
     updatedAt: Date,
-    videoUrl ?: string
+    videoUrl?: string
 }

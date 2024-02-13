@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -10,21 +11,27 @@ export class ForgotPasswordComponent {
 
   toastr = inject(ToastrService)
   authservice = inject(AuthService)
-
   email: string = ''
+
+  constructor(
+    private destroyRef: DestroyRef
+  ) { }
 
   forgotPassword() {
     if (this.email.trim()) {
-      this.authservice.forgotPassword(this.email).subscribe(res => {
-        console.log(res)
-        this.toastr.success("Reset password mail send")
-      })
-      
+      this.authservice.forgotPassword(this.email)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.toastr.success("Reset password mail send")
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
+        })
+
     } else {
-      this.toastr.error("email required")
+      this.toastr.error("Email required")
     }
   }
-
-
-
 }

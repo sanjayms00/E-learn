@@ -16,7 +16,8 @@ export interface studentInterface {
     _id: string,
     fullName: string
     email: string,
-    mobile: number,
+    image: string,
+    mobile: string,
     status: boolean,
     createdAt: Date
     updatedAt: Date
@@ -24,8 +25,16 @@ export interface studentInterface {
 
 export interface instructorInterface {
     _id: string,
-    fullName: string,
+    fullName: string
     email: string,
+    headline: string,
+    biography: string,
+    twitter: string,
+    facebook: string,
+    instagram: string,
+    linkedin: string,
+    website: string,
+    image: string,
     mobile: string,
     status: boolean,
     createdAt: Date

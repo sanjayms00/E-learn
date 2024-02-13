@@ -105,22 +105,110 @@
             </div>
         </div>
     </div>
+</section>
 
-    <div class="card flex justify-content-center">
+
+<div class="card flex justify-content-center">
+    <form [formGroup]="profileForm" (ngSubmit)="profileUpdate()">
         <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
             <ng-template pTemplate="header">
                 <div class="inline-flex align-items-center justify-content-center gap-2">
-                    <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
                     <span class="font-bold white-space-nowrap">Add Profile Details</span>
                 </div>
             </ng-template>
-
+            <ng-container>
+                <div class="mb-6">
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
+                        name</label>
+                    <input type="text" id="first_name" formControlName="fullName"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="student" required>
+                </div>
+                <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label for="mobile"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mobile</label>
+                        <input type="text" id="mobile" formControlName="mobile"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="**********" required>
+                    </div>
+                    <div>
+                        <label for="email"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" id="email" formControlName="email"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="student.@gmail.com" required>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="headline"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Headline</label>
+                    <input type="text" id="headline" formControlName="headline"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="senior software developer" required>
+                </div>
+                <div class="mb-6">
+                    <label for="biography"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
+                    <textarea id="biography" cols="30" rows="10" placeholder="biography" formControlName="biography"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required></textarea>
+                </div>
+                <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label for="linkedin"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Linkedin</label>
+                        <input type="text" id="linkedin" formControlName="linkedin"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="https://...." required>
+                    </div>
+                    <div>
+                        <label for="twitter"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twitter</label>
+                        <input type="text" id="twitter" formControlName="twitter"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="https://..." required>
+                    </div>
+                    <div>
+                        <label for="facebook"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facebook</label>
+                        <input type="text" id="facebook" formControlName="facebook"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="https://..." required>
+                    </div>
+                    <div>
+                        <label for="instagram"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instagram</label>
+                        <input type="text" id="instagram" formControlName="instagram"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="https://..." required>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="website"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website</label>
+                    <input type="text" id="website" formControlName="website"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="https://..." required>
+                </div>
+                <div class="mb-6">
+                    <label for="profile_Image"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile image</label>
+                    <input type="file" (change)="fileChangeEvent($event)" />
+                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+                            (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                            (loadImageFailed)="loadImageFailed()"></image-cropper>
+                        <img [src]="croppedImage" />
+                    </div>
+                </div>
+            </ng-container>
             <ng-template pTemplate="footer">
-                <p-button icon="pi pi-check" (click)="visible = false" label="Ok" pAutoFocus
-                    [autofocus]="true"></p-button>
+                <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
             </ng-template>
-
         </p-dialog>
-    </div>
-</section>
+    </form>
+</div>

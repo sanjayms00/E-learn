@@ -14,6 +14,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
 export class InstructorListComponent implements OnInit {
 
   instructorList: instructorInterface[] = []
+  p: number = 1;
 
   constructor(
     private store: Store<appState>
