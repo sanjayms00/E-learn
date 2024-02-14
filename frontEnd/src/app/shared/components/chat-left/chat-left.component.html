@@ -1,0 +1,43 @@
+<div class="mx-3 my-3">
+    <div class="text-gray-600">
+        <input type="search" [(ngModel)]="search" (ngModelChange)="onChange($event)"
+            class="block w-full py-2 bg-gray-100 rounded outline-none" name="search" placeholder="Search" required />
+        <div *ngIf="suggestion">
+            <ul>
+                <li *ngFor="let result of searchResult" (click)="openChat(result.id)">{{ result.fullName }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <ul class="overflow-auto h-[32rem]">
+        <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+        <li>
+            <ng-container *ngFor="let item of chats">
+                <a (click)="loadmessages(item._id)"
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                    <img class="object-cover w-10 h-10 rounded-full" [src]="noProfile" alt="username" />
+                    <div class="w-full pb-2">
+                        <div class="flex justify-between">
+                            <ng-container *ngIf="role == 'student'; else elseBlock">
+                                <span class="block ml-2 font-semibold text-gray-600">
+                                    <!-- {{ item | json}} -->
+                                    {{ item.instructor.fullName }}
+                                </span>
+                            </ng-container>
+                            <ng-template #elseBlock>
+                                <span class="block ml-2 font-semibold text-gray-600">
+                                    <!-- {{ item | json}} -->
+                                    {{ item.student.fullName }}
+                                </span>
+                            </ng-template>
+                            <!-- <span class="block ml-2 text-sm text-gray-600">25 minutes</span> -->
+                        </div>
+                        <!-- <span class="block ml-2 text-sm text-gray-600">bye</span> -->
+                    </div>
+                </a>
+            </ng-container>
+        </li>
+    </ul>
+</div>

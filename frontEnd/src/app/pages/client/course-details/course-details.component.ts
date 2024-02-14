@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { CourseDetail, RatingReview, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
+import { studentInterface } from 'src/app/shared/interface/common.interface';
+import { CourseDetail, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
 
 
 @Component({
@@ -14,10 +15,10 @@ import { CourseDetail, RatingReview, initialCourseDetails } from 'src/app/shared
 })
 export class CourseDetailsComponent implements OnInit {
 
-  student: any;
+  student!: studentInterface;
   visible: boolean = false;
   courseDetails: CourseDetail = initialCourseDetails;
-  averageRating: number = 0
+  averageRating = 0
   individualStars = new Map()
   p: number = 1;
 

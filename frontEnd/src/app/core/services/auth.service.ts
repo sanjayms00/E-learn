@@ -82,6 +82,17 @@ export class AuthService {
     return null
   }
 
+
+  //local student Data
+  getLocalInstructorData() {
+    if (this.getInstructorToken()) {
+      return localStorage.getItem('instructorData')
+    }
+    return null
+  }
+
+
+
   //verify otp
   verifyotp(data: { email: string | null, otp: number }): Observable<{ user: studentInterface, access_token: string }> {
     return this.http.put<{ user: studentInterface, access_token: string }>(`${constant.baseUrl}/student/auth/verifyOtp`, data)

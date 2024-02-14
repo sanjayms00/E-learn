@@ -10,6 +10,7 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { constant } from 'src/app/core/constant/constant';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   visible = false
   profileForm!: FormGroup
   imageChangedEvent: any = '';
-  croppedImage: any = '';
+  croppedImage!: any
+  noImage = constant.noProfile
 
   formData = new FormData()
 

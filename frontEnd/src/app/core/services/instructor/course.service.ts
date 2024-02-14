@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
-import { Course } from 'src/app/shared/interface/common.interface';
+import { Course, homeResponse } from 'src/app/shared/interface/common.interface';
 import { CourseDetail } from 'src/app/shared/interface/courseDetails.interface';
 import { loadStripe } from '@stripe/stripe-js';
 import { environment } from 'src/environment/environment';
@@ -29,8 +29,8 @@ export class CourseService {
     return this.http.get<Course[]>(`${constant.baseUrl}/instructor/courses`)
   }
 
-  getHomeCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(`${constant.baseUrl}/student/home-courses`)
+  homeData(): Observable<homeResponse> {
+    return this.http.get<homeResponse>(`${constant.baseUrl}/student/home`)
   }
 
   courseDetails(id: string): Observable<CourseDetail> {

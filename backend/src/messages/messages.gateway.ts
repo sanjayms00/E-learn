@@ -1,55 +1,58 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
 import { MessagesService } from './messages.service';
-import { CreateMessageDto } from './dto/create-message.dto';
 import { Server, Socket } from 'socket.io';
-import { studentJwtAuthGuard } from 'src/student/guards/student.guard';
-import { Request, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
+import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-    transports: ['websocket', 'polling'],
-    credentials: false,
-  },
-  allowEIO3: true,
+    origin: '*'
+  }
 })
-export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class MessagesGateway {
 
   @WebSocketServer()
   server: Server
 
   constructor(private readonly messagesService: MessagesService) { }
 
-  handleConnection(client: Socket) {
-    // Handle new client connections
+  @SubscribeMessage('accessChat')
+  accessChat(
+    @MessageBody() data
+  ) {
+    return this.messagesService.accessChat(data);
   }
 
-  handleDisconnect(client: Socket) {
-    // Handle client disconnections
+  // student
+
+  @SubscribeMessage('studentChatOnload')
+  async studnentChatOnload(
+    @MessageBody() studentData: { studentId: string }
+  ) {
+    const { studentId } = studentData
+
+    const users = await this.messagesService.instructor(studentId);
+    console.log(studentId)
+    const chats = await this.messagesService.studentChats(studentId);
+
+    return {
+      users, chats
+    }
   }
-
-
-  // @SubscribeMessage('accessChat')
-  // accessChat(
-
-  // ) {
-  //   return this.messagesService.accessChat(userId);
-  // }
-
 
   @SubscribeMessage('createMessage')
   async create(
     @MessageBody() createMessageDto: CreateMessageDto,
-    @ConnectedSocket() client: Socket
   ) {
-    const message = await this.messagesService.create(createMessageDto, client.id);
 
-    //emit the message created to alll users  event name message
-    this.server.emit('messages', message)
+    const message = await this.messagesService.createMessage(createMessageDto);
+
+    //emit the message created to all users  event name message
+    this.server.emit('message', message)
 
     return message
   }
+
 
   @SubscribeMessage('findAllInstructors')
   async findAllInstructors(
@@ -58,21 +61,26 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
   ) {
     const studentId = payload.studentId
 
-    if(!studentId) throw new UnauthorizedException("student id not found")
+    if (!studentId) throw new UnauthorizedException("student id not found")
 
-    return await this.messagesService.findAllInstructors(studentId);
+    // return await this.messagesService.findAllInstructors(studentId);
   }
 
   @SubscribeMessage('findAllChats')
   async findAllChats() {
-    return await this.messagesService.findAllChats();
+    // return await this.messagesService.findAllChats();
   }
 
-  @SubscribeMessage('findAllMessages')
-  async findAllMessages(
-    @MessageBody() chatId?: string
+  @SubscribeMessage('loadMessages')
+  async loadMessages(
+    @MessageBody() chat: { chatId: string }
   ) {
-    return await this.messagesService.findAllMessages(chatId);
+
+    const { chatId } = chat
+    const chatWithMessages = await this.messagesService.loadMessages(chatId);
+
+    return chatWithMessages
+
   }
 
   @SubscribeMessage('join')
@@ -83,7 +91,7 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
 
     console.log(name, client)
 
-    return this.messagesService.identify(name, client.id)
+    // return this.messagesService.identify(name, client.id)
   }
 
   @SubscribeMessage('typing')
@@ -91,9 +99,9 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody('isTyping') isTyping: boolean,
     @ConnectedSocket() client: Socket
   ) {
-    const name = await this.messagesService.getClientByName(client.id)
+    // const name = await this.messagesService.getClientByName(client.id)
 
-    client.broadcast.emit('typing', { name, isTyping })
+    // client.broadcast.emit('typing', { name, isTyping })
 
   }
 
@@ -112,4 +120,29 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
   // remove(@MessageBody() id: number) {
   //   return this.messagesService.remove(id);
   // }
+
+
+
+
+  //instructor
+
+
+  @SubscribeMessage('instructorChatOnload')
+  async instructorChatOnload(
+    @MessageBody() instructorData: { instructorId: string }
+  ) {
+    const { instructorId } = instructorData
+
+    const users = await this.messagesService.students(instructorId);
+    const chats = await this.messagesService.instructorChats(instructorId);
+
+    console.log(users, chats)
+
+    return {
+      users, chats
+    }
+  }
+
+
+
 }

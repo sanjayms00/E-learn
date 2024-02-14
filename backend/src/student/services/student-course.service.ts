@@ -1,5 +1,5 @@
 
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model, Types } from 'mongoose';
@@ -11,6 +11,7 @@ import { Student } from 'src/student/schema/student.schema';
 
 import Stripe from "stripe";
 import { ReviewRatingService } from './review-rating.service';
+import { RatingReview } from '../schema/ratingReview.schema';
 
 @Injectable()
 export class StudentCourseService {
@@ -26,6 +27,8 @@ export class StudentCourseService {
         private readonly categoryModel: Model<Category>,
         @InjectModel(Student.name)
         private readonly studentModel: Model<Student>,
+        @InjectModel(RatingReview.name)
+        private readonly ratingReviewModel: Model<RatingReview>,
         private reviewRatingService: ReviewRatingService,
         private signedUrlService: SignedUrlService
 
@@ -87,7 +90,23 @@ export class StudentCourseService {
     }
 
     //get limited courses for home
-    async getLimitedCourse() {
+    async home() {
+        try {
+            const courses = await this.homeCourses()
+
+            const allCounts = await this.homeAllCounts()
+
+            return {
+                courses,
+                allCounts
+            }
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
+    }
+
+    //home courses
+    async homeCourses() {
         try {
             const courses = await this.courseModel.aggregate([
                 {
@@ -136,7 +155,38 @@ export class StudentCourseService {
 
             return courseWithPresignedUrls
         } catch (error) {
-            throw new Error(error)
+            throw new InternalServerErrorException(error)
+        }
+    }
+
+    //counts of all course and instructctors etc...
+    async homeAllCounts() {
+        try {
+            //course count
+            const courseCount = await this.courseModel.estimatedDocumentCount()
+
+            //category count
+            const categoryCount = await this.categoryModel.estimatedDocumentCount()
+
+            //Ratings count
+            const ratingCount = await this.ratingReviewModel.estimatedDocumentCount()
+
+            //instructor count
+            const instructorCount = await this.instructorModel.estimatedDocumentCount()
+
+            //student count
+            const studentCount = await this.studentModel.estimatedDocumentCount()
+
+            return {
+                courseCount,
+                categoryCount,
+                ratingCount,
+                instructorCount,
+                studentCount
+            }
+
+        } catch (error) {
+            throw new InternalServerErrorException(error)
         }
     }
 
@@ -287,7 +337,7 @@ export class StudentCourseService {
     }
 
     //get filteredcourses
-    async getFilteredCourses(filterData ) {
+    async getFilteredCourses(filterData) {
 
         console.log(filterData)
 

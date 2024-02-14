@@ -32,6 +32,7 @@ import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { InstructorChatComponent } from './instructor-chat/instructor-chat.component';
 
 
 @NgModule({
@@ -46,8 +47,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     EditCourseComponent,
     CreateCourseComponent,
     EditCourseContentComponent,
-    NumericDirective
-
+    NumericDirective,
+    InstructorChatComponent
   ],
   imports: [
     CommonModule,

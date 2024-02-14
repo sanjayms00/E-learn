@@ -25,7 +25,7 @@ export class Course extends Document {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Students' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'students' }] })
   students: Types.ObjectId[];
 
   @Prop()
@@ -37,7 +37,7 @@ export class Course extends Document {
   @Prop()
   trailer: string;
 
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: Types.ObjectId, required: true, ref: 'Instructor' })
   instructorId: Types.ObjectId;
 
   @Prop()

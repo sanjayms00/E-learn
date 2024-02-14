@@ -137,3 +137,15 @@ export interface ChapterInterface {
     description: string;
     file: any;
 }
+
+
+export interface homeResponse {
+    courses : Course[],
+    allCounts: {
+        courseCount : number,
+        categoryCount: number,
+        ratingCount : number,
+        instructorCount: number,
+        studentCount: number
+    }
+}

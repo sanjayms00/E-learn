@@ -7,6 +7,7 @@ import { MessageSchema } from './schema/message.schema';
 import { instructorSchema } from 'src/instructor/schema/instructor.schema';
 import { studentJwtAuthGuard } from 'src/student/guards/student.guard';
 import { studentSchema } from 'src/student/schema/student.schema';
+import { courseSchema } from 'src/instructor/schema/course.schema';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { studentSchema } from 'src/student/schema/student.schema';
     MongooseModule.forFeature([{ name: 'Message', schema: MessageSchema }]),
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
+    MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
   ],
   providers: [
     MessagesGateway,

@@ -6,25 +6,33 @@ import { ChartModule } from 'primeng/chart';
 import { VideoPlayerComponent } from 'src/app/pages/client/video-player/video-player.component';
 import { DashboardBoxComponent } from '../components/dashboard-box/dashboard-box.component';
 import { ChatRightComponent } from '../components/chat-right/chat-right.component';
+import { ChatLeftComponent } from '../components/chat-left/chat-left.component';
+import { FormsModule } from '@angular/forms';
+import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
     TruncatePipe,
+    TimeAgoPipe,
     GraphComponent,
     VideoPlayerComponent,
     DashboardBoxComponent,
-    ChatRightComponent
+    ChatRightComponent,
+    ChatLeftComponent
   ],
   imports: [
     CommonModule,
-    ChartModule
+    ChartModule,
+    FormsModule
   ],
   exports: [
     TruncatePipe,
+    TimeAgoPipe,
     GraphComponent,
     VideoPlayerComponent,
     DashboardBoxComponent,
-    ChatRightComponent
+    ChatRightComponent,
+    ChatLeftComponent
   ]
 })
 export class SharedModule { }

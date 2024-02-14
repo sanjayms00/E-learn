@@ -13,6 +13,7 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
 import { formLeaveGuard } from 'src/app/shared/guards/form-leave.guard';
+import { InstructorChatComponent } from './instructor-chat/instructor-chat.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
         children: [
           { path: 'profile', component: InstructorProfileComponent },
           { path: 'dashboard', component: InstructorDashboardComponent },
+          { path: 'chat', component: InstructorChatComponent },
           { path: 'courses', component: InstructorCoursesComponent },
           { path: 'edit/:id', component: EditCourseComponent, canDeactivate: [formLeaveGuard] },
           { path: 'edit/content/:id', component: EditCourseContentComponent, canDeactivate: [formLeaveGuard] },

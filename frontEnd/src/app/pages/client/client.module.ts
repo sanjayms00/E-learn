@@ -10,7 +10,6 @@ import { SearchComponent } from './search/search.component';
 import { StreamVideoComponent } from './stream-video/stream-video.component';
 import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
-import { ChatComponent } from './chat/chat.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { OtpComponent } from './otp/otp.component';
 import { FilterComponent } from './filter/filter.component';
@@ -37,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './notification/notification.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { StudentChatComponent } from './student-chat/student-chat.component';
 
 
 @NgModule({
@@ -49,7 +49,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     StreamVideoComponent,
     MyLearningComponent,
     StudentInfoComponent,
-    ChatComponent,
     CourseDetailsComponent,
     OtpComponent,
     FilterComponent,
@@ -60,7 +59,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ClientSearchBarComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    NotificationComponent
+    NotificationComponent,
+    StudentChatComponent
   ],
   imports: [
     CommonModule,

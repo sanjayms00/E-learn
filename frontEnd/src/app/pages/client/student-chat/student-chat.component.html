@@ -1,0 +1,12 @@
+<section class="container mx-auto h-[500px]">
+    <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
+        <div class="border-r border-gray-300 lg:col-span-1">
+            <app-chat-left [users]="users" (chatEvent)="chatEvent($event)" [chats]="chats" [role]="role"
+                (loadMessageEvent)="loadMessageEvent($event)"></app-chat-left>
+        </div>
+        <div class="hidden lg:col-span-2 lg:block">
+            <app-chat-right [currentChat]="currentChat" [role]="role"
+                (messageEvent)="messageEvent($event)"></app-chat-right>
+        </div>
+    </div>
+</section>

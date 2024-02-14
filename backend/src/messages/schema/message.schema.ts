@@ -5,12 +5,16 @@ import { IsString } from "class-validator";
 @Schema({ timestamps: true })
 export class Message {
 
-    @Prop({ type: Types.ObjectId, required: true })
+    @Prop({ type: Types.ObjectId, required: true, refPath: "senderType" })
     sender: Types.ObjectId
 
     @IsString()
     @Prop({ required: true, trim: true })
     content: string
+
+    @IsString()
+    @Prop({ required: true, enum: ["student", "instructor"] })
+    senderType: string
 
     @Prop({ type: Types.ObjectId, required: true, ref: "ChatRoom" })
     chatRoom: Types.ObjectId

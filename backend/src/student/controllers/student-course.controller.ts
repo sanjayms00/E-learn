@@ -13,9 +13,9 @@ export class StudentCourseController {
         private configService: ConfigService
     ) { }
 
-    @Get('home-courses')
-    async getLimittedCourse() {
-        return await this.studentCourseService.getLimitedCourse()
+    @Get('home')
+    async home() {
+        return await this.studentCourseService.home()
     }
 
     @Get('all-courses')

@@ -9,7 +9,7 @@ import { clientGuard } from 'src/app/shared/guards/client.guard';
 import { SearchComponent } from './search/search.component';
 import { MyLearningComponent } from './my-learning/my-learning.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
-import { ChatComponent } from './chat/chat.component';
+import { StudentChatComponent } from './student-chat/student-chat.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { OtpComponent } from './otp/otp.component';
 import { CheckoutComponent } from './checkout/checkout.component';
@@ -46,8 +46,7 @@ const routes: Routes = [
       { path: 'cancel', component: CancelComponent, canActivate: [clientGuard] },
       { path: 'profile', component: StudentInfoComponent, canActivate: [clientGuard] },
       { path: 'learning', component: MyLearningComponent, canActivate: [clientGuard] },
-      { path: 'chat', component: ChatComponent, canActivate: [clientGuard] },
-      { path: 'chat/:id', component: ChatComponent, canActivate: [clientGuard] },
+      { path: 'chat', component: StudentChatComponent, canActivate: [clientGuard] },
       { path: 'notification', component: NotificationComponent, canActivate: [clientGuard] },
     ]
   }

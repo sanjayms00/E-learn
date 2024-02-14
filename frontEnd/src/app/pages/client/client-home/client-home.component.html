@@ -1,3 +1,4 @@
+<!-- banner -->
 <section class="banner w-full py-16">
     <h1 class="text-center font-bold text-6xl">
         Learn & Lead
@@ -8,59 +9,60 @@
         Unleash learning's potential, bridging gaps with innovation, and turn
         every moment into growth.
     </p>
-    <!-- <app-client-search-bar></app-client-search-bar> -->
+    <app-client-search-bar></app-client-search-bar>
 </section>
+
+<!-- site information such as counts -->
 <div class="grid grid-cols-3 gap-4">
     <div
         class="flex items-center justify-center bg-gradient-to-r from-blue-500 to-green-500 rounded-lg h-40 text-white shadow-md">
         <div class="text-center">
-            <h4 class="text-3xl font-semibold tracking-wide">60K+</h4>
+            <h4 class="text-3xl font-semibold tracking-wide">
+                {{ homeData.allCounts.courseCount }}
+            </h4>
             <p class="text-lg">Live Courses</p>
         </div>
     </div>
     <div
         class="flex items-center justify-center bg-gradient-to-r from-pink-500 to-yellow-500 rounded-lg h-40 text-white shadow-md">
         <div class="text-center">
-            <h4 class="text-3xl font-semibold tracking-wide">35K+</h4>
+            <h4 class="text-3xl font-semibold tracking-wide">
+                {{ homeData.allCounts.categoryCount }}
+            </h4>
             <p class="text-lg">Category</p>
         </div>
     </div>
     <div
         class="flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg h-40 text-white shadow-md">
         <div class="text-center">
-            <h4 class="text-3xl font-semibold tracking-wide">4.9⭐</h4>
-            <p class="text-lg">Rating</p>
+            <h4 class="text-3xl font-semibold tracking-wide">
+                {{ homeData.allCounts.ratingCount }}
+            </h4>
+            <p class="text-lg">Rating and Reviews</p>
         </div>
     </div>
     <div
         class="col-span-2 flex items-center justify-center bg-gradient-to-r from-red-500 to-orange-500 rounded-lg h-40 text-white shadow-md">
         <div class="text-center">
-            <h4 class="text-3xl font-semibold tracking-wide">5K+</h4>
-            <p class="text-lg">Professionals</p>
-            <div class="flex -space-x-4 rtl:space-x-reverse items-center">
-                <img class="w-10 h-10 rounded-full border-2 border-white"
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="">
-                <img class="w-10 h-10 rounded-full border-2 border-white"
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="">
-                <img class="w-10 h-10 rounded-full border-2 border-white"
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="">
-                <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 "
-                    href="#">+99</a>
-            </div>
+            <h4 class="text-3xl font-semibold tracking-wide">
+                {{ homeData.allCounts.instructorCount }}
+            </h4>
+            <p class="text-lg">Professional instructors</p>
         </div>
     </div>
     <div
         class="flex items-center justify-center bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg h-40 text-white shadow-md">
         <div class="text-center">
-            <h4 class="text-3xl font-semibold tracking-wide">20K+</h4>
+            <h4 class="text-3xl font-semibold tracking-wide">
+                {{ homeData.allCounts.studentCount }}
+            </h4>
             <p class="text-lg">Students</p>
         </div>
     </div>
 </div>
 
+
+<!-- popular courses -->
 <section class="container px-5 py-10 mx-auto rounded-lg my-10">
     <div class="mb-20">
         <h1 class="text-2xl font-semibold border-b pb-2 border-b-black">
@@ -70,7 +72,7 @@
 
     <!-- Courses -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <ng-container *ngFor="let Course of homeCourses">
+        <ng-container *ngFor="let Course of homeData.courses">
             <app-course-card [course]="Course"></app-course-card>
         </ng-container>
     </div>
@@ -84,29 +86,8 @@
     </div>
 </section>
 
-
-<div class="container m-auto p-4">
-    <div class="flex flex-row space-x-4">
-<div class="flex w-full flex-col space-y-4 bg-red-200">
-    <div class="h-40 rounded-lg bg-red-500"></div>
-    <div class="h-32 rounded-lg bg-red-500"></div>
-    <div class="h-60 rounded-lg bg-red-500"></div>
-</div>
-<div class="flex w-full flex-col space-y-4 bg-blue-200">
-    <div class="h-12 rounded-lg bg-blue-500"></div>
-    <div class="h-72 rounded-lg bg-blue-500"></div>
-    <div class="h-48 rounded-lg bg-blue-500"></div>
-</div>
-<div class="flex w-full flex-col space-y-4 bg-green-200">
-    <div class="h-28 rounded-lg bg-green-500"></div>
-    <div class="h-40 rounded-lg bg-green-500"></div>
-    <div class="h-64 rounded-lg bg-green-500"></div>
-</div>
-</div>
-</div>
-
-
-<div class="grid grid-cols-3 gap-4 my-10">
+<!-- Questions -->
+<!-- <div class="grid grid-cols-3 gap-4 my-10">
     <div class="bg-black rounded-lg px-10 py-36">
         <p class="text-white">Frequently Asked Questions</p>
         <h2 class="text-2xl text-white my-5">
@@ -173,9 +154,9 @@
             </p-accordionTab>
         </p-accordion>
     </div>
-</div>
+</div> -->
 
-
+<!-- how E-learn works -->
 <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
         <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
@@ -213,7 +194,7 @@
     </div>
 </section>
 
-<section class="text-gray-700 body-font border-t border-gray-200">
+<!-- <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Pitchfork Kickstarter Taxidermy
@@ -313,9 +294,10 @@
         <button
             class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
     </div>
-</section>
+</section> -->
 
-<section class="text-gray-700 body-font border-t border-gray-200">
+<!-- instructors best -->
+<!-- <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Our Team</h1>
@@ -424,4 +406,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->

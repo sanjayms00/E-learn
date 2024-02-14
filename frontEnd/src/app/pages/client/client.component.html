@@ -14,17 +14,6 @@
     <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
       <a class="mr-5 hover:text-gray-900 cursor-pointer" [routerLink]="['/home']"
         routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">Home</a>
-      <!-- Dropdown Container -->
-      <!-- <div class="relative group z-40">
-        <a class="mr-5 hover:text-gray-900 cursor-pointer">Category</a>
-        <div
-          class="absolute hidden w-[200px] bg-white border rounded-sm p-2 space-y-2 text-gray-700 group-hover:block shadow-xl">
-          <a *ngFor="let category of categories" [routerLink]="['/category', category]"
-            class="block px-4 py-2 hover:bg-black rounded-md hover:text-white">
-            {{ category.categoryName }}
-          </a>
-        </div>
-      </div> -->
       <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/instructor/login"
         routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">Instructor</a>
       <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/learning"
