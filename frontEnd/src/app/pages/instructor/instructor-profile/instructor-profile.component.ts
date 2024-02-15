@@ -1,6 +1,6 @@
 
 import { Component, DestroyRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -25,6 +25,7 @@ export class InstructorProfileComponent implements OnInit {
   profileForm!: FormGroup
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  formData = new FormData()
 
 
   constructor(
@@ -46,7 +47,6 @@ export class InstructorProfileComponent implements OnInit {
       instagram: ['', [Validators.required]],
       linkedin: ['', [Validators.required]],
       website: ['', [Validators.required]],
-      image: [null, [Validators.required]]
     })
   }
 
@@ -79,36 +79,37 @@ export class InstructorProfileComponent implements OnInit {
       instagram: this.profile.instagram,
       linkedin: this.profile.linkedin,
       website: this.profile.website,
-      image: this.profile.image,
     });
   }
 
   profileUpdate() {
     if (this.profileForm.valid) {
-      // const formData = new FormData()
 
-      // Object.keys(this.profileForm.controls).forEach(key => {
-      //   const control = this.profileForm.get(key)
 
-      //   if (control instanceof FormControl) {
-      //     formData.append(key, control.value)
-      //   }
-      // })
+      Object.keys(this.profileForm.controls).forEach(key => {
+        const control = this.profileForm.get(key)
 
-      // console.log(formData)
+        if (control instanceof FormControl) {
+          this.formData.append(key, control.value)
+        }
+      })
 
-      const profileData = this.profileForm.value
 
-      this.profileService.updateInstructorProfile(profileData)
+
+      this.profileService.updateInstructorProfile(this.formData)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
+
+            console.log(res)
             this.profile = res
-            localStorage.setItem('clientData', JSON.stringify(res))
+            localStorage.setItem('instructorData', JSON.stringify(res))
             this.toastr.success("profile updated")
+            this.formData = new FormData()
           },
           error: err => {
             this.toastr.error(err.message)
+            this.formData = new FormData()
           }
         })
       this.visible = false;
@@ -125,9 +126,9 @@ export class InstructorProfileComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
 
-    this.profileForm.patchValue({
-      image: this.croppedImage
-    });
+    if (event.blob) {
+      this.formData.append('image', event.blob, 'cropped_image.png');
+    }
 
     // event.blob can be used to upload the cropped image
   }

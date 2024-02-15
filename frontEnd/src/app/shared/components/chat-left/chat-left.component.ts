@@ -15,7 +15,7 @@ export class ChatLeftComponent implements OnChanges {
   search: string = '';
   searchResult: users[] = [];
 
-  @Input() role!: "instructor" | "student";
+  @Input() role!: "Instructor" | "Student";
   @Input() users: users[] = [];
   @Input() chats: Chats[] = [];
   @Output() chatEvent = new EventEmitter()

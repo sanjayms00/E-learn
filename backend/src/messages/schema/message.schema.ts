@@ -13,7 +13,7 @@ export class Message {
     content: string
 
     @IsString()
-    @Prop({ required: true, enum: ["student", "instructor"] })
+    @Prop({ required: true, enum: ["Student", "Instructor"] })
     senderType: string
 
     @Prop({ type: Types.ObjectId, required: true, ref: "ChatRoom" })

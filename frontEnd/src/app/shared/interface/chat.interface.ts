@@ -34,9 +34,11 @@ export interface onloadResponse {
     chats: Chats[]
 }
 
-
 export interface message {
-    sender: string;
+    sender: {
+        fullName: string
+        _id: string
+    }
     content: string;
     senderType: string;
     chatRoom: string;

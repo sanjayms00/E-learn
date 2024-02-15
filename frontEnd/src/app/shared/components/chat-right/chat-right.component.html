@@ -5,7 +5,7 @@
         <div class="relative flex items-center p-3 border-b border-gray-300">
             <img class="object-cover w-10 h-10 rounded-full" [src]="noProfile" alt="username" />
             <span class="block ml-2 font-bold text-gray-600">
-                <ng-container *ngIf="role === 'instructor'; else chatHeadElse">
+                <ng-container *ngIf="role === 'Instructor'; else chatHeadElse">
                     {{ currentChat.student.fullName }}
                 </ng-container>
                 <ng-template #chatHeadElse>
@@ -46,7 +46,7 @@
                                     </p>
                                 </div>
                                 <span class="text-xs text-gray-500 leading-none">
-                                    {{ message.createdAt | timeAgo }}
+                                    <!-- {{ message.createdAt | timeAgo }} -->
                                     <!-- {{ currentTime }} -->
                                 </span>
                             </div>
@@ -57,10 +57,28 @@
             </div>
 
             <div class="bg-gray-300 p-4 flex gap-4">
+                <div #container class="emoji-picker-container relative">
+                    <button (click)="toggled()" class="outline-none">
+                        <svg viewBox="0 0 28 28" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-rule="evenodd" fill-rule="evenodd">
+                                <path
+                                    d="M14 4.4C8.6 4.4 4.4 8.6 4.4 14c0 5.4 4.2 9.6 9.6 9.6c5.4 0 9.6-4.2 9.6-9.6c0-5.4-4.2-9.6-9.6-9.6zM2 14c0-6.6 5.4-12 12-12s12 5.4 12 12s-5.4 12-12 12s-12-5.4-12-12zM12.8 11c0 1-.8 1.8-1.8 1.8s-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8s1.8.8 1.8 1.8zM18.8 11c0 1-.8 1.8-1.8 1.8s-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8s1.8.8 1.8 1.8zM8.6 15.4c.6-.4 1.2-.2 1.6.2c.6.8 1.6 1.8 3 2c1.2.4 2.8.2 4.8-2c.4-.4 1.2-.6 1.6 0c.4.4.6 1.2 0 1.6c-2.2 2.6-4.8 3.4-7 3c-2-.4-3.6-1.8-4.4-3c-.4-.6-.2-1.2.4-1.8z">
+                                </path>
+                            </g>
+                        </svg>
+                    </button>
+
+                    <emoji-mart class="picker absolute bottom-full left-0 transform scale-0.8 origin-bottom-right"
+                        color="var(--str-chat__primary-color)" *ngIf="isOpened" title="Pick your emoji…"
+                        emoji="point_up" (emojiSelect)="emojiSelected($event)"
+                        [darkMode]="(theme$ | async) === 'dark'"></emoji-mart>
+                </div>
+
                 <textarea class="flex items-center min-h-16 flex-grow rounded px-3 text-sm"
-                    placeholder="Type your message…" [(ngModel)]="message" (input)="adjustTextareaHeight($event)">
-            </textarea>
-                <button (click)="sendMessage()">
+                    placeholder="Type your message…" [(ngModel)]="message"
+                    (input)="adjustTextareaHeight($event)"></textarea>
+
+                <button (click)="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     <i class="pi pi-send"></i>
                 </button>
             </div>

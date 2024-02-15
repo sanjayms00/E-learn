@@ -1,16 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { graphDataInterface } from '../../interface/admin.interface';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html'
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent implements OnInit, OnChanges {
   data: any;
   options: any;
   @Input() graphData!: graphDataInterface[] | undefined
 
   ngOnInit(): void {
+    this.menuConfig()
+  }
+
+  ngOnChanges(): void {
     this.menuConfig()
   }
 
@@ -91,6 +95,9 @@ export class GraphComponent implements OnInit {
 
 
   getData() {
+
+    console.log(this.graphData)
+
     return this.graphData?.map(item => item.count)
   }
 

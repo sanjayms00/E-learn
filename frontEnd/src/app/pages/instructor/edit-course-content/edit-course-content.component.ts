@@ -42,7 +42,6 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     private fb: FormBuilder,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
     private destroyRef: DestroyRef
   ) {
     this.course = this.fb.group({
@@ -53,6 +52,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.addfields()
+    this.getcourseContent()
   }
 
 
@@ -65,6 +65,9 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
+
+            console.log("response", res)
+
             this.courseData = res[0].videos
             this.formData.append('courseId', String(this.id))
           },
@@ -239,7 +242,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
         this.deleteChapter()
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        this.toastr.error("Rejected")
       }
     });
   }

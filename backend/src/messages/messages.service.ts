@@ -147,7 +147,12 @@ export class MessagesService {
     if (!addMessagetoRoom) {
       throw new HttpException('Failed to add message to the chat room.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return message
+
+    await message.populate('sender', "fullName")
+
+    return message;
+
+
   }
 
 

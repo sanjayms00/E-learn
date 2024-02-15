@@ -1,6 +1,10 @@
 
 export interface instructorDashboardInterface {
-    courses: number;
-    sold: number;
-    rating: number;
+    counts: {
+        courses: number;
+        sold: number;
+        rating: number;
+    }
+    graphData: any
+   
 }

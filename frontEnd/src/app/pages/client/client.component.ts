@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { message } from 'src/app/shared/interface/chat.interface';
 import { categories } from 'src/app/shared/interface/common.interface';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { ChatService } from 'src/app/shared/services/chat.service';
 import { getClientDataFromLocal } from 'src/app/shared/store/actions/client.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -21,10 +23,11 @@ export class ClientComponent implements OnInit, DoCheck {
   showMenu = false;
   categories: categories[] = []
   profileArr = ['profile', 'learning', 'chat']
-
+  notifications: message[] = []
 
   constructor(
     private authService: AuthService,
+    private chatService: ChatService,
     private router: Router,
     private store: Store<appState>,
     private categoryService: CategoryService,
@@ -38,6 +41,8 @@ export class ClientComponent implements OnInit, DoCheck {
     if (clientData) {
       this.store.dispatch(getClientDataFromLocal({ user: JSON.parse(clientData) }))
     }
+
+    this.notifications = this.chatService.notification
   }
 
 
@@ -55,9 +60,6 @@ export class ClientComponent implements OnInit, DoCheck {
     this.router.navigate(['/search'])
   }
 
-  // toggleNavbar() {
-  //   this.showMenu = !this.showMenu;
-  // }
 
   ngDoCheck(): void {
     if (this.authService.getClientToken()) {
@@ -66,16 +68,6 @@ export class ClientComponent implements OnInit, DoCheck {
       this.logSign = true
     }
   }
-
-  // toggleClick(event: HTMLElement) {
-  //   this.togg = !this.togg
-  //   event.classList.toggle('top-[15%]')
-  //   if (this.togg) {
-  //     this.icon = "/assets/logo/grid.svg";
-  //   } else {
-  //     this.icon = "/assets/logo/close.svg";
-  //   }
-  // }
 
   logout() {
     const clientToken = this.authService.getClientToken()

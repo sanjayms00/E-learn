@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChatService } from 'src/app/shared/services/chat.service';
 
 @Component({
   selector: 'app-notification',
@@ -7,7 +8,12 @@ import { Component } from '@angular/core';
 })
 export class NotificationComponent {
 
-  title ='Notifications'
+  notifications: string[] = []
+
+  constructor(
+    private chatService: ChatService
+  ){}
+
 
 
 }

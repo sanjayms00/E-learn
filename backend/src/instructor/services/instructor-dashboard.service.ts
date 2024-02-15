@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestj
 import { InjectModel } from '@nestjs/mongoose';
 import { Course } from '../schema/course.schema';
 import { Model, Types } from 'mongoose';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class InstructorDashboardService {
@@ -13,6 +12,17 @@ export class InstructorDashboardService {
     ) { }
 
     async dashboardData(instructorId: string) {
+        
+        const counts = await this.dashCounts(instructorId)
+        const graphData = await this.graphData(instructorId)
+
+        return {
+            counts, 
+            graphData
+        }
+    }
+
+    async dashCounts(instructorId: string){
         try {
             // console.log(instructorId)
             const objInstructorId = new Types.ObjectId(instructorId)
@@ -72,6 +82,39 @@ export class InstructorDashboardService {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
+
+    async graphData(instructorId: string){
+        try {
+
+            const objInstructorId = new Types.ObjectId(instructorId)
+
+            const today = new Date();
+            const oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate())
+
+            const graphData = await this.courseModel.aggregate([
+                {
+                    $match: {
+                        instructorId: objInstructorId,
+                        createdAt: { $gte: oneMonthAgo }
+                    }
+                },
+                {
+                    $group: {
+                        _id: '$courseName',
+                        count: { $sum: { $size: '$students' } }, 
+                    },
+                },
+            ])
+
+            console.log(graphData)
+
+            return graphData
+
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
 
 
 }

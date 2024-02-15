@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from 'src/environment/environment';
 import { WelcomeComponent } from './shared/components/welcome/welcome.component';
+import { ChatService } from './shared/services/chat.service';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { WelcomeComponent } from './shared/components/welcome/welcome.component'
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
     },
-    FormsService
+    FormsService,
+    ChatService
   ],
   bootstrap: [AppComponent],
 })

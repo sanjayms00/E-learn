@@ -9,6 +9,7 @@ import { ChatRightComponent } from '../components/chat-right/chat-right.componen
 import { ChatLeftComponent } from '../components/chat-left/chat-left.component';
 import { FormsModule } from '@angular/forms';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
   imports: [
     CommonModule,
     ChartModule,
-    FormsModule
+    FormsModule,
+    PickerModule
   ],
   exports: [
     TruncatePipe,

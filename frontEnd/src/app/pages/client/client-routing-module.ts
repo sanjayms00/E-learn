@@ -18,7 +18,6 @@ import { SuccessComponent } from './success/success.component';
 import { CancelComponent } from './cancel/cancel.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   {
@@ -47,7 +46,7 @@ const routes: Routes = [
       { path: 'profile', component: StudentInfoComponent, canActivate: [clientGuard] },
       { path: 'learning', component: MyLearningComponent, canActivate: [clientGuard] },
       { path: 'chat', component: StudentChatComponent, canActivate: [clientGuard] },
-      { path: 'notification', component: NotificationComponent, canActivate: [clientGuard] },
+      // { path: 'notification', component: NotificationComponent, canActivate: [clientGuard] },
     ]
   }
 ];

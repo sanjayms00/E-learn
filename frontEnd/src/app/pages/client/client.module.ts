@@ -34,7 +34,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './notification/notification.component';
-import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { StudentChatComponent } from './student-chat/student-chat.component';
 
@@ -79,7 +78,6 @@ import { StudentChatComponent } from './student-chat/student-chat.component';
     DialogModule,
     DropdownModule,
     NgxPaginationModule,
-    PickerComponent,
     ImageCropperModule,
     NgCircleProgressModule.forRoot({
       radius: 100,

@@ -1,6 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
-import { Chats } from '../../interface/chat.interface';
+import { Chats, message } from '../../interface/chat.interface';
+import { Observable, Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-chat-right',
@@ -12,12 +14,15 @@ export class ChatRightComponent implements OnChanges, OnInit {
   message = ""
   maxHeight = 200
   currentTime = new Date()
+  isOpened = false;
+  theme$!: Observable<string>;
+  @Input() emojiInput$: Subject<string> | undefined;
+  @ViewChild("container") container: ElementRef<HTMLElement> | undefined;
 
   @Input() currentChat: Chats | null = null
-  @Input() role!: "instructor" | "student";
+  @Input() role!: "Instructor" | "Student";
   @Output() messageEvent = new EventEmitter()
 
-  constructor() { }
 
 
   ngOnInit(): void {
@@ -31,9 +36,15 @@ export class ChatRightComponent implements OnChanges, OnInit {
 
   sendMessage() {
 
-    const messageData = {
+    const messageData: message = {
       content: this.message,
-      chatRoom: this.currentChat?._id
+      chatRoom: this.currentChat!._id,
+      sender: {
+        fullName: '',
+        _id: ''
+      },
+      senderType: '',
+      createdAt: new Date()
     }
 
     this.messageEvent.emit(messageData)
@@ -48,4 +59,28 @@ export class ChatRightComponent implements OnChanges, OnInit {
       target.style.height = Math.min(target.scrollHeight, this.maxHeight) + 'px';
     }
   }
+
+  emojiSelected(event: any) {
+    this.emojiInput$?.next(event.emoji.native)
+    this.message += event.emoji.native;
+  }
+
+  eventHandler = (event: Event) => {
+    // Watching for outside clicks
+    if (!this.container?.nativeElement.contains(event.target as Node)) {
+      this.isOpened = false;
+      window.removeEventListener("click", this.eventHandler);
+    }
+  };
+
+  toggled() {
+    this.isOpened = !this.isOpened;
+    if (this.isOpened) {
+      window.addEventListener("click", this.eventHandler);
+    } else {
+      window.removeEventListener("click", this.eventHandler);
+    }
+  }
+
+
 }

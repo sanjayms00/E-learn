@@ -12,9 +12,12 @@ import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard
 export class InstructorDashboardComponent {
 
     dashboard: instructorDashboardInterface = {
-        courses: 0,
-        sold: 0,
-        rating: 0
+        counts: {
+            courses: 0,
+            sold: 0,
+            rating: 0
+        },
+        graphData: undefined
     }
 
     constructor(
@@ -34,8 +37,9 @@ export class InstructorDashboardComponent {
             .subscribe(
                 {
                     next: res => {
+                        console.log(res)
                         this.dashboard = res
-                        this.dashboard.rating = Number(res.rating.toFixed(2))
+                        this.dashboard.counts.rating = Number(res.counts.rating.toFixed(2))
                     },
                     error: (err) => {
                         this.toastr.error(err.message)

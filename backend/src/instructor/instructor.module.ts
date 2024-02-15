@@ -19,6 +19,7 @@ import { InstructorDashboardController } from './controllers/instructor-dashboar
 import { InstructorDashboardService } from './services/instructor-dashboard.service';
 import { SharpModule, SharpService } from 'nestjs-sharp';
 import { SignedUrlService } from 'src/common/service/signed-url.service';
+import { UploadService } from 'src/common/service/upload.service';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
     JwtService,
     InstructorJwtAuthGuard,
     SignedUrlService,
-    SharpService
+    SharpService,
+    UploadService
   ],
   exports: [
     instructorJwtStrategy,

@@ -11,7 +11,16 @@ import { environment } from 'src/environment/environment';
 })
 export class ClientHomeComponent implements OnInit, OnDestroy {
 
-  homeData!: homeResponse
+  homeData: homeResponse = {
+    courses: [],
+    allCounts: {
+      courseCount: 0,
+      categoryCount: 0,
+      ratingCount: 0,
+      instructorCount: 0,
+      studentCount: 0
+    }
+  }
   homeCourseSubscription!: Subscription
   url: string = environment.cloudFrontUrl;
 

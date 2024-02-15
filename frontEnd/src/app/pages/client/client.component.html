@@ -18,10 +18,35 @@
         routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">Instructor</a>
       <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/learning"
         routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">My learning</a>
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/notification"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">
-        <i class="pi pi-bell"></i>
-      </a>
+      <div>
+        <div class="relative group z-50">
+          <a class="mr-5 hover:text-gray-900 cursor-pointer relative">
+            <i class="pi pi-bell"></i>
+            <ng-container *ngIf="notifications.length > 0">
+              <span
+                class="bg-red-500 text-white h-7 w-7 flex items-center justify-center rounded-full absolute -top-4 -right-4">
+                {{ notifications.length }}
+              </span>
+            </ng-container>
+          </a>
+          <!-- Dropdown Content -->
+          <div
+            class="absolute hidden right-0 w-[150px] bg-white border rounded-sm p-2 space-y-2 text-gray-700 group-hover:block shadow-xl">
+            <ng-container *ngIf="notifications.length < 1">
+              No notifications
+            </ng-container>
+            <ul class="py-2" aria-labelledby="user-menu-button">
+              <li *ngFor="let item of notifications">
+                <a [routerLink]="[item]"
+                  class="block px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                  {{ item }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/chat"
         routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
