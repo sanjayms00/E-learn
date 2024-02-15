@@ -74,6 +74,9 @@ export class StudentChatComponent {
 
       this.currentChat = response
 
+      this.chatService.removeNotification(response._id)
+
+
     });
   }
 
@@ -81,6 +84,9 @@ export class StudentChatComponent {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
+
+      this.chatService.removeNotification(response._id)
+
     })
   }
 

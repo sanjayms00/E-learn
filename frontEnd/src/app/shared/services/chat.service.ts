@@ -11,13 +11,18 @@ export class ChatService {
     socket = io(constant.socketLink);
     notification: message[] = []
 
-    constructor() { }
-
 
     pushNotification(message: message) {
         this.notification.push(message)
-        console.log(message)
     }
 
+    removeNotification(chatId: string) {
 
+        if (this.notification.length > 0) {
+            this.notification = this.notification.filter(noti => {
+                return noti.chatRoom !== chatId
+            })
+        }
+
+    }
 }

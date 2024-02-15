@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
+import { constant } from 'src/app/core/constant/constant';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class InstructorProfileComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   formData = new FormData()
+  noprofile = constant.noProfile
 
 
   constructor(
@@ -61,7 +63,20 @@ export class InstructorProfileComponent implements OnInit {
           this.toastr.error(err.message)
         }
       })
+
+
+    //get profile photo
+    if (this.profile.image) {
+      this.getProfileImage()
+    }
   }
+
+  getProfileImage() {
+    this.profileService.profileImage(this.profile.image).subscribe(res => {
+      this.noprofile = res.profileImage
+    })
+  }
+
 
   showDialog() {
     this.visible = true;
@@ -100,10 +115,9 @@ export class InstructorProfileComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
-
-            console.log(res)
-            this.profile = res
-            localStorage.setItem('instructorData', JSON.stringify(res))
+            this.profile = res.instructorData
+            localStorage.setItem('instructorData', JSON.stringify(res.instructorData))
+            this.noprofile = res.imageSignedUrl
             this.toastr.success("profile updated")
             this.formData = new FormData()
           },

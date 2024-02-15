@@ -20,11 +20,6 @@ export class StreamVideoComponent implements OnInit {
   videoId!: string;
   activeChapterData: string = ''
   activeChapterTitle: string = ''
-  instructorData: InstructorData = {
-    fullName: '',
-    email: '',
-    mobile: 0
-  };
   progress: number = 0
   viewedChapters: string[] = []
   visible: boolean = false;
@@ -79,8 +74,6 @@ export class StreamVideoComponent implements OnInit {
           this.activeVideoId = this.activeVideoData[0]._id;
           this.activeChapterData = this.activeVideoData[0].description;
           this.activeChapterTitle = this.activeVideoData[0].title;
-
-          this.instructorData = this.streamData.courseData[0].instructorData[0]
         });
     }
   }

@@ -38,7 +38,7 @@ export interface instructorInterface {
     mobile: string,
     status: boolean,
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date,
 }
 
 export interface Course {
@@ -140,11 +140,11 @@ export interface ChapterInterface {
 
 
 export interface homeResponse {
-    courses : Course[],
+    courses: Course[],
     allCounts: {
-        courseCount : number,
+        courseCount: number,
         categoryCount: number,
-        ratingCount : number,
+        ratingCount: number,
         instructorCount: number,
         studentCount: number
     }

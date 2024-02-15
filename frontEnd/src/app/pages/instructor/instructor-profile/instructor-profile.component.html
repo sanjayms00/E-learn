@@ -8,8 +8,7 @@
     <div class="w-[80%] mx-auto flex">
         <div class="w-2/5">
             <div class="h-52 w-52 mx-auto mt-[-90px] relative z-10 border-4 border-white rounded-full overflow-hidden">
-                <img src="https://img.freepik.com/premium-vector/avatar-profile-colorful-illustration-2_549209-82.jpg"
-                    alt="">
+                <img [src]="noprofile" alt="">
             </div>
         </div>
         <div class="pt-4 w-3/5">
@@ -23,29 +22,8 @@
                 </button>
             </div>
 
-            <p class="font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <p class="font-semibold uppercase">{{ profile.headline }}</p>
 
-            <!-- social media -->
-            <div class="flex gap-2 mt-2">
-                <!-- instagram -->
-                <span><i class="pi pi-instagram"></i></span>
-                <span>insta id</span>
-                <span>|</span>
-
-                <!-- facebook -->
-                <span><i class="pi pi-facebook"></i></span>
-                <span>fb id</span>
-                <span>|</span>
-
-                <!-- twitter -->
-                <span><i class="pi pi-twitter"></i></span>
-                <span>twitter id</span>
-                <span>|</span>
-
-                <!-- linked in id -->
-                <span><i class="pi pi-linkedin"></i></span>
-                <span>linked in id</span>
-            </div>
         </div>
     </div>
 
@@ -60,48 +38,36 @@
                     <span><i class="pi pi-send"></i></span>
                     <span class="font-semibold">{{ profile.email }}</span>
                 </div>
-
-
             </div>
             <div class="w-3/5 p-5">
-                <!-- <p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
-
-                <div class="flex items-center mt-4">
-                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
-                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 70%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                <div class="flex gap-3">
+                    <a [href]="profile.facebook" class="my-3 flex gap-3">
+                        <span><i class="pi pi-facebook"></i></span>
+                        <span class="font-semibold">facebook</span>
+                    </a>
+                    <a [href]="profile.instagram" class="my-3 flex gap-3">
+                        <span><i class="pi pi-instagram"></i></span>
+                        <span class="font-semibold">instagram</span>
+                    </a>
+                    <a [href]="profile.twitter" class="my-3 flex gap-3">
+                        <span><i class="pi pi-twitter"></i></span>
+                        <span class="font-semibold">twitter</span>
+                    </a>
+                    <a [href]="profile.linkedin" class="my-3 flex gap-3">
+                        <span><i class="pi pi-linkedin"></i></span>
+                        <span class="font-semibold">linkedin</span>
+                    </a>
+                    <a [href]="profile.website" class="my-3 flex gap-3">
+                        <span><i class="pi pi-globe"></i></span>
+                        <span class="font-semibold">website</span>
+                    </a>
                 </div>
-                <div class="flex items-center mt-4">
-                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
-                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 17%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
-                </div>
-                <div class="flex items-center mt-4">
-                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
-                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 8%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
-                </div>
-                <div class="flex items-center mt-4">
-                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
-                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 4%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
-                </div>
-                <div class="flex items-center mt-4">
-                    <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
-                    <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded dark:bg-gray-700">
-                        <div class="h-5 bg-yellow-300 rounded" style="width: 1%"></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
-                </div> -->
-
+                <h3 class="font-semibold mb-3">
+                    Biography
+                </h3>
+                <p>
+                    {{ profile.biography }}
+                </p>
             </div>
         </div>
     </div>
@@ -198,7 +164,7 @@
                     <input type="file" (change)="fileChangeEvent($event)" />
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+                            [aspectRatio]="3 / 3" format="png" (imageCropped)="imageCropped($event)"
                             (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
                             (loadImageFailed)="loadImageFailed()"></image-cropper>
                         <img [src]="croppedImage" />

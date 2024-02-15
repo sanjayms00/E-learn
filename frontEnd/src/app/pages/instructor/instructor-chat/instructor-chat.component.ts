@@ -69,6 +69,8 @@ export class InstructorChatComponent implements OnInit {
 
       this.currentChat = response
 
+      this.chatService.removeNotification(response._id)
+
     });
 
   }
@@ -77,6 +79,8 @@ export class InstructorChatComponent implements OnInit {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
+      this.chatService.removeNotification(response._id)
+
     })
   }
 

@@ -62,6 +62,7 @@ export class ClientComponent implements OnInit, DoCheck {
 
 
   ngDoCheck(): void {
+    this.notifications = this.chatService.notification
     if (this.authService.getClientToken()) {
       this.logSign = false
     } else {

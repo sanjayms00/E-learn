@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Instructor } from '../schema/instructor.schema';
 import { Model, Types } from 'mongoose';
 import { UploadService } from 'src/common/service/upload.service';
+import { SignedUrlService } from 'src/common/service/signed-url.service';
 
 
 @Injectable()
@@ -13,7 +14,8 @@ export class InstructorProfileService {
     constructor(
         @InjectModel(Instructor.name)
         private instructorModel: Model<Instructor>,
-        private uploadService: UploadService
+        private uploadService: UploadService,
+        private signedUrlService: SignedUrlService
     ) { }
 
     async profileUpdate(instructorId: string, formData, image: File) {
@@ -60,11 +62,27 @@ export class InstructorProfileService {
             { password: 0 }
         )
 
+        const imageSignedUrl = await this.signedUrlService.generateSignedUrl(uploadResult.imageName)
 
-        // instructorData.image = imageSignedUrl;
 
-        return instructorData
+
+
+
+        return {
+            instructorData,
+            imageSignedUrl
+        }
     }
+
+    async profileImage(image: string) {
+
+        const signedProfileImage = await this.signedUrlService.generateSignedUrl(image)
+
+        return signedProfileImage
+
+    }
+
+
 
 
 

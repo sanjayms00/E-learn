@@ -4,6 +4,13 @@ import { constant } from 'src/app/core/constant/constant';
 import { Observable, map } from 'rxjs';
 import { instructorInterface, studentInterface } from 'src/app/shared/interface/common.interface';
 
+type profileResponse = {
+    instructorData: instructorInterface
+    imageSignedUrl: string
+}
+
+
+
 @Injectable({
     providedIn: 'root'
 })
@@ -21,8 +28,16 @@ export class ProfileService {
         return this.http.put<studentInterface>(`${constant.baseUrl}/student/profile/update`, profileData)
     }
 
-    updateInstructorProfile(profileData: any): Observable<instructorInterface> {
-        return this.http.put<instructorInterface>(`${constant.baseUrl}/instructor/profile/update`, profileData)
+    updateInstructorProfile(profileData: any): Observable<profileResponse> {
+        return this.http.put<profileResponse>(`${constant.baseUrl}/instructor/profile/update`, profileData)
     }
+
+
+    profileImage(imageData: string): Observable<{ profileImage : string}> {
+        return this.http.get<{ profileImage: string }>(`${constant.baseUrl}/instructor/profile/image?image=${imageData}`);
+    }
+
+
+
 
 }
