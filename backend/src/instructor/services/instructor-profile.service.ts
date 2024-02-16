@@ -18,61 +18,66 @@ export class InstructorProfileService {
         private signedUrlService: SignedUrlService
     ) { }
 
-    async profileUpdate(instructorId: string, formData, image: File) {
+    async profileUpdate(instructorId: string, formData: any, image: File) {
 
-        console.log(formData, instructorId, image)
+        const ObjInstructorId = new Types.ObjectId(instructorId);
+        const UpdationQuery = {
+            fullName: formData.fullName,
+            email: formData.email,
+            mobile: formData.mobile,
+            headline: formData.headline,
+            biography: formData.biography,
+            twitter: formData.twitter,
+            facebook: formData.facebook,
+            instagram: formData.instagram,
+            linkedin: formData.linkedin,
+            website: formData.website
+        };
 
-        const ObjInstructorId = new Types.ObjectId(instructorId)
+        let uploadResult;
 
-        //image upload to s3
-        const uploadResult = await this.uploadService.uploadImage(image)
+        if (image) {
+            // Image upload to S3
+            uploadResult = await this.uploadService.uploadImage(image);
 
-        if (!uploadResult.imageSignedUrl || !uploadResult.imageName) {
-            throw new Error('Failed to upload image to S3.');
+            if (!uploadResult.imageSignedUrl || !uploadResult.imageName) {
+                throw new Error('Failed to upload image to S3.');
+            }
+
+            // Add image property to UpdationQuery if image is uploaded
+            UpdationQuery['image'] = uploadResult.imageName;
         }
 
-        let instructorData = await this.instructorModel.updateOne(
+        // Update instructor data
+        const instructorData = await this.instructorModel.updateOne(
             { _id: ObjInstructorId },
-            {
-                $set: {
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    mobile: formData.mobile,
-                    password: formData.password,
-                    status: formData.status,
-                    headline: formData.headline,
-                    biography: formData.biography,
-                    twitter: formData.twitter,
-                    facebook: formData.facebook,
-                    instagram: formData.instagram,
-                    linkedin: formData.linkedin,
-                    website: formData.website,
-                    image: uploadResult.imageName
-                }
-            }
-        )
+            { $set: UpdationQuery }
+        );
 
-        if (!instructorData) throw new NotFoundException('instructor not found')
+        if (!instructorData) {
+            throw new NotFoundException('Instructor not found');
+        }
 
-
-        //upload the image
-
-        instructorData = await this.instructorModel.findOne(
+        // Retrieve updated instructor data
+        const updatedInstructorData = await this.instructorModel.findOne(
             { _id: ObjInstructorId },
             { password: 0 }
-        )
+        );
 
-        const imageSignedUrl = await this.signedUrlService.generateSignedUrl(uploadResult.imageName)
+        let imageSignedUrl = null;
 
-
-
-
+        if (image) {
+            imageSignedUrl = await this.signedUrlService.generateSignedUrl(uploadResult.imageName);
+        }
 
         return {
-            instructorData,
+            instructorData: updatedInstructorData,
             imageSignedUrl
-        }
+        };
     }
+
+
+
 
     async profileImage(image: string) {
 

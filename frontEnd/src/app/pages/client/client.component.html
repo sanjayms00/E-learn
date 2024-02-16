@@ -37,11 +37,11 @@
             </ng-container>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li *ngFor="let item of notifications">
-                <a
+                <a [routerLink]="['/chat']"
                   class="block px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                  [{{ item.sender.fullName }}] :
+                  [{{ item.message.sender.fullName }}] :
                   <br>
-                  {{ item.content }}
+                  {{ item.message.content }}
                 </a>
               </li>
             </ul>

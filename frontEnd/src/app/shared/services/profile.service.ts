@@ -9,6 +9,11 @@ type profileResponse = {
     imageSignedUrl: string
 }
 
+type profileStudentResponse = {
+    studentData: studentInterface
+    imageSignedUrl: string
+}
+
 
 
 @Injectable({
@@ -24,8 +29,8 @@ export class ProfileService {
         return this.http.get(`${constant.baseUrl}/student/profile`)
     }
 
-    updateProfile(profileData: FormData): Observable<studentInterface> {
-        return this.http.put<studentInterface>(`${constant.baseUrl}/student/profile/update`, profileData)
+    updateProfile(profileData: FormData): Observable<profileStudentResponse> {
+        return this.http.put<profileStudentResponse>(`${constant.baseUrl}/student/profile/update`, profileData)
     }
 
     updateInstructorProfile(profileData: any): Observable<profileResponse> {
@@ -35,6 +40,10 @@ export class ProfileService {
 
     profileImage(imageData: string): Observable<{ profileImage : string}> {
         return this.http.get<{ profileImage: string }>(`${constant.baseUrl}/instructor/profile/image?image=${imageData}`);
+    }
+    
+    studentprofileImage(imageData: string): Observable<{ profileImage : string}> {
+        return this.http.get<{ profileImage: string }>(`${constant.baseUrl}/student/profile/image?image=${imageData}`);
     }
 
 

@@ -21,10 +21,10 @@ export class Instructor extends Document {
     @Prop({ required: true })
     status: boolean;
 
-    @Prop({ required: true })
+    @Prop()
     headline: string;
 
-    @Prop({ required: true })
+    @Prop()
     biography: string;
 
     @Prop()

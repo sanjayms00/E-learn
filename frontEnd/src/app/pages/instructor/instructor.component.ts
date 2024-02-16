@@ -1,96 +1,53 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
 import { Sidebar } from 'primeng/sidebar';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { MessageResponse, message } from 'src/app/shared/interface/chat.interface';
+import { ChatService } from 'src/app/shared/services/chat.service';
 import { getinstructorDataFromLocal } from 'src/app/shared/store/actions/instructor.action';
+import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
 
 @Component({
     selector: 'app-instructor',
     templateUrl: './instructor.component.html'
 })
-export class InstructorComponent {
+export class InstructorComponent implements OnInit, DoCheck {
     items!: MenuItem[];
     @ViewChild('sidebarRef') sidebarRef!: Sidebar;
     sidebarVisible: boolean = true;
+    instructorNotification: MessageResponse[] = []
+    instructorId: string  = ''
 
 
     constructor(
         private authService: AuthService,
         private router: Router,
         private toastr: ToastrService,
-        private store: Store<appState>
+        private store: Store<appState>,
+        private chatservice: ChatService
     ) { }
 
-
     ngOnInit() {
-
         this.setInstructorData()
-
-
-        this.items = [
-            {
-                label: 'Dashboard',
-                icon: 'pi pi-sitemap',
-                routerLink: '/instructor/dashboard'
-            },
-            {
-                label: 'Courses',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {
-                        label: 'All Courses',
-                        icon: 'pi pi-book',
-                        routerLink: '/instructor/courses'
-                    },
-                    {
-                        label: 'Create Course',
-                        icon: 'pi pi-video',
-                        routerLink: '/instructor/create'
-                    }
-                ]
-            },
-            {
-                label: 'Chat',
-                icon: 'pi pi-send',
-                routerLink: '/instructor/chat'
-            },
-            // {
-            //     label: 'Notifications',
-            //     icon: 'pi pi-fw pi-calendar',
-            //     items: [
-            //         {
-            //             label: 'Edit',
-            //             icon: 'pi pi-fw pi-pencil',
-            //             items: [
-            //                 {
-            //                     label: 'Save',
-            //                     icon: 'pi pi-fw pi-calendar-plus'
-            //                 },
-            //                 {
-            //                     label: 'Delete',
-            //                     icon: 'pi pi-fw pi-calendar-minus'
-            //                 },
-
-            //             ]
-            //         },
-            //         {
-            //             label: 'Archieve',
-            //             icon: 'pi pi-fw pi-calendar-times',
-            //             items: [
-            //                 {
-            //                     label: 'Remove',
-            //                     icon: 'pi pi-fw pi-calendar-minus'
-            //                 }
-            //             ]
-            //         }
-            //     ]
-            // }
-        ];
+        this.store.select(getInstructor).subscribe(res => {
+            this.instructorId = res._id
+        })
     }
+
+    ngDoCheck(): void {
+
+        this.instructorNotification = this.chatservice.instructorNotification.filter(noti => {
+            return noti.chatRoomData.instructor == this.instructorId
+        })
+        
+        this.chatservice.getInstructorNotifications(this.instructorId)
+
+    }
+
 
     //instructor logout
     logout() {

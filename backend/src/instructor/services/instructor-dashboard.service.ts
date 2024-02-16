@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestj
 import { InjectModel } from '@nestjs/mongoose';
 import { Course } from '../schema/course.schema';
 import { Model, Types } from 'mongoose';
+import { InstructorDashboardData } from 'src/common/interfaces/dashboard.interface';
 
 @Injectable()
 export class InstructorDashboardService {
@@ -12,20 +13,34 @@ export class InstructorDashboardService {
     ) { }
 
     async dashboardData(instructorId: string) {
-        
+
         const counts = await this.dashCounts(instructorId)
         const graphData = await this.graphData(instructorId)
 
         return {
-            counts, 
+            counts,
             graphData
         }
     }
 
-    async dashCounts(instructorId: string){
+    async dashCounts(instructorId: string) {
         try {
             // console.log(instructorId)
             const objInstructorId = new Types.ObjectId(instructorId)
+
+            const dashDataCheck = await this.courseModel.find(
+                { instructorId: objInstructorId }
+            )
+
+            if (dashDataCheck.length < 1) {
+                return {
+                    courses: 0,
+                    sold: 0,
+                    rating: 0
+                }
+            }
+
+
             const dashData = await this.courseModel.aggregate([
                 {
                     $match: { instructorId: objInstructorId }
@@ -83,7 +98,7 @@ export class InstructorDashboardService {
         }
     }
 
-    async graphData(instructorId: string){
+    async graphData(instructorId: string) {
         try {
 
             const objInstructorId = new Types.ObjectId(instructorId)
@@ -101,7 +116,7 @@ export class InstructorDashboardService {
                 {
                     $group: {
                         _id: '$courseName',
-                        count: { $sum: { $size: '$students' } }, 
+                        count: { $sum: { $size: '$students' } },
                     },
                 },
             ])

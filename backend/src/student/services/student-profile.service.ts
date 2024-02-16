@@ -7,6 +7,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import * as crypto from 'crypto';
 import { SharpService } from "nestjs-sharp";
 import { SignedUrlService } from "src/common/service/signed-url.service";
+import { UploadService } from "src/common/service/upload.service";
 
 @Injectable()
 export class StudentProfileService {
@@ -18,70 +19,74 @@ export class StudentProfileService {
     constructor(
         @InjectModel(Student.name) private studentModel: Model<Student>,
         private readonly configService: ConfigService,
-        private signedUrlService: SignedUrlService
+        private signedUrlService: SignedUrlService,
+        private uploadService: UploadService
     ) { }
 
 
-    async getProfile(studentId) {
+    async profileImage(image: string) {
 
-        const objStudentId = new Types.ObjectId(studentId)
+        const signedProfileImage = await this.signedUrlService.generateSignedUrl(image)
 
-        const studentData = await this.studentModel.findOne(
-            { _id: objStudentId },
-            { password: 0, __v: 0 }
-        )
+        return signedProfileImage
 
-        if (!studentData) throw new NotFoundException("Student information not found")
-
-        return studentData
     }
 
-    async updateProfile(image, profileData, studentId) {
+    
+    async updateProfile(image: File, profileData, studentId: string) {
 
-        // console.log(profileData, image)
 
-        const imageKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+        const ObjStudentId = new Types.ObjectId(studentId);
 
-        const imageName = imageKey()
-
-        const imageParams = {
-            Bucket: this.configService.getOrThrow('BUCKET_NAME'),
-            Key: imageName,
-            Body: image.buffer,
-            ContentType: image.mimetype
+        const UpdationQuery = {
+            fullName: profileData.fullName,
+            email: profileData.email,
+            mobile: profileData.mobile
         };
 
+        let uploadResult;
 
-        const imageResult = await this.s3Client.send(
-            new PutObjectCommand(imageParams)
-        )
+        if (image) {
+            // Image upload to S3
+            uploadResult = await this.uploadService.uploadImage(image);
 
-        if (!imageResult) throw new Error("unable to upload the image")
+            if (!uploadResult.imageSignedUrl || !uploadResult.imageName) {
+                throw new Error('Failed to upload image to S3.');
+            }
 
-        try {
-            const objStudentId = new Types.ObjectId(studentId)
-
-            const studentData = await this.studentModel.findOneAndUpdate(
-                { _id: objStudentId },
-                {
-                    $set: {
-                        fullName: profileData.fullName,
-                        mobile: profileData.mobile,
-                        email: profileData.email,
-                        image: imageName,
-                    }
-                },
-                { new: true }
-            );
-
-            const studentDataWithoutPassword = { ...studentData.toObject() };
-            delete studentDataWithoutPassword.password;
-
-            studentData.image = await this.signedUrlService.generateSignedUrl(studentData.image)
-
-            return studentData
-        } catch (error) {
-            throw new Error(error)
+            // Add image property to UpdationQuery if image is uploaded
+            UpdationQuery['image'] = uploadResult.imageName;
         }
+
+        // Update instructor data
+        const instructorData = await this.studentModel.updateOne(
+            { _id: ObjStudentId },
+            { $set: UpdationQuery }
+        );
+
+        if (!instructorData) {
+            throw new NotFoundException('Instructor not found');
+        }
+
+        // Retrieve updated instructor data
+        const updatedStudentData = await this.studentModel.findOne(
+            { _id: ObjStudentId },
+            { password: 0 }
+        );
+
+        let imageSignedUrl = null;
+
+        if (image) {
+            imageSignedUrl = await this.signedUrlService.generateSignedUrl(uploadResult.imageName);
+        }
+
+        return {
+            studentData: updatedStudentData,
+            imageSignedUrl
+        };
+
+    } catch(error) {
+        throw new Error(error)
     }
+
 }

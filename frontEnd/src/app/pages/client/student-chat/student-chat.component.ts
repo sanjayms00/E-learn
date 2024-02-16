@@ -2,7 +2,7 @@ import { Component, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { users, Chats, onloadResponse, message } from 'src/app/shared/interface/chat.interface';
+import { users, Chats, onloadResponse, message, MessageResponse } from 'src/app/shared/interface/chat.interface';
 import { ChatService } from 'src/app/shared/services/chat.service';
 import { getclient } from 'src/app/shared/store/selectors/client.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
@@ -19,6 +19,7 @@ export class StudentChatComponent {
   chats: Chats[] = []
   role: "Instructor" | "Student" = "Student";
   currentChat: Chats | null = null
+  notification: MessageResponse[] = []
 
   constructor(
     private chatService: ChatService,
@@ -46,15 +47,16 @@ export class StudentChatComponent {
       this.chats = response.chats
     });
 
-    this.chatService.socket.on('message', (message: message) => {
-      if (this.currentChat?._id === message.chatRoom) {
-        this.currentChat?.messages.push(message)
+    this.chatService.socket.on('message', (response: MessageResponse) => {
+      if (this.currentChat?._id === response.message.chatRoom) {
+        this.currentChat?.messages.push(response.message)
       }
 
-      console.log(message)
-
-      if (message.senderType !== this.role) {
-        this.chatService.pushNotification(message)
+      if (response.message.senderType !== this.role) {
+        if (!this.currentChat || (this.currentChat._id !== response.message.chatRoom && response.chatRoomData.student == this.studentId)) {
+          this.chatService.pushNotification(response);
+          this.notification = this.chatService.notification
+        }
       }
 
     });
@@ -76,7 +78,6 @@ export class StudentChatComponent {
 
       this.chatService.removeNotification(response._id)
 
-
     });
   }
 
@@ -86,6 +87,7 @@ export class StudentChatComponent {
       this.currentChat = response
 
       this.chatService.removeNotification(response._id)
+      this.notification = this.chatService.notification
 
     })
   }

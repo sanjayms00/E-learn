@@ -2,7 +2,7 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Chats, message, onloadResponse, users } from 'src/app/shared/interface/chat.interface';
+import { Chats, MessageResponse, message, onloadResponse, users } from 'src/app/shared/interface/chat.interface';
 import { ChatService } from 'src/app/shared/services/chat.service';
 import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
 import { appState } from 'src/app/shared/store/state/app.state';
@@ -18,6 +18,9 @@ export class InstructorChatComponent implements OnInit {
   chats: Chats[] = []
   role: "Instructor" | "Student" = "Instructor";
   currentChat: Chats | null = null
+  instructorNotification: MessageResponse[] = []
+
+
 
   constructor(
     private chatService: ChatService,
@@ -45,13 +48,17 @@ export class InstructorChatComponent implements OnInit {
       this.chats = response.chats
     });
 
-    this.chatService.socket.on('message', (message: message) => {
-      if (this.currentChat?._id === message.chatRoom) {
-        this.currentChat?.messages.push(message)
+    this.chatService.socket.on('message', (response: MessageResponse) => {
+      if (this.currentChat?._id === response.message.chatRoom) {
+        this.currentChat?.messages.push(response.message)
       }
 
-      if (message.senderType !== this.role) {
-        this.chatService.pushNotification(message)
+
+      if (response.message.senderType !== this.role) {
+        if (!this.currentChat || (this.currentChat._id !== response.message.chatRoom && response.chatRoomData.instructor == this.instructorId)) {
+          this.chatService.pushInstructorNotification(response);
+          this.instructorNotification = this.chatService.instructorNotification
+        }
       }
     });
 
@@ -79,7 +86,8 @@ export class InstructorChatComponent implements OnInit {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
-      this.chatService.removeNotification(response._id)
+      this.chatService.removeInstructorNotification(response._id)
+      this.instructorNotification = this.chatService.instructorNotification
 
     })
   }

@@ -1,5 +1,5 @@
-import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { constant } from 'src/app/core/constant/constant';
+import { clientLoginSuccess } from 'src/app/shared/store/actions/client.action';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   noImage = constant.noProfile
 
   formData = new FormData()
+  @ViewChild('file') fileInput!: ElementRef;
 
 
   constructor(
@@ -46,10 +48,6 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getProfileInformation()
-  }
-
-  getProfileInformation() {
     this.profileSubscription = this.store.select(getclient)
       .subscribe({
         next: res => {
@@ -60,6 +58,16 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
           this.toastr.error(err.message)
         }
       })
+
+    if (this.profile.image) {
+      this.getProfileImage()
+    }
+  }
+
+  getProfileImage() {
+    this.profileService.studentprofileImage(this.profile.image).subscribe(res => {
+      this.noImage = res.profileImage
+    })
   }
 
 
@@ -75,27 +83,45 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
     });
   }
 
+
   profileUpdate() {
     if (this.profileForm.valid) {
       const profileData = this.profileForm.value
 
-      Object.keys(profileData).forEach(key => {
-        const value = profileData[key];
-        this.formData.append(key, value);
-      });
+
+      Object.keys(this.profileForm.controls).forEach(key => {
+        const control = this.profileForm.get(key)
+
+        if (control instanceof FormControl) {
+          this.formData.append(key, control.value)
+        }
+      })
 
       this.profileService.updateProfile(this.formData)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
-            this.profile = res
-            localStorage.setItem('clientData', JSON.stringify(res))
+            this.profile = res.studentData
+            this.store.dispatch(clientLoginSuccess({ user: res.studentData }))
+
+            if (res.imageSignedUrl) {
+              this.noImage = res.imageSignedUrl
+            }
+
+            this.formData = new FormData();
+            localStorage.setItem('clientData', JSON.stringify(res.studentData))
             this.toastr.success("Profile updated")
-            this.formData = new FormData()
-            this.getProfileInformation()
+            this.imageChangedEvent = null;
+            this.croppedImage = null;
+            this.clearFileInput();
           },
           error: err => {
+
             this.toastr.error(err.message)
+            this.formData = new FormData();
+            this.imageChangedEvent = null;
+            this.croppedImage = null;
+            this.clearFileInput();
           }
         })
       this.visible = false;
@@ -105,12 +131,21 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  clearFileInput() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl || event.base64 || '');
+
+    this.formData.delete('image');
 
     if (event.blob) {
       this.formData.append('image', event.blob, 'cropped_image.png');

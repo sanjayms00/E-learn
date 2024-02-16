@@ -7,8 +7,8 @@
 
     <div class="w-[80%] mx-auto flex">
         <div class="w-2/5">
-            <div class="h-52 w-52 mx-auto mt-[-90px] relative z-10 border-4 border-white rounded-full overflow-hidden">
-                <img [src]="noprofile" alt="">
+            <div class="h-40 w-40 mx-auto mt-[-80px] relative z-10 border-4 border-white rounded-full overflow-hidden">
+                <img [src]="noprofile" alt="profile image" class="rounded-full h-full w-auto">
             </div>
         </div>
         <div class="pt-4 w-3/5">
@@ -161,10 +161,10 @@
                 <div class="mb-6">
                     <label for="profile_Image"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile image</label>
-                    <input type="file" (change)="fileChangeEvent($event)" />
+                    <input type="file" (change)="fileChangeEvent($event)" #file />
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                            [aspectRatio]="3 / 3" format="png" (imageCropped)="imageCropped($event)"
+                            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
                             (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
                             (loadImageFailed)="loadImageFailed()"></image-cropper>
                         <img [src]="croppedImage" />

@@ -1,5 +1,5 @@
 
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import { ProfileService } from 'src/app/shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
 import { constant } from 'src/app/core/constant/constant';
+import { instructorLoginSuccess } from 'src/app/shared/store/actions/instructor.action';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class InstructorProfileComponent implements OnInit {
   croppedImage: any = '';
   formData = new FormData()
   noprofile = constant.noProfile
+  @ViewChild('file') fileInput!: ElementRef;
 
 
   constructor(
@@ -117,13 +119,26 @@ export class InstructorProfileComponent implements OnInit {
           next: res => {
             this.profile = res.instructorData
             localStorage.setItem('instructorData', JSON.stringify(res.instructorData))
-            this.noprofile = res.imageSignedUrl
+
+            this.store.dispatch(instructorLoginSuccess({ user: res.instructorData }))
+
+            if (res.imageSignedUrl) {
+              this.noprofile = res.imageSignedUrl
+            }
+
             this.toastr.success("profile updated")
-            this.formData = new FormData()
+
+            this.formData = new FormData();
+            this.imageChangedEvent = null;
+            this.croppedImage = null;
+            this.clearFileInput();
           },
           error: err => {
             this.toastr.error(err.message)
-            this.formData = new FormData()
+            this.formData = new FormData();
+            this.imageChangedEvent = null;
+            this.croppedImage = null;
+            this.clearFileInput();
           }
         })
       this.visible = false;
@@ -133,12 +148,21 @@ export class InstructorProfileComponent implements OnInit {
     }
   }
 
+  clearFileInput() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
+
+    this.formData.delete('image');
 
     if (event.blob) {
       this.formData.append('image', event.blob, 'cropped_image.png');

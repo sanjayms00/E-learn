@@ -44,3 +44,17 @@ export interface message {
     chatRoom: string;
     createdAt: Date
 }
+
+
+export interface ChatRoomData {
+    instructor: string;
+    student: string;
+}
+
+
+
+
+export interface MessageResponse {
+    chatRoomData: ChatRoomData,
+    message : message
+}

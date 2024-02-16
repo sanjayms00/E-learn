@@ -30,6 +30,7 @@ import { RatingReviewSchema } from './schema/ratingReview.schema';
 import { StudentProfileService } from './services/student-profile.service';
 import { StudentProfileController } from './controllers/student-profile.controller';
 import { SharpService } from 'nestjs-sharp';
+import { UploadService } from 'src/common/service/upload.service';
 
 
 @Module({
@@ -91,7 +92,8 @@ import { SharpService } from 'nestjs-sharp';
     SignedUrlService,
     LearningService,
     ReviewRatingService,
-    SharpService
+    SharpService,
+    UploadService
   ],
   exports: [
     StudentJwtStrategy,
@@ -105,6 +107,8 @@ export class StudentModule implements NestModule {
       .apply(StudentMiddleware)
       .exclude(
         { path: 'student/webhook', method: RequestMethod.ALL },
+        { path: 'student/home', method: RequestMethod.ALL },
+        { path: 'student/categories', method: RequestMethod.ALL },
         { path: 'student/home-courses', method: RequestMethod.ALL },
         { path: 'student/all-courses', method: RequestMethod.ALL },
         { path: 'student/search/:searchText', method: RequestMethod.ALL },

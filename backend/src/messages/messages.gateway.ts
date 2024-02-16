@@ -54,6 +54,19 @@ export class MessagesGateway {
   }
 
 
+  @SubscribeMessage('addNotification')
+  async addNotification(
+    @MessageBody() message,
+  ) {
+
+    const notification = await this.messagesService.addNotification(message);
+
+    this.server.emit('notification', message)
+
+    return notification
+  }
+
+
   @SubscribeMessage('findAllInstructors')
   async findAllInstructors(
     @MessageBody() payload: { studentId: string },

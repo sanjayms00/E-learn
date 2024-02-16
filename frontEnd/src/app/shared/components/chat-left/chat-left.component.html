@@ -22,7 +22,6 @@
                         <div class="flex justify-between">
                             <ng-container *ngIf="role == 'Student'; else elseBlock">
                                 <span class="block ml-2 font-semibold text-gray-600">
-                                    <!-- {{ item | json}} -->
                                     {{ item.instructor.fullName }}
                                 </span>
                             </ng-container>
@@ -32,9 +31,14 @@
                                     {{ item.student.fullName }}
                                 </span>
                             </ng-template>
-                            <!-- <span class="block ml-2 text-sm text-gray-600">25 minutes</span> -->
+                            <span
+                                class="ml-2 text-sm bg-green-700 text-white font-medium rounded-full w-5 h-5 flex justify-center items-center"
+                                *ngIf="getUnreadNotificationCount(item._id) > 0">
+                                {{ getUnreadNotificationCount(item._id) }}
+                            </span>
                         </div>
                         <!-- <span class="block ml-2 text-sm text-gray-600">bye</span> -->
+                        <ng-template></ng-template>
                     </div>
                 </a>
             </ng-container>

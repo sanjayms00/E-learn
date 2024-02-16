@@ -8,6 +8,7 @@ import { Instructor } from 'src/instructor/schema/instructor.schema';
 import { Student } from 'src/student/schema/student.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { accessChat } from 'src/common/interfaces/chat.interface';
+import { Notification } from './schema/notification.schema';
 
 @Injectable()
 export class MessagesService {
@@ -19,6 +20,7 @@ export class MessagesService {
     @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Course.name) private courseModel: Model<Course>,
+    @InjectModel(Notification.name) private notificationModel: Model<Notification>,
   ) { }
 
   async accessChat(data: accessChat) {
@@ -150,8 +152,32 @@ export class MessagesService {
 
     await message.populate('sender', "fullName")
 
-    return message;
+    const chatRoomData = await this.chatRoomModel.findById(chatRoom, 'student instructor').exec();
 
+    console.log(chatRoomData)
+
+    return { message, chatRoomData }
+
+
+  }
+
+
+  async addNotification(message) {
+
+    const { content, senderType, chatRoom, sender } = message
+    const notification = await this.notificationModel.create({
+      sender,
+      content,
+      senderType,
+      chatRoom
+    })
+
+    if (!notification) {
+      throw new HttpException('Failed to create message.', HttpStatus.BAD_REQUEST);
+    }
+
+
+    return notification;
 
   }
 

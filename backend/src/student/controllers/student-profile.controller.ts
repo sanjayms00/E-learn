@@ -1,7 +1,9 @@
-import { Controller, Get, UseGuards, Put, Body, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, UseGuards, Put, Body, Request, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { StudentProfileService } from '../services/student-profile.service';
 import { studentJwtAuthGuard } from '../guards/student.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+
+
 @Controller('profile')
 export class StudentProfileController {
 
@@ -11,27 +13,30 @@ export class StudentProfileController {
     ) { }
 
     @UseGuards(studentJwtAuthGuard)
-    @Get()
-    async getProfile(
-        @Request() req,
-    ) {
-        const studentId = req.user.id
-        return await this.profileService.getProfile(studentId)
-    }
-
-
-    @UseGuards(studentJwtAuthGuard)
     @UseInterceptors(FileInterceptor('image'))
     @Put('update')
     async updateProfile(
-        @Body() profileData,
         @Request() req,
         @UploadedFile() image
     ) {
         const studentId = req.user.id
 
+        const profileData = req.body
+
         return await this.profileService.updateProfile(image, profileData, studentId)
 
     }
+
+
+    @UseGuards(studentJwtAuthGuard)
+    @Get('image')
+    async profileImage(
+        @Query('image') image: string,
+    ) {
+        const profileImage = await this.profileService.profileImage(image)
+        return { profileImage }
+    }
+
+
 
 }

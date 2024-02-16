@@ -23,15 +23,13 @@ export class ChatRightComponent implements OnChanges, OnInit {
   @Input() role!: "Instructor" | "Student";
   @Output() messageEvent = new EventEmitter()
 
-
-
   ngOnInit(): void {
-    console.log("onload", this.currentChat)
+    this.scrollToBottom();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("on changes", this.currentChat)
     this.message = ""
+    this.scrollToBottom();
   }
 
   sendMessage() {
@@ -50,6 +48,7 @@ export class ChatRightComponent implements OnChanges, OnInit {
     this.messageEvent.emit(messageData)
 
     this.message = ""
+    this.scrollToBottom();
   }
 
   adjustTextareaHeight(event: Event) {
@@ -82,5 +81,12 @@ export class ChatRightComponent implements OnChanges, OnInit {
     }
   }
 
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.container) {
+        this.container.nativeElement.scrollTop = this.container.nativeElement.scrollHeight;
+      }
+    }, 100);
+  }
 
 }
