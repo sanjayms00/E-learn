@@ -10,9 +10,9 @@ import { MessageResponse, message } from '../interface/chat.interface';
 export class ChatService {
 
     socket = io(constant.socketLink);
+
     notification: MessageResponse[] = []
     instructorNotification: MessageResponse[] = []
-
 
     pushNotification(message: MessageResponse) {
         this.notification.push(message)

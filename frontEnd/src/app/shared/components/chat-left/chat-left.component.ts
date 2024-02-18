@@ -29,7 +29,7 @@ export class ChatLeftComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-   console.log(this.notifications)
+  
   }
 
   onChange(event: string) {

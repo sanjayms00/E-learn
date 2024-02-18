@@ -9,6 +9,7 @@ import { Student } from 'src/student/schema/student.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { accessChat } from 'src/common/interfaces/chat.interface';
 import { Notification } from './schema/notification.schema';
+import { notification } from 'src/common/interfaces/notification.interface';
 
 @Injectable()
 export class MessagesService {
@@ -154,7 +155,7 @@ export class MessagesService {
 
     const chatRoomData = await this.chatRoomModel.findById(chatRoom, 'student instructor').exec();
 
-    console.log(chatRoomData)
+    // console.log(chatRoomData)
 
     return { message, chatRoomData }
 
@@ -162,24 +163,78 @@ export class MessagesService {
   }
 
 
-  async addNotification(message) {
+  async addNotification(notification: CreateMessageDto) {
 
-    const { content, senderType, chatRoom, sender } = message
-    const notification = await this.notificationModel.create({
+    const { content, senderType, chatRoom, sender } = notification
+
+    const message = await this.notificationModel.create({
       sender,
       content,
       senderType,
-      chatRoom
+      chatRoom: new Types.ObjectId(chatRoom)
     })
 
-    if (!notification) {
-      throw new HttpException('Failed to create message.', HttpStatus.BAD_REQUEST);
+    if (!message) {
+      throw new HttpException('Failed to create notification.', HttpStatus.BAD_REQUEST);
     }
 
+    await message.populate('sender', "fullName")
 
-    return notification;
+    const chatRoomData = await this.chatRoomModel.findById(chatRoom, 'student instructor').exec();
+
+    // console.log(chatRoomData)
+
+    return { message, chatRoomData }
+
 
   }
+
+
+  async deleteInstructorNotification(notification: notification[]) {
+
+    if (notification.length > 0) {
+      const chatRoom = notification[0].message.chatRoom
+
+      await this.notificationModel.deleteMany({
+        chatRoom: new Types.ObjectId(chatRoom),
+        senderType: "Student"
+      })
+
+    }
+
+    const remainingNotifications = await this.notificationModel
+      .find({ senderType: "Student" })
+      .populate({
+        path: 'chatRoom',
+        select: 'student instructor'
+      });
+
+    return remainingNotifications
+
+
+  }
+
+  async deleteStudentNotification(notification: notification[]) {
+
+    const chatRoom = notification[0].message.chatRoom
+
+    await this.notificationModel.deleteMany({
+      chatRoom: new Types.ObjectId(chatRoom),
+      senderType: "Instructor"
+    })
+
+
+    const remainingNotifications = await this.notificationModel
+      .find({ senderType: "Instructor" })
+      .populate({
+        path: 'chatRoom',
+        select: 'student instructor'
+      });
+
+    return remainingNotifications
+
+  }
+
 
 
   // async findAllChats() {

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpStatusCode } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { constant } from '../constant/constant';
 import { Observable } from 'rxjs';
-import { SignUpInterface, loginInterface, studentInterface } from 'src/app/shared/interface/common.interface';
+import { SignUpInterface, IUser, studentInterface } from 'src/app/shared/interface/common.interface';
 import { clientStateInterface } from 'src/app/shared/interface/client.interface';
-
 
 
 @Injectable({
@@ -15,7 +14,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   //login api call
-  studentLogin(loginData: loginInterface): Observable<{ user: clientStateInterface, accessToken: string }> {
+  studentLogin(loginData: IUser): Observable<{ user: clientStateInterface, accessToken: string }> {
     return this.http.post<{ user: clientStateInterface, accessToken: string }>(`${constant.baseUrl}/student/auth/login`, loginData)
   }
 
@@ -25,7 +24,7 @@ export class AuthService {
   }
 
   //login api call instructor
-  instructorLogin(loginData: loginInterface) {
+  instructorLogin(loginData: IUser) {
     return this.http.post(`${constant.baseUrl}/instructor/auth/login`, loginData)
   }
 
@@ -35,7 +34,7 @@ export class AuthService {
   }
 
   //adminlogin api call
-  adminLogin(adminLoginData: loginInterface): Observable<{ token: string }> {
+  adminLogin(adminLoginData: IUser): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${constant.baseUrl}/admin/auth/login`, adminLoginData)
   }
 
@@ -82,7 +81,6 @@ export class AuthService {
     return null
   }
 
-
   //local student Data
   getLocalInstructorData() {
     if (this.getInstructorToken()) {
@@ -90,8 +88,6 @@ export class AuthService {
     }
     return null
   }
-
-
 
   //verify otp
   verifyotp(data: { email: string | null, otp: number }): Observable<{ user: studentInterface, access_token: string }> {
@@ -113,9 +109,5 @@ export class AuthService {
   resetPassword(token: string, password: string) {
     return this.http.post<{ status: boolean, message: string }>(`${constant.baseUrl}/student/auth/resetPassword`, { token, password })
   }
-
-
-
-
 
 }

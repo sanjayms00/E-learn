@@ -1,6 +1,6 @@
 import { RatingReview } from "./courseDetails.interface";
 
-export interface loginInterface {
+export interface IUser {
     email: string;
     password: string;
 }
@@ -136,16 +136,4 @@ export interface ChapterInterface {
     title: string;
     description: string;
     file: any;
-}
-
-
-export interface homeResponse {
-    courses: Course[],
-    allCounts: {
-        courseCount: number,
-        categoryCount: number,
-        ratingCount: number,
-        instructorCount: number,
-        studentCount: number
-    }
 }

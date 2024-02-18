@@ -1,38 +1,6 @@
-<section class="flex items-center pt-5 pb-10">
-  <div class="p-4 w-1/2 mx-auto">
-    <div class="text-center pb-5">
-      <h2 class="text-3xl font-semibold mb-2">Student Login</h2>
-      <p class="text-sm text-gray-700 font-bold">Unlocking Knowledge, One Login at a Time.</p>
-    </div>
-    <div class="w-full">
-      <form [formGroup]="studentLogin" (ngSubmit)="login()">
-        <div class="mb-4">
-          <div class="text-red-600 font-bold"
-            *ngIf="studentLogin.controls['email'].touched && studentLogin.controls['email'].errors as emailErrors">
-            <div *ngIf="emailErrors['required']">Email is required</div>
-            <div *ngIf="emailErrors['pattern']">Invalid email format</div>
-          </div>
-          <input type="email" id="email" formControlName="email"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black text-black"
-            placeholder="Email">
-        </div>
-
-        <div class="mb-4">
-          <div class="text-red-600 font-bold"
-            *ngIf="studentLogin.controls['password'].touched && studentLogin.controls['password'].errors as passwordErrors">
-            <div *ngIf="passwordErrors['required']">Password is required</div>
-          </div>
-          <input type="password" formControlName="password" id="password"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-blue-500"
-            placeholder="Password">
-        </div>
-
-        <button type="submit" class="w-full hover:bg-gray-600 text-white py-3 px-4 rounded-md bg-black">
-          Login
-        </button>
-      </form>
-    </div>
-    <hr>
+<section class="pt-16 flex justify-center items-center">
+  <div class="">
+    <app-login [title]="title" [description]="description" (formData)="loginData($event)"></app-login>
     <div class="flex justify-center pt-4">
       <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/instructor/login">Instructor Login</p>
       <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/signup">Register Now</p>

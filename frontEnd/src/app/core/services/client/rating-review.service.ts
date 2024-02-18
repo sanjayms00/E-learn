@@ -9,11 +9,9 @@ import { myLearning } from 'src/app/shared/interface/myLearning.interface';
 })
 export class RatingReviewService {
 
-
   constructor(
     private http: HttpClient
   ) { }
-
 
   rateReviewCourse(courseId: string, rating: number, review: string): Observable<myLearning[]>  {
     const requestBody = {
@@ -23,6 +21,5 @@ export class RatingReviewService {
     };
     return this.http.post<myLearning[]>(`${constant.baseUrl}/student/review-rating`, requestBody)
   }
-
 
 }

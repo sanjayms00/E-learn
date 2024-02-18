@@ -18,5 +18,4 @@ export class DashboardService {
     return this.http.get<instructorDashboardInterface>(`${constant.baseUrl}/instructor/dashboard`)
   }
 
-
 }

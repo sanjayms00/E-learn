@@ -3,7 +3,6 @@ import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ClientComponent } from './pages/client/client.component';
 import { ClientModule } from './pages/client/client.module';
 import { AdminModule } from './pages/admin/admin.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -19,24 +18,21 @@ import { appReducer } from './shared/store/state/app.state';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { listingEffects } from './shared/store/effects/admin/listing.effects';
-import { ErrorComponent } from './shared/components/error/error.component';
 import { InstructorModule } from './pages/instructor/instructor.module';
 import { instructorEffects } from './shared/store/effects/instructor/instructor.effect';
-import { FormsService } from './shared/services/forms.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from 'src/environment/environment';
 import { WelcomeComponent } from './shared/components/welcome/welcome.component';
 import { ChatService } from './shared/services/chat.service';
+import { EmailDirective } from './shared/customeDirectives/email.directive';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientComponent,
     NotFoundComponent,
-    ErrorComponent,
     WelcomeComponent
   ],
   imports: [
@@ -62,7 +58,6 @@ import { ChatService } from './shared/services/chat.service';
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
     },
-    FormsService,
     ChatService
   ],
   bootstrap: [AppComponent],

@@ -1,0 +1,32 @@
+<div class="text-center pb-5">
+    <h2 class="text-3xl font-semibold mb-2">{{ title }}</h2>
+    <p class="text-sm text-gray-700 font-bold"> {{ description }} </p>
+</div>
+<div class="w-full">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-4">
+            <div class="text-red-600"
+                *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].errors as emailErrors">
+                <span class="pr-2" *ngIf="emailErrors['required']">Email is required</span>
+                <span class="pr-2" *ngIf="emailErrors['pattern']">Invalid email format</span>
+            </div>
+            <input type="email" id="email" name="email" formControlName="email"
+                class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black text-black"
+                placeholder="Email">
+        </div>
+
+        <div class="mb-4">
+            <div class="text-red-600"
+                *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].errors as passwordErrors">
+                <span class="pr-2" *ngIf="passwordErrors['required']">Password is required</span>
+            </div>
+            <input type="password" id="password" name="password" formControlName="password"
+                class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-blue-500"
+                placeholder="Password">
+        </div>
+
+        <button type="submit" class="w-full hover:bg-gray-600 text-white py-3 px-4 rounded-md bg-black">
+            Login
+        </button>
+    </form>
+</div>

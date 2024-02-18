@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminDashBoardService } from 'src/app/core/services/admin/admin-dash-board.service';
@@ -8,8 +8,12 @@ import { dashboardResponse } from 'src/app/shared/interface/admin.interface';
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html'
 })
-export class AdminDashboardComponent implements OnInit {
-  dashboardData!: dashboardResponse
+export class AdminDashboardComponent implements OnInit, OnDestroy {
+  dashboardData: dashboardResponse = {
+    student: [],
+    instructor: [],
+    graph: []
+  }
   dashboardDataSubscription!: Subscription
 
   constructor(
@@ -19,14 +23,18 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardDataSubscription = this.adminDashboardService.DashboardData()
-    .subscribe({
-      next: res => {
-        this.dashboardData = res
-      },
-      error: err => {
-        this.toastr.error(err.message)
-      }
-    })
+      .subscribe({
+        next: res => {
+          this.dashboardData = res
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.dashboardDataSubscription.unsubscribe()
   }
 
 }

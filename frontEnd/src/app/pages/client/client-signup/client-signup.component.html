@@ -7,7 +7,7 @@
     <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12">
       <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
         <div class="mb-4">
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.controls['fullName'].touched && signUpForm.controls['fullName'].errors as fullNameErrors">
             <div *ngIf="fullNameErrors['required']">Full Name is required</div>
             <div *ngIf="fullNameErrors['minlength']">Should have 5 characters</div>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="mb-4">
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.controls['email'].touched && signUpForm.controls['email'].errors as emailErrors">
             <div *ngIf="emailErrors['required']">Email is required</div>
             <div *ngIf="emailErrors['pattern']">Invalid email format</div>
@@ -28,9 +28,9 @@
         </div>
 
         <div class="mb-4">
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
-            <div class="text-red-600"
+            <div class="text-red-600 font-medium"
               *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
               <span class="pr-2" *ngIf="mobileErrors['required']">Mobile Number is required</span>
               <span class="pr-2" *ngIf="mobileErrors['pattern']">Only numbers are allowed</span>
@@ -44,7 +44,7 @@
 
 
         <div class="mb-4">
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.controls['password'].touched && signUpForm.controls['password'].errors as passwordErrors">
             <div *ngIf="passwordErrors['required']">Password is required</div>
             <div *ngIf="passwordErrors['minlength']">Should have minlength 6</div>
@@ -56,14 +56,14 @@
         </div>
 
         <div class="mb-4 ">
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
             <span *ngIf="confirmPasswordErrors['required']">Confirm password is required</span>
             <span *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6 characters</span>
             <span *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 15 characters</span>
             <span *ngIf="confirmPasswordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</span>
           </div>
-          <div class="text-red-600 "
+          <div class="text-red-600 font-medium"
             *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('mismatch')">
             Passwords do not match
           </div>

@@ -22,7 +22,7 @@ export class adminEffects {
     this.action$.pipe(
       ofType(adminLogin),
       exhaustMap((action) => {
-        const data = action.logindata
+        const data = action.loginData
         return this.authService.adminLogin(data).pipe(
           map((response: any) => {
             this.toastr.success("Welcome admin")

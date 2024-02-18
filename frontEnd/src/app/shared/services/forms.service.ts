@@ -14,6 +14,4 @@ export class FormsService {
       mobile: Number(signUpData.mobile)
     }
   }
-
-
 }

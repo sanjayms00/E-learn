@@ -25,10 +25,8 @@ export class CategoryService {
     return this.http.get<categoryInterface[]>(`${constant.baseUrl}/admin/category/activeCategories`)
   }
 
-
   removeCategory(): Observable<object> {
     return this.http.put(`${constant.baseUrl}/admin/catrgory/removeCategory`, {})
   }
-
 
 }

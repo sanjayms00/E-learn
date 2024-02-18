@@ -36,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './notification/notification.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { StudentChatComponent } from './student-chat/student-chat.component';
+import { ClientComponent } from './client.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { StudentChatComponent } from './student-chat/student-chat.component';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     NotificationComponent,
-    StudentChatComponent
+    StudentChatComponent,
+    ClientComponent
   ],
   imports: [
     CommonModule,

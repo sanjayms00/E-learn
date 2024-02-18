@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { ListingService } from 'src/app/core/services/admin/listing.service';
-import { instructorInterface } from 'src/app/shared/interface/common.interface';
-import { getInstructorList, instructorStatusChange } from 'src/app/shared/store/actions/admin.action';
-import { instructorlistSelector } from 'src/app/shared/store/selectors/admin.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { ListingService } from '../../../core/services/admin/listing.service';
+import { instructorInterface } from '../../../shared/interface/common.interface';
+import { getInstructorList, instructorStatusChange } from '../../../shared/store/actions/admin.action';
+import { instructorlistSelector } from '../../../shared/store/selectors/admin.selector';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-instructor-list',
@@ -17,19 +18,17 @@ export class InstructorListComponent implements OnInit {
   p: number = 1;
 
   constructor(
-    private store: Store<appState>
+    private store: Store<appState>,
+    private destroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
     this.store.dispatch(getInstructorList())
     this.store.select(instructorlistSelector)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.instructorList = data
       })
-  }
-
-  searchData(event: string) {
-    console.log(event);
   }
 
   changeInstructorStatus(id: string, status: boolean) {

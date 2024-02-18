@@ -14,7 +14,6 @@ export class CategoryComponent implements OnInit {
   p: number = 1;
   allCategories: categoryInterface[] = []
 
-
   constructor(
     private caetgoryService: CategoryService,
     private toastr: ToastrService,
@@ -22,27 +21,41 @@ export class CategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.caetgoryService.getCategories().subscribe(res => {
-      this.allCategories = res
-    })
+    this.caetgoryService.getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.allCategories = res
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
+      })
   }
 
   createCategory() {
-    this.caetgoryService.addCategory({ category: this.category }).subscribe({
-      next: res => {
-        this.caetgoryService.getCategories()
+    const category = this.category.trim()
+    if (category) {
+      this.caetgoryService.addCategory({ category: category })
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(res => {
-          this.allCategories = res
+        .subscribe({
+          next: res => {
+            this.caetgoryService.getCategories()
+              .pipe(takeUntilDestroyed(this.destroyRef))
+              .subscribe(res => {
+                this.allCategories = res
+              })
+            this.toastr.success(res.toString())
+            this.category = ''
+          },
+          error: err => {
+            this.toastr.error(err.message)
+          }
         })
-        this.toastr.success(res.toString())
-        this.category = ''
-      },
-      error: err => {
-        this.toastr.error(err.message)
-      }
-    })
+    } else {
+      this.toastr.error("Field is empty")
+      this.category = ''
+    }
   }
-
 
 }

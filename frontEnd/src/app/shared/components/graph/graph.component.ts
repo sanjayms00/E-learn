@@ -25,9 +25,6 @@ export class GraphComponent implements OnInit, OnChanges {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-
-
-
     this.data = {
       labels: this.getLabels(),
       datasets: [
@@ -40,20 +37,6 @@ export class GraphComponent implements OnInit, OnChanges {
           tension: 0.4,
           data: this.getData()
         },
-        // {
-        //   type: 'bar',
-        //   label: 'Dataset 2',
-        //   backgroundColor: documentStyle.getPropertyValue('--red-300'),
-        //   data: [21, 84, 24, 75, 37, 65, 34],
-        //   borderColor: 'white',
-        //   borderWidth: 2
-        // },
-        // {
-        //   type: 'bar',
-        //   label: 'Dataset 3',
-        //   backgroundColor: documentStyle.getPropertyValue('--pink-300'),
-        //   data: [41, 52, 24, 74, 23, 21, 32]
-        // }
       ]
     };
 
@@ -88,21 +71,12 @@ export class GraphComponent implements OnInit, OnChanges {
     };
   }
 
-
   getLabels() {
     return this.graphData?.map(item => item._id)
   }
 
-
   getData() {
-
-    console.log(this.graphData)
-
     return this.graphData?.map(item => item.count)
   }
-
-
-
-
 
 }

@@ -1,40 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { homeResponse } from 'src/app/shared/interface/common.interface';
-import { environment } from 'src/environment/environment';
+import { CourseService } from '../../../core/services/instructor/course.service';
+import { homeInterface } from '../../../shared/interface/client.interface';
+
 
 @Component({
   selector: 'app-client-home',
   templateUrl: './client-home.component.html'
 })
-export class ClientHomeComponent implements OnInit, OnDestroy {
+export class ClientHomeComponent implements OnInit {
 
-  homeData: homeResponse = {
-    courses: [],
-    allCounts: {
-      courseCount: 0,
-      categoryCount: 0,
-      ratingCount: 0,
-      instructorCount: 0,
-      studentCount: 0
-    }
-  }
-  homeCourseSubscription!: Subscription
-  url: string = environment.cloudFrontUrl;
+  homeData: homeInterface = { 
+    courses: [], 
+    allCounts: { courseCount: 0, categoryCount: 0, ratingCount: 0, instructorCount: 0, studentCount: 0 } };
 
   constructor(
     private courseService: CourseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private desctroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
-    this.getHomeCourse();
-  }
-
-  getHomeCourse() {
-    this.homeCourseSubscription = this.courseService.homeData()
+    this.courseService.homeData()
+      .pipe(takeUntilDestroyed(this.desctroyRef))
       .subscribe({
         next: res => {
           this.homeData = res
@@ -45,7 +34,4 @@ export class ClientHomeComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnDestroy(): void {
-    this.homeCourseSubscription.unsubscribe()
-  }
 }

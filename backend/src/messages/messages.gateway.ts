@@ -61,7 +61,27 @@ export class MessagesGateway {
 
     const notification = await this.messagesService.addNotification(message);
 
-    this.server.emit('notification', message)
+    return notification
+  }
+
+  @SubscribeMessage('deleteInstructorNotification')
+  async deleteInstructorNotification(
+    @MessageBody() message,
+  ) {
+
+    const notification = await this.messagesService.deleteInstructorNotification(message);
+
+    return notification
+  }
+
+  @SubscribeMessage('deleteStudentNotification')
+  async deleteStudentNotification(
+    @MessageBody() message,
+  ) {
+
+    console.log(message)
+
+    const notification = await this.messagesService.deleteStudentNotification(message);
 
     return notification
   }
@@ -135,9 +155,6 @@ export class MessagesGateway {
   // }
 
 
-
-
-  //instructor
 
 
   @SubscribeMessage('instructorChatOnload')

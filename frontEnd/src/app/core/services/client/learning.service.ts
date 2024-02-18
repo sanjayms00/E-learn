@@ -20,7 +20,6 @@ export class LearningService {
 
   //streaming video and fetcvh other course related data
   streamCourse(courseId: string, videoId: string): Observable<StreamResponse> {
-
     const params = new HttpParams()
       .set('courseId', courseId)
       .set('videoId', videoId);

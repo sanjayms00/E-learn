@@ -1,9 +1,9 @@
 import { createAction, props } from "@ngrx/store";
-import { studentInterface, loginInterface, instructorInterface } from "../../interface/common.interface";
+import { studentInterface, IUser, instructorInterface } from "../../interface/common.interface";
 import { adminAuthResponse, statusInterface } from "../../interface/admin.interface";
 
 
-export const adminLogin = createAction('[Admin] login', props<{ logindata: loginInterface }>())
+export const adminLogin = createAction('[Admin] login', props<{ loginData: IUser }>())
 export const adminLoginSuccess = createAction('[Admin] login success', props<{ user: adminAuthResponse }>())
 export const adminLoginFailure = createAction('[Admin] login failure')
 

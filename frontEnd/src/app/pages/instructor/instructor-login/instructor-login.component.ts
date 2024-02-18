@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { IUser } from 'src/app/shared/interface/common.interface';
 import { instructorLogin } from 'src/app/shared/store/actions/instructor.action';
 import { appState } from 'src/app/shared/store/state/app.state';
 
@@ -10,23 +10,15 @@ import { appState } from 'src/app/shared/store/state/app.state';
 })
 export class InstructorLoginComponent {
 
-  instructorLogin !: FormGroup
+  title = "Instructor";
+  description = "Unlocking Knowledge, One Login at a Time."
 
   constructor(
     private store: Store<appState>
-  ) {
-    this.instructorLogin = new FormGroup({
-      email: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required),
-    })
-  }
+  ) { }
 
-  Instrucorlogin() {
-    if (this.instructorLogin.valid) {
-      const loginData = this.instructorLogin.value
-      this.store.dispatch(instructorLogin({ loginData }))
-    }
+  loginData(event: IUser) {
+    this.store.dispatch(instructorLogin({ loginData: event }))
   }
-
 
 }

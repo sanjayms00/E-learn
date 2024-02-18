@@ -1,220 +1,150 @@
-<header class="bg-transparent">
-  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-    <!-- Logo -->
-    <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" routerLink="/">
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a [routerLink]="['/home']" class="flex items-center space-x-3 rtl:space-x-reverse">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-        stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+        stroke-linejoin="round" stroke-width="2" class="w-8 h-8 text-white p-2 bg-indigo-500 rounded-full"
         viewBox="0 0 24 24">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
       </svg>
-      <span class="ml-3 text-xl">E-learn</span>
+      <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden sm:block">E-Learn</span>
     </a>
+    <div class="flex items-center md:order-2 rtl:space-x-reverse">
+      <!-- notification start -->
+      <button id="notificaionButton" data-dropdown-toggle="notificaion" data-dropdown-delay="500"
+        data-dropdown-trigger="hover"
+        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        type="button">
+        <i class="pi pi-bell"></i>
+      </button>
 
-    <!-- navbar -->
-    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" [routerLink]="['/home']"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">Home</a>
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/instructor/login"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">Instructor</a>
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/learning"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">My learning</a>
-      <div>
-        <div class="relative group z-50">
-          <a class="mr-5 hover:text-gray-900 cursor-pointer relative">
-            <i class="pi pi-bell"></i>
-            <ng-container *ngIf="notifications.length > 0">
-              <span
-                class="bg-red-500 text-white h-7 w-7 flex items-center justify-center rounded-full absolute -top-4 -right-4">
-                {{ notifications.length }}
-              </span>
-            </ng-container>
-          </a>
-          <!-- Dropdown Content -->
-          <div
-            class="absolute hidden right-0 w-[150px] bg-white border rounded-sm p-2 space-y-2 text-gray-700 group-hover:block shadow-xl">
-            <ng-container *ngIf="notifications.length < 1">
-              No notifications
-            </ng-container>
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <li *ngFor="let item of notifications">
-                <a [routerLink]="['/chat']"
-                  class="block px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                  [{{ item.message.sender.fullName }}] :
-                  <br>
-                  {{ item.message.content }}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div id="notificaion"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ng-container *ngIf="notifications.length > 0">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+            <li *ngFor="let item of notifications">
+              <a [routerLink]="['/chat']" routerLinkActive="router-link-active"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                [{{ item.message.sender.fullName }}] : {{ item.message.content }}
+              </a>
+            </li>
+          </ul>
+        </ng-container>
       </div>
+      <!-- notification ends -->
 
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/chat"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">
+      <!-- chat starts -->
+      <button type="button" [routerLink]="['/chat']" routerLinkActive="router-link-active"
+        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
         </svg>
-      </a>
-      <a class="mr-5 hover:text-gray-900 cursor-pointer" routerLink="/search"
-        routerLinkActive="border-b-2 border-b-gray-800 pb-2 px-2 ransition duration-200 ease-in-out">
+      </button>
+      <!-- chat ends -->
+
+      <!-- search starts -->
+      <button type="button" [routerLink]="['/search']" routerLinkActive="router-link-active"
+        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
         <i class="pi pi-search"></i>
-      </a>
-    </nav>
-
-    <div *ngIf="logSign; then thenBlock else elseBlock">
-    </div>
-
-    <ng-template #thenBlock>
-      <button class="border-2 mx-3  py-2 px-5 rounded-full hover:border-black" routerLink="/login">
-        Login
       </button>
-      <button
-        class="bg-gray-900 border-2 text-white py-2 px-5 rounded-full hover:border-black hover:text-black hover:bg-white"
-        routerLink="/signup">
-        Get Started
-      </button>
-    </ng-template>
+      <!-- search ends -->
 
-    <ng-template #elseBlock>
-      <!-- profile -->
-      <div>
-        <div class="relative group z-50">
-          <button>
-            <img class="w-11 mt-1 mr-3 rounded-full border-2 border-gray-200 hover:border-black"
-              [src]="profile"
-              alt="user photo">
-          </button>
-          <!-- Dropdown Content -->
-          <div
-            class="absolute hidden right-0 w-[150px] bg-white border rounded-sm p-2 space-y-2 text-gray-700 group-hover:block shadow-xl">
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <li *ngFor="let item of profileArr">
-                <a [routerLink]="[item]"
-                  class="block px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                  {{ item }}
-                </a>
-              </li>
-              <hr class="my-3">
-              <li>
-                <a class="block px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  (click)="logout()">
-                  logout
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div *ngIf="logSign; then thenBlock else elseBlock">
       </div>
 
-      <!-- profile ends -->
-    </ng-template>
-  </div>
-</header>
-<!-- header ends -->
+      <ng-template #thenBlock>
+        <button type="button" [routerLink]="['/login']" routerLinkActive="router-link-active"
+          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+          Login
+        </button>
 
-<!-- content start -->
-<div class="xl:px-32 py-10">
+        <button type="button" [routerLink]="['/signup']" routerLinkActive="router-link-active"
+          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+          Signup
+        </button>
+      </ng-template>
+
+      <ng-template #elseBlock>
+        <!-- profile start -->
+        <button type="button" [routerLink]="['/profile']" routerLinkActive="router-link-active"
+          class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
+          <img [src]="profile" alt="profile image" class="rounded-full w-5 h-5 mr-2">
+          <span class="hidden sm:block">
+            {{ name | slice:0:3 }}
+          </span>
+        </button>
+
+        <button type="button" (click)="logout()"
+          class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
+          logout
+        </button>
+        <!-- profile start -->
+      </ng-template>
+
+      <!-- collapse toggler -->
+      <button data-collapse-toggle="navbar-sticky" type="button"
+        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        aria-controls="navbar-sticky" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 1h15M1 7h15M1 13h15" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul
+        class="flex flex-col p-4 md:p-0 mt-4 font-normal border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+            class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+            aria-current="page">Home</a>
+        </li>
+        <li>
+          <a [routerLink]="['/instructor']" routerLinkActive="router-link-active"
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Instructor</a>
+        </li>
+        <li>
+          <a [routerLink]="['/learning']" routerLinkActive="router-link-active"
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+            My learning
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="px-10 xl:px-32 pt-24 min-h-screen">
   <router-outlet></router-outlet>
 </div>
-<!-- content ends -->
 
-<!-- footer start -->
-<footer class="bg-gray-100 px-10">
-  <div class="container mx-auto pt-5 border-b">
-    <div class="md:flex md:justify-between pb-4">
-      <div class="mb-3 md:mb-0 md:w-1/4 flex justify-center gap-4">
+
+<!-- footer -->
+<footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+  <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
           stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
           viewBox="0 0 24 24">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
-        <h2 class="text-xl font-bold">E-learn</h2>
-      </div>
-
-      <div class="md:w-3/4">
-        <div class="md:flex md:justify-between">
-          <!-- Solutions -->
-          <div class="md:w-1/4 md:mb-0 mb-3">
-            <h5 class="mb-4 font-semibold uppercase">Solutions</h5>
-            <ul class="list-group">
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../sales/sales-performance-market-pipeline.html">Sales</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="">Project Management</a></li>
-              <li class=" list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../workforce/workforce-organization-management-hr.html">Workforce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="../e-commerce/e-commerce.html">
-                  E-Commerce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../finance/finance-accounting-erp.html">Finance</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../business-apps/business-apps.html">Business Apps</a></li>
-            </ul>
-          </div>
-
-          <!-- Developers -->
-          <div class="md:w-1/4 md:mb-0 mb-3">
-            <h5 class="mb-4 font-semibold uppercase">Developers</h5>
-            <ul class="list-group">
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../sales/sales-performance-market-pipeline.html">Sales</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="">Project Management</a></li>
-              <li class=" list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../workforce/workforce-organization-management-hr.html">Workforce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="../e-commerce/e-commerce.html">
-                  E-Commerce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../finance/finance-accounting-erp.html">Finance</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../business-apps/business-apps.html">Business Apps</a></li>
-            </ul>
-          </div>
-
-          <!-- Company -->
-          <div class="md:w-1/4 md:mb-0 mb-3">
-            <h5 class="mb-4 font-semibold uppercase">Company</h5>
-            <ul class="list-group">
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../sales/sales-performance-market-pipeline.html">Sales</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="">Project Management</a></li>
-              <li class=" list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../workforce/workforce-organization-management-hr.html">Workforce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="../e-commerce/e-commerce.html">
-                  E-Commerce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../finance/finance-accounting-erp.html">Finance</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../business-apps/business-apps.html">Business Apps</a></li>
-            </ul>
-          </div>
-
-          <!-- Connect -->
-          <div class="md:w-1/4">
-            <h5 class="mb-4 font-semibold uppercase">Connect</h5>
-            <ul class="list-group">
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../sales/sales-performance-market-pipeline.html">Sales</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="">Project Management</a></li>
-              <li class=" list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../workforce/workforce-organization-management-hr.html">Workforce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a href="../e-commerce/e-commerce.html">
-                  E-Commerce</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../finance/finance-accounting-erp.html">Finance</a></li>
-              <li class="list-group-item bg-transparent border-0 p-0 mb-2"><a
-                  href="../business-apps/business-apps.html">Business Apps</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Learn</span>
+      </a>
+      <ul class="flex flex-wrap items-center mb-6 text-smx font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+        <ng-container *ngFor="let item of menu">
+          <li>
+            <a [routerLink]="['/', item]" class="hover:underline me-4 md:me-6 uppercase">{{ item }}</a>
+          </li>
+        </ng-container>
+      </ul>
     </div>
-
-    <!-- Sitemap and Privacy & terms links -->
-    <div class="text-center py-5 border-t-2 border-t-gray-300">
-      <a class="mr-4" href="">Copyright © 2024, All Right Reserved E-learn</a>
-    </div>
+    <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+    <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+      © 2024 <a [routerLink]="['/home']" class="hover:underline">E-learn</a>. All Rights Reserved.
+    </span>
   </div>
 </footer>
-
-<!-- footer ends -->
