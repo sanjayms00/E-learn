@@ -9,9 +9,8 @@ import { ChatRightComponent } from '../components/chat-right/chat-right.componen
 import { ChatLeftComponent } from '../components/chat-left/chat-left.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { LoginComponent } from '../components/login/login.component';
-import { EmailDirective } from '../customeDirectives/email.directive';
+import { RegisterComponent } from '../components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -23,13 +22,12 @@ import { EmailDirective } from '../customeDirectives/email.directive';
     ChatRightComponent,
     ChatLeftComponent,
     LoginComponent,
-    EmailDirective
+    RegisterComponent
   ],
   imports: [
     CommonModule,
     ChartModule,
     FormsModule,
-    PickerModule,
     ReactiveFormsModule
   ],
   exports: [
@@ -41,7 +39,7 @@ import { EmailDirective } from '../customeDirectives/email.directive';
     ChatRightComponent,
     ChatLeftComponent,
     LoginComponent,
-    EmailDirective
+    RegisterComponent
   ]
 })
 export class SharedModule { }

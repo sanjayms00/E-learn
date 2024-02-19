@@ -1,80 +1,11 @@
 <section class="flex items-center pt- pb-10">
   <div class="p-4 w-full ">
     <div class="text-center pb-5">
-      <h2 class="text-3xl font-semibold mb-2">Sign Up</h2>
+      <h2 class="text-3xl font-semibold mb-2">Student Sign Up</h2>
       <p class="text-sm">Embark on Your Learning Journey - Sign Up Today!.</p>
     </div>
     <div class="w-full xl:w-10/12 xl:mx-auto 2xl:w-8/12">
-      <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-        <div class="mb-4">
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.controls['fullName'].touched && signUpForm.controls['fullName'].errors as fullNameErrors">
-            <div *ngIf="fullNameErrors['required']">Full Name is required</div>
-            <div *ngIf="fullNameErrors['minlength']">Should have 5 characters</div>
-            <div *ngIf="fullNameErrors['pattern']">Only alphabets allowed</div>
-          </div>
-          <input type="text" placeholder="Full Name" formControlName="fullName" id="fullName"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
-        </div>
-
-        <div class="mb-4">
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.controls['email'].touched && signUpForm.controls['email'].errors as emailErrors">
-            <div *ngIf="emailErrors['required']">Email is required</div>
-            <div *ngIf="emailErrors['pattern']">Invalid email format</div>
-          </div>
-          <input type="email" placeholder="Email" formControlName="email" id="email"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
-        </div>
-
-        <div class="mb-4">
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
-            <div class="text-red-600 font-medium"
-              *ngIf="signUpForm.controls['mobile'].touched && signUpForm.controls['mobile'].errors as mobileErrors">
-              <span class="pr-2" *ngIf="mobileErrors['required']">Mobile Number is required</span>
-              <span class="pr-2" *ngIf="mobileErrors['pattern']">Only numbers are allowed</span>
-              <span class="pr-2" *ngIf="mobileErrors['minlength']">Should have min length 10</span>
-              <span class="pr-2" *ngIf="mobileErrors['maxlength']">Should have max length 10</span>
-            </div>
-          </div>
-          <input type="text" placeholder="Mobile number" formControlName="mobile" id="mobile"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
-        </div>
-
-
-        <div class="mb-4">
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.controls['password'].touched && signUpForm.controls['password'].errors as passwordErrors">
-            <div *ngIf="passwordErrors['required']">Password is required</div>
-            <div *ngIf="passwordErrors['minlength']">Should have minlength 6</div>
-            <div *ngIf="passwordErrors['maxlength']">Should have max 15 characters</div>
-            <div *ngIf="passwordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</div>
-          </div>
-          <input type="password" placeholder="Password" formControlName="password" id="password"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 focus:outline-none focus:border-black">
-        </div>
-
-        <div class="mb-4 ">
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.controls['confirmPassword'].touched && signUpForm.controls['confirmPassword'].errors as confirmPasswordErrors">
-            <span *ngIf="confirmPasswordErrors['required']">Confirm password is required</span>
-            <span *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6 characters</span>
-            <span *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 15 characters</span>
-            <span *ngIf="confirmPasswordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1 digit</span>
-          </div>
-          <div class="text-red-600 font-medium"
-            *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.hasError('mismatch')">
-            Passwords do not match
-          </div>
-          <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" id="confirmPassword"
-            class="w-full border rounded-md py-3 px-5 border-gray-600 text-black focus:outline-none focus:border-black">
-        </div>
-
-        <button type="submit" class="w-full bg-black hover:bg-gray-500 text-white py-3 px-4 rounded-md">
-          Signup
-        </button>
-      </form>
+      <app-register (formData)="signUp($event)"></app-register>
       <p class="text-center p-4">
         Already have an account ?
         <b routerLink="/login" class="cursor-pointer">

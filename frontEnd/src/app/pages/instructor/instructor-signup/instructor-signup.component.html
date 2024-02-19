@@ -1,7 +1,7 @@
 <!-- Signup Container -->
 <div class="flex justify-center items-center h-screen">
     <!-- Signup Form Section -->
-    <section class="w-1/3 p-5">
+    <section class="w-1/2">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl mb-4">Instructor SignUp</h2>
             <p class="text-md border-2 border-gray-300 cursor-pointer px-2 py-1 rounded-md bg-black text-white"
@@ -9,79 +9,7 @@
                 Back
             </p>
         </div>
-        <form [formGroup]="instructorSignUp" (ngSubmit)="instructorSignUpSubmit()">
-            <div class="mb-4">
-                <label for="fullName" class="block text-sm font-medium text-gray-600">Full Name</label>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.controls['fullName'].touched && instructorSignUp.controls['fullName'].errors as fullNameErrors">
-                    <span class="pr-2" *ngIf="fullNameErrors['required']">Full Name is required</span>
-                    <span class="pr-2" *ngIf="fullNameErrors['minlength']">Should have minlength 3</span>
-                    <span class="pr-2" *ngIf="fullNameErrors['maxlength']">Should have max 50 characters</span>
-                    <span class="pr-2" *ngIf="fullNameErrors['pattern']">Invalid format (symbols and numbers are not
-                        allowed)</span>
-                </div>
-                <input type="text" id="fullName" formControlName="fullName" placeholder="Full Name"
-                    class="mt-1 p-2 w-full border rounded-md">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-600">Email Address</label>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.controls['email'].touched && instructorSignUp.controls['email'].errors as emailErrors">
-                    <span class="pr-2" *ngIf="emailErrors['required']">Email is required</span>
-                    <span class="pr-2" *ngIf="emailErrors['pattern']">Invalid email format</span>
-                </div>
-                <input type="email" id="email" formControlName="email" placeholder="Email"
-                    class="mt-1 p-2 w-full border rounded-md">
-            </div>
-            <div class="mb-4">
-                <label for="mobileNumber" class="block text-sm font-medium text-gray-600">Mobile Number</label>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.controls['mobile'].touched && instructorSignUp.controls['mobile'].errors as mobileErrors">
-                    <span class="pr-2" *ngIf="mobileErrors['required']">Mobile Number is required</span>
-                    <span class="pr-2" *ngIf="mobileErrors['pattern']">Only numbers are allowed</span>
-                    <span class="pr-2" *ngIf="mobileErrors['minlength']">Should have min length 10</span>
-                    <span class="pr-2" *ngIf="mobileErrors['maxlength']">Should have max length 10</span>
-                </div>
-                <input type="text" id="mobileNumber" formControlName="mobile" placeholder="Mobile Number"
-                    class="mt-1 p-2 w-full border rounded-md">
-            </div>
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.controls['password'].touched && instructorSignUp.controls['password'].errors as passwordErrors">
-                    <span class="pr-2" *ngIf="passwordErrors['required']">Password is required</span>
-                    <span class="pr-2" *ngIf="passwordErrors['minlength']">Should have minlength 6</span>
-                    <span class="pr-2" *ngIf="passwordErrors['maxlength']">Should have max 15 characters</span>
-                    <span class="pr-2" *ngIf="passwordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1
-                        digit</span>
-                </div>
-                <input type="password" id="password" formControlName="password" placeholder="Password"
-                    class="mt-1 p-2 w-full border rounded-md">
-            </div>
-            <div class="mb-6">
-                <label for="confirmPassword" class="block text-sm font-medium text-gray-600">confirmPassword</label>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.controls['confirmPassword'].touched && instructorSignUp.controls['confirmPassword'].errors as confirmPasswordErrors">
-                    <span class="pr-2" *ngIf="confirmPasswordErrors['required']">Confirm password is required</span>
-                    <span class="pr-2" *ngIf="confirmPasswordErrors['minlength']">Should have minimum 6
-                        characters</span>
-                    <span class="pr-2" *ngIf="confirmPasswordErrors['maxlength']">Should have maximum 15
-                        characters</span>
-                    <span class="pr-2" *ngIf="confirmPasswordErrors['pattern']">least 1 uppercase, 1 lowercase, and 1
-                        digit</span>
-                </div>
-                <div class="text-red-600"
-                    *ngIf="instructorSignUp.get('confirmPassword')?.touched && instructorSignUp.hasError('mismatch')">
-                    Passwords do not match
-                </div>
-                <input type="password" id="confirmPassword" formControlName="confirmPassword"
-                    placeholder="Confirm Password" class="mt-1 p-2 w-full border rounded-md">
-            </div>
-            <div class="mb-6">
-                <button type="submit"
-                    class="mt-1 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14">SignUp</button>
-            </div>
-        </form>
+        <app-register (formData)="register($event)"></app-register>
         <div class="">
             <p class="text-center p-4">
                 Already have an account ?
@@ -91,5 +19,4 @@
             </p>
         </div>
     </section>
-
 </div>

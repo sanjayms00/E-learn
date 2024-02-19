@@ -15,7 +15,7 @@ export class Student extends Document {
   email: string;
 
   @Prop({ required: true })
-  mobile: string;
+  mobile: number;
 
   @Prop({
     type: [{

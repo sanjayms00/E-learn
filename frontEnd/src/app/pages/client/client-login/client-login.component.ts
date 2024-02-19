@@ -11,8 +11,7 @@ import { appState } from 'src/app/shared/store/state/app.state';
   templateUrl: './client-login.component.html'
 })
 export class ClientLoginComponent {
-  studentLogin !: FormGroup
-  isLoggedin?: boolean;
+
   title = "Student";
   description = "Unlocking Knowledge, One Login at a Time."
 

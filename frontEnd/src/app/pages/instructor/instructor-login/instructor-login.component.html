@@ -1,10 +1,9 @@
 <section class="pt-16 flex justify-center items-center">
-    <div class="">
+    <div class="w-1/2">
         <app-login [title]="title" [description]="description" (formData)="loginData($event)"></app-login>
         <div class="flex justify-center pt-4">
-            <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/instructor/login">Instructor Login</p>
-            <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/signup">Register Now</p>
-            <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/forgot-password">Forgot Password?</p>
+            <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/login">Student Login</p>
+            <p class="p-3 cursor-pointer hover:text-gray-600" routerLink="/instructor/signup">Register Now</p>
         </div>
     </div>
 </section>
