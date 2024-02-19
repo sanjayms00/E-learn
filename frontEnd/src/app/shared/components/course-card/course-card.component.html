@@ -1,66 +1,43 @@
+<!-- <pre>{{ course | json }}</pre> -->
+
 <div [routerLink]="['/courses', 'details', course._id]"
-    class="border-2 border-gray-200 bg-white rounded-lg p-4 mb-8 relative overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer">
-
-    <!-- Course Thumbnail -->
-    <img [src]="course.signedUrl" alt="Course Thumbnail" class="w-full h-40 object-cover mb-4 rounded-lg">
-
-    <!-- Course Name -->
-    <div class="flex justify-between items-center mb-2 cursor-pointer">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ course.courseName | truncate:50 }}</h2>
+    class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer">
+    <div
+        class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+        <img [src]="course.signedUrl" alt="course image" class="w-full h-40 object-cover" />
+        <div
+            class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60">
+        </div>
+    </div>
+    <div class="px-6 pt-6">
+        <span class="uppercase pb-2 font-normal text-sm">{{ course.categoryName }}</span>
+        <div class="flex justify-between items-start mb-3">
+            <h5
+                class="block font-sans text-md antialiased font-medium leading-snug tracking-normal text-blue-gray-900 uppercase h-10">
+                {{ course.courseName | truncate:50 }}
+            </h5>
+        </div>
+        <p class="block font-sans text-sm antialiased font-normal leading-relaxed text-gray-700">
+            {{ course.description | truncate:100 }}
+        </p>
+        <div class="flex justify-between font-normal text-md py-1">
+            <p>By {{ course.instructorName }}</p>
+            <p class="font-bold"> ₹ {{ course.price }} </p>
+        </div>
+    </div>
+    <div class="p-6 py-3 flex flex-col">
+        <div class="flex justify-between">
+            <span>{{ course.students.length }} Students</span>
+            <span>{{ course.videos?.length }} Chapters</span>
+        </div>
+        <span>{{ course.courseLevel.join(', ') }}</span>
     </div>
 
-    <!-- Course Description -->
-    <p class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">{{ course.description | truncate:140 }}</p>
-
-    <!-- Enrolled Students and Video Chapters -->
-    <div class="flex justify-between mb-2">
-        <!-- <p class="text-md font-medium text-gray-600 dark:text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                </path>
-            </svg>
-            {{ course.students.length }} Enrolled
-        </p> -->
-        <!-- <p class="text-md font-medium text-gray-600 dark:text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-                fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M9.293 5.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 9.414V15a1 1 0 11-2 0V9.414L6.707 10.707a1 1 0 01-1.414-1.414l4-4z"
-                    clip-rule="evenodd" />
-            </svg>
-            {{ course.videos?.length }} Chapters
-        </p> -->
+    <div class="p-6 pt-3">
+        <button
+            class="block w-full select-none rounded-lg bg-gray-900 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="button">
+            Show course
+        </button>
     </div>
-
-    <!-- Course Level -->
-    <!-- <p class="text-md font-medium text-gray-600 dark:text-gray-400 mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-            fill="currentColor">
-            <path fill-rule="evenodd" d="M12 14v3a1 1 0 01-2 0v-3H7a1 1 0 010-2h3V9a1 1 0 112 0v3h3a1 1 0 010 2h-3z"
-                clip-rule="evenodd" />
-            <path fill-rule="evenodd"
-                d="M4 4a1 1 0 011-1h10a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm10 10a1 1 0 011 1H5a1 1 0 01-1-1v-4a1 1 0 011-1h10a1 1 0 011 1v4z"
-                clip-rule="evenodd" />
-        </svg>
-        {{ course.courseLevel.join(', ') }}
-    </p> -->
-
-    <!-- Category Name -->
-    <p class="text-md font-medium text-gray-600 dark:text-gray-400 mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20"
-            fill="currentColor">
-            <path fill-rule="evenodd"
-                d="M14 3H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2zm-1 7.414l-2 2V14h4v-1.586l-2-2z"
-                clip-rule="evenodd" />
-        </svg>
-        {{ course.categoryName }}
-    </p>
-
-    <!-- Course Price -->
-    <p class="text-xl font-bold text-gray-900 dark:text-white pb-3">₹ {{ course.price }}</p>
-
-    <!-- Instructor Name -->
-    <p class="text-md font-medium text-gray-600 dark:text-gray-400">By {{ course.instructorName }}</p>
-
 </div>
