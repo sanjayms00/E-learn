@@ -4,23 +4,24 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
 import { Sidebar } from 'primeng/sidebar';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { MessageResponse, message } from 'src/app/shared/interface/chat.interface';
-import { ChatService } from 'src/app/shared/services/chat.service';
-import { getinstructorDataFromLocal } from 'src/app/shared/store/actions/instructor.action';
-import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { AuthService } from '../../core/services/auth.service';
+import { MessageResponse } from '../../shared/interface/chat.interface';
+import { ChatService } from '../../shared/services/chat.service';
+import { getinstructorDataFromLocal } from '../../shared/store/actions/instructor.action';
+import { getInstructor } from '../../shared/store/selectors/instructor.selector';
+import { appState } from '../../shared/store/state/app.state';
 
 @Component({
     selector: 'app-instructor',
     templateUrl: './instructor.component.html'
 })
 export class InstructorComponent implements OnInit, DoCheck {
+
     items!: MenuItem[];
-    @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+    instructorId: string = ''
     sidebarVisible: boolean = true;
     instructorNotification: MessageResponse[] = []
-    instructorId: string  = ''
+    @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
 
     constructor(
@@ -43,11 +44,9 @@ export class InstructorComponent implements OnInit, DoCheck {
         this.instructorNotification = this.chatservice.instructorNotification.filter(noti => {
             return noti.chatRoomData.instructor == this.instructorId
         })
-        
+
         this.chatservice.getInstructorNotifications(this.instructorId)
-
     }
-
 
     //instructor logout
     logout() {

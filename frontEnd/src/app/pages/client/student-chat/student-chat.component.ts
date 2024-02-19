@@ -1,11 +1,11 @@
 import { Component, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { users, Chats, onloadResponse, message, MessageResponse } from 'src/app/shared/interface/chat.interface';
-import { ChatService } from 'src/app/shared/services/chat.service';
-import { getclient } from 'src/app/shared/store/selectors/client.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { AuthService } from '../../../core/services/auth.service';
+import { users, Chats, onloadResponse, message, MessageResponse } from '../../../shared/interface/chat.interface';
+import { ChatService } from '../../../shared/services/chat.service';
+import { getclient } from '../../../shared/store/selectors/client.selector';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-student-chat',

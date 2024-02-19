@@ -34,7 +34,6 @@ export class FilterComponent implements OnInit, OnDestroy {
     })
 
     this.categorySubscription = this.filterService.getCategory().subscribe((res) => {
-      console.log(res)
       this.categories = res
     })
   }
@@ -47,9 +46,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   filterCourse() {
     if (this.selectedLevel || this.instructor || this.category) {
-
-      console.log(this.selectedLevel, this.instructor, this.category)
-
       const filterCredentials: filterInterFace = {
         level: this.selectedLevel,
         instructor: this.instructor,
@@ -57,7 +53,6 @@ export class FilterComponent implements OnInit, OnDestroy {
       }
       //filter call
       this.filterService.filterCourse(filterCredentials).subscribe((res) => {
-        console.log(res)
         this.fillteredCourse.emit(res)
       })
     }

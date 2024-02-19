@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { OtpVerify } from 'src/app/shared/store/actions/client.action';
-import { getclient } from 'src/app/shared/store/selectors/client.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { AuthService } from '../../../core/services/auth.service';
+import { OtpVerify } from '../../../shared/store/actions/client.action';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-otp',

@@ -1,11 +1,11 @@
-import { CourseFormService } from 'src/app/shared/services/course-form.service';
+import { CourseFormService } from '../../../shared/services/course-form.service';
 import { Component, ViewChild, ElementRef, OnInit, DestroyRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { categoryInterface } from 'src/app/shared/interface/common.interface';
-import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
+import { categoryInterface } from '../../../shared/interface/common.interface';
+import { CategoryService } from '../../../core/services/admin/category.service';
+import { IDeactivateComponent } from '../../../shared/guards/form-leave.guard';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -39,7 +39,6 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
       content: [null, Validators.required],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
-      // estimatedPrice: [null, [Validators.required, Validators.min(1)]],
       courseTags: [null, [Validators.required, Validators.maxLength(100)]],
       courseLevel: [null, Validators.required],
       files: [null, Validators.required],

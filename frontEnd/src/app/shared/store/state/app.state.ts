@@ -5,7 +5,6 @@ import { adminReducer } from "../reducers/admin.reducer";
 import { clientReducer } from "../reducers/client.reducer";
 import { instructorReducer } from "../reducers/instructor.reducer";
 
-
 export interface appState {
     client: clientStateInterface,
     admin: adminStateInterface,

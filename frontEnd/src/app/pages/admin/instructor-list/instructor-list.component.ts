@@ -15,7 +15,7 @@ import { appState } from '../../../shared/store/state/app.state';
 export class InstructorListComponent implements OnInit {
 
   instructorList: instructorInterface[] = []
-  p: number = 1;
+  menu = ['no', "Name", "Email", "Mobile", "Status", "Action"]
 
   constructor(
     private store: Store<appState>,
@@ -31,8 +31,8 @@ export class InstructorListComponent implements OnInit {
       })
   }
 
-  changeInstructorStatus(id: string, status: boolean) {
-    this.store.dispatch(instructorStatusChange({ id, status }))
+  changeInstructorStatus(event : { id: string, status: boolean}) {
+    this.store.dispatch(instructorStatusChange({ id: event.id, status:event.status }))
   }
 
 }

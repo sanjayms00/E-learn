@@ -1,8 +1,7 @@
-import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { Course } from 'src/app/shared/interface/common.interface';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { CourseService } from '../../../core/services/instructor/course.service';
+import { Course } from '../../../shared/interface/common.interface';
 import { ConfirmationService } from 'primeng/api';
-import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

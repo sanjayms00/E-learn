@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { ListingService } from 'src/app/core/services/admin/listing.service';
-import { studentInterface } from 'src/app/shared/interface/common.interface';
-import { getStudentList, studentStatusChange } from 'src/app/shared/store/actions/admin.action';
-import { studentlistSelector } from 'src/app/shared/store/selectors/admin.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { ListingService } from '../../../core/services/admin/listing.service';
+import { studentInterface } from '../../../shared/interface/common.interface';
+import { getStudentList, studentStatusChange } from '../../../shared/store/actions/admin.action';
+import { studentlistSelector } from '../../../shared/store/selectors/admin.selector';
+import { appState } from '../../../shared/store/state/app.state';
 
 
 
@@ -15,30 +16,25 @@ import { appState } from 'src/app/shared/store/state/app.state';
 export class StudentListComponent implements OnInit {
 
   studentList !: studentInterface[];
-  searchText = ''
-  p: number = 1;
-
+  menu = ['no', "Name", "Email", "Mobile", "Status", "Action"]
 
   constructor(
-    private store: Store<appState>
+    private store: Store<appState>,
+    private destroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
     this.store.dispatch(getStudentList())
     this.store.select(studentlistSelector)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.studentList = data
       })
   }
 
-  searchData(event: string) {
-    this.searchText = event
-  }
-
   //block / unblock student
-  changeStudentStatus(id: string, status: boolean) {
-    console.log(id)
-    this.store.dispatch(studentStatusChange({ id, status }))
+  changeStudentStatus(event: { id: string, status: boolean }) {
+    this.store.dispatch(studentStatusChange({ id: event.id, status: event.status }))
   }
 
 }

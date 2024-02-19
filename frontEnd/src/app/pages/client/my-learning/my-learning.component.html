@@ -43,18 +43,20 @@
                 </div>
 
                 <!-- Progress Bar -->
-                <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                    <div class="bg-green-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                        [style.width.%]="((course.watched.length || 0) / (course.myCourses.videos.length || 1)) * 100 | number:'1.0-1'">
-                        {{ ((course.watched.length || 0) / (course.myCourses.videos.length || 1)) * 100 | number:'1.0-1'
-                        }} %
+                <ng-container *ngIf="((course.watched.length || 0) / (course.myCourses.videos.length || 1)) * 100">
+
+                    <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                        <div class="bg-green-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                            [style.width.%]="((course.watched.length || 0) / (course.myCourses.videos.length || 1)) * 100 | number:'1.0-1'">
+                            {{ ((course.watched.length || 0) / (course.myCourses.videos.length || 1)) * 100 |
+                            number:'1.0-1'
+                            }} %
+                        </div>
                     </div>
-                </div>
+                </ng-container>
 
                 <!-- rating -->
                 <div class="flex items-center justify-end py-3">
-                    <!-- <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p> -->
-                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                     <div *ngIf="checkStudent(course.myCourses.reviews); else elseBlock">
                         <a [routerLink]="['/courses/details/', course.myCourses._id]"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">
@@ -62,7 +64,7 @@
                         </a>
                     </div>
                     <ng-template #elseBlock>
-                        <button
+                        <button *ngIf="course.watched.length === course.myCourses.videos.length"
                             (click)="showDialog(course.myCourses._id, course.myCourses.courseName, course.instructorName)">
                             Add review</button>
                     </ng-template>
@@ -78,7 +80,6 @@
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
         <ng-template pTemplate="header">
             <div class="">
-                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
                 <p class="font-bold text-xl white-space-nowrap">{{ modalCourseName}}</p>
                 <p class="font-semibold white-space-nowrap">By {{ modalInstructorName}}</p>
             </div>

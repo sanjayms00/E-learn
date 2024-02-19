@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { constant } from 'src/app/core/constant/constant';
+import { constant } from '../../core/constant/constant';
 import { MessageResponse, message } from '../interface/chat.interface';
 
 

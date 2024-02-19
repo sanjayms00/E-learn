@@ -2,9 +2,9 @@ import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
+import { CourseService } from '../../../core/services/instructor/course.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CourseDetail } from 'src/app/shared/interface/courseDetails.interface';
+import { CourseDetail } from '../../../shared/interface/courseDetails.interface';
 
 @Component({
   selector: 'app-checkout',

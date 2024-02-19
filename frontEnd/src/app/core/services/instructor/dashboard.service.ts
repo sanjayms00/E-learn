@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
-import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard.interface';
+import { instructorDashboardInterface } from '../../../shared/interface/dashboard.interface';
 
 
 @Injectable({

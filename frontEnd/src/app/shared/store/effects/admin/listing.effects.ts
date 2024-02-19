@@ -15,16 +15,14 @@ import {
   studentStatusChangeSuccess,
 } from '../../actions/admin.action';
 import { exhaustMap, map, catchError, of, switchMap } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { ListingService } from 'src/app/core/services/admin/listing.service';
-import { instructorInterface, studentInterface } from 'src/app/shared/interface/common.interface';
-import { statusInterface } from 'src/app/shared/interface/admin.interface';
+import { ListingService } from '../../../../core/services/admin/listing.service';
+import { instructorInterface, studentInterface } from '../../../../shared/interface/common.interface';
+import { statusInterface } from '../../../../shared/interface/admin.interface';
 
 @Injectable()
 export class listingEffects {
   constructor(
     private action$: Actions,
-    private toastr: ToastrService,
     private ClientList: ListingService
   ) { }
 
@@ -51,7 +49,6 @@ export class listingEffects {
       exhaustMap(() => {
         return this.ClientList.getInstructorList().pipe(
           map((response: instructorInterface[]) => {
-            // console.log("instructor", response)
             return InstructorListSuccess({ instructorData: response });
           }),
           catchError((err) => {

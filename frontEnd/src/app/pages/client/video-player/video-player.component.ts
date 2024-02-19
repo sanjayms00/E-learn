@@ -1,5 +1,3 @@
-// video-player.component.ts
-
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
@@ -29,7 +27,6 @@ export class VideoPlayerComponent implements OnChanges {
       this.videoStatus.emit(this.videoId)
     }
   }
-
 
   private updateVideo(): void {
 

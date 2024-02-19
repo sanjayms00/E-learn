@@ -3,15 +3,15 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { studentInterface } from 'src/app/shared/interface/common.interface';
-import { getclient } from 'src/app/shared/store/selectors/client.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { studentInterface } from '../../../shared/interface/common.interface';
+import { getclient } from '../../../shared/store/selectors/client.selector';
+import { appState } from '../../../shared/store/state/app.state';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProfileService } from 'src/app/shared/services/profile.service';
+import { ProfileService } from '../../../shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { constant } from 'src/app/core/constant/constant';
-import { clientLoginSuccess } from 'src/app/shared/store/actions/client.action';
+import { constant } from '../../../core/constant/constant';
+import { clientLoginSuccess } from '../../../shared/store/actions/client.action';
 
 
 @Component({
@@ -22,6 +22,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
 
   profile !: studentInterface
   profileSubscription !: Subscription
+  profileImageSubscription !: Subscription
   visible = false
   profileForm!: FormGroup
   imageChangedEvent: any = '';
@@ -65,7 +66,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   }
 
   getProfileImage() {
-    this.profileService.studentprofileImage(this.profile.image).subscribe(res => {
+    this.profileImageSubscription = this.profileService.studentprofileImage(this.profile.image).subscribe(res => {
       this.noImage = res.profileImage
     })
   }
@@ -87,7 +88,6 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   profileUpdate() {
     if (this.profileForm.valid) {
       const profileData = this.profileForm.value
-
 
       Object.keys(this.profileForm.controls).forEach(key => {
         const control = this.profileForm.get(key)
@@ -167,6 +167,9 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe()
+    if (this.profile.image) {
+      this.profileImageSubscription.unsubscribe()
+    }
   }
 
 }

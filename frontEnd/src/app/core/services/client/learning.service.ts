@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { constant } from '../../constant/constant';
-import { StreamResponse, studentDataViewResponse } from 'src/app/shared/interface/video.interface';
-import { myLearning } from 'src/app/shared/interface/myLearning.interface';
+import { StreamResponse, studentDataViewResponse } from '../../../shared/interface/video.interface';
+import { myLearning } from '../../../shared/interface/myLearning.interface';
 import { Observable } from 'rxjs';
 
 

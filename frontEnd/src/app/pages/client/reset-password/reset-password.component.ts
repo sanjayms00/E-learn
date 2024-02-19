@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html'
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnDestroy {
 
   resetForm!: FormGroup
   token!: string | null
+  resetPasswordSubscription!: Subscription
 
   constructor(
     private fb: FormBuilder,
@@ -39,15 +41,16 @@ export class ResetPasswordComponent {
       const confPassword = this.resetForm.value.confirmPassword
       //check passwords
       if (password === confPassword) {
-        this.authService.resetPassword(this.token, password).subscribe(
-          res => {
-            this.toastr.success(res.message)
-            this.router.navigate(['/login'])
-          },
-          error => {
-            this.toastr.error(error);
-          },
-        )
+        this.resetPasswordSubscription = this.authService.resetPassword(this.token, password)
+          .subscribe({
+            next: res => {
+              this.toastr.success(res.message)
+              this.router.navigate(['/login'])
+            },
+            error: error => {
+              this.toastr.error(error);
+            },
+          })
       } else {
         this.toastr.error("password does not match")
       }
@@ -55,5 +58,10 @@ export class ResetPasswordComponent {
       this.toastr.error("fill all the fields")
     }
   }
+
+  ngOnDestroy(): void {
+    this.resetPasswordSubscription.unsubscribe()
+  }
+
 
 }

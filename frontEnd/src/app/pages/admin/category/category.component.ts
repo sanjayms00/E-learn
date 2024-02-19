@@ -1,8 +1,8 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { categoryInterface } from 'src/app/shared/interface/common.interface';
+import { CategoryService } from '../../../core/services/admin/category.service';
+import { categoryInterface } from '../../../shared/interface/common.interface';
 
 @Component({
   selector: 'app-category',
@@ -13,6 +13,7 @@ export class CategoryComponent implements OnInit {
   category: string = ''
   p: number = 1;
   allCategories: categoryInterface[] = []
+  menu = ["no", "Category name", "Status", "Action"]
 
   constructor(
     private caetgoryService: CategoryService,
@@ -57,5 +58,11 @@ export class CategoryComponent implements OnInit {
       this.category = ''
     }
   }
+
+  delete(id: string, status:boolean){
+    console.log(id, status)  //todo
+  }
+
+
 
 }

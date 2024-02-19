@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { constant } from 'src/app/core/constant/constant';
+import { constant } from '../../core/constant/constant';
 import { Course, categoryInterface, filterInterFace, instrctorModel } from '../interface/common.interface';
 
 @Injectable({

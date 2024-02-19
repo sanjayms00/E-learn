@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { SignUpInterface } from '../interface/common.interface';
 
 @Injectable({
   providedIn: 'root'

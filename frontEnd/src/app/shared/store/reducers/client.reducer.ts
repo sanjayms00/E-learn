@@ -15,8 +15,6 @@ const _clientReducer = createReducer(clientState,
         }),
 )
 
-
-
 export function clientReducer(state: any, action: any) {
     return _clientReducer(state, action)
 }

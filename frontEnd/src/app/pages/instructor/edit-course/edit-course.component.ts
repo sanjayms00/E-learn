@@ -4,10 +4,10 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Editor } from 'primeng/editor';
-import { CategoryService } from 'src/app/core/services/admin/category.service';
-import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
-import { categoryInterface, instructorCourse } from 'src/app/shared/interface/common.interface';
-import { CourseFormService } from 'src/app/shared/services/course-form.service';
+import { CategoryService } from '../../../core/services/admin/category.service';
+import { IDeactivateComponent } from '../../../shared/guards/form-leave.guard';
+import { categoryInterface, instructorCourse } from '../../../shared/interface/common.interface';
+import { CourseFormService } from '../../../shared/services/course-form.service';
 
 @Component({
   selector: 'app-edit-course',
@@ -108,8 +108,6 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
   //submit the form
   editCourseSubmit() {
-    // console.log(this.course.value)
-
     if (this.course.valid) {
       this.submit = true
       // Append course information

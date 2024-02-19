@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { AuthService } from "src/app/core/services/auth.service";
-
+import { AuthService } from "../../../../core/services/auth.service";
 import { exhaustMap, map, catchError, of } from 'rxjs'
 import { OtpVerify, clientLogin, clientLoginFailure, clientLoginSuccess, clientSignUp, clientSignUpFailure, clientSignUpFirstStep, clientSignUpSuccess } from "../../actions/client.action"
 import { Router } from "@angular/router";

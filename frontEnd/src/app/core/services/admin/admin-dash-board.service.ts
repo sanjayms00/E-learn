@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
-import { dashboardResponse } from 'src/app/shared/interface/admin.interface';
+import { dashboardResponse } from '../../../shared/interface/admin.interface';
 
 
 @Injectable({

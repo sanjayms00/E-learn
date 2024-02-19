@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { constant } from '../constant/constant';
 import { Observable } from 'rxjs';
-import { SignUpInterface, IUser, studentInterface } from 'src/app/shared/interface/common.interface';
-import { clientStateInterface } from 'src/app/shared/interface/client.interface';
+import { SignUpInterface, IUser, studentInterface } from '../../shared/interface/common.interface';
+import { clientStateInterface } from '../../shared/interface/client.interface';
 
 
 @Injectable({

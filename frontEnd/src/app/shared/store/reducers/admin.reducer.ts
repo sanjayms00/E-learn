@@ -4,21 +4,18 @@ import { adminState } from "../state/admin.state";
 
 const _adminReducer = createReducer(adminState,
     on(adminLoginSuccess, (state, action) => {
-        // console.log(state, action)
         return {
             ...state,
             user: action.user
         }
     }),
     on(StudentListSuccess, (state, action) => {
-        console.log(state, action)
         return {
             ...state,
             studentDetails: action.studentData
         }
     }),
     on(InstructorListSuccess, (state, action) => {
-        console.log(state, action)
         return {
             ...state,
             instructorDetails: action.instructorData

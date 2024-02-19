@@ -1,4 +1,4 @@
-import { Component, DestroyRef, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import { getclient } from '../../shared/store/selectors/client.selector';
 import { appState } from '../../shared/store/state/app.state';
 import { initCollapses } from 'flowbite';
 import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-client',
@@ -46,7 +47,9 @@ export class ClientComponent implements OnInit, DoCheck {
       this.store.dispatch(getClientDataFromLocal({ user: JSON.parse(clientData) }))
     }
 
-    this.store.select(getclient).subscribe(res => {
+    this.store.select(getclient)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(res => {
       this.studentId = res._id
       if (res.image) {
         this.getProfileImage(res.image)
@@ -58,6 +61,7 @@ export class ClientComponent implements OnInit, DoCheck {
 
   getProfileImage(image: string) {
     this.profileService.studentprofileImage(image)
+    .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(res => {
         this.profile = res.profileImage
       })
@@ -66,7 +70,6 @@ export class ClientComponent implements OnInit, DoCheck {
   searchCourse() {
     this.router.navigate(['/search'])
   }
-
 
   ngDoCheck(): void {
     this.notifications = this.chatService.notification.filter(noti => {

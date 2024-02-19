@@ -21,8 +21,8 @@ const adminRoutes: Routes = [
         canActivateChild: [adminGuard],
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
-          { path: 'students-list', component: StudentListComponent },
-          { path: 'instructors-list', component: InstructorListComponent },
+          { path: 'students', component: StudentListComponent },
+          { path: 'instructors', component: InstructorListComponent },
           { path: 'categories', component: CategoryComponent }
         ]
       }

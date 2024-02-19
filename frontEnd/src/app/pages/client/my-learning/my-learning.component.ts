@@ -1,11 +1,10 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { LearningService } from 'src/app/core/services/client/learning.service';
-import { RatingReviewService } from 'src/app/core/services/client/rating-review.service';
-import { myLearning } from 'src/app/shared/interface/myLearning.interface';
-import { environment } from 'src/environment/environment';
+import { AuthService } from '../../../core/services/auth.service';
+import { LearningService } from '../../../core/services/client/learning.service';
+import { RatingReviewService } from '../../../core/services/client/rating-review.service';
+import { myLearning } from '../../../shared/interface/myLearning.interface';
 
 @Component({
   selector: 'app-my-learning',
@@ -16,7 +15,6 @@ export class MyLearningComponent implements OnInit {
 
   myCourse: myLearning[] = []
   visible = false;
-  url = environment.cloudFrontUrl;
   rating!: number;
   review!: string;
   modalCourseName = ''
@@ -70,7 +68,6 @@ export class MyLearningComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res: any) => {
-            // console.log(res)
             this.modalCourseName = ''
             this.modalInstructorName = ''
             this.modalCourseId = ''
@@ -86,8 +83,6 @@ export class MyLearningComponent implements OnInit {
     } else {
       this.toastr.error("Fill all the fields")
     }
-
-
   }
 
 

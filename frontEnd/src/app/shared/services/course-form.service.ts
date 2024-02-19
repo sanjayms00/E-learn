@@ -1,11 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-// import { Observable } from 'rxjs';
-import { constant } from 'src/app/core/constant/constant';
-import { Course, instructorCourse } from '../interface/common.interface';
+import { constant } from '../../core/constant/constant';
+import { instructorCourse } from '../interface/common.interface';
 import { Observable } from 'rxjs';
-// import { Course } from '../interface/common.interface';
 
 @Injectable({
   providedIn: 'root'

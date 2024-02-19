@@ -14,7 +14,6 @@ const _instructorReducer = createReducer(instructorState,
         })
 )
 
-
 export function instructorReducer(state: any, action: any) {
     return _instructorReducer(state, action)
 }

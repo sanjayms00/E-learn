@@ -1,29 +1,34 @@
-<!-- <pre>{{ dashboardData | json}}</pre> -->
-
-<section class="grid grid-cols-3 gap-5">
-    <div class="flex flex-col gap-5">
-        <ng-container *ngFor="let item of dashboardData?.student">
-            <ng-container *ngIf="item._id === false">
-                <app-dashboard-box title="Inactive Students" [value]="item.count" icon="pi-user"
-                    color="red"></app-dashboard-box>
+<section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <!-- Boxes section -->
+    <div class="lg:col-span-1 pt-3">
+        <div class="flex flex-col gap-5">
+            <ng-container *ngFor="let item of dashboardData?.student">
+                <ng-container *ngIf="item._id === false">
+                    <app-dashboard-box title="Inactive Students" [value]="item.count" icon="pi-user"
+                        color="red"></app-dashboard-box>
+                </ng-container>
+                <ng-container *ngIf="item._id === true">
+                    <app-dashboard-box title="Active Students" [value]="item.count" icon="pi-user"
+                        color="green"></app-dashboard-box>
+                </ng-container>
             </ng-container>
-            <ng-container *ngIf="item._id === true">
-                <app-dashboard-box title="Active Students" [value]="item.count" icon="pi-user"
-                    color="green"></app-dashboard-box>
+            <ng-container *ngFor="let item of dashboardData?.instructor">
+                <ng-container *ngIf="item._id === false">
+                    <app-dashboard-box title="Inactive Instructors" [value]="item.count" icon="pi-user"
+                        color="red"></app-dashboard-box>
+                </ng-container>
+                <ng-container *ngIf="item._id === true">
+                    <app-dashboard-box title="Active Instructors" [value]="item.count" icon="pi-user"
+                        color="green"></app-dashboard-box>
+                </ng-container>
             </ng-container>
-        </ng-container>
-        <ng-container *ngFor="let item of dashboardData?.instructor">
-            <ng-container *ngIf="item._id === false">
-                <app-dashboard-box title="Inactive Instructors" [value]="item.count" icon="pi-user"
-                    color="red"></app-dashboard-box>
-            </ng-container>
-            <ng-container *ngIf="item._id === true">
-                <app-dashboard-box title="Active Instructors" [value]="item.count" icon="pi-user"
-                    color="green"></app-dashboard-box>
-            </ng-container>
-        </ng-container>
+        </div>
     </div>
-    <div class="col-span-2">
+
+    <!-- Graph section -->
+    <div class="md:col-span-2">
+        <h1 class="font-bold py-3 text-xl">Application status</h1>
+        <hr class="py-3">
         <app-graph [graphData]="dashboardData.graph"></app-graph>
     </div>
 </section>

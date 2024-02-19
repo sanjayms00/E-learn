@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-// import { Observable } from 'rxjs';
-import { studentInterface } from '../../interface/common.interface';
 
 @Component({
   selector: 'app-table',
@@ -8,23 +6,13 @@ import { studentInterface } from '../../interface/common.interface';
 })
 export class TableComponent {
 
-  pSize = 5;
-  currentPage = 1;
+  p: number = 1;
 
-
-  @Output()
-  statusChange = new EventEmitter()
-
-  @Input()
-  data !: studentInterface[]
-
-  @Input()
-  searchText !: string
-
+  @Input() menu!: string[]
+  @Input() list!: any
+  @Output() status = new EventEmitter()
 
   changeStatus(id: string, status: boolean) {
-    this.statusChange.emit({ id, status })
+    this.status.emit({ id, status })
   }
-
-
 }

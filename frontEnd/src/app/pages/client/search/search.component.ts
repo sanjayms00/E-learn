@@ -1,8 +1,8 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { Course } from 'src/app/shared/interface/common.interface';
-import { FilterService } from 'src/app/shared/services/filter.service';
+import { Course } from '../../../shared/interface/common.interface';
+import { FilterService } from '../../../shared/services/filter.service';
 
 @Component({
   selector: 'app-search',

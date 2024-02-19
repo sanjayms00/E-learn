@@ -1,10 +1,9 @@
 
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { IUser } from 'src/app/shared/interface/common.interface';
-import { clientLogin } from 'src/app/shared/store/actions/client.action';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { IUser } from '../../../shared/interface/common.interface';
+import { clientLogin } from '../../../shared/store/actions/client.action';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-client-login',

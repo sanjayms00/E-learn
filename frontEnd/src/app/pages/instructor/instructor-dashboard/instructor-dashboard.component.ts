@@ -1,8 +1,8 @@
 import { Component, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
-import { DashboardService } from 'src/app/core/services/instructor/dashboard.service';
-import { instructorDashboardInterface } from 'src/app/shared/interface/dashboard.interface';
+import { DashboardService } from '../../../core/services/instructor/dashboard.service';
+import { instructorDashboardInterface } from '../../../shared/interface/dashboard.interface';
 
 @Component({
     selector: 'app-instructor-dashboard',
@@ -27,17 +27,11 @@ export class InstructorDashboardComponent {
     ) { }
 
     ngOnInit() {
-        this.dashboardData()
-    }
-
-    //dahboard data on load
-    dashboardData() {
         this.dashboardService.getDashboardData()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(
                 {
                     next: res => {
-                        console.log(res)
                         this.dashboard = res
                         this.dashboard.counts.rating = Number(res.counts.rating.toFixed(2))
                     },
@@ -47,4 +41,6 @@ export class InstructorDashboardComponent {
                 }
             )
     }
+
+
 }

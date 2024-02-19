@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { Observable } from 'rxjs';
-import { categoryInterface } from 'src/app/shared/interface/common.interface';
+import { categoryInterface } from '../../../shared/interface/common.interface';
 
 @Injectable({
   providedIn: 'root'

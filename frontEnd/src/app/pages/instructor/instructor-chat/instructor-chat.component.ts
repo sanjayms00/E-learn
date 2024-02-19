@@ -1,11 +1,11 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Chats, MessageResponse, message, onloadResponse, users } from 'src/app/shared/interface/chat.interface';
-import { ChatService } from 'src/app/shared/services/chat.service';
-import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { ChatService } from '../../../shared/services/chat.service';
+import { getInstructor } from '../../../shared/store/selectors/instructor.selector';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-instructor-chat',
@@ -49,10 +49,10 @@ export class InstructorChatComponent implements OnInit {
     });
 
     this.chatService.socket.on('message', (response: MessageResponse) => {
+
       if (this.currentChat?._id === response.message.chatRoom) {
         this.currentChat?.messages.push(response.message)
       }
-
 
       if (response.message.senderType !== this.role) {
         if (!this.currentChat || (this.currentChat._id !== response.message.chatRoom && response.chatRoomData.instructor == this.instructorId)) {
@@ -77,7 +77,6 @@ export class InstructorChatComponent implements OnInit {
       this.currentChat = response
 
       this.chatService.removeNotification(response._id)
-
     });
 
   }
@@ -88,7 +87,6 @@ export class InstructorChatComponent implements OnInit {
       this.currentChat = response
       this.chatService.removeInstructorNotification(response._id)
       this.instructorNotification = this.chatService.instructorNotification
-
     })
   }
 

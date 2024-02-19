@@ -1,6 +1,5 @@
 import { adminStateInterface } from "../../interface/admin.interface";
 
-
 export const adminState: adminStateInterface = {
     user: {
         _id: '',

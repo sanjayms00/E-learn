@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { categories } from '../interface/common.interface';
 import { Observable } from 'rxjs';
-import { constant } from 'src/app/core/constant/constant';
+import { constant } from '../../core/constant/constant';
 
 @Injectable({
     providedIn: 'root'

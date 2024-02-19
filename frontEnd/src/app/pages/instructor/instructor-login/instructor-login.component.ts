@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IUser } from 'src/app/shared/interface/common.interface';
-import { instructorLogin } from 'src/app/shared/store/actions/instructor.action';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { IUser } from '../../../shared/interface/common.interface';
+import { instructorLogin } from '../../../shared/store/actions/instructor.action';
+import { appState } from '../../../shared/store/state/app.state';
 
 @Component({
   selector: 'app-instructor-login',

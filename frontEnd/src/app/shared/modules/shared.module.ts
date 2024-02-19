@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 import { LoginComponent } from '../components/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
+import { TableComponent } from '../components/table/table.component';
+import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,15 @@ import { RegisterComponent } from '../components/register/register.component';
     ChatRightComponent,
     ChatLeftComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
     ChartModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   exports: [
     TruncatePipe,
@@ -37,9 +41,11 @@ import { RegisterComponent } from '../components/register/register.component';
     VideoPlayerComponent,
     DashboardBoxComponent,
     ChatRightComponent,
+    NgxPaginationModule,
     ChatLeftComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TableComponent
   ]
 })
 export class SharedModule { }

@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { AdminDashBoardService } from 'src/app/core/services/admin/admin-dash-board.service';
-import { dashboardResponse } from 'src/app/shared/interface/admin.interface';
+import { AdminDashBoardService } from '../../../core/services/admin/admin-dash-board.service';
+import { dashboardResponse } from '../../../shared/interface/admin.interface';
 
 @Component({
   selector: 'app-admin-dashboard',

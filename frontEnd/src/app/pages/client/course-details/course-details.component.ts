@@ -2,10 +2,10 @@ import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/c
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { CourseService } from 'src/app/core/services/instructor/course.service';
-import { studentInterface } from 'src/app/shared/interface/common.interface';
-import { CourseDetail, initialCourseDetails } from 'src/app/shared/interface/courseDetails.interface';
+import { AuthService } from '../../../core/services/auth.service';
+import { CourseService } from '../../../core/services/instructor/course.service';
+import { studentInterface } from '../../../shared/interface/common.interface';
+import { CourseDetail, initialCourseDetails } from '../../../shared/interface/courseDetails.interface';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class CourseDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.trailerVideo.nativeElement.focus()
+    
     const id = this.route.snapshot.paramMap.get('id')
     if (id) {
       this.getStudent();

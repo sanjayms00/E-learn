@@ -1,7 +1,7 @@
-import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LearningService } from 'src/app/core/services/client/learning.service';
-import { InstructorData, StreamResponse, VideoData } from 'src/app/shared/interface/video.interface';
+import { LearningService } from '../../../core/services/client/learning.service';
+import { StreamResponse, VideoData } from '../../../shared/interface/video.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ToastrService } from 'ngx-toastr';
 
@@ -54,7 +54,7 @@ export class StreamVideoComponent implements OnInit {
 
     if (this.courseId && this.videoId) {
       this.learningService.streamCourse(this.courseId, this.videoId)
-        .pipe(takeUntilDestroyed(this.destroyRef))   //for unsubscribing the observable
+        .pipe(takeUntilDestroyed(this.destroyRef)) 
         .subscribe((res) => {
           this.streamData = res;
           this.courseHeading = this.streamData.courseData[0].courseName

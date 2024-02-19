@@ -11,16 +11,16 @@ import { InstructorDashboardComponent } from './instructor-dashboard/instructor-
 import { CardModule } from 'primeng/card';
 import { InstructorCoursesComponent } from './instructor-courses/instructor-courses.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
-import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { EditCourseContentComponent } from './edit-course-content/edit-course-content.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { NumericDirective } from 'src/app/shared/customeDirectives/numeric.directive';
+import { NumericDirective } from '../../shared/customeDirectives/numeric.directive';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { SharedModule } from 'src/app/shared/modules/shared.module';
+import { SharedModule } from '../../shared/modules/shared.module';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
@@ -30,7 +30,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { InstructorChatComponent } from './instructor-chat/instructor-chat.component';
 
@@ -48,7 +47,7 @@ import { InstructorChatComponent } from './instructor-chat/instructor-chat.compo
     CreateCourseComponent,
     EditCourseContentComponent,
     NumericDirective,
-    InstructorChatComponent
+    InstructorChatComponent,
   ],
   imports: [
     CommonModule,
@@ -72,7 +71,6 @@ import { InstructorChatComponent } from './instructor-chat/instructor-chat.compo
     InputTextareaModule,
     EditorModule,
     InputMaskModule,
-    NgxPaginationModule,
     ImageCropperModule
   ],
   providers: []

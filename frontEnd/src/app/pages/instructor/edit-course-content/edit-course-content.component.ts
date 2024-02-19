@@ -2,10 +2,10 @@ import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/c
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ChapterInterface } from 'src/app/shared/interface/common.interface';
-import { CourseFormService } from 'src/app/shared/services/course-form.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { IDeactivateComponent } from 'src/app/shared/guards/form-leave.guard';
+import { ChapterInterface } from '../../../shared/interface/common.interface';
+import { CourseFormService } from '../../../shared/services/course-form.service';
+import { ConfirmationService } from 'primeng/api';
+import { IDeactivateComponent } from '../../../shared/guards/form-leave.guard';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -55,19 +55,12 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     this.getcourseContent()
   }
 
-
-  ///////////////////// methods ////////////////////////////////////
-
-
   getcourseContent() {
     if (this.id) {
       this.courseFormService.editCourseContentData(this.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
-
-            console.log("response", res)
-
             this.courseData = res[0].videos
             this.formData.append('courseId', String(this.id))
           },
@@ -273,6 +266,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     if (((this.data.title || this.data.description || this.data.file) || this.course.dirty) && !this.submit) {
       return confirm("You have unsaved changes, Do you want to navigate away?")
     }
+
     return true
   }
 

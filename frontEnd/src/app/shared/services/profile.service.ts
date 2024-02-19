@@ -1,7 +1,7 @@
-import { HttpClient, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { instructorInterface, studentInterface } from 'src/app/shared/interface/common.interface';
 
 type profileResponse = {
@@ -13,8 +13,6 @@ type profileStudentResponse = {
     studentData: studentInterface
     imageSignedUrl: string
 }
-
-
 
 @Injectable({
     providedIn: 'root'

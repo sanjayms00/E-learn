@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { constant } from '../../constant/constant';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { myLearning } from 'src/app/shared/interface/myLearning.interface';
+import { myLearning } from '../../../shared/interface/myLearning.interface';
 
 @Injectable({
   providedIn: 'root'

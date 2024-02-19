@@ -4,15 +4,15 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { instructorInterface } from 'src/app/shared/interface/common.interface';
-import { appState } from 'src/app/shared/store/state/app.state';
+import { instructorInterface } from '../../../shared/interface/common.interface';
+import { appState } from '../../../shared/store/state/app.state';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProfileService } from 'src/app/shared/services/profile.service';
+import { ProfileService } from '../../../shared/services/profile.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { getInstructor } from 'src/app/shared/store/selectors/instructor.selector';
-import { constant } from 'src/app/core/constant/constant';
-import { instructorLoginSuccess } from 'src/app/shared/store/actions/instructor.action';
+import { getInstructor } from '../../../shared/store/selectors/instructor.selector';
+import { constant } from '../../../core/constant/constant';
+import { instructorLoginSuccess } from '../../../shared/store/actions/instructor.action';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class InstructorProfileComponent implements OnInit {
 
   profile !: instructorInterface
   profileSubscription !: Subscription
+  profileImageSubscription !: Subscription
   visible = false
   profileForm!: FormGroup
   imageChangedEvent: any = '';
@@ -66,7 +67,6 @@ export class InstructorProfileComponent implements OnInit {
         }
       })
 
-
     //get profile photo
     if (this.profile.image) {
       this.getProfileImage()
@@ -74,7 +74,7 @@ export class InstructorProfileComponent implements OnInit {
   }
 
   getProfileImage() {
-    this.profileService.profileImage(this.profile.image).subscribe(res => {
+    this.profileImageSubscription = this.profileService.profileImage(this.profile.image).subscribe(res => {
       this.noprofile = res.profileImage
     })
   }
@@ -102,7 +102,6 @@ export class InstructorProfileComponent implements OnInit {
   profileUpdate() {
     if (this.profileForm.valid) {
 
-
       Object.keys(this.profileForm.controls).forEach(key => {
         const control = this.profileForm.get(key)
 
@@ -110,8 +109,6 @@ export class InstructorProfileComponent implements OnInit {
           this.formData.append(key, control.value)
         }
       })
-
-
 
       this.profileService.updateInstructorProfile(this.formData)
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -186,6 +183,12 @@ export class InstructorProfileComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe()
+
+    if(this.profile.image){
+      this.profileImageSubscription.unsubscribe()
+    }
+
+
   }
 
 
