@@ -11,7 +11,7 @@ export class ChatService {
 
     socket!: Socket
     notification: MessageResponse[] = []
-    sudentCurrentChat: string | null = null
+    studentCurrentChat: string | null = null
     instructorCurrentChat: string | null = null
 
     connect(userId: string) {
@@ -26,8 +26,18 @@ export class ChatService {
         this.socket = io(constant.socketLink);
 
         this.socket.on('notification', (response: MessageResponse) => {
-            console.log("notification response", response)
+
+
+            if (this.studentCurrentChat == response.message.chatRoom) {
+                return
+            }
+
+            if (this.instructorCurrentChat == response.message.chatRoom) {
+                return
+            }
+
             this.notification.push(response)
+
         });
 
     }

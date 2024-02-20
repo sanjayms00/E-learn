@@ -19,7 +19,7 @@ export class StudentChatComponent {
   chats: Chats[] = []
   role: role = role.Student;
   currentChat!: Chats
-  notification: MessageResponse[] = []
+  notifications: MessageResponse[] = []
 
   constructor(
     private chatService: ChatService,
@@ -51,7 +51,7 @@ export class StudentChatComponent {
     });
 
     this.chatService.recieveMessage()
-    .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response: message) => {
         if (this.currentChat?._id === response.chatRoom) {
           this.currentChat?.messages.push(response)
@@ -62,6 +62,14 @@ export class StudentChatComponent {
 
     });
 
+  }
+
+  ngDoCheck(): void {
+    if (this.chatService.notification.length > 0) {
+      this.notifications = this.chatService.notification.filter(notification => {
+        return notification.message && notification.message.receiver == this.studentId;
+      })
+    }
   }
 
   chatEvent(event: string) {
@@ -76,7 +84,7 @@ export class StudentChatComponent {
       }
 
       this.currentChat = response
-      this.chatService.sudentCurrentChat = response._id
+      this.chatService.studentCurrentChat = response._id
 
       this.chatService.removeNotification(response._id)
 
@@ -87,10 +95,10 @@ export class StudentChatComponent {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
-      this.chatService.sudentCurrentChat = response._id
+      this.chatService.studentCurrentChat = response._id
 
       this.chatService.removeNotification(response._id)
-      this.notification = this.chatService.notification
+      this.notifications = this.chatService.notification
 
     })
   }
