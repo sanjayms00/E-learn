@@ -6,7 +6,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: '*'
+    origin: ['http://localhost:4200']
   }
 })
 export class MessagesGateway {
@@ -16,14 +16,17 @@ export class MessagesGateway {
 
   constructor(private readonly messagesService: MessagesService) { }
 
+
   @SubscribeMessage('accessChat')
-  accessChat(
-    @MessageBody() data
+  async accessChat(
+    @MessageBody() data,
+    @ConnectedSocket() client: Socket
   ) {
-    return this.messagesService.accessChat(data);
+    const chat = await this.messagesService.accessChat(data);
+    client.join(chat._id.toString());
+    return chat
   }
 
-  // student
 
   @SubscribeMessage('studentChatOnload')
   async studnentChatOnload(
@@ -32,7 +35,7 @@ export class MessagesGateway {
     const { studentId } = studentData
 
     const users = await this.messagesService.instructor(studentId);
-    console.log(studentId)
+
     const chats = await this.messagesService.studentChats(studentId);
 
     return {
@@ -40,17 +43,24 @@ export class MessagesGateway {
     }
   }
 
+
   @SubscribeMessage('createMessage')
-  async create(
+  async createMessage(
     @MessageBody() createMessageDto: CreateMessageDto,
+    @ConnectedSocket() client: Socket
   ) {
 
-    const message = await this.messagesService.createMessage(createMessageDto);
+    const messageData = await this.messagesService.createMessage(createMessageDto);
 
-    //emit the message created to all users  event name message
-    this.server.emit('message', message)
+    const room = messageData.chatRoom.toString();
 
-    return message
+    client.to(room).emit("message", messageData)
+
+    // const notification = await this.messagesService.addNotification(createMessageDto);
+
+    client.to(messageData.receiver.toString()).emit("notification", { message: messageData })
+
+    return messageData
   }
 
 
@@ -64,26 +74,24 @@ export class MessagesGateway {
     return notification
   }
 
-  @SubscribeMessage('deleteInstructorNotification')
-  async deleteInstructorNotification(
-    @MessageBody() message,
-  ) {
 
-    const notification = await this.messagesService.deleteInstructorNotification(message);
-
+  @SubscribeMessage('removeNotificaion')
+  async deleteStudentNotification(@MessageBody() chatId) {
+    const notification = await this.messagesService.deleteNotification(chatId);
     return notification
   }
 
-  @SubscribeMessage('deleteStudentNotification')
-  async deleteStudentNotification(
-    @MessageBody() message,
-  ) {
 
-    console.log(message)
+  @SubscribeMessage('connection')
+  async connection(@MessageBody() userId: string, @ConnectedSocket() client: Socket) {
+    client.join(userId);
+    //get notifications
+    const notifications = await this.messagesService.getNotifications(userId)
 
-    const notification = await this.messagesService.deleteStudentNotification(message);
+    client.emit("notification", { message: notifications });
 
-    return notification
+    return notifications
+
   }
 
 
@@ -99,62 +107,22 @@ export class MessagesGateway {
     // return await this.messagesService.findAllInstructors(studentId);
   }
 
-  @SubscribeMessage('findAllChats')
-  async findAllChats() {
-    // return await this.messagesService.findAllChats();
-  }
 
   @SubscribeMessage('loadMessages')
   async loadMessages(
-    @MessageBody() chat: { chatId: string }
+    @MessageBody() chat: { chatId: string },
+    @ConnectedSocket() client: Socket
   ) {
 
     const { chatId } = chat
+
+    client.join(chatId.toString());
+
     const chatWithMessages = await this.messagesService.loadMessages(chatId);
 
     return chatWithMessages
 
   }
-
-  @SubscribeMessage('join')
-  joinRoom(
-    @MessageBody('name') name: string,
-    @ConnectedSocket() client: Socket
-  ) {
-
-    console.log(name, client)
-
-    // return this.messagesService.identify(name, client.id)
-  }
-
-  @SubscribeMessage('typing')
-  async typing(
-    @MessageBody('isTyping') isTyping: boolean,
-    @ConnectedSocket() client: Socket
-  ) {
-    // const name = await this.messagesService.getClientByName(client.id)
-
-    // client.broadcast.emit('typing', { name, isTyping })
-
-  }
-
-
-  // @SubscribeMessage('findOneMessage')
-  // findOne(@MessageBody() id: number) {
-  //   return this.messagesService.findOne(id);
-  // }
-
-  // @SubscribeMessage('updateMessage')
-  // update(@MessageBody() updateMessageDto: UpdateMessageDto) {
-  //   return this.messagesService.update(updateMessageDto.id, updateMessageDto);
-  // }
-
-  // @SubscribeMessage('removeMessage')
-  // remove(@MessageBody() id: number) {
-  //   return this.messagesService.remove(id);
-  // }
-
-
 
 
   @SubscribeMessage('instructorChatOnload')
@@ -166,13 +134,9 @@ export class MessagesGateway {
     const users = await this.messagesService.students(instructorId);
     const chats = await this.messagesService.instructorChats(instructorId);
 
-    console.log(users, chats)
-
     return {
       users, chats
     }
   }
-
-
 
 }

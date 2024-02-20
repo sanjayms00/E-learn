@@ -10,6 +10,7 @@ import { ChatService } from '../../shared/services/chat.service';
 import { getinstructorDataFromLocal } from '../../shared/store/actions/instructor.action';
 import { getInstructor } from '../../shared/store/selectors/instructor.selector';
 import { appState } from '../../shared/store/state/app.state';
+import { initFlowbite } from 'flowbite';
 
 @Component({
     selector: 'app-instructor',
@@ -19,8 +20,8 @@ export class InstructorComponent implements OnInit, DoCheck {
 
     items!: MenuItem[];
     instructorId: string = ''
+    notifications: MessageResponse[] = []
     sidebarVisible: boolean = true;
-    instructorNotification: MessageResponse[] = []
     @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
 
@@ -29,23 +30,25 @@ export class InstructorComponent implements OnInit, DoCheck {
         private router: Router,
         private toastr: ToastrService,
         private store: Store<appState>,
-        private chatservice: ChatService
+        private chatService: ChatService
     ) { }
 
     ngOnInit() {
+        initFlowbite();
         this.setInstructorData()
         this.store.select(getInstructor).subscribe(res => {
             this.instructorId = res._id
+            this.chatService.connect(this.instructorId)
         })
     }
 
+
     ngDoCheck(): void {
-
-        this.instructorNotification = this.chatservice.instructorNotification.filter(noti => {
-            return noti.chatRoomData.instructor == this.instructorId
-        })
-
-        this.chatservice.getInstructorNotifications(this.instructorId)
+        if (this.chatService.notification.length > 0) {
+            this.notifications = this.chatService.notification.filter(notification => {
+                return notification.message && notification.message.receiver == this.instructorId;
+            })
+        }
     }
 
     //instructor logout
@@ -69,7 +72,5 @@ export class InstructorComponent implements OnInit, DoCheck {
 
         this.store.dispatch(getinstructorDataFromLocal({ user: JSON.parse(instructorData) }))
     }
-
-
 
 }

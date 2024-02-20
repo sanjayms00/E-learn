@@ -2,7 +2,7 @@ import { Component, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from '../../../core/services/auth.service';
-import { users, Chats, onloadResponse, message, MessageResponse } from '../../../shared/interface/chat.interface';
+import { users, Chats, onloadResponse, message, MessageResponse, role } from '../../../shared/interface/chat.interface';
 import { ChatService } from '../../../shared/services/chat.service';
 import { getclient } from '../../../shared/store/selectors/client.selector';
 import { appState } from '../../../shared/store/state/app.state';
@@ -17,8 +17,8 @@ export class StudentChatComponent {
   studentId: string = ''
   users: users[] = []
   chats: Chats[] = []
-  role: "Instructor" | "Student" = "Student";
-  currentChat: Chats | null = null
+  role: role = role.Student;
+  currentChat!: Chats
   notification: MessageResponse[] = []
 
   constructor(
@@ -43,28 +43,29 @@ export class StudentChatComponent {
 
     this.chatService.socket.emit("studentChatOnload", { studentId: this.studentId }, (response: onloadResponse) => {
 
+      console.log(response)
+
+
       this.users = response.users
       this.chats = response.chats
     });
 
-    this.chatService.socket.on('message', (response: MessageResponse) => {
-      if (this.currentChat?._id === response.message.chatRoom) {
-        this.currentChat?.messages.push(response.message)
-      }
-
-      if (response.message.senderType !== this.role) {
-        if (!this.currentChat || (this.currentChat._id !== response.message.chatRoom && response.chatRoomData.student == this.studentId)) {
-          this.chatService.pushNotification(response);
-          this.notification = this.chatService.notification
+    this.chatService.recieveMessage()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((response: message) => {
+        if (this.currentChat?._id === response.chatRoom) {
+          this.currentChat?.messages.push(response)
         }
-      }
+      })
+
+    this.chatService.socket.on('message', (response: MessageResponse) => {
 
     });
 
   }
 
-  chatEvent(event: Event) {
-    // event to add a chat  or load the existing chat
+  chatEvent(event: string) {
+    // event is receiver id 
 
     this.chatService.socket.emit("accessChat", { studentId: this.studentId, instructorId: event }, (response: Chats) => {
 
@@ -75,16 +76,18 @@ export class StudentChatComponent {
       }
 
       this.currentChat = response
+      this.chatService.sudentCurrentChat = response._id
 
       this.chatService.removeNotification(response._id)
 
     });
   }
 
-  loadMessageEvent(event: Event) {
+  loadMessageEvent(event: string) {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
+      this.chatService.sudentCurrentChat = response._id
 
       this.chatService.removeNotification(response._id)
       this.notification = this.chatService.notification
@@ -94,16 +97,13 @@ export class StudentChatComponent {
 
   messageEvent(event: message) {
 
-    event.sender._id = this.studentId
+    event.sender = this.studentId
     event.senderType = this.role
 
-    this.chatService.socket.emit("createMessage", { ...event }, (response: message) => {
-      // this.currentChat?.messages.push(response)
-    })
-
+    this.chatService.sendMessage(event)
+      .subscribe(response => {
+        this.currentChat?.messages.push(response)
+      })
   }
-
-
-
 
 }

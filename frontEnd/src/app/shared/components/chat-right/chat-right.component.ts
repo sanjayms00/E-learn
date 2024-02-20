@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
-import { Chats, message } from '../../interface/chat.interface';
+import { Chats, message, role } from '../../interface/chat.interface';
 import { Observable, Subject } from 'rxjs';
 
 
@@ -11,7 +11,7 @@ import { Observable, Subject } from 'rxjs';
 export class ChatRightComponent implements OnChanges, OnInit {
 
   noProfile = constant.noProfile
-  message = ""
+  message: string | null = null
   maxHeight = 200
   currentTime = new Date()
   isOpened = false;
@@ -19,8 +19,8 @@ export class ChatRightComponent implements OnChanges, OnInit {
   @Input() emojiInput$: Subject<string> | undefined;
   @ViewChild("container") container: ElementRef<HTMLElement> | undefined;
 
-  @Input() currentChat: Chats | null = null
-  @Input() role!: "Instructor" | "Student";
+  @Input() currentChat!: Chats
+  @Input() role!: role
   @Output() messageEvent = new EventEmitter()
 
   ngOnInit(): void {
@@ -34,21 +34,23 @@ export class ChatRightComponent implements OnChanges, OnInit {
 
   sendMessage() {
 
-    const messageData: message = {
-      content: this.message,
-      chatRoom: this.currentChat!._id,
-      sender: {
-        fullName: '',
-        _id: ''
-      },
-      senderType: '',
-      createdAt: new Date()
+    if(this.currentChat && this.message?.trim()){
+      const receiver = this.role == role.Instructor ? this.currentChat.student._id : this.currentChat.instructor._id
+
+      const messageData: message = {
+        content: this.message,
+        chatRoom: this.currentChat!._id,
+        sender: '',
+        receiver: receiver,
+        senderType: '',
+        createdAt: new Date()
+      }
+
+      this.messageEvent.emit(messageData)
+
+      this.message = ""
+      this.scrollToBottom();
     }
-
-    this.messageEvent.emit(messageData)
-
-    this.message = ""
-    this.scrollToBottom();
   }
 
   adjustTextareaHeight(event: Event) {

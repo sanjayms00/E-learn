@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
+import { ChatService } from './shared/services/chat.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,12 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent implements OnInit {
 
+
+  constructor(private chatService: ChatService) { }
+
   ngOnInit(): void {
-    initFlowbite();
+    this.chatService.initialize()
   }
+
+
 }

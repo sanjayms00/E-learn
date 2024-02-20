@@ -37,7 +37,7 @@ export class CourseDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     const id = this.route.snapshot.paramMap.get('id')
     if (id) {
       this.getStudent();
@@ -73,7 +73,6 @@ export class CourseDetailsComponent implements OnInit {
     if (studentData) {
       this.student = JSON.parse(studentData)
     }
-    console.log(this.student._id)
   }
 
   isStudentEnrolled(): boolean | undefined {

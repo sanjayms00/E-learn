@@ -1,57 +1,66 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 import { constant } from '../../core/constant/constant';
 import { MessageResponse, message } from '../interface/chat.interface';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
 
-    socket = io(constant.socketLink);
-
+    socket!: Socket
     notification: MessageResponse[] = []
-    instructorNotification: MessageResponse[] = []
+    sudentCurrentChat: string | null = null
+    instructorCurrentChat: string | null = null
 
-    pushNotification(message: MessageResponse) {
-        this.notification.push(message)
-        // this.UploadNotification(message)
+    connect(userId: string) {
+        this.socket.emit('connection', userId, (response: MessageResponse) => {
+            console.log("connection response", response)
+
+            this.notification.push(response)
+        });
+    }
+
+    initialize() {
+        this.socket = io(constant.socketLink);
+
+        this.socket.on('notification', (response: MessageResponse) => {
+            console.log("notification response", response)
+            this.notification.push(response)
+        });
 
     }
 
-    pushInstructorNotification(message: MessageResponse) {
-        this.instructorNotification.push(message)
-        // this.UploadNotification(message)
+    //send a ne message
+    sendMessage(event: message): Observable<message> {
+        return new Observable((observer) => {
+            this.socket.emit("createMessage", { ...event }, (response: message) => {
+                observer.next(response)
+            })
+        })
+    }
 
+    //recieve a message add to chat in sender
+    recieveMessage(): Observable<message> {
+        return new Observable((observer) => {
+            this.socket.on('message', (response: message) => {
+                observer.next(response)
+            });
+        })
     }
 
     removeNotification(chatId: string) {
 
+        //remove db notification
+        this.socket.emit('removeNotification', chatId);
+
         if (this.notification.length > 0) {
             this.notification = this.notification.filter(noti => {
-                return noti.message.chatRoom !== chatId
+                return noti.message && noti.message.chatRoom !== chatId
             })
         }
     }
-
-    removeInstructorNotification(chatId: string) {
-
-        if (this.instructorNotification.length > 0) {
-            this.instructorNotification = this.instructorNotification.filter(noti => {
-                return noti.message.chatRoom !== chatId
-            })
-        }
-    }
-
-    getInstructorNotifications(instructorId: string) {
-        // if (this.notification.length > 0) {
-        //     this.notification = this.notification.filter(noti => {
-        //         return noti.sender._id !== instructorId
-        //     })
-        // }
-    }
-
 
     UploadNotification(notification: MessageResponse) {
         this.socket.emit("addNotification", { ...notification }, (response: message) => {

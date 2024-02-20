@@ -24,7 +24,7 @@ export type userReturnType = {
     linkedin: string,
     website: string,
     image: string,
-    mobile: string,
+    mobile: number,
     status: boolean
 }
 

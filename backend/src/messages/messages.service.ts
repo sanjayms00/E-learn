@@ -14,7 +14,6 @@ import { notification } from 'src/common/interfaces/notification.interface';
 @Injectable()
 export class MessagesService {
 
-
   constructor(
     @InjectModel(ChatRoom.name) private chatRoomModel: Model<ChatRoom>,
     @InjectModel(Message.name) private messageModel: Model<Message>,
@@ -89,10 +88,19 @@ export class MessagesService {
         }
       },
       {
+        $unwind: "$instructorData"
+      },
+      {
+        $group: {
+          _id: "$instructorData._id",
+          fullName: { $first: "$instructorData.fullName" }
+        }
+      },
+      {
         $project: {
           _id: 0,
-          id: { $arrayElemAt: ["$instructorData._id", 0] },
-          fullName: { $arrayElemAt: ["$instructorData.fullName", 0] }
+          id: "$_id",
+          fullName: 1
         }
       }
 
@@ -125,50 +133,50 @@ export class MessagesService {
 
   async createMessage(createMessageDto: CreateMessageDto) {
 
-    const { content, senderType, chatRoom, sender } = createMessageDto
+    try {
+      const { content, senderType, chatRoom, sender, receiver } = createMessageDto
 
-    const message = await this.messageModel.create({
-      sender,
-      content,
-      senderType,
-      chatRoom
-    })
+      const message = await this.messageModel.create({
+        sender,
+        receiver,
+        content,
+        senderType,
+        chatRoom
+      })
 
-    if (!message) {
-      throw new HttpException('Failed to create message.', HttpStatus.BAD_REQUEST);
-    }
-
-    const objchatRoom = new Types.ObjectId(chatRoom)
-
-    const addMessagetoRoom = await this.chatRoomModel.updateOne(
-      { _id: objchatRoom },
-      {
-        $push: { messages: message._id }
+      if (!message) {
+        throw new HttpException('Failed to create message.', HttpStatus.BAD_REQUEST);
       }
-    )
 
-    if (!addMessagetoRoom) {
-      throw new HttpException('Failed to add message to the chat room.', HttpStatus.INTERNAL_SERVER_ERROR);
+      const objchatRoom = new Types.ObjectId(chatRoom)
+
+      const addMessagetoRoom = await this.chatRoomModel.updateOne(
+        { _id: objchatRoom },
+        {
+          $push: { messages: message._id }
+        }
+      )
+
+      if (!addMessagetoRoom) {
+        throw new HttpException('Failed to add message to the chat room.', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+      await message.populate('sender', "fullName")
+
+      return message
+    } catch (err) {
+      throw new Error(err)
     }
-
-    await message.populate('sender', "fullName")
-
-    const chatRoomData = await this.chatRoomModel.findById(chatRoom, 'student instructor').exec();
-
-    // console.log(chatRoomData)
-
-    return { message, chatRoomData }
-
-
   }
 
 
   async addNotification(notification: CreateMessageDto) {
 
-    const { content, senderType, chatRoom, sender } = notification
+    const { content, senderType, chatRoom, sender, receiver } = notification
 
     const message = await this.notificationModel.create({
       sender,
+      receiver,
       content,
       senderType,
       chatRoom: new Types.ObjectId(chatRoom)
@@ -180,67 +188,21 @@ export class MessagesService {
 
     await message.populate('sender', "fullName")
 
-    const chatRoomData = await this.chatRoomModel.findById(chatRoom, 'student instructor').exec();
-
-    // console.log(chatRoomData)
-
-    return { message, chatRoomData }
-
+    return message 
 
   }
 
+  
+  async deleteNotification(chatId: string) {
 
-  async deleteInstructorNotification(notification: notification[]) {
-
-    if (notification.length > 0) {
-      const chatRoom = notification[0].message.chatRoom
-
-      await this.notificationModel.deleteMany({
-        chatRoom: new Types.ObjectId(chatRoom),
-        senderType: "Student"
-      })
-
-    }
-
-    const remainingNotifications = await this.notificationModel
-      .find({ senderType: "Student" })
-      .populate({
-        path: 'chatRoom',
-        select: 'student instructor'
-      });
-
-    return remainingNotifications
-
-
-  }
-
-  async deleteStudentNotification(notification: notification[]) {
-
-    const chatRoom = notification[0].message.chatRoom
-
-    await this.notificationModel.deleteMany({
-      chatRoom: new Types.ObjectId(chatRoom),
-      senderType: "Instructor"
+    const deleteNotification = await this.notificationModel.deleteMany({
+      chatRoom: new Types.ObjectId(chatId)
     })
 
-
-    const remainingNotifications = await this.notificationModel
-      .find({ senderType: "Instructor" })
-      .populate({
-        path: 'chatRoom',
-        select: 'student instructor'
-      });
-
-    return remainingNotifications
+    return deleteNotification
 
   }
 
-
-
-  // async findAllChats() {
-  //   //return the instructors list
-  //   return await this.chatRoomModel.find().exec();
-  // }
 
   async loadMessages(chatId: string) {
 
@@ -261,31 +223,6 @@ export class MessagesService {
 
   }
 
-  // getClientByName(clientId: string) {
-  //   // return this.clientToUser[clientId];
-  // }
-
-  // identify(name: string, clientId: string) {
-  // this.clientToUser[clientId] = name
-
-  // return Object.values(this.clientToUser)
-
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} message`;
-  // }
-
-  // update(id: number, updateMessageDto: UpdateMessageDto) {
-  //   return `This action updates a #${id} message`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} message`;
-  // }
-
-
-  //instructor 
 
   async students(instructorId: string) {
 
@@ -314,10 +251,19 @@ export class MessagesService {
         }
       },
       {
+        $unwind: "$studentsData"
+      },
+      {
+        $group: {
+          _id: "$studentsData._id",
+          fullName: { $first: "$studentsData.fullName" }
+        }
+      },
+      {
         $project: {
           _id: 0,
           id: "$_id",
-          fullName: { $arrayElemAt: ["$studentsData.fullName", 0] }
+          fullName: 1
         }
       }
     ])
@@ -346,5 +292,18 @@ export class MessagesService {
     return chats
 
   }
+
+
+  async getNotifications(userId: string) {
+
+    let notifications = await this.notificationModel.find(
+      {
+        receiver: userId
+      }
+    ).populate('sender', 'fullName');
+
+    return notifications
+  }
+
 
 }

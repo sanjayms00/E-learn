@@ -29,7 +29,7 @@ export class ChatLeftComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-  
+
   }
 
   onChange(event: string) {
@@ -50,7 +50,6 @@ export class ChatLeftComponent implements OnChanges {
   openChat(id: string) {
     this.chatEvent.emit(id)
   }
-
 
   loadmessages(chatId: string) {
     this.loadMessageEvent.emit(chatId)

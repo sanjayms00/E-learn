@@ -8,28 +8,37 @@
       </svg>
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden sm:block">E-Learn</span>
     </a>
-    <div class="flex items-center md:order-2 rtl:space-x-reverse">
+    <div class="flex items-center md:order-2 rtl:space-x-reverse" [hidden]="notifications.length === 0">
       <!-- notification start -->
-      <button id="notificaionButton" data-dropdown-toggle="notificaion" data-dropdown-delay="500"
-        data-dropdown-trigger="hover"
-        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-2 py-2 mx-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-        type="button">
+      <button type="button" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover"
+        class="relative inline-flex items-center p-2.5 mx-1 text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+
         <i class="pi pi-bell"></i>
+
+        <span class="sr-only">Notifications</span>
+
+        <ng-container *ngIf="notifications.length > 0">
+          <div
+            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+            {{ notifications.length }}
+          </div>
+        </ng-container>
+
       </button>
 
-      <div id="notificaion"
+      <!-- Dropdown menu -->
+      <div id="dropdownDelay"
         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-        <ng-container *ngIf="notifications.length > 0">
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
-            <li *ngFor="let item of notifications">
-              <a [routerLink]="['/chat']" routerLinkActive="router-link-active"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                [{{ item.message.sender.fullName }}] : {{ item.message.content }}
-              </a>
-            </li>
-          </ul>
-        </ng-container>
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+          <li *ngFor="let item of notifications">
+            <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" [routerLink]="['/chat']" >
+              [{{ item.message.sender.fullName }}] : {{ item.message.content }}
+            </a>
+          </li>
+        </ul>
       </div>
+
+
       <!-- notification ends -->
 
       <!-- chat starts -->

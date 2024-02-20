@@ -2,7 +2,7 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from '../../../core/services/auth.service';
-import { Chats, MessageResponse, message, onloadResponse, users } from 'src/app/shared/interface/chat.interface';
+import { Chats, MessageResponse, message, onloadResponse, role, users } from 'src/app/shared/interface/chat.interface';
 import { ChatService } from '../../../shared/services/chat.service';
 import { getInstructor } from '../../../shared/store/selectors/instructor.selector';
 import { appState } from '../../../shared/store/state/app.state';
@@ -16,11 +16,9 @@ export class InstructorChatComponent implements OnInit {
   instructorId: string = ''
   users: users[] = []
   chats: Chats[] = []
-  role: "Instructor" | "Student" = "Instructor";
-  currentChat: Chats | null = null
+  role: role = role.Instructor
+  currentChat!: Chats
   instructorNotification: MessageResponse[] = []
-
-
 
   constructor(
     private chatService: ChatService,
@@ -48,17 +46,9 @@ export class InstructorChatComponent implements OnInit {
       this.chats = response.chats
     });
 
-    this.chatService.socket.on('message', (response: MessageResponse) => {
-
-      if (this.currentChat?._id === response.message.chatRoom) {
-        this.currentChat?.messages.push(response.message)
-      }
-
-      if (response.message.senderType !== this.role) {
-        if (!this.currentChat || (this.currentChat._id !== response.message.chatRoom && response.chatRoomData.instructor == this.instructorId)) {
-          this.chatService.pushInstructorNotification(response);
-          this.instructorNotification = this.chatService.instructorNotification
-        }
+    this.chatService.socket.on('message', (response: message) => {
+      if (this.currentChat?._id === response.chatRoom) {
+        this.currentChat?.messages.push(response)
       }
     });
 
@@ -75,8 +65,10 @@ export class InstructorChatComponent implements OnInit {
       }
 
       this.currentChat = response
+      this.chatService.instructorCurrentChat = response._id
 
       this.chatService.removeNotification(response._id)
+
     });
 
   }
@@ -85,21 +77,24 @@ export class InstructorChatComponent implements OnInit {
     //load the chat and messages
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
-      this.chatService.removeInstructorNotification(response._id)
-      this.instructorNotification = this.chatService.instructorNotification
+      this.chatService.instructorCurrentChat = response._id
+      this.chatService.removeNotification(response._id)
+      this.instructorNotification = this.chatService.notification
+
     })
   }
 
 
   messageEvent(event: message) {
 
-    event.sender._id = this.instructorId
+    event.sender = this.instructorId
     event.senderType = this.role
 
-    this.chatService.socket.emit("createMessage", { ...event }, (response: message) => {
-
-      // this.currentChat?.messages.push(response)
-    })
+    this.chatService.sendMessage(event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(response => {
+        this.currentChat?.messages.push(response)
+      })
 
   }
 

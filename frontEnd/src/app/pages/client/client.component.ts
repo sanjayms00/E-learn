@@ -10,9 +10,9 @@ import { ProfileService } from '../../shared/services/profile.service';
 import { getClientDataFromLocal } from '../../shared/store/actions/client.action';
 import { getclient } from '../../shared/store/selectors/client.selector';
 import { appState } from '../../shared/store/state/app.state';
-import { initCollapses } from 'flowbite';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { initCollapses, initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-client',
@@ -41,27 +41,32 @@ export class ClientComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
+    initFlowbite();
     initCollapses();
+    //initialize the socket
     const clientData = this.authService.getLocalClientData()
     if (clientData) {
       this.store.dispatch(getClientDataFromLocal({ user: JSON.parse(clientData) }))
     }
 
     this.store.select(getclient)
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(res => {
-      this.studentId = res._id
-      if (res.image) {
-        this.getProfileImage(res.image)
-        this.name = res.fullName
-      }
-    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => {
+        this.studentId = res._id
+
+        this.chatService.connect(this.studentId)
+
+        if (res.image) {
+          this.getProfileImage(res.image)
+          this.name = res.fullName
+        }
+      })
 
   }
 
   getProfileImage(image: string) {
     this.profileService.studentprofileImage(image)
-    .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(res => {
         this.profile = res.profileImage
       })
@@ -72,9 +77,12 @@ export class ClientComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    this.notifications = this.chatService.notification.filter(noti => {
-      return noti.chatRoomData.student == this.studentId
-    })
+    if (this.chatService.notification.length > 0){
+      this.notifications = this.chatService.notification.filter(notification => {
+        return notification.message && notification.message.receiver == this.studentId;
+      })
+    }
+    
 
     if (this.authService.getClientToken()) {
       this.logSign = false

@@ -35,10 +35,8 @@ export interface onloadResponse {
 }
 
 export interface message {
-    sender: {
-        fullName: string
-        _id: string
-    }
+    sender: string
+    receiver: string
     content: string;
     senderType: string;
     chatRoom: string;
@@ -52,9 +50,23 @@ export interface ChatRoomData {
 }
 
 
-
-
 export interface MessageResponse {
-    chatRoomData: ChatRoomData,
-    message : message
+    message: {
+        sender: {
+            fullName: string,
+            _id: string
+        }
+        receiver: string
+        content: string;
+        senderType: string;
+        chatRoom: string;
+        createdAt: Date
+    }
 }
+
+
+export enum role {
+    Student = "Student",
+    Instructor = "Instructor"
+}
+

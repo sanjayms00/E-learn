@@ -8,6 +8,9 @@ export class Message {
     @Prop({ type: Types.ObjectId, required: true, refPath: "senderType" })
     sender: Types.ObjectId
 
+    @Prop({ type: Types.ObjectId, required: true, refPath: "senderType" })
+    receiver: Types.ObjectId
+
     @IsString()
     @Prop({ required: true, trim: true })
     content: string

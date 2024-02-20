@@ -5,6 +5,7 @@ import { exhaustMap, map, catchError, of } from 'rxjs'
 import { OtpVerify, clientLogin, clientLoginFailure, clientLoginSuccess, clientSignUp, clientSignUpFailure, clientSignUpFirstStep, clientSignUpSuccess } from "../../actions/client.action"
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { ChatService } from "src/app/shared/services/chat.service";
 
 
 @Injectable()
@@ -14,7 +15,8 @@ export class clientEffects {
     private action$: Actions,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private chatService: ChatService
   ) { }
 
   _clientLogin$ = createEffect(() =>
@@ -27,6 +29,7 @@ export class clientEffects {
             this.toastr.success("Login successfull")
             localStorage.setItem('clientToken', response.access_token);
             localStorage.setItem('clientData', JSON.stringify(response.user));
+            
             this.router.navigateByUrl('/home')
             return clientLoginSuccess({ user: response.user })
           }),
@@ -69,6 +72,7 @@ export class clientEffects {
             console.log(response)
             localStorage.setItem('clientToken', response.access_token);
             localStorage.setItem('clientData', JSON.stringify(response.user));
+
             this.router.navigateByUrl('/home')
             this.toastr.success("signup")
             localStorage.removeItem("clientMail")

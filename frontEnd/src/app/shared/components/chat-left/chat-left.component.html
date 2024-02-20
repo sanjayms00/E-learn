@@ -4,7 +4,9 @@
             class="block w-full py-2 bg-gray-100 rounded outline-none" name="search" placeholder="Search" required />
         <div *ngIf="suggestion">
             <ul>
-                <li *ngFor="let result of searchResult" (click)="openChat(result.id)">{{ result.fullName }}</li>
+                <li *ngFor="let result of searchResult" (click)="openChat(result.id)">
+                    {{ result.fullName }}
+                </li>
             </ul>
         </div>
     </div>

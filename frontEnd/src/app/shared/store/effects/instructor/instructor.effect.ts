@@ -6,6 +6,7 @@ import { exhaustMap, map, catchError, of } from 'rxjs'
 import { instructorLogin, instructorLoginFailure, instructorLoginSuccess, instructorSignUp, instructorSignUpFailure, instructorSignUpSuccess } from "../../actions/instructor.action"
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { ChatService } from "src/app/shared/services/chat.service";
 
 
 @Injectable()
@@ -15,7 +16,8 @@ export class instructorEffects {
     private action$: Actions,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private chatService: ChatService
   ) { }
 
   _instructorLogin$ = createEffect(() =>
@@ -28,6 +30,7 @@ export class instructorEffects {
             this.toastr.success("Login successfull")
             localStorage.setItem('instructorToken', response.access_token);
             localStorage.setItem('instructorData', JSON.stringify(response.user));
+
             this.router.navigateByUrl('/instructor/dashboard')
             return instructorLoginSuccess({ user: response.user })
           }),
@@ -50,6 +53,7 @@ export class instructorEffects {
             this.toastr.success("Login successfull")
             localStorage.setItem('instructorToken', response.access_token);
             localStorage.setItem('instructorData', JSON.stringify(response.user));
+
             this.router.navigateByUrl('/instructor/dashboard')
             return instructorSignUpSuccess({ user: response.user })
           }),
