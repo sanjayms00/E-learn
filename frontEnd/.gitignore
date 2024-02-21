@@ -8,7 +8,7 @@
 /constant
 
 
-# /src/environment
+/src/environment
 
 # Node
 /node_modules
