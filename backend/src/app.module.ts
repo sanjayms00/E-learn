@@ -7,9 +7,14 @@ import { JwtService } from '@nestjs/jwt';
 import { InstructorModule } from './instructor/instructor.module';
 import { RouterModule } from '@nestjs/core';
 import { MessagesModule } from './messages/messages.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({ 
+      rootPath: join(__dirname, '..', 'frontend'),
+    }),
     StudentModule,
     RouterModule.register([
       {
@@ -35,7 +40,7 @@ import { MessagesModule } from './messages/messages.module';
       isGlobal: true
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
-    MessagesModule
+    MessagesModule,
   ],
   providers: [JwtService],
   controllers: [],
