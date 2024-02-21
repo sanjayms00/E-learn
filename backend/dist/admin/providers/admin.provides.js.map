@@ -1,0 +1,1 @@
+{"version":3,"file":"admin.provides.js","sourceRoot":"","sources":["../../../src/admin/providers/admin.provides.ts"],"names":[],"mappings":";;;AACA,yDAAqD;AAExC,QAAA,cAAc,GAAG;IAC5B;QACE,OAAO,EAAE,aAAa;QACtB,UAAU,EAAE,CAAC,UAAsB,EAAE,EAAE,CAAC,UAAU,CAAC,KAAK,CAAC,KAAK,EAAE,0BAAW,CAAC;QAC5E,MAAM,EAAE,CAAC,qBAAqB,CAAC;KAChC;CACF,CAAC"}
