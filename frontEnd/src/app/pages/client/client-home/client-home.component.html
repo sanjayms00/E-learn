@@ -71,19 +71,27 @@
     </div>
 
     <!-- Courses -->
+    <ng-container *ngIf="homeData.courses.length < 1">
+        <p class="font-semibold flex justify-center">
+            No courses to display
+        </p>
+    </ng-container>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <ng-container *ngFor="let Course of homeData.courses">
             <app-course-card [course]="Course"></app-course-card>
         </ng-container>
     </div>
-    <!-- Courses -->
 
-    <div class="flex justify-center my-5">
-        <button [routerLink]="['/courses']"
-            class="px-8 h-12 text-white border-2 bg-black rounded-lg hover:bg-white hover:text-black hover:border-black">
-            More
-        </button>
-    </div>
+    <!-- Courses -->
+    <ng-container *ngIf="homeData.courses.length > 0">
+        <div class="flex justify-center my-5">
+            <button [routerLink]="['/courses']"
+                class="px-8 h-12 text-white border-2 bg-black rounded-lg hover:bg-white hover:text-black hover:border-black">
+                More
+            </button>
+        </div>
+    </ng-container>
 </section>
 
 <!-- how E-learn works -->

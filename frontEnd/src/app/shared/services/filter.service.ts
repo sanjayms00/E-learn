@@ -39,7 +39,6 @@ export class FilterService {
     if (filterCredentials.level !== undefined) {
       params = params.set('level', filterCredentials.level);
     }
-    console.log(params)
 
     return this.course = this.http.get<Course[]>(`${constant.baseUrl}/student/filter`, { params })
   }

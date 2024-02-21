@@ -29,7 +29,7 @@ export class clientEffects {
             this.toastr.success("Login successfull")
             localStorage.setItem('clientToken', response.access_token);
             localStorage.setItem('clientData', JSON.stringify(response.user));
-            
+
             this.router.navigateByUrl('/home')
             return clientLoginSuccess({ user: response.user })
           }),
@@ -69,7 +69,7 @@ export class clientEffects {
       exhaustMap((action) => {
         return this.authService.verifyotp(action).pipe(
           map((response) => {
-            console.log(response)
+
             localStorage.setItem('clientToken', response.access_token);
             localStorage.setItem('clientData', JSON.stringify(response.user));
 
