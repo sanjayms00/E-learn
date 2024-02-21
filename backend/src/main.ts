@@ -9,7 +9,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use('/public', express.static(path.join(__dirname, '..', 'public')));
   app.enableCors({
-    origin: ['http://localhost:4200']      //only for angular port
+    // origin: ['http://localhost:4200']
+    origin: "*"
   });
 
   app.useGlobalPipes(new ValidationPipe());

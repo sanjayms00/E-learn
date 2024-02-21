@@ -168,7 +168,8 @@ export class StudentAuthService {
       const tokenSaveResult = await this.createForgottenpasswordToken(email, token, student._id)
 
       //send mail
-      const url = `http://localhost:4200/reset-password/${token}`;
+      // const url = `http://localhost:4200/reset-password/${token}`;
+      const url = `/reset-password/${token}`;
 
       const emailSent = await this.mailerlService.sendMail({
         to: email,
@@ -179,7 +180,7 @@ export class StudentAuthService {
 
       if (!emailSent) throw new Error("email not send")
 
-      return {status : true , message : "mail sent successfully"} 
+      return { status: true, message: "mail sent successfully" }
 
     } catch (error) {
       throw new HttpException("Mail not sent successfully", HttpStatus.INTERNAL_SERVER_ERROR)

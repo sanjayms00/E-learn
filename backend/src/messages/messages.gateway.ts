@@ -6,7 +6,8 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:4200']
+    // origin: ['http://localhost:4200']
+    origin: "*"
   }
 })
 export class MessagesGateway {
