@@ -16,17 +16,12 @@ const jwt_1 = require("@nestjs/jwt");
 const instructor_module_1 = require("./instructor/instructor.module");
 const core_1 = require("@nestjs/core");
 const messages_module_1 = require("./messages/messages.module");
-const path_1 = require("path");
-const serve_static_1 = require("@nestjs/serve-static");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, '..', 'frontEnd'),
-            }),
             student_module_1.StudentModule,
             core_1.RouterModule.register([
                 {
