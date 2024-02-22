@@ -154,7 +154,7 @@ let StudentAuthService = class StudentAuthService {
             }
             const token = crypto.randomBytes(48).toString('base64url');
             const tokenSaveResult = await this.createForgottenpasswordToken(email, token, student._id);
-            const url = `http://localhost:4200/reset-password/${token}`;
+            const url = `https://sanjayms.online/reset-password/${token}`;
             const emailSent = await this.mailerlService.sendMail({
                 to: email,
                 subject: 'Welcome to E-learn! Reset your password',

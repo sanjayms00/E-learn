@@ -6,7 +6,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:4200']
+    origin: ['https://sanjayms.online/', 'https://www.sanjayms.online/']
     // origin: "*"
   }
 })
