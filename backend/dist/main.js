@@ -30,10 +30,12 @@ const express = __importStar(require("express"));
 const path = __importStar(require("path"));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, { rawBody: true });
-    app.setGlobalPrefix('api');
     app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+    app.use('/', express.static(path.join(__dirname, '..', 'dist/frontend')));
+    app.use('/*', express.static(path.join(__dirname, '..', 'dist/frontend')));
+    app.setGlobalPrefix('api');
     app.enableCors({
-        origin: "*"
+        origin: ['http://localhost:4200']
     });
     app.useGlobalPipes(new common_1.ValidationPipe());
     await app.listen(3000);

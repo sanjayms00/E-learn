@@ -6,7 +6,7 @@ export declare class UploadService {
     private readonly configService;
     private sharpService;
     private signedUrlService;
-    private readonly s3Client;
+    private s3Client;
     constructor(configService: ConfigService, sharpService: SharpService, signedUrlService: SignedUrlService);
     uploadImage(image: any): Promise<{
         imageName: string;

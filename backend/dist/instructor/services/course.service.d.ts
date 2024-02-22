@@ -37,7 +37,7 @@ export declare class CourseService {
     private videoModel;
     private sharpService;
     private signedUrlService;
-    private readonly s3Client;
+    private s3Client;
     constructor(instructorModel: Model<Instructor>, configService: ConfigService, courseModel: Model<Course>, videoModel: Model<Video>, sharpService: SharpService, signedUrlService: SignedUrlService);
     compressImage(inputBuffer: Buffer): Promise<Buffer>;
     uploadCourse(files: any, trailer: any, otherData: any, instructorId: any): Promise<Error | {

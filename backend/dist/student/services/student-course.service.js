@@ -389,8 +389,8 @@ let StudentCourseService = class StudentCourseService {
                     },
                 ],
                 mode: 'payment',
-                success_url: `/success`,
-                cancel_url: `/cancel`,
+                success_url: `http://localhost:4200/success`,
+                cancel_url: `http://localhost:4200/cancel`,
                 metadata: {
                     studentId: JSON.stringify(studentId),
                     courseId: courseData.course._id

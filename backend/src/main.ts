@@ -6,11 +6,15 @@ import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
-  app.setGlobalPrefix('api');
   app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+
+  app.use('/', express.static(path.join(__dirname, '..', 'dist/frontend')));
+  app.use('/*', express.static(path.join(__dirname, '..', 'dist/frontend')));
+
+  app.setGlobalPrefix('api');
   app.enableCors({
-    // origin: ['http://localhost:4200']
-    origin: "*"
+    origin: ['http://localhost:4200']
+    // origin: "*"
   });
 
   app.useGlobalPipes(new ValidationPipe());

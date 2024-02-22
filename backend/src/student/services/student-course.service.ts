@@ -444,10 +444,10 @@ export class StudentCourseService {
                     },
                 ],
                 mode: 'payment',
-                // success_url: `http://localhost:4200/success`,
-                success_url: `/success`,
-                // cancel_url: `http://localhost:4200/cancel`,
-                cancel_url: `/cancel`,
+                success_url: `http://localhost:4200/success`,
+                // success_url: `/success`,
+                cancel_url: `http://localhost:4200/cancel`,
+                // cancel_url: `/cancel`,
                 metadata: {
                     studentId: JSON.stringify(studentId),
                     courseId: courseData.course._id

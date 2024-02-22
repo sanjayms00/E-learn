@@ -13,9 +13,7 @@ import { SignedUrlService } from 'src/common/service/signed-url.service';
 @Injectable()
 export class CourseService {
 
-    private readonly s3Client = new S3Client({
-        region: this.configService.getOrThrow('AWS_S3_REGION')
-    });
+    private s3Client: any
 
     constructor(
         @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
@@ -24,7 +22,11 @@ export class CourseService {
         @InjectModel(Video.name) private videoModel: Model<Video>,
         private sharpService: SharpService,
         private signedUrlService: SignedUrlService
-    ) { }
+    ) {
+        this.s3Client = new S3Client({
+            region: this.configService.getOrThrow("AWS_S3_REGION")
+        });
+    }
 
     async compressImage(inputBuffer: Buffer): Promise<Buffer> {
         return await this.sharpService
@@ -52,6 +54,7 @@ export class CourseService {
 
 
     //upload the course
+    
     async uploadCourse(files, trailer, otherData, instructorId) {
         try {
             const imageFile = files.find(item => item.mimetype.includes('image'));

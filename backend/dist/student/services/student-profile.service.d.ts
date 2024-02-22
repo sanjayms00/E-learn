@@ -32,7 +32,7 @@ export declare class StudentProfileService {
     private readonly configService;
     private signedUrlService;
     private uploadService;
-    private readonly s3Client;
+    private s3Client;
     constructor(studentModel: Model<Student>, configService: ConfigService, signedUrlService: SignedUrlService, uploadService: UploadService);
     profileImage(image: string): Promise<string>;
     updateProfile(image: File, profileData: any, studentId: string): Promise<{

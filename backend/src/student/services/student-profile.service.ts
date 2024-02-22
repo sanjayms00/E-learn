@@ -3,36 +3,34 @@ import { ConfigService } from '@nestjs/config';
 import { Student } from "../schema/student.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import * as crypto from 'crypto';
-import { SharpService } from "nestjs-sharp";
+import { S3Client } from "@aws-sdk/client-s3";
 import { SignedUrlService } from "src/common/service/signed-url.service";
 import { UploadService } from "src/common/service/upload.service";
 
 @Injectable()
 export class StudentProfileService {
 
-    private readonly s3Client = new S3Client({
-        region: this.configService.getOrThrow('AWS_S3_REGION')
-    });
+    private s3Client: any
 
     constructor(
         @InjectModel(Student.name) private studentModel: Model<Student>,
         private readonly configService: ConfigService,
         private signedUrlService: SignedUrlService,
         private uploadService: UploadService
-    ) { }
-
+    ) {
+        this.s3Client = new S3Client({
+            region: this.configService.getOrThrow('AWS_S3_REGION')
+        });
+    }
 
     async profileImage(image: string) {
 
         const signedProfileImage = await this.signedUrlService.generateSignedUrl(image)
 
         return signedProfileImage
-
     }
 
-    
+
     async updateProfile(image: File, profileData, studentId: string) {
 
 

@@ -22,6 +22,9 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({
+                envFilePath: '../.env',
+            }),
             student_module_1.StudentModule,
             core_1.RouterModule.register([
                 {

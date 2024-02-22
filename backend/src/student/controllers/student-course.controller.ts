@@ -6,12 +6,14 @@ import { StudentCourseService } from 'src/student/services/student-course.servic
 @Controller('')
 export class StudentCourseController {
 
-    private endpointSecret = this.configService.getOrThrow('END_POINT_SECRET')
+    private endpointSecret: any
 
     constructor(
         private studentCourseService: StudentCourseService,
         private configService: ConfigService
-    ) { }
+    ) {
+        this.endpointSecret = this.configService.getOrThrow('END_POINT_SECRET')
+    }
 
     @Get('home')
     async home() {

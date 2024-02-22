@@ -9,15 +9,18 @@ import { SignedUrlService } from './signed-url.service';
 export class UploadService {
 
 
-    private readonly s3Client = new S3Client({
-        region: this.configService.getOrThrow('AWS_S3_REGION')
-    });
+    private s3Client: any
+
 
     constructor(
         private readonly configService: ConfigService,
         private sharpService: SharpService,
         private signedUrlService: SignedUrlService
-    ) { }
+    ) {
+        this.s3Client = new S3Client({
+            region: this.configService.getOrThrow("AWS_S3_REGION")
+        });
+    }
 
 
     async uploadImage(image) {

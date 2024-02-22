@@ -56,7 +56,7 @@ let CourseService = class CourseService {
         this.sharpService = sharpService;
         this.signedUrlService = signedUrlService;
         this.s3Client = new client_s3_1.S3Client({
-            region: this.configService.getOrThrow('AWS_S3_REGION')
+            region: this.configService.getOrThrow("AWS_S3_REGION")
         });
     }
     async compressImage(inputBuffer) {

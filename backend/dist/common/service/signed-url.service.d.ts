@@ -1,4 +1,7 @@
+import { ConfigService } from '@nestjs/config';
 export declare class SignedUrlService {
-    client: any;
+    private configService;
+    private client;
+    constructor(configService: ConfigService);
     generateSignedUrl(key: any): Promise<string>;
 }
