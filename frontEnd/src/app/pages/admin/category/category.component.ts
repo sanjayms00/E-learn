@@ -1,19 +1,21 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../../core/services/admin/category.service';
 import { categoryInterface } from '../../../shared/interface/common.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html'
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
 
   category: string = ''
   p: number = 1;
   allCategories: categoryInterface[] = []
-  menu = ["no", "Category name", "Status", "Action"]
+  categorySubscription!: Subscription
+  menu = ["no", "Category name", "Status"]
 
   constructor(
     private caetgoryService: CategoryService,
@@ -22,8 +24,8 @@ export class CategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.caetgoryService.getCategories()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+    this.categorySubscription = this.caetgoryService.getCategories()
+
       .subscribe({
         next: res => {
           this.allCategories = res
@@ -46,7 +48,7 @@ export class CategoryComponent implements OnInit {
               .subscribe(res => {
                 this.allCategories = res
               })
-            this.toastr.success(res.toString())
+            this.toastr.success("Category created successfully")
             this.category = ''
           },
           error: err => {
@@ -63,6 +65,8 @@ export class CategoryComponent implements OnInit {
     console.log(id, status)  //todo
   }
 
-
+  ngOnDestroy(): void {
+    this.categorySubscription.unsubscribe()
+  }
 
 }

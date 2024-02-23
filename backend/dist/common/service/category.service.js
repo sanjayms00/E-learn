@@ -22,10 +22,12 @@ let CategoryService = class CategoryService {
         this.categoryModel = categoryModel;
     }
     async fetchCategories() {
-        return await this.categoryModel.find({});
+        const catrgoryData = await this.categoryModel.find({});
+        return catrgoryData;
     }
     async fetchActiveCategories() {
         const categories = await this.categoryModel.find({ status: true });
+        console.log(categories);
         if (!categories)
             throw new common_1.NotFoundException('');
         return categories;
