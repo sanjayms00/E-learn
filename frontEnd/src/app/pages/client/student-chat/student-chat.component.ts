@@ -43,9 +43,6 @@ export class StudentChatComponent {
 
     this.chatService.socket.emit("studentChatOnload", { studentId: this.studentId }, (response: onloadResponse) => {
 
-      console.log(response)
-
-
       this.users = response.users
       this.chats = response.chats
     });

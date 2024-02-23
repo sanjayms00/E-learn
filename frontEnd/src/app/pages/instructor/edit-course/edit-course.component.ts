@@ -95,15 +95,15 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
 
   getCategories() {
     this.categoryService.getActiveCategories()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: res => {
-        this.categoryData = res
-      },
-      error: err => {
-        this.toastr.error(err.message)
-      }
-    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.categoryData = res
+        },
+        error: err => {
+          this.toastr.error(err)
+        }
+      })
   }
 
   //submit the form
@@ -194,6 +194,6 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   courseLevelCheck(value: string) {
     return this.courseData && this.courseData.courseLevel && this.courseData.courseLevel.includes(value);
   }
-  
+
 }
 

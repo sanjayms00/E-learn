@@ -35,7 +35,7 @@ async function bootstrap() {
     app.use('/*', express.static(path.join(__dirname, '..', 'dist/frontend')));
     app.setGlobalPrefix('api');
     app.enableCors({
-        origin: ['https://sanjayms.online/', 'https://www.sanjayms.online/']
+        origin: ['http://localhost:4200', 'https://sanjayms.online', 'https://www.sanjayms.online']
     });
     app.useGlobalPipes(new common_1.ValidationPipe());
     await app.listen(3000);

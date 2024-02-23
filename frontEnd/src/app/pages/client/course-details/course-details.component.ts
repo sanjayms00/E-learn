@@ -62,7 +62,7 @@ export class CourseDetailsComponent implements OnInit {
             this.calculateRating()
           },
           error: (err: any) => {
-            this.toastr.error(err.message)
+            console.log(err)
           }
         })
   }

@@ -56,7 +56,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
           this.setProfileInfo()
         },
         error: err => {
-          this.toastr.error(err.message)
+          console.log(err)
         }
       })
 

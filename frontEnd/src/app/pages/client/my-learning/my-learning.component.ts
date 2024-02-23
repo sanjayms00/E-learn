@@ -48,7 +48,7 @@ export class MyLearningComponent implements OnInit {
           this.myCourse = res;
         },
         error: (err) => {
-          this.toastr.error(err);
+          console.log(err)
         }
       });
   }

@@ -29,7 +29,7 @@ export class CategoryComponent implements OnInit {
           this.allCategories = res
         },
         error: err => {
-          this.toastr.error(err.message)
+          console.log(err)
         }
       })
   }
@@ -50,7 +50,7 @@ export class CategoryComponent implements OnInit {
             this.category = ''
           },
           error: err => {
-            this.toastr.error(err.message)
+            console.log(err)
           }
         })
     } else {
@@ -59,7 +59,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  delete(id: string, status:boolean){
+  delete(id: string, status: boolean) {
     console.log(id, status)  //todo
   }
 

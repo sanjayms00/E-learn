@@ -36,7 +36,7 @@ export class InstructorDashboardComponent {
                         this.dashboard.counts.rating = Number(res.counts.rating.toFixed(2))
                     },
                     error: (err) => {
-                        this.toastr.error(err.message)
+                        console.log(err)
                     }
                 }
             )

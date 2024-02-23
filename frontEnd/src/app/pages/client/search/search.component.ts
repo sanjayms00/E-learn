@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
           this.searchedCourses = res
         },
         error: err => {
-          this.toastr.error(err.message)
+          console.log(err)
         }
       })
     this.filteredCourses = this.searchedCourses

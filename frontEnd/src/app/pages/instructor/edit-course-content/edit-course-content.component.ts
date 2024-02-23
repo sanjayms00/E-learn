@@ -65,7 +65,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
             this.formData.append('courseId', String(this.id))
           },
           error: err => {
-            this.toastr.error(err.message)
+            console.log(err)
           }
         })
     }

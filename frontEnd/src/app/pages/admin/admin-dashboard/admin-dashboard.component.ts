@@ -28,7 +28,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           this.dashboardData = res
         },
         error: err => {
-          this.toastr.error(err.message)
+          console.log(err)
         }
       })
   }

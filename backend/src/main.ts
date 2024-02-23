@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.enableCors({
-    origin: ['https://sanjayms.online/', 'https://www.sanjayms.online/']
+    origin: ['http://localhost:4200', 'https://sanjayms.online', 'https://www.sanjayms.online']
     // origin: "*"
   });
 

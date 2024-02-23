@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             this.courseContent = res
           },
           error: err => {
-            this.toastr.error(err)
+            console.log(err)
           }
         })
     }
