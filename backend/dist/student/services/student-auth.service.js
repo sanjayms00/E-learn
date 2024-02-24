@@ -65,7 +65,7 @@ let StudentAuthService = class StudentAuthService {
                 email,
                 mobile,
                 password: hashedPassword,
-                status: true,
+                status: false,
             });
             if (!user)
                 throw new Error("Unable to save the data");
@@ -84,6 +84,14 @@ let StudentAuthService = class StudentAuthService {
             }, { password: 0, otp: 0 });
             if (!findStudent)
                 throw new common_1.NotFoundException("Student Not Found or otp expired");
+            const UpdateStudentStatus = await this.studentModel.updateOne({ email: data.email }, {
+                $set: {
+                    status: true
+                }
+            });
+            if (!UpdateStudentStatus) {
+                throw new Error("Status updation failed");
+            }
             const access_token = await this.jwtService.sign({ id: findStudent._id }, { secret: process.env.JWT_SECRET_CLIENT });
             if (!access_token)
                 throw new common_1.HttpException('Token not found', common_1.HttpStatus.FORBIDDEN);

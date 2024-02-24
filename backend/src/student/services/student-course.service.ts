@@ -144,6 +144,9 @@ export class StudentCourseService {
                     },
                 },
                 {
+                    $sort: { updatedAt: -1 }
+                },
+                {
                     $limit: 9
                 }
             ]);
