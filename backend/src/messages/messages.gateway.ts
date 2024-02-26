@@ -5,7 +5,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
-  path: '/ws',
   cors: {
     origin: "*",
   }

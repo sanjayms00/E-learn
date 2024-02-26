@@ -152,7 +152,6 @@ __decorate([
 ], MessagesGateway.prototype, "instructorChatOnload", null);
 exports.MessagesGateway = MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
-        path: '/ws',
         cors: {
             origin: "*",
         }
