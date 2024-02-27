@@ -1,100 +1,64 @@
-<!-- <pre>
-    {{ profile | json }}
-</pre>
- -->
-<div class="banner w-full h-40 overflow-hidden relative">
-    <img src="https://marketplace.canva.com/EAFqqGQof14/1/0/1600w/canva-blue-minimalist-abstract-wave-linkedin-banner-jFsA3DjIRXM.jpg"
-        alt="">
-</div>
-<section class="w-[80%] mx-auto flex">
-    <div class="w-2/5">
-        <div class="h-40 w-40 mx-auto mt-[-80px] relative z-10 border-4 border-white rounded-full overflow-hidden">
-            <img [src]="noImage" alt="profile image" class="rounded-full h-full w-auto">
+<section>
+    <div class="banner w-full h-40 overflow-hidden relative">
+        <img src="https://media.istockphoto.com/id/1312945671/vector/unicorn-colorful-background-rainbow-pattern-glitter-vector-texture-pastel-fantase-design.jpg?s=612x612&w=0&k=20&c=AaqGG0iws9BibZEGtRyhD7pN8Kluuz4PiaapWpo1nlE="
+            alt="image banner" class="w-full">
+    </div>
+
+    <div class="w-[80%] mx-auto flex">
+        <div class="w-2/5">
+            <div class="h-40 w-40 mx-auto mt-[-80px] relative z-10 border-4 border-white rounded-full overflow-hidden">
+                <img [src]="noImage" alt="profile image" class="rounded-full h-full w-auto">
+            </div>
+        </div>
+        <div class="pt-4 w-3/5">
+            <div class="flex gap-5 items-center">
+                <h2 class="font-bold text-2xl pb-2 uppercase">
+                    {{ profile.fullName }}
+                </h2>
+            </div>
         </div>
     </div>
-    <div class="pt-4 w-3/5">
-        <div class="flex gap-5 items-center">
-            <h2 class="font-bold text-2xl pb-2 uppercase">
-                {{ profile.fullName }}
-            </h2>
-            <button class="p-2 rounded-md font-semibold" (click)="showDialog()">
-                <i class="pi pi-user-edit font-semibold"></i>
-            </button>
-        </div>
-        <div class="flex gap-5">
-            <div class="my-3 flex gap-3">
-                <span><i class="pi pi-phone"></i></span>
-                <span class="font-semibold">{{ profile.mobile }}</span>
+
+    <div>
+        <form [formGroup]="profileForm" (ngSubmit)="profileUpdate()">
+            <div class="mb-6">
+                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
+                    name</label>
+                <input type="text" id="first_name" formControlName="fullName"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="student" required>
             </div>
-            <div class="my-3 flex gap-3">
-                <span><i class="pi pi-send"></i></span>
-                <span class="font-semibold">{{ profile.email }}</span>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                    <label for="mobile"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mobile</label>
+                    <input type="text" id="mobile" formControlName="mobile"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="**********" required>
+                </div>
+                <div>
+                    <label for="email"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="email" id="email" formControlName="email"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="student.@gmail.com" required readonly>
+                </div>
             </div>
-        </div>
+            <div class="mb-6">
+                <label for="profile_Image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile
+                    image</label>
+                <input type="file" (change)="fileChangeEvent($event)" #file />
+                <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="3 / 3" format="png" (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"></image-cropper>
+                    <img [src]="croppedImage" />
+                </div>
+            </div>
+            <div class="mb-6 float-end">
+                <p-button label="Submit" [loading]="loading" type="submit"></p-button>
+            </div>
+        </form>
     </div>
 </section>
-<!-- 
-<section class="bg-gray-100 mt-3">
-    <div class="w-[80%] mx-auto flex">
-        <div class="w-2/5 p-5">
-
-        </div>
-        <div class="w-3/5 p-5">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Instructors list</p>
-        </div>
-    </div>
-</section> -->
-
-<div class="card flex justify-content-center">
-    <form [formGroup]="profileForm" (ngSubmit)="profileUpdate()">
-        <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"
-            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-            <ng-template pTemplate="header">
-                <div class="inline-flex align-items-center justify-content-center gap-2">
-                    <span class="font-bold white-space-nowrap">Add Profile Details</span>
-                </div>
-            </ng-template>
-            <ng-container>
-                <div class="mb-6">
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
-                        name</label>
-                    <input type="text" id="first_name" formControlName="fullName"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="student" required>
-                </div>
-                <div class="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                        <label for="mobile"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mobile</label>
-                        <input type="text" id="mobile" formControlName="mobile"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="**********" required>
-                    </div>
-                    <div>
-                        <label for="email"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" id="email" formControlName="email"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="student.@gmail.com" required readonly>
-                    </div>
-                </div>
-                <div class="mb-6">
-                    <label for="profile_Image"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile image</label>
-                    <input type="file" (change)="fileChangeEvent($event)" #file />
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
-                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                            [aspectRatio]="4 / 4" format="png" (imageCropped)="imageCropped($event)"
-                            (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
-                            (loadImageFailed)="loadImageFailed()"></image-cropper>
-                        <img [src]="croppedImage" />
-                    </div>
-                </div>
-            </ng-container>
-            <ng-template pTemplate="footer">
-                <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-            </ng-template>
-        </p-dialog>
-    </form>
-</div>

@@ -27,6 +27,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   profileForm!: FormGroup
   imageChangedEvent: any = '';
   croppedImage!: any
+  loading = false
   noImage = constant.noProfile
 
   formData = new FormData()
@@ -87,6 +88,9 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
 
   profileUpdate() {
     if (this.profileForm.valid) {
+
+      this.loading = true
+
       const profileData = this.profileForm.value
 
       Object.keys(this.profileForm.controls).forEach(key => {
@@ -111,6 +115,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
             this.formData = new FormData();
             localStorage.setItem('clientData', JSON.stringify(res.studentData))
             this.toastr.success("Profile updated")
+            this.loading = false
             this.imageChangedEvent = null;
             this.croppedImage = null;
             this.clearFileInput();

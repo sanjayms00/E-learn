@@ -5,33 +5,50 @@ import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html'
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent {
 
   toastr = inject(ToastrService)
   authservice = inject(AuthService)
   email: string = ''
+  loading: boolean = false;
 
   constructor(
     private destroyRef: DestroyRef
   ) { }
 
   forgotPassword() {
-    if (this.email.trim()) {
+
+    const email = this.email.trim();
+
+    if (!email) {
+      this.toastr.error("Email is required")
+      return
+    }
+
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+
+    if (emailPattern.test(email)) {
+
+      this.loading = true;
+
       this.authservice.forgotPassword(this.email)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
-            this.toastr.success("Reset password mail send")
+            this.toastr.success(res.message)
+            this.loading = false
           },
           error: err => {
-            this.toastr.error(err.message)
+            this.toastr.error(err)
           }
         })
 
     } else {
-      this.toastr.error("Email required")
+      this.toastr.error("Email is not valid")
     }
   }
+
 }

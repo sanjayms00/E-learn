@@ -33,7 +33,10 @@ export declare class CategoryController {
     getActiveCategories(): Promise<(import("mongoose").Document<unknown, {}, import("../schema/category.schema").Category> & import("../schema/category.schema").Category & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    addCategory(data: any): Promise<{
-        status: boolean;
-    }>;
+    addCategory(data: any): Promise<(import("mongoose").Document<unknown, {}, import("../schema/category.schema").Category> & import("../schema/category.schema").Category & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
+    removeCategory(categoryId: string): Promise<(import("mongoose").Document<unknown, {}, import("../schema/category.schema").Category> & import("../schema/category.schema").Category & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
 }

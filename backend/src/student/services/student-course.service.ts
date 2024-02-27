@@ -34,7 +34,6 @@ export class StudentCourseService {
 
     ) { }
 
-    ////////////////////////////////// method  starts //////////////////////////
 
     //get all courses
     async getAllCourse() {
@@ -342,8 +341,6 @@ export class StudentCourseService {
     //get filteredcourses
     async getFilteredCourses(filterData) {
 
-        console.log(filterData)
-
         const matchData = []
 
         if (filterData.level !== '') {
@@ -379,6 +376,9 @@ export class StudentCourseService {
                     price: 1,
                     categoryId: 1,
                     instructorId: 1,
+                    students: 1,
+                    reviews: 1,
+                    description: 1,
                     estimatedPrice: 1,
                     thumbnail: 1,
                     updatedAt: 1,

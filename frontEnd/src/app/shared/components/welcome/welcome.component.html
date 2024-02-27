@@ -1,29 +1,37 @@
-<section class="">
-    <div class="container">
-        <div class="card" style="--clr: #009688">
-            <div class="img-box">
-                <img src="assets/images/student.jpg">
-            </div>
-            <div class="content">
-                <h2>Student</h2>
-                <p class="text-center font-semibold text-md">
-                    Explore your courses, assignments, and educational resources to
-                    make the most of your learning experience.
-                </p>
-                <a [routerLink]="['/login']" routerLinkActive="router-link-active">login</a>
+<section class="container p-10 mx-auto flex justify-center items-center h-screen">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="relative flex justify-center overflow-hidden bg-gray-50 cursor-pointer" [routerLink]="['/login']">
+            <div class="absolute inset-0 bg-center dark:bg-black"></div>
+            <div class="group relative flex h-72 w-96 rounded-xl shadow-xl ring-gray-900/5 sm:max-w-lg">
+                <div
+                    class="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
+                    <img src="assets/images/student.jpg"
+                        class="animate-fade-in block h-full w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110"
+                        alt="" />
+                </div>
+                <div
+                    class="absolute bottom-0 z-20 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
+                    <h1 class="font-serif text-2xl font-bold shadow-xl">Student</h1>
+                    <a class="text-md font-semibold shadow-xl">Login</a>
+                </div>
             </div>
         </div>
 
-        <div class="card" style="--clr: #FF3E7F">
-            <div class="img-box">
-                <img src="assets/images/instructor.avif">
-            </div>
-            <div class="content">
-                <h2>Instructor</h2>
-                <p class="text-center font-semibold text-md">
-                    As an instructor, you play a crucial role in shaping the minds of future professionals.
-                </p>
-                <a [routerLink]="['/instructor/login']" routerLinkActive="router-link-active">login</a>
+        <div class="relative flex justify-center overflow-hidden bg-gray-50 cursor-pointer"
+            [routerLink]="['/instructor/login']">
+            <div class="absolute inset-0 bg-center dark:bg-black"></div>
+            <div class="group relative flex h-72 w-96 rounded-xl shadow-xl ring-gray-900/5 sm:max-w-lg">
+                <div
+                    class="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
+                    <img src="assets/images/instructor.avif"
+                        class="animate-fade-in block h-full w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110"
+                        alt="" />
+                </div>
+                <div
+                    class="absolute bottom-0 z-20 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
+                    <h1 class="font-serif text-2xl font-bold shadow-xl">Instructor</h1>
+                    <h1 class="text-md font-semibold shadow-xl">Login</h1>
+                </div>
             </div>
         </div>
     </div>

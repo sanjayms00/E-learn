@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const category_schema_1 = require("../../admin/schema/category.schema");
+const course_schema_1 = require("../../instructor/schema/course.schema");
 let CategoryService = class CategoryService {
-    constructor(categoryModel) {
+    constructor(categoryModel, courseModel) {
         this.categoryModel = categoryModel;
+        this.courseModel = courseModel;
     }
     async fetchCategories() {
         const catrgoryData = await this.categoryModel.find({});
@@ -27,25 +29,49 @@ let CategoryService = class CategoryService {
     }
     async fetchActiveCategories() {
         const categories = await this.categoryModel.find({ status: true });
-        console.log(categories);
         if (!categories)
             throw new common_1.NotFoundException('');
         return categories;
     }
     async addCategory(data) {
-        await this.categoryModel.create({
-            categoryName: data.category,
-            status: true
-        });
-        return {
-            status: true
-        };
+        try {
+            const category = await this.categoryModel.findOne({
+                categoryName: data.category
+            });
+            if (category)
+                throw new common_1.ConflictException("Category already exist");
+            await this.categoryModel.create({
+                categoryName: data.category,
+                status: true
+            });
+            return await this.fetchCategories();
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    }
+    async removeCategory(categoryId) {
+        try {
+            const course = await this.courseModel.findOne({ categoryId: new mongoose_2.Types.ObjectId(categoryId) });
+            if (course) {
+                throw new Error("Category already in use, unable to delete");
+            }
+            await this.categoryModel.deleteOne({
+                _id: new mongoose_2.Types.ObjectId(categoryId),
+            });
+            return await this.fetchCategories();
+        }
+        catch (error) {
+            throw new Error(error);
+        }
     }
 };
 exports.CategoryService = CategoryService;
 exports.CategoryService = CategoryService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(category_schema_1.Category.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)(course_schema_1.Course.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], CategoryService);
 //# sourceMappingURL=category.service.js.map

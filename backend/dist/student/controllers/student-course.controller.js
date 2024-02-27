@@ -47,7 +47,6 @@ let StudentCourseController = class StudentCourseController {
             instructor,
             category,
         };
-        console.log(filterCredentials);
         return await this.studentCourseService.getFilteredCourses(filterCredentials);
     }
     async checkout(courseData, req) {

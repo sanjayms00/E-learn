@@ -29,6 +29,9 @@ let CategoryController = class CategoryController {
         console.log(data);
         return this.categoryService.addCategory(data);
     }
+    removeCategory(categoryId) {
+        return this.categoryService.removeCategory(categoryId);
+    }
 };
 exports.CategoryController = CategoryController;
 __decorate([
@@ -50,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "addCategory", null);
+__decorate([
+    (0, common_1.Delete)('removeCategory/:categoryId'),
+    __param(0, (0, common_1.Param)('categoryId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "removeCategory", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)('category'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])

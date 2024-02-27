@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
 import { categoryInterface, filterInterFace, instrctorModel } from 'src/app/shared/interface/common.interface';
 import { FilterService } from 'src/app/shared/services/filter.service';
@@ -25,7 +26,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private filterService: FilterService
+    private filterService: FilterService,
+    private destroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
@@ -51,19 +53,19 @@ export class FilterComponent implements OnInit, OnDestroy {
         instructor: this.instructor,
         category: this.category
       }
+
       //filter call
-      this.filterService.filterCourse(filterCredentials).subscribe((res) => {
-        this.fillteredCourse.emit(res)
-      })
+      this.filterService.filterCourse(filterCredentials)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((res) => {
+          this.fillteredCourse.emit(res)
+        })
     }
   }
 
   ngOnDestroy(): void {
     this.instructorsSubscription.unsubscribe()
+    this.categorySubscription.unsubscribe()
   }
-
-
-
-
 
 }

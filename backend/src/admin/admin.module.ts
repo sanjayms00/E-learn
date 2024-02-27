@@ -16,6 +16,7 @@ import { CategoryController } from './controllers/category.controller';
 import { CategoryService } from '../common/service/category.service';
 import { AdminDashBoardController } from './controllers/admin-dash-board.controller';
 import { AdminDashBoardService } from './services/admin-dash-board.service';
+import { courseSchema } from 'src/instructor/schema/course.schema';
 
 @Module({
   controllers: [
@@ -35,6 +36,7 @@ import { AdminDashBoardService } from './services/admin-dash-board.service';
     MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
+    MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
   ],
   providers: [
     adminJwtStrategy,

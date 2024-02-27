@@ -78,7 +78,7 @@ export class StudentAuthService {
         }
       );
 
-      if (!UpdateStudentStatus){
+      if (!UpdateStudentStatus) {
         throw new Error("Status updation failed")
       }
 
@@ -194,7 +194,7 @@ export class StudentAuthService {
 
       if (!emailSent) throw new Error("email not send")
 
-      return { status: true, message: "mail sent successfully" }
+      return { status: true, message: "Mail sent successfully" }
 
     } catch (error) {
       throw new HttpException("Mail not sent successfully", HttpStatus.INTERNAL_SERVER_ERROR)

@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit {
         })
     } else {
       this.allCourse()
-      this.toastr.error("Please enter a search text before proceeding.");
+      this.toastr.error("Search is empty.");
       this.searchText = '';
     }
   }

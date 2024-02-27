@@ -301,7 +301,6 @@ let StudentCourseService = class StudentCourseService {
         return categories;
     }
     async getFilteredCourses(filterData) {
-        console.log(filterData);
         const matchData = [];
         if (filterData.level !== '') {
             matchData.push({ courseLevel: { $in: [filterData.level] } });
@@ -336,6 +335,9 @@ let StudentCourseService = class StudentCourseService {
                     price: 1,
                     categoryId: 1,
                     instructorId: 1,
+                    students: 1,
+                    reviews: 1,
+                    description: 1,
                     estimatedPrice: 1,
                     thumbnail: 1,
                     updatedAt: 1,

@@ -171,7 +171,7 @@ let StudentAuthService = class StudentAuthService {
             });
             if (!emailSent)
                 throw new Error("email not send");
-            return { status: true, message: "mail sent successfully" };
+            return { status: true, message: "Mail sent successfully" };
         }
         catch (error) {
             throw new common_1.HttpException("Mail not sent successfully", common_1.HttpStatus.INTERNAL_SERVER_ERROR);

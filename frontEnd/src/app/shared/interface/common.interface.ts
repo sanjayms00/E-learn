@@ -47,7 +47,7 @@ export interface Course {
     description: string;
     categoryId: string;
     price: number;
-    students: string[];
+    students?: string[];
     signedUrl: string;
     thumbnail: string;
     trailer: string;

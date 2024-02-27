@@ -4,7 +4,7 @@
             <app-chat-left [users]="users" (chatEvent)="chatEvent($event)" [chats]="chats" [role]="role"
                 (loadMessageEvent)="loadMessageEvent($event)" [notifications]="notifications"></app-chat-left>
         </div>
-        <div class="hidden lg:col-span-2 lg:block">
+        <div class="lg:col-span-2 lg:block">
             <app-chat-right [currentChat]="currentChat" [role]="role"
                 (messageEvent)="messageEvent($event)"></app-chat-right>
         </div>

@@ -1,34 +1,29 @@
 <section class="container mx-auto mt-8">
-    <div class="grid grid-cols-3 gap-4">
-        <div class="col-span-2 border-l-4 border-l-black bg-gray-200 p-4">
-            <div class="flex gap-3 items-center">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="md:col-span-2 border-l-4 border-l-black bg-gray-200 p-4">
+            <div class="flex flex-col md:flex-row md:gap-5 gap-2 md:items-center md:mb-4">
                 <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length > 0">
                     <p-rating [(ngModel)]="averageRating" [readonly]="true" [cancel]="false"
                         class="star-rating"></p-rating>
                 </ng-container>
+                <span class="uppercase font-semibold text-sm">{{ courseDetails.categoryName }}</span>
                 <ng-container *ngIf="courseDetails.reviews">
-                    <span>{{ courseDetails.reviews.length || 0 }} reviews </span>
+                    <span class="font-semibold">{{ courseDetails.reviews.length || 0 }} reviews</span>
                 </ng-container>
-                <span>{{ courseDetails.categoryName }} </span>
             </div>
             <h1 class="text-2xl font-bold max-w-[60%] uppercase py-5">{{ courseDetails.courseName }}</h1>
-            <h2 class="text-lg pb-10">{{ courseDetails.description | truncate:200 }}</h2>
-            <p class="text-lg pb-10">{{ courseDetails.courseTags }}</p>
-
-            <div class="flex items-center bottom-0 left-4 gap-2">
-                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                    shape="circle"></p-avatar> -->
-                <p class="text-md font-semibold pb-2 uppercase"> By {{ courseDetails.instructorName }}</p>
-                <p class="pb-2 pl-5">{{ courseDetails.students.length }} students Enrolled</p>
-                <p class="text-md font-semibold pb-2 pl-5">Updated at {{ courseDetails.updatedAt | date:'mediumDate'}}
-                </p>
-                <!-- <p class="pb-2 pl-5">English</p> -->
+            <h2 class="text-lg pb-5">{{ courseDetails.description | truncate:200 }}</h2>
+            <p class="text-lg pb-5">{{ courseDetails.courseTags }}</p>
+            <div class="flex items-center gap-2 text-sm">
+                <p class="font-semibold"> By {{ courseDetails.instructorName }}</p>
+                <p>{{ courseDetails.students.length }} students Enrolled</p>
+                <p class="font-semibold">Updated at {{ courseDetails.updatedAt | date:'mediumDate' }}</p>
             </div>
         </div>
-        <div class="border-b-4 border-b-black pt-3">
-            <div class="relative min-h-28" (click)="showDialog()">
-                <img [src]="courseDetails.signedUrl" alt="course image" class="w-full h-full object-cover rounded-md">
 
+        <div class="border-b-4 border-b-black md:border-b-0">
+            <div class="relative min-h-28 cursor-pointer" (click)="showDialog()">
+                <img [src]="courseDetails.signedUrl" alt="course image" class="w-full h-full object-cover rounded-md">
                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <!-- Play Button -->
                     <div class="bg-white w-20 h-20 flex justify-center items-center rounded-full">
@@ -42,7 +37,7 @@
             </div>
 
             <button *ngIf="!isStudentEnrolled()"
-                class="mt-1 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14"
+                class="mt-2 p-2 w-full bg-black hover:bg-[#353535] text-white rounded-md h-14"
                 [routerLink]="['/checkout', courseDetails._id ]" routerLinkActive="router-link-active">
                 Enroll ₹ {{ courseDetails.price }}
             </button>
@@ -54,7 +49,7 @@
             </button>
         </div>
 
-        <div class="col-span-2 border-l-4 border-l-black bg-gray-200 p-4 mt-10">
+        <div class="md:col-span-2 border-l-4 border-l-black bg-gray-200 p-4 mt-10">
             <div class="course-description">
                 <h2 class="text-lg font-semibold pb-5">Course Description</h2>
                 <div [innerHTML]="courseDetails.content"></div>
@@ -75,65 +70,29 @@
                         *ngFor="let review of courseDetails.ratingreview | paginate: { itemsPerPage: 5, currentPage: p };">
                         <article
                             class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900 my-5">
-                            <div class="flex justify-between items-center my-2">
-                                <div class="flex items-center gap-2">
-                                    <p class="text-sm text-gray-900 dark:text-white font-semibold uppercase">
+                            <div class="flex flex-col gap-2">
+                                <div class="flex flex-col md:flex-row justify-between md:items-center">
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-sm text-gray-900 dark:text-white font-semibold uppercase">
+                                            {{ review.reviewData.student }}
+                                        </p>
+                                        <p-rating [(ngModel)]="review.reviewData.rating" [readonly]="true"
+                                            [cancel]="false"></p-rating>
 
-                                        {{ review.reviewData.student}}
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        <time>
+                                            {{ review.reviewData.createdAt | date:'mediumDate' }}
+                                        </time>
                                     </p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate
-                                            datetime="2022-03-12" title="March 12th, 2022">{{
-                                            review.reviewData.createdAt | date:'mediumDate' }}</time></p>
-                                    <p-rating [(ngModel)]="review.reviewData.rating" [readonly]="true"
-                                        [cancel]="false"></p-rating>
                                 </div>
-                                <!-- <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3"
-                                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                    type="button">
-                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor" viewBox="0 0 16 3">
-                                        <path
-                                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                    </svg>
-                                    <span class="sr-only">Comment settings</span>
-                                </button> -->
-                                <!-- Dropdown menu -->
-                                <!-- <div id="dropdownComment3"
-                                    class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="dropdownMenuIconHorizontalButton">
-                                        <li>
-                                            <a href="#"
-                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                                        </li>
-                                    </ul>
-                                </div> -->
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold">
+                                    {{ review.reviewData.review }}
+                                </p>
                             </div>
-                            <p class="text-gray-500 dark:text-gray-400">{{ review.reviewData.review}}</p>
-                            <!-- <div class="flex items-center mt-4 space-x-4">
-                                <button type="button"
-                                    class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-                                    <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
-                                    </svg>
-                                    Reply
-                                </button>
-                            </div> -->
                         </article>
                     </ng-container>
                     <div class="flex justify-center pt-5">
-
                         <ng-container *ngIf="courseDetails.reviews">
                             <ng-container *ngIf="courseDetails.reviews.length > 5">
                                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
@@ -143,13 +102,13 @@
                 </ng-container>
             </div>
         </div>
-        <div class="mt-10 border-b-4 border-b-black pb-3">
-            <div class="">
+
+        <div class="mt-10 pb-3">
+            <div class="my-5">
                 <h2 class="text-lg font-semibold pb-5">Rating</h2>
                 <ng-container *ngFor="let entry of individualStars | keyvalue">
                     <div class="flex items-center justify-between mt-4 gap-2">
-                        <p class="text-sm font-medium text-black">{{ entry.key
-                            }}&nbsp;star</p>
+                        <p class="text-sm font-medium text-black">{{ entry.key }}&nbsp;star</p>
                         <div class="w-full h-5 bg-gray-200 rounded dark:bg-gray-700">
                             <ng-container *ngIf="courseDetails.reviews && courseDetails.reviews.length">
                                 <div class="h-5 bg-yellow-300 rounded"
@@ -164,8 +123,9 @@
                     </div>
                 </ng-container>
             </div>
-            <div class="my-5">
-                <h2 class="text-lg font-semibold pb-5">Chapters ({{ courseDetails.videoData.length || 0}})</h2>
+
+            <div class="mt-5">
+                <h2 class="text-lg font-semibold py-5">Chapters ({{ courseDetails.videoData.length || 0}})</h2>
                 <p-accordion [activeIndex]="0">
                     <ng-container *ngFor="let item of courseDetails.videoData">
                         <p-accordionTab header="{{ item.title }}" class="cursor-pointer">
@@ -179,7 +139,6 @@
         </div>
     </div>
 </section>
-
 
 <div class="card flex justify-content-center">
     <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }"

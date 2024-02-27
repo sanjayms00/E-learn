@@ -30,7 +30,7 @@ export class GraphComponent implements OnInit, OnChanges {
       datasets: [
         {
           type: 'line',
-          label: 'Dataset 1',
+          label: 'progress',
           borderColor: documentStyle.getPropertyValue('--green-600'),
           borderWidth: 2,
           fill: false,

@@ -1,7 +1,8 @@
 <div class="mx-3 my-3">
-    <div class="text-gray-600">
+    <div>
         <input type="search" [(ngModel)]="search" (ngModelChange)="onChange($event)"
-            class="block w-full py-2 bg-gray-100 rounded outline-none" name="search" placeholder="Search" required />
+            class="block w-full py-2 bg-gray-800 text-white rounded outline-none" name="search" placeholder="Search"
+            required />
         <div *ngIf="suggestion">
             <ul>
                 <li *ngFor="let result of searchResult" (click)="openChat(result.id)">
@@ -12,9 +13,9 @@
     </div>
 </div>
 
-<div class="">
+<div>
     <ul class="overflow-auto h-[32rem]">
-        <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+        <h2 class="text-lg text-gray-600 p-5">Chats</h2>
         <li>
             <ng-container *ngFor="let item of chats">
                 <a (click)="loadmessages(item._id)"

@@ -13,8 +13,8 @@ export class CategoryService {
     private http: HttpClient
   ) { }
 
-  addCategory(data: {category: string}) {
-    return this.http.post(`${constant.baseUrl}/admin/category/addCategory`, data)
+  addCategory(data: { category: string }): Observable<categoryInterface[]> {
+    return this.http.post<categoryInterface[]>(`${constant.baseUrl}/admin/category/addCategory`, data)
   }
 
   getCategories(): Observable<categoryInterface[]> {
@@ -25,8 +25,8 @@ export class CategoryService {
     return this.http.get<categoryInterface[]>(`${constant.baseUrl}/admin/category/activeCategories`)
   }
 
-  removeCategory(): Observable<object> {
-    return this.http.put(`${constant.baseUrl}/admin/catrgory/removeCategory`, {})
+  removeCategory(categoryId: string): Observable<categoryInterface[]> {
+    return this.http.delete<categoryInterface[]>(`${constant.baseUrl}/admin/category/removeCategory/${categoryId}`)
   }
 
 }

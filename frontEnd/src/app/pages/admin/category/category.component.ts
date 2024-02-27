@@ -4,10 +4,12 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../../core/services/admin/category.service';
 import { categoryInterface } from '../../../shared/interface/common.interface';
 import { Subscription } from 'rxjs';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html'
+  templateUrl: './category.component.html',
+  providers: [ConfirmationService]
 })
 export class CategoryComponent implements OnInit, OnDestroy {
 
@@ -15,17 +17,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
   p: number = 1;
   allCategories: categoryInterface[] = []
   categorySubscription!: Subscription
-  menu = ["no", "Category name", "Status"]
+  menu = ["no", "Category name", "Action"]
 
   constructor(
     private caetgoryService: CategoryService,
     private toastr: ToastrService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
     this.categorySubscription = this.caetgoryService.getCategories()
-
       .subscribe({
         next: res => {
           this.allCategories = res
@@ -43,12 +45,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: res => {
-            this.caetgoryService.getCategories()
-              .pipe(takeUntilDestroyed(this.destroyRef))
-              .subscribe(res => {
-                this.allCategories = res
-              })
-            this.toastr.success("Category created successfully")
+           this.allCategories = res
             this.category = ''
           },
           error: err => {
@@ -61,9 +58,41 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  delete(id: string, status: boolean) {
-    console.log(id, status)  //todo
+  delete(categoryId: string) {
+    this.caetgoryService.removeCategory(categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.allCategories = res
+          this.toastr.success("Record deleted")
+        },
+        error: err => {
+          this.toastr.error(err.message)
+        }
+      })
   }
+
+  //popup delete confirmation
+  confirm(event: Event, categoryId: string,) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+      accept: () => {
+        this.delete(categoryId)
+      },
+      reject: () => {
+        this.toastr.error("You have rejected")
+      }
+    });
+  }
+
 
   ngOnDestroy(): void {
     this.categorySubscription.unsubscribe()

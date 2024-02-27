@@ -30,6 +30,7 @@ export class InstructorProfileComponent implements OnInit {
   croppedImage: any = '';
   formData = new FormData()
   noprofile = constant.noProfile
+  loading = false
   @ViewChild('file') fileInput!: ElementRef;
 
 
@@ -102,6 +103,8 @@ export class InstructorProfileComponent implements OnInit {
   profileUpdate() {
     if (this.profileForm.valid) {
 
+      this.loading = true
+
       Object.keys(this.profileForm.controls).forEach(key => {
         const control = this.profileForm.get(key)
 
@@ -124,6 +127,7 @@ export class InstructorProfileComponent implements OnInit {
             }
 
             this.toastr.success("profile updated")
+            this.loading = false
 
             this.formData = new FormData();
             this.imageChangedEvent = null;
@@ -184,7 +188,7 @@ export class InstructorProfileComponent implements OnInit {
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe()
 
-    if(this.profile.image){
+    if (this.profile.image) {
       this.profileImageSubscription.unsubscribe()
     }
 

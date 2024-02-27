@@ -57,8 +57,6 @@ export class StudentCourseController {
             category,
         };
 
-        console.log(filterCredentials)
-
         return await this.studentCourseService.getFilteredCourses(filterCredentials)
 
     }

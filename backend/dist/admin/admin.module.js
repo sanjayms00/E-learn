@@ -25,6 +25,7 @@ const category_controller_1 = require("./controllers/category.controller");
 const category_service_1 = require("../common/service/category.service");
 const admin_dash_board_controller_1 = require("./controllers/admin-dash-board.controller");
 const admin_dash_board_service_1 = require("./services/admin-dash-board.service");
+const course_schema_1 = require("../instructor/schema/course.schema");
 let AdminModule = class AdminModule {
 };
 exports.AdminModule = AdminModule;
@@ -47,6 +48,7 @@ exports.AdminModule = AdminModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: 'Student', schema: student_schema_1.studentSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: 'Instructor', schema: instructor_schema_1.instructorSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: 'Category', schema: category_schema_1.CategorySchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: 'Course', schema: course_schema_1.courseSchema }]),
         ],
         providers: [
             adminJwt_strategy_1.adminJwtStrategy,

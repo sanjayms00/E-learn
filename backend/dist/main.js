@@ -33,7 +33,7 @@ async function bootstrap() {
     app.use('/public', express.static(path.join(__dirname, '..', 'public')));
     app.setGlobalPrefix('api');
     app.enableCors({
-        origin: ['https://sanjayms.online', 'https://www.sanjayms.online'],
+        origin: "*",
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
     });

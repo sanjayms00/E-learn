@@ -22,18 +22,23 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Category } from 'src/admin/schema/category.schema';
+import { Course } from 'src/instructor/schema/course.schema';
 export declare class CategoryService {
     private readonly categoryModel;
-    constructor(categoryModel: Model<Category>);
+    private readonly courseModel;
+    constructor(categoryModel: Model<Category>, courseModel: Model<Course>);
     fetchCategories(): Promise<(import("mongoose").Document<unknown, {}, Category> & Category & {
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
     })[]>;
     fetchActiveCategories(): Promise<(import("mongoose").Document<unknown, {}, Category> & Category & {
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
     })[]>;
-    addCategory(data: any): Promise<{
-        status: boolean;
-    }>;
+    addCategory(data: any): Promise<(import("mongoose").Document<unknown, {}, Category> & Category & {
+        _id: Types.ObjectId;
+    })[]>;
+    removeCategory(categoryId: any): Promise<(import("mongoose").Document<unknown, {}, Category> & Category & {
+        _id: Types.ObjectId;
+    })[]>;
 }

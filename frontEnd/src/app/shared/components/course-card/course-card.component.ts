@@ -15,6 +15,7 @@ export class CourseCardComponent {
     categoryId: '',
     price: 0,
     students: [],
+    videos: [],
     signedUrl: '',
     thumbnail: '',
     trailer: '',

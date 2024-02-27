@@ -13,6 +13,7 @@ import { CategoryComponent } from './category/category.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { SidebarModule } from 'primeng/sidebar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SidebarModule } from 'primeng/sidebar';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    SidebarModule
+    SidebarModule,
+    ConfirmDialogModule
   ],
   providers: [AuthService, ListingService]
 })
