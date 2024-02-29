@@ -21,17 +21,17 @@ let ClientManagementController = class ClientManagementController {
     constructor(clientService) {
         this.clientService = clientService;
     }
-    getStudents() {
-        return this.clientService.getAllStudents();
+    async getStudents() {
+        return await this.clientService.getAllStudents();
     }
-    getInstructors() {
-        return this.clientService.getAllInstructors();
+    async getInstructors() {
+        return await this.clientService.getAllInstructors();
     }
-    changeStudentStatus(data) {
-        return this.clientService.changeStudentStatus(data);
+    async changeStudentStatus(data) {
+        return await this.clientService.changeStudentStatus(data);
     }
-    changeInstructorStatus(data) {
-        return this.clientService.changeInstructorStatus(data);
+    async changeInstructorStatus(data) {
+        return await this.clientService.changeInstructorStatus(data);
     }
 };
 exports.ClientManagementController = ClientManagementController;
@@ -40,14 +40,14 @@ __decorate([
     (0, common_1.Get)('students'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientManagementController.prototype, "getStudents", null);
 __decorate([
     (0, common_1.UseGuards)(adminJwtAuth_guard_1.AdminJwtAuthGuard),
     (0, common_1.Get)('instructors'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientManagementController.prototype, "getInstructors", null);
 __decorate([
     (0, common_1.UseGuards)(adminJwtAuth_guard_1.AdminJwtAuthGuard),
@@ -55,7 +55,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [status_dto_1.statusDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientManagementController.prototype, "changeStudentStatus", null);
 __decorate([
     (0, common_1.UseGuards)(adminJwtAuth_guard_1.AdminJwtAuthGuard),
@@ -63,7 +63,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [status_dto_1.statusDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ClientManagementController.prototype, "changeInstructorStatus", null);
 exports.ClientManagementController = ClientManagementController = __decorate([
     (0, common_1.Controller)(''),

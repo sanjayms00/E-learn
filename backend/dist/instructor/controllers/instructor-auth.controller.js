@@ -21,12 +21,11 @@ let InstructorAuthController = class InstructorAuthController {
     constructor(instructorAuthService) {
         this.instructorAuthService = instructorAuthService;
     }
-    signUp(signUpDto) {
-        return this.instructorAuthService.signUp(signUpDto);
+    async signUp(signUpDto) {
+        return await this.instructorAuthService.signUp(signUpDto);
     }
-    login(loginData) {
-        console.log(loginData);
-        return this.instructorAuthService.login(loginData);
+    async login(loginData) {
+        return await this.instructorAuthService.login(loginData);
     }
 };
 exports.InstructorAuthController = InstructorAuthController;
@@ -35,14 +34,14 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [signDto_1.SignupDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], InstructorAuthController.prototype, "signUp", null);
 __decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [loginDto_1.LoginDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], InstructorAuthController.prototype, "login", null);
 exports.InstructorAuthController = InstructorAuthController = __decorate([
     (0, common_1.Controller)('auth'),

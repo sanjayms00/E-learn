@@ -16,8 +16,8 @@ let AdminDashBoardController = class AdminDashBoardController {
     constructor(dashboardService) {
         this.dashboardService = dashboardService;
     }
-    adminDashBoard() {
-        return this.dashboardService.adminDashBoard();
+    async adminDashBoard() {
+        return await this.dashboardService.adminDashBoard();
     }
 };
 exports.AdminDashBoardController = AdminDashBoardController;
@@ -25,7 +25,7 @@ __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AdminDashBoardController.prototype, "adminDashBoard", null);
 exports.AdminDashBoardController = AdminDashBoardController = __decorate([
     (0, common_1.Controller)('dashboard'),

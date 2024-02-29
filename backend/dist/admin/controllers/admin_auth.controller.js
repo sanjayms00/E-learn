@@ -24,9 +24,8 @@ let AdminAuthController = class AdminAuthController {
     async adminLogin(adminLoginData) {
         return this.adminAuthService.login(adminLoginData);
     }
-    register(data) {
-        console.log(data);
-        return this.adminAuthService.registerAdmin(data);
+    async register(data) {
+        return await this.adminAuthService.registerAdmin(data);
     }
 };
 exports.AdminAuthController = AdminAuthController;
@@ -42,7 +41,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [adminDto_1.AdminDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AdminAuthController.prototype, "register", null);
 exports.AdminAuthController = AdminAuthController = __decorate([
     (0, common_1.Controller)('auth'),

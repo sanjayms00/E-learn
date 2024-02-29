@@ -39,7 +39,7 @@ let CategoryService = class CategoryService {
                 categoryName: data.category
             });
             if (category)
-                throw new common_1.ConflictException("Category already exist");
+                throw new Error("Category already exist");
             await this.categoryModel.create({
                 categoryName: data.category,
                 status: true

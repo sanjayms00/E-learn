@@ -19,18 +19,17 @@ let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
     }
-    getAllCategories() {
-        return this.categoryService.fetchCategories();
+    async getAllCategories() {
+        return await this.categoryService.fetchCategories();
     }
-    getActiveCategories() {
-        return this.categoryService.fetchActiveCategories();
+    async getActiveCategories() {
+        return await this.categoryService.fetchActiveCategories();
     }
-    addCategory(data) {
-        console.log(data);
-        return this.categoryService.addCategory(data);
+    async addCategory(data) {
+        return await this.categoryService.addCategory(data);
     }
-    removeCategory(categoryId) {
-        return this.categoryService.removeCategory(categoryId);
+    async removeCategory(categoryId) {
+        return await this.categoryService.removeCategory(categoryId);
     }
 };
 exports.CategoryController = CategoryController;
@@ -38,27 +37,27 @@ __decorate([
     (0, common_1.Get)('allCategories'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "getAllCategories", null);
 __decorate([
     (0, common_1.Get)('activeCategories'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "getActiveCategories", null);
 __decorate([
     (0, common_1.Post)('addCategory'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "addCategory", null);
 __decorate([
     (0, common_1.Delete)('removeCategory/:categoryId'),
     __param(0, (0, common_1.Param)('categoryId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "removeCategory", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)('category'),

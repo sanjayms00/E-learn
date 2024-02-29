@@ -403,6 +403,7 @@ let CourseService = class CourseService {
         }
     }
     async editCourseContent(id) {
+        console.log(id);
         try {
             const courseId = new mongoose_1.Types.ObjectId(id);
             const course = await this.courseModel.aggregate([
