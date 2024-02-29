@@ -17,7 +17,6 @@ export class ChatService {
     connect(userId: string) {
         this.socket.emit('connection', userId, (response: MessageDetailedResponse[]) => {
             this.notification = response
-            console.log("connect", this.notification)
         });
     }
 
@@ -34,7 +33,7 @@ export class ChatService {
                 return
             }
 
-            this.notification.push(response)
+            this.UploadNotification(response)
 
         });
     }
@@ -66,11 +65,11 @@ export class ChatService {
         console.log(this.notification)
     }
 
-    // UploadNotification(notification: MessageResponse) {
-    //     this.socket.emit("addNotification", { ...notification }, (response: MessageResponse) => {
-    //         this.notification.push(response)
-    //     })
-    // }
+    UploadNotification(notification: MessageDetailedResponse) {
+        this.socket.emit("addNotification", notification, (response: MessageDetailedResponse) => {
+            this.notification.push(response)
+        })
+    }
 
 
 }

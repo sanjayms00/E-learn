@@ -39,12 +39,11 @@ let MessagesGateway = class MessagesGateway {
         const messageData = await this.messagesService.createMessage(createMessageDto);
         const room = messageData.chatRoom.toString();
         client.to(room).emit("message", messageData);
-        this.messagesService.addNotification(createMessageDto);
         client.to(messageData.receiver.toString()).emit("notification", messageData);
         return messageData;
     }
     async addNotification(notification) {
-        return await this.messagesService.addNotification(notification.message);
+        return await this.messagesService.addNotification(notification);
     }
     async deleteStudentNotification(data) {
         const notification = await this.messagesService.deleteNotification(data);
@@ -152,7 +151,10 @@ __decorate([
 exports.MessagesGateway = MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {
-            origin: "*",
+            origin: [
+                'https://sanjayms.online/',
+                'https://www.sanjayms.online/'
+            ],
         }
     }),
     __metadata("design:paramtypes", [messages_service_1.MessagesService])

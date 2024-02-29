@@ -6,7 +6,10 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: "*",
+    origin: [
+      'https://sanjayms.online/',
+      'https://www.sanjayms.online/'
+    ],
   }
 })
 export class MessagesGateway {
@@ -56,7 +59,7 @@ export class MessagesGateway {
 
     client.to(room).emit("message", messageData)
 
-    this.messagesService.addNotification(createMessageDto);
+    // this.messagesService.addNotification(createMessageDto);
 
     client.to(messageData.receiver.toString()).emit("notification", messageData)
 
@@ -69,7 +72,7 @@ export class MessagesGateway {
     @MessageBody() notification,
   ) {
 
-    return await this.messagesService.addNotification(notification.message);
+    return await this.messagesService.addNotification(notification);
   }
 
 
