@@ -151,7 +151,10 @@ __decorate([
 exports.MessagesGateway = MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {
-            origin: "*",
+            origin: [
+                'https://sanjayms.online/',
+                'https://www.sanjayms.online/'
+            ],
         }
     }),
     __metadata("design:paramtypes", [messages_service_1.MessagesService])
