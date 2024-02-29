@@ -34,7 +34,6 @@ export class clientEffects {
             return clientLoginSuccess({ user: response.user })
           }),
           catchError(error => {
-            console.log(`${error.error?.error} ${error.error?.message}`)
             return of(clientLoginFailure())
           }))
       })
@@ -55,7 +54,6 @@ export class clientEffects {
             return clientSignUpFirstStep()
           }),
           catchError(error => {
-            console.log(error.error?.message)
             return of(clientSignUpFailure())
           })
         )
@@ -80,7 +78,6 @@ export class clientEffects {
 
           }),
           catchError(error => {
-            console.log(error.error?.message)
             return of(clientSignUpFailure())
           })
         )

@@ -31,7 +31,6 @@ export class adminEffects {
             return adminLoginSuccess({ user: response.user })
           }),
           catchError(err => {
-            console.log(err.error?.message)
             return of(adminLoginFailure())
           }))
       })

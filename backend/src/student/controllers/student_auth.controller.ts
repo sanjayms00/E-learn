@@ -20,7 +20,6 @@ export class StudentAuthController {
       return { email: registerStudent.email }
     }
     catch (error) {
-      console.log(error.message)
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -35,14 +34,13 @@ export class StudentAuthController {
   //resend otp
   @Put('/resendOtp')
   async resendOtp(@Body() data: { email: string }) {
-    console.log(data)
+
     await this.studentAuthService.sendOTP(data.email);
   }
 
   //login
   @Post('/login')
   async login(@Body() loginData): Promise<userAuthReturn> {
-    console.log(loginData)
     return await this.studentAuthService.login(loginData);
   }
 

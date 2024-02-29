@@ -34,7 +34,6 @@ let StudentCourseController = class StudentCourseController {
     }
     async courseDetails(courseId) {
         const courseData = await this.studentCourseService.courseDetails(courseId);
-        console.log(courseData);
         return courseData;
     }
     async getInstructors() {
@@ -56,7 +55,6 @@ let StudentCourseController = class StudentCourseController {
     }
     async webhookStripe(req) {
         const raw = req.rawBody;
-        console.log("web hook");
         try {
             if (this.endpointSecret) {
                 const eventData = JSON.parse(raw.toString());
@@ -64,13 +62,12 @@ let StudentCourseController = class StudentCourseController {
                     const paymentIntentId = eventData.data.object.payment_intent;
                     const studentId = JSON.parse(eventData.data.object.metadata.studentId);
                     const courseId = eventData.data.object.metadata.courseId;
-                    console.log(`Payment succeeded. PaymentIntent ID: ${paymentIntentId}`, studentId, courseId);
                     return await this.studentCourseService.paymentSuccessService(paymentIntentId, studentId, courseId);
                 }
             }
         }
         catch (error) {
-            console.error('Error parsing webhook event:', error.message);
+            throw new Error(error.message);
         }
     }
 };

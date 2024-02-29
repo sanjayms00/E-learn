@@ -149,7 +149,6 @@ let LearningService = class LearningService {
                 item.signedUrl = await this.signedUrlService.generateSignedUrl(item.file);
                 return item;
             }));
-            console.log("courseData", courseData);
             return {
                 courseData,
                 studentData
@@ -175,7 +174,6 @@ let LearningService = class LearningService {
             const studentupdatedCourse = this.findStudentCourse(objStudentId, objCourseId);
             if (!studentupdatedCourse)
                 throw new common_1.NotFoundException('Document not found or not updated.');
-            console.log(studentupdatedCourse);
             return studentupdatedCourse;
         }
         catch (error) {

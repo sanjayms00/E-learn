@@ -112,7 +112,6 @@ let CourseService = class CourseService {
             });
             if (!course)
                 throw new Error("Unable to create the course");
-            console.log("in4");
             const fields = JSON.parse(otherData.fields);
             const uploadedVideos = await Promise.all(videoFiles.map(async (videoFile, index) => {
                 const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
@@ -143,13 +142,11 @@ let CourseService = class CourseService {
                     throw new Error("Video saving to course failed");
                 return true;
             }));
-            console.log("in5");
             if (!uploadedVideos)
                 return new Error("upload failed");
             return { status: "success", message: "Course created successfully" };
         }
         catch (error) {
-            console.log(error.message);
             throw error;
         }
     }
@@ -229,7 +226,6 @@ let CourseService = class CourseService {
             return { status: "success", message: "Course Updated successfully" };
         }
         catch (error) {
-            console.log(error.message);
             throw error;
         }
     }
@@ -276,7 +272,6 @@ let CourseService = class CourseService {
             const instructorCourseContentData = await this.editCourseContent(courseId);
             if (!instructorCourseContentData)
                 throw new Error('unable to get the updated course Data');
-            console.log(instructorCourseContentData);
             return instructorCourseContentData;
         }
         catch (error) {
@@ -310,27 +305,21 @@ let CourseService = class CourseService {
                 });
                 if (!saveVideo)
                     return new Error("Unable to save video");
-                console.log(courseId);
                 const updateCourse = await this.courseModel.updateOne({ _id: courseId }, {
                     $push: { videos: saveVideo._id }
                 });
-                console.log("here2");
-                console.log(updateCourse);
                 if (!updateCourse)
                     throw new Error("Video saving to course failed");
                 return true;
             }));
             if (!uploadedVideos)
                 return new Error("upload failed");
-            console.log(otherData.courseId);
             const instructorCourseContentData = await this.editCourseContent(otherData.courseId);
             if (!instructorCourseContentData)
                 throw new Error('unable to get the updated course Data');
-            console.log("Data is", instructorCourseContentData);
             return instructorCourseContentData;
         }
         catch (error) {
-            console.log(error.message);
             throw new Error(error);
         }
     }
@@ -345,7 +334,6 @@ let CourseService = class CourseService {
             return courseWithPreSignedUrls;
         }
         catch (error) {
-            console.error('Error in getInstructorCourse:', error);
             throw new Error(error);
         }
     }
@@ -398,12 +386,10 @@ let CourseService = class CourseService {
             return courseWithPreSignedUrls[0];
         }
         catch (error) {
-            console.log(error.message);
             throw new Error(error);
         }
     }
     async editCourseContent(id) {
-        console.log(id);
         try {
             const courseId = new mongoose_1.Types.ObjectId(id);
             const course = await this.courseModel.aggregate([
@@ -460,7 +446,6 @@ let CourseService = class CourseService {
             return course;
         }
         catch (error) {
-            console.log(error.message);
             throw new Error(error);
         }
     }
@@ -522,7 +507,6 @@ let CourseService = class CourseService {
             const instructorCourseContentData = await this.editCourseContent(String(findVideo.courseId));
             if (!instructorCourseContentData)
                 throw new Error('unable to get the updated course Data');
-            console.log("Data is", instructorCourseContentData);
             return instructorCourseContentData;
         }
         catch (error) {

@@ -30,7 +30,6 @@ let instructorJwtStrategy = class instructorJwtStrategy extends (0, passport_1.P
     }
     async validate(payload) {
         const { id } = payload;
-        console.log("instructor", payload);
         const user = await this.userModel.findById(id);
         if (!user) {
             throw new common_1.UnauthorizedException('Access denied.');

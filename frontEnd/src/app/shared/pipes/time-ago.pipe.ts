@@ -7,8 +7,6 @@ export class TimeAgoPipe implements PipeTransform {
 
   transform(value: Date, ...args: unknown[]): unknown {
 
-    console.log(value)
-    
     return null;
   }
 

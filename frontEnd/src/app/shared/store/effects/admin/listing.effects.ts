@@ -35,7 +35,6 @@ export class listingEffects {
             return StudentListSuccess({ studentData: response });
           }),
           catchError((err) => {
-            console.log(err.error?.message);
             return of(StudentListFailed());
           })
         );
@@ -52,7 +51,6 @@ export class listingEffects {
             return InstructorListSuccess({ instructorData: response });
           }),
           catchError((err) => {
-            console.log(err.error?.message);
             return of(InstructorListFailed());
           })
         );
@@ -69,7 +67,6 @@ export class listingEffects {
             return studentStatusChangeSuccess(action);
           }),
           catchError((err) => {
-            console.log(err.error?.message);
             return of(studentStatusChangeFailed());
           })
         );
@@ -86,7 +83,6 @@ export class listingEffects {
             return instructorStatusChangeSuccess(action);
           }),
           catchError((err) => {
-            console.log(err.error?.message);
             return of(instructorStatusChangeFailed());
           })
         );

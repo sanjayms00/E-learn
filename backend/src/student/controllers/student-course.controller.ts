@@ -32,8 +32,7 @@ export class StudentCourseController {
 
     @Get('course-details/:id')
     async courseDetails(@Param('id') courseId: string) {
-        const courseData =  await this.studentCourseService.courseDetails(courseId)
-        console.log(courseData)
+        const courseData = await this.studentCourseService.courseDetails(courseId)
         return courseData
     }
 
@@ -72,7 +71,6 @@ export class StudentCourseController {
     @Post('webhook')
     async webhookStripe(@Req() req: RawBodyRequest<Request>) {
         const raw = req.rawBody;
-        console.log("web hook")
         try {
             if (this.endpointSecret) {
                 const eventData = JSON.parse(raw.toString());
@@ -81,13 +79,11 @@ export class StudentCourseController {
                     const studentId = JSON.parse(eventData.data.object.metadata.studentId);
                     const courseId = eventData.data.object.metadata.courseId;
 
-                    // console.log(eventData.data.object.metadata)
-                    console.log(`Payment succeeded. PaymentIntent ID: ${paymentIntentId}`, studentId, courseId);
                     return await this.studentCourseService.paymentSuccessService(paymentIntentId, studentId, courseId)
                 }
             }
         } catch (error) {
-            console.error('Error parsing webhook event:', error.message);
+            throw new Error(error.message)
         }
     }
 

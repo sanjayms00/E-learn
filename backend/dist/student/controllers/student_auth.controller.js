@@ -29,7 +29,6 @@ let StudentAuthController = class StudentAuthController {
             return { email: registerStudent.email };
         }
         catch (error) {
-            console.log(error.message);
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -38,11 +37,9 @@ let StudentAuthController = class StudentAuthController {
         return studentData;
     }
     async resendOtp(data) {
-        console.log(data);
         await this.studentAuthService.sendOTP(data.email);
     }
     async login(loginData) {
-        console.log(loginData);
         return await this.studentAuthService.login(loginData);
     }
     async forgotPassword(data) {

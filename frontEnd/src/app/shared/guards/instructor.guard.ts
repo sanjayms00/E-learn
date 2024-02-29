@@ -8,7 +8,6 @@ export const instructorGuard: CanActivateChildFn = (route, state) => {
   const router = inject(Router)
   const token = authservice.getInstructorToken()
   
-  // console.log(token)
   if (!token) {
     router.navigate(["/instructor/login"])
     return false

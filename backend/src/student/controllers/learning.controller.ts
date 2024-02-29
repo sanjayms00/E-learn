@@ -26,7 +26,7 @@ export class LearningController {
         @Query('videoId') videoId: string
     ) {
         const studentId = req.user._id
-        // console.log(courseId, videoId, studentId)
+
         return this.learningService.streamCourseData(courseId, videoId, studentId)
     }
 

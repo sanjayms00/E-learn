@@ -35,7 +35,6 @@ export class instructorEffects {
             return instructorLoginSuccess({ user: response.user })
           }),
           catchError(error => {
-            console.log(`${error.error?.error} ${error.error?.message}`)
             return of(instructorLoginFailure())
           }))
       })
@@ -58,7 +57,6 @@ export class instructorEffects {
             return instructorSignUpSuccess({ user: response.user })
           }),
           catchError(error => {
-            console.log(`${error.error?.error} ${error.error?.message}`)
             return of(instructorSignUpFailure())
           })
         )

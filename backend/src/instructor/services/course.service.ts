@@ -124,7 +124,7 @@ export class CourseService {
             });
 
             if (!course) throw new Error("Unable to create the course")
-            console.log("in4")
+
             //parse fields data 
             const fields = JSON.parse(otherData.fields)
 
@@ -173,12 +173,12 @@ export class CourseService {
                     return true
                 })
             );
-            console.log("in5")
+
             if (!uploadedVideos) return new Error("upload failed")
 
             return { status: "success", message: "Course created successfully" };
         } catch (error) {
-            console.log(error.message);
+
             throw error;
         }
     }
@@ -285,7 +285,6 @@ export class CourseService {
 
             return { status: "success", message: "Course Updated successfully" };
         } catch (error) {
-            console.log(error.message);
             throw error;
         }
     }
@@ -349,8 +348,6 @@ export class CourseService {
 
             if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
 
-            console.log(instructorCourseContentData)
-
             return instructorCourseContentData
 
         } catch (error) {
@@ -399,15 +396,14 @@ export class CourseService {
                     });
 
                     if (!saveVideo) return new Error("Unable to save video");
-                    console.log(courseId)
+
                     const updateCourse = await this.courseModel.updateOne(
                         { _id: courseId },
                         {
                             $push: { videos: saveVideo._id }
                         }
                     );
-                    console.log("here2")
-                    console.log(updateCourse)
+
                     if (!updateCourse) throw new Error("Video saving to course failed")
 
                     return true
@@ -415,17 +411,14 @@ export class CourseService {
             );
 
             if (!uploadedVideos) return new Error("upload failed")
-            console.log(otherData.courseId)
+
             const instructorCourseContentData = await this.editCourseContent(otherData.courseId)
 
             if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
 
-            console.log("Data is", instructorCourseContentData)
-
             return instructorCourseContentData
 
         } catch (error) {
-            console.log(error.message);
             throw new Error(error)
         }
     }
@@ -445,7 +438,6 @@ export class CourseService {
 
             return courseWithPreSignedUrls
         } catch (error) {
-            console.error('Error in getInstructorCourse:', error);
             throw new Error(error);
         }
 
@@ -506,7 +498,6 @@ export class CourseService {
             return courseWithPreSignedUrls[0]
 
         } catch (error) {
-            console.log(error.message)
             throw new Error(error)
         }
 
@@ -515,7 +506,6 @@ export class CourseService {
 
     //edit the course content
     async editCourseContent(id: string) {
-        console.log(id)
         try {
             const courseId = new Types.ObjectId(id)
             const course = await this.courseModel.aggregate([
@@ -572,7 +562,7 @@ export class CourseService {
             return course
 
         } catch (error) {
-            console.log(error.message)
+
             throw new Error(error)
         }
 
@@ -676,8 +666,6 @@ export class CourseService {
             const instructorCourseContentData = await this.editCourseContent(String(findVideo.courseId))
 
             if (!instructorCourseContentData) throw new Error('unable to get the updated course Data')
-
-            console.log("Data is", instructorCourseContentData)
 
             return instructorCourseContentData
 

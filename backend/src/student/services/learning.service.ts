@@ -152,8 +152,6 @@ export class LearningService {
                 return item
             }));
 
-            console.log("courseData", courseData)
-
             return {
                 courseData,
                 studentData
@@ -185,11 +183,9 @@ export class LearningService {
 
             if (!studentupdatedCourse) throw new NotFoundException('Document not found or not updated.')
 
-            console.log(studentupdatedCourse)
 
             return studentupdatedCourse
         } catch (error) {
-            // console.log(error.message)
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
