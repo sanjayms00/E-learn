@@ -513,9 +513,9 @@ export class CourseService {
     }
 
 
-
     //edit the course content
     async editCourseContent(id: string) {
+        console.log(id)
         try {
             const courseId = new Types.ObjectId(id)
             const course = await this.courseModel.aggregate([

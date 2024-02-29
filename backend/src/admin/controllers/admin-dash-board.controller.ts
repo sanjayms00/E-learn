@@ -8,10 +8,9 @@ export class AdminDashBoardController {
         private dashboardService: AdminDashBoardService
     ){}
 
-
     @Get()
-    adminDashBoard(){
-        return this.dashboardService.adminDashBoard()
+    async adminDashBoard(){
+        return await this.dashboardService.adminDashBoard()
     }
 
 

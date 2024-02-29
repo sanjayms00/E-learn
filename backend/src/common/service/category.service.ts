@@ -35,7 +35,7 @@ export class CategoryService {
                 categoryName: data.category
             })
 
-            if (category) throw new ConflictException("Category already exist")
+            if (category) throw new Error("Category already exist")
 
             await this.categoryModel.create({
                 categoryName: data.category,

@@ -9,19 +9,13 @@ export class InstructorAuthController {
   constructor(private instructorAuthService: InstructorAuthService) { }
 
   @Post('/signup')
-  signUp(@Body() signUpDto: SignupDto) {
-    return this.instructorAuthService.signUp(signUpDto);
+  async signUp(@Body() signUpDto: SignupDto) {
+    return await this.instructorAuthService.signUp(signUpDto);
   }
 
   @Post('/login')
-  login(@Body() loginData: LoginDto) {
-    console.log(loginData)
-    return this.instructorAuthService.login(loginData);
+  async login(@Body() loginData: LoginDto) {
+    return await this.instructorAuthService.login(loginData);
   }
-
-  // @Post('/forgot-password')
-  // forgotPassword(@Body() loginData: LoginDto): Promise<userAuthReturn> {
-  //   return this.instructorAuthService.login(loginData);
-  // }
 
 }

@@ -7,8 +7,6 @@ import { Student } from 'src/student/schema/student.schema';
 @Injectable()
 export class AdminDashBoardService {
 
-
-
     constructor(
         @InjectModel(Student.name)
         private studentModel: Model<Student>,

@@ -9,29 +9,26 @@ export class CategoryController {
     ) { }
 
     @Get('allCategories')
-    getAllCategories() {
-        return this.categoryService.fetchCategories()
+    async getAllCategories() {
+        return await this.categoryService.fetchCategories()
     }
 
 
     @Get('activeCategories')
-    getActiveCategories() {
-        return this.categoryService.fetchActiveCategories()
+    async getActiveCategories() {
+        return await this.categoryService.fetchActiveCategories()
     }
 
     @Post('addCategory')
-    addCategory(@Body() data) {
-        console.log(data)
-        return this.categoryService.addCategory(data)
+    async addCategory(@Body() data) {
+        return await this.categoryService.addCategory(data)
     }
 
     @Delete('removeCategory/:categoryId')
-    removeCategory(
+    async removeCategory(
         @Param('categoryId') categoryId: string
     ) {
-
-        return this.categoryService.removeCategory(categoryId)
-
+        return await this.categoryService.removeCategory(categoryId)
     }
 
 

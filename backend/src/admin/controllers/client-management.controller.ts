@@ -12,26 +12,26 @@ export class ClientManagementController {
 
     @UseGuards(AdminJwtAuthGuard)
     @Get('students')
-    getStudents() {
-        return this.clientService.getAllStudents()
+    async getStudents() {
+        return await this.clientService.getAllStudents()
     }
 
     @UseGuards(AdminJwtAuthGuard)
     @Get('instructors')
-    getInstructors() {
-        return this.clientService.getAllInstructors()
+    async getInstructors() {
+        return await this.clientService.getAllInstructors()
     }
 
     @UseGuards(AdminJwtAuthGuard)
     @Patch('student-status')
-    changeStudentStatus(@Body() data: statusDto) {
-        return this.clientService.changeStudentStatus(data)
+    async changeStudentStatus(@Body() data: statusDto) {
+        return await this.clientService.changeStudentStatus(data)
     }
 
     @UseGuards(AdminJwtAuthGuard)
     @Patch('instructor-status')
-    changeInstructorStatus(@Body() data: statusDto) {
-        return this.clientService.changeInstructorStatus(data)
+    async changeInstructorStatus(@Body() data: statusDto) {
+        return await this.clientService.changeInstructorStatus(data)
     }
 
 

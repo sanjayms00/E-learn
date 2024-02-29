@@ -15,9 +15,8 @@ export class AdminAuthController {
     }
 
     @Post('register')
-    register(@Body() data: AdminDto) {
-        console.log(data)
-        return this.adminAuthService.registerAdmin(data)
+    async register(@Body() data: AdminDto) {
+        return await this.adminAuthService.registerAdmin(data)
     }
 
 }
