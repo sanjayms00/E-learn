@@ -22,7 +22,8 @@ let InstructorDashboardController = class InstructorDashboardController {
     }
     async profieData(req) {
         const instructorId = req.user.id;
-        return await this.dashboardService.dashboardData(instructorId);
+        const dashData = await this.dashboardService.dashboardData(instructorId);
+        return dashData;
     }
 };
 exports.InstructorDashboardController = InstructorDashboardController;

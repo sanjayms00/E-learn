@@ -51,6 +51,14 @@ let InstructorDashboardService = class InstructorDashboardService {
                                 $count: "count"
                             }
                         ],
+                        sold: [
+                            {
+                                $group: {
+                                    _id: null,
+                                    soldOutCourse: { $sum: { $size: "$students" } }
+                                }
+                            }
+                        ],
                         otherData: [
                             {
                                 $lookup: {
@@ -66,7 +74,6 @@ let InstructorDashboardService = class InstructorDashboardService {
                             {
                                 $group: {
                                     _id: null,
-                                    soldOutCourse: { $sum: { $size: "$students" } },
                                     totalRating: { $sum: "$reviewData.rating" },
                                     totalReviews: { $sum: 1 }
                                 }
@@ -75,7 +82,6 @@ let InstructorDashboardService = class InstructorDashboardService {
                                 $project: {
                                     _id: 0,
                                     totalCourses: 1,
-                                    soldOutCourse: 1,
                                     averageRating: { $divide: ["$totalRating", "$totalReviews"] }
                                 }
                             }
@@ -87,7 +93,7 @@ let InstructorDashboardService = class InstructorDashboardService {
                 throw new common_1.NotFoundException("Dashboard data not found");
             return {
                 courses: dashData[0].totalCount[0].count,
-                sold: dashData[0].otherData[0].soldOutCourse,
+                sold: dashData[0].sold[0].soldOutCourse,
                 rating: dashData[0].otherData[0].averageRating
             };
         }

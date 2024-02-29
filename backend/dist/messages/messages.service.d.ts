@@ -52,7 +52,10 @@ export declare class MessagesService {
     addNotification(notification: CreateMessageDto): Promise<import("mongoose").Document<unknown, {}, Notification> & Notification & {
         _id: Types.ObjectId;
     }>;
-    deleteNotification(chatId: string): Promise<import("mongodb").DeleteResult>;
+    deleteNotification(data: {
+        chatId: string;
+        role: string;
+    }): Promise<import("mongodb").DeleteResult>;
     loadMessages(chatId: string): Promise<import("mongoose").Document<unknown, {}, ChatRoom> & ChatRoom & {
         _id: Types.ObjectId;
     }>;

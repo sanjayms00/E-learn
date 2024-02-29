@@ -1,8 +1,8 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from '../../../core/services/auth.service';
-import { Chats, MessageResponse, message, onloadResponse, role, users } from 'src/app/shared/interface/chat.interface';
+import { Chats, MessageDetailedResponse, MessageResponse, message, onloadResponse, role, users } from 'src/app/shared/interface/chat.interface';
 import { ChatService } from '../../../shared/services/chat.service';
 import { getInstructor } from '../../../shared/store/selectors/instructor.selector';
 import { appState } from '../../../shared/store/state/app.state';
@@ -11,14 +11,14 @@ import { appState } from '../../../shared/store/state/app.state';
   selector: 'app-instructor-chat',
   templateUrl: './instructor-chat.component.html'
 })
-export class InstructorChatComponent implements OnInit {
+export class InstructorChatComponent implements OnInit, OnDestroy, DoCheck {
 
   instructorId: string = ''
   users: users[] = []
   chats: Chats[] = []
   role: role = role.Instructor
   currentChat!: Chats
-  instructorNotification: MessageResponse[] = []
+  instructorNotification: MessageDetailedResponse[] = []
 
   constructor(
     private chatService: ChatService,
@@ -54,6 +54,14 @@ export class InstructorChatComponent implements OnInit {
 
   }
 
+  ngDoCheck(): void {
+    if (this.chatService.notification.length > 0) {
+      this.instructorNotification = this.chatService.notification.filter(notification => {
+        return notification && notification.receiver == this.instructorId;
+      })
+    }
+  }
+
   chatEvent(event: Event) {
     // event to add a chat  or load the existing chat
     this.chatService.socket.emit("accessChat", { instructorId: this.instructorId, studentId: event }, (response: Chats) => {
@@ -67,7 +75,7 @@ export class InstructorChatComponent implements OnInit {
       this.currentChat = response
       this.chatService.instructorCurrentChat = response._id
 
-      this.chatService.removeNotification(response._id)
+      this.chatService.removeNotification(response._id, this.role)
 
     });
 
@@ -78,7 +86,7 @@ export class InstructorChatComponent implements OnInit {
     this.chatService.socket.emit("loadMessages", { chatId: event }, (response: Chats) => {
       this.currentChat = response
       this.chatService.instructorCurrentChat = response._id
-      this.chatService.removeNotification(response._id)
+      this.chatService.removeNotification(response._id, this.role)
       this.instructorNotification = this.chatService.notification
 
     })
@@ -97,6 +105,11 @@ export class InstructorChatComponent implements OnInit {
       })
 
   }
+
+  ngOnDestroy(): void {
+    this.chatService.instructorCurrentChat = ''
+  }
+
 
 
 }

@@ -25,7 +25,7 @@ export class InstructorDashboardService {
 
     async dashCounts(instructorId: string) {
         try {
-            // console.log(instructorId)
+
             const objInstructorId = new Types.ObjectId(instructorId)
 
             const dashDataCheck = await this.courseModel.find(
@@ -52,6 +52,14 @@ export class InstructorDashboardService {
                                 $count: "count"
                             }
                         ],
+                        sold: [
+                            {
+                                $group: {
+                                    _id: null,
+                                    soldOutCourse: { $sum: { $size: "$students" } }
+                                }
+                            }
+                        ],
                         otherData: [
                             {
                                 $lookup: {
@@ -67,7 +75,6 @@ export class InstructorDashboardService {
                             {
                                 $group: {
                                     _id: null,
-                                    soldOutCourse: { $sum: { $size: "$students" } },
                                     totalRating: { $sum: "$reviewData.rating" },
                                     totalReviews: { $sum: 1 }
                                 }
@@ -76,7 +83,6 @@ export class InstructorDashboardService {
                                 $project: {
                                     _id: 0,
                                     totalCourses: 1,
-                                    soldOutCourse: 1,
                                     averageRating: { $divide: ["$totalRating", "$totalReviews"] }
                                 }
                             }
@@ -85,11 +91,14 @@ export class InstructorDashboardService {
                 }
             ])
 
+
+            // console.log("dashData", dashData)
+
             if (dashData.length < 1) throw new NotFoundException("Dashboard data not found")
 
             return {
                 courses: dashData[0].totalCount[0].count,
-                sold: dashData[0].otherData[0].soldOutCourse,
+                sold: dashData[0].sold[0].soldOutCourse,
                 rating: dashData[0].otherData[0].averageRating
             }
 

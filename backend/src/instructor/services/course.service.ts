@@ -54,7 +54,7 @@ export class CourseService {
 
 
     //upload the course
-    
+
     async uploadCourse(files, trailer, otherData, instructorId) {
         try {
             const imageFile = files.find(item => item.mimetype.includes('image'));

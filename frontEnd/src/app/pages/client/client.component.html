@@ -1,11 +1,7 @@
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <a [routerLink]="['/home']" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-        stroke-linejoin="round" stroke-width="2" class="w-8 h-8 text-white p-2 bg-indigo-500 rounded-full"
-        viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
+      <img src="/assets/logo/logo.png" alt="logo">
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden sm:block">E-Learn</span>
     </a>
     <div class="flex items-center md:order-2 rtl:space-x-reverse" [hidden]="notifications.length === 0">
@@ -29,12 +25,11 @@
       <div id="dropdownDelay"
         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
-
           <ng-container *ngIf="notifications.length > 0; else notificationElse">
             <li *ngFor="let item of notifications">
               <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 [routerLink]="['/chat']">
-                [{{ item.message.sender.fullName }}] : {{ item.message.content }}
+                [{{ item.sender.fullName }}] : {{ item.content }}
               </a>
             </li>
           </ng-container>
@@ -49,8 +44,6 @@
           </ng-template>
         </ul>
       </div>
-
-
       <!-- notification ends -->
 
       <!-- chat starts -->
@@ -147,11 +140,7 @@
   <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
     <div class="sm:flex sm:items-center sm:justify-between">
       <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-          stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-          viewBox="0 0 24 24">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-        </svg>
+        <img src="/assets/logo/logo.png" alt="logo">
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Learn</span>
       </a>
       <ul class="flex flex-wrap items-center mb-6 text-smx font-medium text-gray-500 sm:mb-0 dark:text-gray-400">

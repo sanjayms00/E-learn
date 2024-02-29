@@ -1,6 +1,6 @@
 import { Component, DoCheck, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { constant } from 'src/app/core/constant/constant';
-import { Chats, MessageResponse, message, users } from '../../interface/chat.interface';
+import { Chats, MessageDetailedResponse, MessageResponse, message, users } from '../../interface/chat.interface';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { ChatService } from '../../services/chat.service';
   templateUrl: './chat-left.component.html',
   styleUrls: ['./chat-left.component.css']
 })
-export class ChatLeftComponent implements OnChanges {
+export class ChatLeftComponent {
 
   noProfile = constant.noProfile
   suggestion = false
@@ -18,7 +18,7 @@ export class ChatLeftComponent implements OnChanges {
 
   @Input() role!: "Instructor" | "Student";
   @Input() users: users[] = [];
-  @Input() notifications: MessageResponse[] = [];
+  @Input() notifications: MessageDetailedResponse[] = [];
   @Input() chats: Chats[] = [];
   @Output() chatEvent = new EventEmitter()
   @Output() loadMessageEvent = new EventEmitter()
@@ -27,10 +27,6 @@ export class ChatLeftComponent implements OnChanges {
     private chatservice: ChatService
   ) { }
 
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
 
   onChange(event: string) {
 
@@ -56,7 +52,11 @@ export class ChatLeftComponent implements OnChanges {
   }
 
   getUnreadNotificationCount(chatRoomId: string): number {
-    return this.notifications.filter(notification => notification.message.chatRoom == chatRoomId).length;
+    return this.notifications.filter(notification => notification.chatRoom == chatRoomId).length;
+  }
+
+  filterUsers(event: any) {
+    this.searchResult = this.users.filter(user => user.fullName.toLowerCase().includes(event.query.toLowerCase()));
   }
 
 

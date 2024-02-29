@@ -1,8 +1,8 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AuthService } from '../../../core/services/auth.service';
-import { users, Chats, onloadResponse, message, MessageResponse, role } from '../../../shared/interface/chat.interface';
+import { users, Chats, onloadResponse, message, MessageResponse, role, MessageDetailedResponse } from '../../../shared/interface/chat.interface';
 import { ChatService } from '../../../shared/services/chat.service';
 import { getclient } from '../../../shared/store/selectors/client.selector';
 import { appState } from '../../../shared/store/state/app.state';
@@ -11,7 +11,7 @@ import { appState } from '../../../shared/store/state/app.state';
   selector: 'app-student-chat',
   templateUrl: './student-chat.component.html'
 })
-export class StudentChatComponent {
+export class StudentChatComponent implements OnDestroy {
 
 
   studentId: string = ''
@@ -19,7 +19,7 @@ export class StudentChatComponent {
   chats: Chats[] = []
   role: role = role.Student;
   currentChat!: Chats
-  notifications: MessageResponse[] = []
+  notifications: MessageDetailedResponse[] = []
 
   constructor(
     private chatService: ChatService,
@@ -64,7 +64,7 @@ export class StudentChatComponent {
   ngDoCheck(): void {
     if (this.chatService.notification.length > 0) {
       this.notifications = this.chatService.notification.filter(notification => {
-        return notification.message && notification.message.receiver == this.studentId;
+        return notification && notification.receiver == this.studentId;
       })
     }
   }
@@ -80,10 +80,11 @@ export class StudentChatComponent {
         this.chats.push(response)
       }
 
+
       this.currentChat = response
       this.chatService.studentCurrentChat = response._id
 
-      this.chatService.removeNotification(response._id)
+      this.chatService.removeNotification(response._id, this.role)
 
     });
   }
@@ -94,7 +95,7 @@ export class StudentChatComponent {
       this.currentChat = response
       this.chatService.studentCurrentChat = response._id
 
-      this.chatService.removeNotification(response._id)
+      this.chatService.removeNotification(response._id, this.role)
       this.notifications = this.chatService.notification
 
     })
@@ -109,6 +110,11 @@ export class StudentChatComponent {
       .subscribe(response => {
         this.currentChat?.messages.push(response)
       })
+  }
+
+
+  ngOnDestroy(): void {
+    this.chatService.studentCurrentChat = ''
   }
 
 }

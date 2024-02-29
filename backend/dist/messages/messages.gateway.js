@@ -39,21 +39,20 @@ let MessagesGateway = class MessagesGateway {
         const messageData = await this.messagesService.createMessage(createMessageDto);
         const room = messageData.chatRoom.toString();
         client.to(room).emit("message", messageData);
-        client.to(messageData.receiver.toString()).emit("notification", { message: messageData });
+        this.messagesService.addNotification(createMessageDto);
+        client.to(messageData.receiver.toString()).emit("notification", messageData);
         return messageData;
     }
-    async addNotification(message) {
-        const notification = await this.messagesService.addNotification(message);
-        return notification;
+    async addNotification(notification) {
+        return await this.messagesService.addNotification(notification.message);
     }
-    async deleteStudentNotification(chatId) {
-        const notification = await this.messagesService.deleteNotification(chatId);
+    async deleteStudentNotification(data) {
+        const notification = await this.messagesService.deleteNotification(data);
         return notification;
     }
     async connection(userId, client) {
         client.join(userId);
         const notifications = await this.messagesService.getNotifications(userId);
-        client.emit("notification", { message: notifications });
         return notifications;
     }
     async findAllInstructors(payload, client) {
@@ -113,7 +112,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "addNotification", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('removeNotificaion'),
+    (0, websockets_1.SubscribeMessage)('removeNotification'),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

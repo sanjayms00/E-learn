@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { constant } from '../../core/constant/constant';
-import { MessageResponse, message } from '../interface/chat.interface';
+import { MessageDetailedResponse, MessageResponse, message } from '../interface/chat.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,36 +10,33 @@ import { Observable } from 'rxjs';
 export class ChatService {
 
     socket!: Socket
-    notification: MessageResponse[] = []
+    notification: MessageDetailedResponse[] = []
     studentCurrentChat: string | null = null
     instructorCurrentChat: string | null = null
 
     connect(userId: string) {
-        this.socket.emit('connection', userId, (response: MessageResponse) => {
-            console.log("connection response", response)
-
-            this.notification.push(response)
+        this.socket.emit('connection', userId, (response: MessageDetailedResponse[]) => {
+            this.notification = response
+            console.log("connect", this.notification)
         });
     }
 
     initialize() {
         this.socket = io(constant.socketLink);
 
-        this.socket.on('notification', (response: MessageResponse) => {
+        this.socket.on('notification', (response: MessageDetailedResponse) => {
 
-
-            if (this.studentCurrentChat == response.message.chatRoom) {
+            if (this.studentCurrentChat == response.chatRoom) {
                 return
             }
 
-            if (this.instructorCurrentChat == response.message.chatRoom) {
+            if (this.instructorCurrentChat == response.chatRoom) {
                 return
             }
 
             this.notification.push(response)
 
         });
-
     }
 
     //send a ne message
@@ -60,23 +57,20 @@ export class ChatService {
         })
     }
 
-    removeNotification(chatId: string) {
-
+    removeNotification(chatId: string, senderType: string) {
         //remove db notification
-        this.socket.emit('removeNotification', chatId);
+        this.socket.emit('removeNotification', { chatId, senderType });
 
-        if (this.notification.length > 0) {
-            this.notification = this.notification.filter(noti => {
-                return noti.message && noti.message.chatRoom !== chatId
-            })
-        }
+        this.notification = this.notification.filter(notification => notification.chatRoom !== chatId);
+
+        console.log(this.notification)
     }
 
-    UploadNotification(notification: MessageResponse) {
-        this.socket.emit("addNotification", { ...notification }, (response: message) => {
-            console.log(response)
-        })
-    }
+    // UploadNotification(notification: MessageResponse) {
+    //     this.socket.emit("addNotification", { ...notification }, (response: MessageResponse) => {
+    //         this.notification.push(response)
+    //     })
+    // }
 
 
 }

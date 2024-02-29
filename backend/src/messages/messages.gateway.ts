@@ -56,9 +56,9 @@ export class MessagesGateway {
 
     client.to(room).emit("message", messageData)
 
-    // const notification = await this.messagesService.addNotification(createMessageDto);
+    this.messagesService.addNotification(createMessageDto);
 
-    client.to(messageData.receiver.toString()).emit("notification", { message: messageData })
+    client.to(messageData.receiver.toString()).emit("notification", messageData)
 
     return messageData
   }
@@ -66,18 +66,16 @@ export class MessagesGateway {
 
   @SubscribeMessage('addNotification')
   async addNotification(
-    @MessageBody() message,
+    @MessageBody() notification,
   ) {
 
-    const notification = await this.messagesService.addNotification(message);
-
-    return notification
+    return await this.messagesService.addNotification(notification.message);
   }
 
 
-  @SubscribeMessage('removeNotificaion')
-  async deleteStudentNotification(@MessageBody() chatId) {
-    const notification = await this.messagesService.deleteNotification(chatId);
+  @SubscribeMessage('removeNotification')
+  async deleteStudentNotification(@MessageBody() data: { chatId: string, role: string }) {
+    const notification = await this.messagesService.deleteNotification(data);
     return notification
   }
 
@@ -88,7 +86,7 @@ export class MessagesGateway {
     //get notifications
     const notifications = await this.messagesService.getNotifications(userId)
 
-    client.emit("notification", { message: notifications });
+    // client.emit("notification", { message: notifications });
 
     return notifications
 

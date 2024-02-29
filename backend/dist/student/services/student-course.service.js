@@ -251,6 +251,7 @@ let StudentCourseService = class StudentCourseService {
                         "categoryName": { $arrayElemAt: ['$categoryData.categoryName', 0] },
                         "videoData.title": 1,
                         "videoData.description": 1,
+                        "videoData.index": 1,
                         "_id": 1,
                         "courseName": 1,
                         "description": 1,

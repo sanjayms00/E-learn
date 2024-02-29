@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { constant } from '../../core/constant/constant';
 import { AuthService } from '../../core/services/auth.service';
-import { MessageResponse } from '../../shared/interface/chat.interface';
+import { MessageDetailedResponse } from '../../shared/interface/chat.interface';
 import { ChatService } from '../../shared/services/chat.service';
 import { ProfileService } from '../../shared/services/profile.service';
 import { getClientDataFromLocal } from '../../shared/store/actions/client.action';
@@ -22,7 +22,7 @@ export class ClientComponent implements OnInit, DoCheck {
   logSign = false;
   courseSearch: string = ''
   menu = ['home', 'instructor', 'chat', 'learning']
-  notifications: MessageResponse[] = []
+  notifications: MessageDetailedResponse[] = []
   studentId: string = ''
   profile: string = constant.noProfile
   name!: string
@@ -77,11 +77,13 @@ export class ClientComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.chatService.notification.length > 0) {
-      this.notifications = this.chatService.notification.filter(notification => {
-        return notification.message && notification.message.receiver == this.studentId;
-      })
-    }
+    this.notifications = this.chatService.notification
+    // if (this.chatService.notification.length > 0) {
+    // this.notifications = this.chatService.notification.filter(notification => {
+    //   return notification.message && notification.message.receiver == this.studentId;
+    // })
+    //   console.log("client", this.notifications, this.studentId)
+    // }
 
 
     if (this.authService.getClientToken()) {

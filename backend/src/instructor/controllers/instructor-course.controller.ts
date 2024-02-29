@@ -25,9 +25,6 @@ export class InstructorCourseController {
         @Request() req
     ) {
         const instructorId = req.user.id
-
-        // console.log("files", files)
-        // console.log("formData", formData)
         return await this.courseService.uploadCourse(files.files, files.trailer, formData, instructorId);
     }
 
@@ -53,7 +50,11 @@ export class InstructorCourseController {
     @UseGuards(InstructorJwtAuthGuard)
     @Post('update-single-chapter')
     @UseInterceptors(FilesInterceptor('files'))
-    async updateSingleChapter(@UploadedFiles() files, @Body() formData: CourseData, @Request() req) {
+    async updateSingleChapter(
+        @UploadedFiles() files, 
+        @Body() formData: CourseData, 
+        @Request() req
+    ) {
         const instructorId = req.user.id
         return await this.courseService.updateSingleChapter(files, instructorId, formData);
     }

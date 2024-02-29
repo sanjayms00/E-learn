@@ -48,11 +48,11 @@ let MessagesService = class MessagesService {
         }
         chat = await chat.populate({
             path: 'student',
-            select: 'fullName'
+            select: 'fullName image'
         });
         chat = await chat.populate({
             path: 'instructor',
-            select: 'fullName'
+            select: 'fullName image'
         });
         if (chat.messages.length > 0) {
             chat = await chat.populate({
@@ -88,14 +88,16 @@ let MessagesService = class MessagesService {
             {
                 $group: {
                     _id: "$instructorData._id",
-                    fullName: { $first: "$instructorData.fullName" }
+                    fullName: { $first: "$instructorData.fullName" },
+                    image: { $first: "$instructorData.image" }
                 }
             },
             {
                 $project: {
                     _id: 0,
                     id: "$_id",
-                    fullName: 1
+                    fullName: 1,
+                    image: 1
                 }
             }
         ]);
@@ -145,6 +147,7 @@ let MessagesService = class MessagesService {
         }
     }
     async addNotification(notification) {
+        console.log(notification);
         const { content, senderType, chatRoom, sender, receiver } = notification;
         const message = await this.notificationModel.create({
             sender,
@@ -159,9 +162,10 @@ let MessagesService = class MessagesService {
         await message.populate('sender', "fullName");
         return message;
     }
-    async deleteNotification(chatId) {
+    async deleteNotification(data) {
         const deleteNotification = await this.notificationModel.deleteMany({
-            chatRoom: new mongoose_2.Types.ObjectId(chatId)
+            chatRoom: new mongoose_2.Types.ObjectId(data.chatId),
+            senderType: { $ne: data.role }
         });
         return deleteNotification;
     }
@@ -207,14 +211,16 @@ let MessagesService = class MessagesService {
             {
                 $group: {
                     _id: "$studentsData._id",
-                    fullName: { $first: "$studentsData.fullName" }
+                    fullName: { $first: "$studentsData.fullName" },
+                    image: { $first: "$studentsData.image" },
                 }
             },
             {
                 $project: {
                     _id: 0,
                     id: "$_id",
-                    fullName: 1
+                    fullName: 1,
+                    image: 1
                 }
             }
         ]);
@@ -237,7 +243,8 @@ let MessagesService = class MessagesService {
         return chats;
     }
     async getNotifications(userId) {
-        let notifications = await this.notificationModel.find({
+        console.log(userId);
+        const notifications = await this.notificationModel.find({
             receiver: userId
         }).populate('sender', 'fullName');
         return notifications;

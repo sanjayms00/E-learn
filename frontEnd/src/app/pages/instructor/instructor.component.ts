@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
 import { Sidebar } from 'primeng/sidebar';
 import { AuthService } from '../../core/services/auth.service';
-import { MessageResponse } from '../../shared/interface/chat.interface';
+import { MessageDetailedResponse, MessageResponse } from '../../shared/interface/chat.interface';
 import { ChatService } from '../../shared/services/chat.service';
 import { getinstructorDataFromLocal } from '../../shared/store/actions/instructor.action';
 import { getInstructor } from '../../shared/store/selectors/instructor.selector';
@@ -20,7 +20,7 @@ export class InstructorComponent implements OnInit, DoCheck {
 
     items!: MenuItem[];
     instructorId: string = ''
-    notifications: MessageResponse[] = []
+    notifications: MessageDetailedResponse[] = []
     sidebarVisible: boolean = true;
     @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
@@ -46,7 +46,7 @@ export class InstructorComponent implements OnInit, DoCheck {
     ngDoCheck(): void {
         if (this.chatService.notification.length > 0) {
             this.notifications = this.chatService.notification.filter(notification => {
-                return notification.message && notification.message.receiver == this.instructorId;
+                return notification && notification.receiver == this.instructorId;
             })
         }
     }

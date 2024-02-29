@@ -33,7 +33,9 @@ let StudentCourseController = class StudentCourseController {
         return await this.studentCourseService.searchCourse(searchText);
     }
     async courseDetails(courseId) {
-        return await this.studentCourseService.courseDetails(courseId);
+        const courseData = await this.studentCourseService.courseDetails(courseId);
+        console.log(courseData);
+        return courseData;
     }
     async getInstructors() {
         return await this.studentCourseService.getInstructors();

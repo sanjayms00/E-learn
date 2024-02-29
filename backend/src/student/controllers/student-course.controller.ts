@@ -32,7 +32,9 @@ export class StudentCourseController {
 
     @Get('course-details/:id')
     async courseDetails(@Param('id') courseId: string) {
-        return await this.studentCourseService.courseDetails(courseId)
+        const courseData =  await this.studentCourseService.courseDetails(courseId)
+        console.log(courseData)
+        return courseData
     }
 
     @Get('instructors')

@@ -14,7 +14,8 @@ export class InstructorDashboardController {
     @Get('')
     async profieData(@Request() req) {
         const instructorId = req.user.id
-        return await this.dashboardService.dashboardData(instructorId)
+        const dashData = await this.dashboardService.dashboardData(instructorId)
+        return dashData
     }
 
 

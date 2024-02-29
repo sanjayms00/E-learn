@@ -51,17 +51,7 @@ export interface ChatRoomData {
 
 
 export interface MessageResponse {
-    message: {
-        sender: {
-            fullName: string,
-            _id: string
-        }
-        receiver: string
-        content: string;
-        senderType: string;
-        chatRoom: string;
-        createdAt: Date
-    }
+    message: MessageDetailedResponse
 }
 
 
@@ -69,4 +59,18 @@ export enum role {
     Student = "Student",
     Instructor = "Instructor"
 }
+
+export interface MessageDetailedResponse {
+    sender: {
+        fullName: string,
+        _id: string
+    }
+    receiver: string
+    content: string;
+    senderType: string;
+    chatRoom: string;
+    createdAt: Date
+}
+
+
 

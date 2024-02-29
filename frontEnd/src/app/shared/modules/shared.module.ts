@@ -12,7 +12,8 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 import { LoginComponent } from '../components/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
 import { TableComponent } from '../components/table/table.component';
-import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
     ChartModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    AutoCompleteModule,
   ],
   exports: [
     TruncatePipe,

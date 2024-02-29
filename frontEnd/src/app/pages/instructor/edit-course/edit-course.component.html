@@ -149,7 +149,9 @@
                         Thumbnail is required
                     </span>
                 </ng-container>
-                <img [src]="courseData.signedUrl" alt="thumbnail" #thumbnail>
+                <ng-container *ngIf="courseData">
+                    <img [src]="courseData.signedUrl" alt="thumbnail" #thumbnail>
+                </ng-container>
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

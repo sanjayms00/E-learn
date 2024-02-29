@@ -47,11 +47,11 @@ export class MessagesService {
 
     chat = await chat.populate({
       path: 'student',
-      select: 'fullName'
+      select: 'fullName image'
     })
     chat = await chat.populate({
       path: 'instructor',
-      select: 'fullName'
+      select: 'fullName image'
     })
 
     if (chat.messages.length > 0) {
@@ -93,14 +93,16 @@ export class MessagesService {
       {
         $group: {
           _id: "$instructorData._id",
-          fullName: { $first: "$instructorData.fullName" }
+          fullName: { $first: "$instructorData.fullName" },
+          image: { $first: "$instructorData.image" }
         }
       },
       {
         $project: {
           _id: 0,
           id: "$_id",
-          fullName: 1
+          fullName: 1,
+          image: 1
         }
       }
 
@@ -172,6 +174,8 @@ export class MessagesService {
 
   async addNotification(notification: CreateMessageDto) {
 
+    console.log(notification)
+
     const { content, senderType, chatRoom, sender, receiver } = notification
 
     const message = await this.notificationModel.create({
@@ -188,15 +192,16 @@ export class MessagesService {
 
     await message.populate('sender', "fullName")
 
-    return message 
+    return message
 
   }
 
-  
-  async deleteNotification(chatId: string) {
+
+  async deleteNotification(data: { chatId: string, role: string }) {
 
     const deleteNotification = await this.notificationModel.deleteMany({
-      chatRoom: new Types.ObjectId(chatId)
+      chatRoom: new Types.ObjectId(data.chatId),
+      senderType: { $ne: data.role }
     })
 
     return deleteNotification
@@ -256,14 +261,16 @@ export class MessagesService {
       {
         $group: {
           _id: "$studentsData._id",
-          fullName: { $first: "$studentsData.fullName" }
+          fullName: { $first: "$studentsData.fullName" },
+          image: { $first: "$studentsData.image" },
         }
       },
       {
         $project: {
           _id: 0,
           id: "$_id",
-          fullName: 1
+          fullName: 1,
+          image: 1
         }
       }
     ])
@@ -296,7 +303,9 @@ export class MessagesService {
 
   async getNotifications(userId: string) {
 
-    let notifications = await this.notificationModel.find(
+    console.log(userId)
+
+    const notifications = await this.notificationModel.find(
       {
         receiver: userId
       }
@@ -304,6 +313,5 @@ export class MessagesService {
 
     return notifications
   }
-
 
 }

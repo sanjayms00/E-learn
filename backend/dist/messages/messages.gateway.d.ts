@@ -44,10 +44,13 @@ export declare class MessagesGateway {
     createMessage(createMessageDto: CreateMessageDto, client: Socket): Promise<import("mongoose").Document<unknown, {}, import("./schema/message.schema").Message> & import("./schema/message.schema").Message & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    addNotification(message: any): Promise<import("mongoose").Document<unknown, {}, import("./schema/notification.schema").Notification> & import("./schema/notification.schema").Notification & {
+    addNotification(notification: any): Promise<import("mongoose").Document<unknown, {}, import("./schema/notification.schema").Notification> & import("./schema/notification.schema").Notification & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    deleteStudentNotification(chatId: any): Promise<import("mongodb").DeleteResult>;
+    deleteStudentNotification(data: {
+        chatId: string;
+        role: string;
+    }): Promise<import("mongodb").DeleteResult>;
     connection(userId: string, client: Socket): Promise<Omit<import("mongoose").Document<unknown, {}, import("./schema/notification.schema").Notification> & import("./schema/notification.schema").Notification & {
         _id: import("mongoose").Types.ObjectId;
     }, never>[]>;
