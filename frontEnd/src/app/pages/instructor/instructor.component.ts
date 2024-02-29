@@ -44,11 +44,7 @@ export class InstructorComponent implements OnInit, DoCheck {
 
 
     ngDoCheck(): void {
-        if (this.chatService.notification.length > 0) {
-            this.notifications = this.chatService.notification.filter(notification => {
-                return notification && notification.receiver == this.instructorId;
-            })
-        }
+        this.notifications = this.chatService.notification
     }
 
     //instructor logout

@@ -5,8 +5,7 @@ import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat-left',
-  templateUrl: './chat-left.component.html',
-  styleUrls: ['./chat-left.component.css']
+  templateUrl: './chat-left.component.html'
 })
 export class ChatLeftComponent {
 

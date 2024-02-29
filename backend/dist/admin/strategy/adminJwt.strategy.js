@@ -29,7 +29,6 @@ let adminJwtStrategy = class adminJwtStrategy extends (0, passport_1.PassportStr
     }
     async validate(payload) {
         const { id } = payload;
-        console.log("admin", payload);
         const user = await this.adminModel.findById(id);
         if (!user) {
             throw new common_1.UnauthorizedException('Access denied.');

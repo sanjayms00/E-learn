@@ -18,16 +18,12 @@ const message_schema_1 = require("./schema/message.schema");
 const mongoose_1 = require("@nestjs/mongoose");
 const chatRoom_schema_1 = require("./schema/chatRoom.schema");
 const mongoose_2 = require("mongoose");
-const instructor_schema_1 = require("../instructor/schema/instructor.schema");
-const student_schema_1 = require("../student/schema/student.schema");
 const course_schema_1 = require("../instructor/schema/course.schema");
 const notification_schema_1 = require("./schema/notification.schema");
 let MessagesService = class MessagesService {
-    constructor(chatRoomModel, messageModel, instructorModel, studentModel, courseModel, notificationModel) {
+    constructor(chatRoomModel, messageModel, courseModel, notificationModel) {
         this.chatRoomModel = chatRoomModel;
         this.messageModel = messageModel;
-        this.instructorModel = instructorModel;
-        this.studentModel = studentModel;
         this.courseModel = courseModel;
         this.notificationModel = notificationModel;
     }
@@ -147,7 +143,6 @@ let MessagesService = class MessagesService {
         }
     }
     async addNotification(notification) {
-        console.log(notification);
         const { content, senderType, chatRoom, sender, receiver } = notification;
         const message = await this.notificationModel.create({
             sender,
@@ -243,7 +238,6 @@ let MessagesService = class MessagesService {
         return chats;
     }
     async getNotifications(userId) {
-        console.log(userId);
         const notifications = await this.notificationModel.find({
             receiver: userId
         }).populate('sender', 'fullName');
@@ -255,13 +249,9 @@ exports.MessagesService = MessagesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(chatRoom_schema_1.ChatRoom.name)),
     __param(1, (0, mongoose_1.InjectModel)(message_schema_1.Message.name)),
-    __param(2, (0, mongoose_1.InjectModel)(instructor_schema_1.Instructor.name)),
-    __param(3, (0, mongoose_1.InjectModel)(student_schema_1.Student.name)),
-    __param(4, (0, mongoose_1.InjectModel)(course_schema_1.Course.name)),
-    __param(5, (0, mongoose_1.InjectModel)(notification_schema_1.Notification.name)),
+    __param(2, (0, mongoose_1.InjectModel)(course_schema_1.Course.name)),
+    __param(3, (0, mongoose_1.InjectModel)(notification_schema_1.Notification.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model,
-        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model])

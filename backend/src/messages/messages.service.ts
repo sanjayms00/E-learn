@@ -9,7 +9,6 @@ import { Student } from 'src/student/schema/student.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { accessChat } from 'src/common/interfaces/chat.interface';
 import { Notification } from './schema/notification.schema';
-import { notification } from 'src/common/interfaces/notification.interface';
 
 @Injectable()
 export class MessagesService {
@@ -17,8 +16,6 @@ export class MessagesService {
   constructor(
     @InjectModel(ChatRoom.name) private chatRoomModel: Model<ChatRoom>,
     @InjectModel(Message.name) private messageModel: Model<Message>,
-    @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
-    @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Course.name) private courseModel: Model<Course>,
     @InjectModel(Notification.name) private notificationModel: Model<Notification>,
   ) { }
@@ -174,8 +171,6 @@ export class MessagesService {
 
   async addNotification(notification: CreateMessageDto) {
 
-    console.log(notification)
-
     const { content, senderType, chatRoom, sender, receiver } = notification
 
     const message = await this.notificationModel.create({
@@ -302,8 +297,6 @@ export class MessagesService {
 
 
   async getNotifications(userId: string) {
-
-    console.log(userId)
 
     const notifications = await this.notificationModel.find(
       {

@@ -28,8 +28,7 @@
                             [src]="item.instructor.image ? item.instructor.image : noProfile " alt="username" />
                     </ng-container>
                     <ng-template #elseProfileBlock>
-                        <img class="object-cover w-10 h-10 rounded-full"
-                            [src]="item.student.image ? item.student.image : noProfile " alt="username" />
+                        <img class="object-cover w-10 h-10 rounded-full" [src]="noProfile " alt="username" />
                     </ng-template>
 
                     <div class="w-full pb-2">
@@ -51,7 +50,6 @@
                                 {{ getUnreadNotificationCount(item._id) }}
                             </span>
                         </div>
-                        <!-- <span class="block ml-2 text-sm text-gray-600">bye</span> -->
                         <ng-template></ng-template>
                     </div>
                 </a>

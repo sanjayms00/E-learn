@@ -53,7 +53,6 @@ let InstructorMiddleware = class InstructorMiddleware {
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET_INSTRUCTOR);
                 const instructorId = new mongoose_2.Types.ObjectId(decodedToken.id);
                 const blockedStudent = await this.instructorModel.findOne({ _id: instructorId, status: true });
-                console.log("instructor middleware");
                 if (!blockedStudent) {
                     return res.status(401).json({ message: 'Unauthorized, user is blocked' });
                 }

@@ -26,19 +26,15 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { Message } from './schema/message.schema';
 import { ChatRoom } from './schema/chatRoom.schema';
 import { Model, Types } from 'mongoose';
-import { Instructor } from 'src/instructor/schema/instructor.schema';
-import { Student } from 'src/student/schema/student.schema';
 import { Course } from 'src/instructor/schema/course.schema';
 import { accessChat } from 'src/common/interfaces/chat.interface';
 import { Notification } from './schema/notification.schema';
 export declare class MessagesService {
     private chatRoomModel;
     private messageModel;
-    private instructorModel;
-    private studentModel;
     private courseModel;
     private notificationModel;
-    constructor(chatRoomModel: Model<ChatRoom>, messageModel: Model<Message>, instructorModel: Model<Instructor>, studentModel: Model<Student>, courseModel: Model<Course>, notificationModel: Model<Notification>);
+    constructor(chatRoomModel: Model<ChatRoom>, messageModel: Model<Message>, courseModel: Model<Course>, notificationModel: Model<Notification>);
     accessChat(data: accessChat): Promise<import("mongoose").Document<unknown, {}, ChatRoom> & ChatRoom & {
         _id: Types.ObjectId;
     }>;

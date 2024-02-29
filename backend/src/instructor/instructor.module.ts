@@ -11,7 +11,6 @@ import { CourseService } from './services/course.service';
 import { courseSchema } from './schema/course.schema';
 import { InstructorJwtAuthGuard } from './guard/instructor.guard';
 import { VideoSchema } from './schema/video.schema';
-// import { SignedUrlService } from 'src/common/service/signed-url.service';
 import { InstructorProfileController } from './controllers/instructor-profile.controller';
 import { InstructorProfileService } from './services/instructor-profile.service';
 import { InstructorMiddleware } from './middlewares/instructor.middleware';

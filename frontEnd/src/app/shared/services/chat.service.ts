@@ -33,7 +33,7 @@ export class ChatService {
                 return
             }
 
-            this.UploadNotification(response)
+            this.uploadNotification(response)
 
         });
     }
@@ -57,15 +57,14 @@ export class ChatService {
     }
 
     removeNotification(chatId: string, senderType: string) {
-        //remove db notification
+        
         this.socket.emit('removeNotification', { chatId, senderType });
 
         this.notification = this.notification.filter(notification => notification.chatRoom !== chatId);
 
-        console.log(this.notification)
     }
 
-    UploadNotification(notification: MessageDetailedResponse) {
+    uploadNotification(notification: MessageDetailedResponse) {
         this.socket.emit("addNotification", notification, (response: MessageDetailedResponse) => {
             this.notification.push(response)
         })

@@ -6,10 +6,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: [
-      'https://sanjayms.online/',
-      'https://www.sanjayms.online/'
-    ],
+    origin: "*",
   }
 })
 export class MessagesGateway {
@@ -59,8 +56,6 @@ export class MessagesGateway {
 
     client.to(room).emit("message", messageData)
 
-    // this.messagesService.addNotification(createMessageDto);
-
     client.to(messageData.receiver.toString()).emit("notification", messageData)
 
     return messageData
@@ -89,8 +84,6 @@ export class MessagesGateway {
     //get notifications
     const notifications = await this.messagesService.getNotifications(userId)
 
-    // client.emit("notification", { message: notifications });
-
     return notifications
 
   }
@@ -105,7 +98,6 @@ export class MessagesGateway {
 
     if (!studentId) throw new UnauthorizedException("student id not found")
 
-    // return await this.messagesService.findAllInstructors(studentId);
   }
 
 
