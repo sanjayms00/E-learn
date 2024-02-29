@@ -60,6 +60,10 @@ __decorate([
     __metadata("design:type", String)
 ], Course.prototype, "content", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Course.prototype, "signedUrl", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Videos' }] }),
     __metadata("design:type", Array)
 ], Course.prototype, "videos", void 0);

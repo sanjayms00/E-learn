@@ -48,7 +48,9 @@ export declare class InstructorCourseController {
     getInstructorCourse(req: any): Promise<(import("mongoose").Document<unknown, {}, import("../schema/course.schema").Course> & import("../schema/course.schema").Course & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    editCourse(id: string): Promise<any>;
+    editCourse(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schema/course.schema").Course> & import("../schema/course.schema").Course & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     editCourseContent(id: string): Promise<any[]>;
     deleteCourse(courseId: string, req: any): Promise<(import("mongoose").Document<unknown, {}, import("../schema/course.schema").Course> & import("../schema/course.schema").Course & {
         _id: import("mongoose").Types.ObjectId;

@@ -53,7 +53,9 @@ export declare class CourseService {
     getInstructorCourse(instructorId: string): Promise<(import("mongoose").Document<unknown, {}, Course> & Course & {
         _id: Types.ObjectId;
     })[]>;
-    editCourse(id: string): Promise<any>;
+    editCourse(id: string): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {
+        _id: Types.ObjectId;
+    }>;
     editCourseContent(id: string): Promise<any[]>;
     deleteCourse(courseId: string, instructorId: string): Promise<(import("mongoose").Document<unknown, {}, Course> & Course & {
         _id: Types.ObjectId;

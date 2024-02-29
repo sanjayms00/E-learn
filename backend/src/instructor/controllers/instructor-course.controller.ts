@@ -51,8 +51,8 @@ export class InstructorCourseController {
     @Post('update-single-chapter')
     @UseInterceptors(FilesInterceptor('files'))
     async updateSingleChapter(
-        @UploadedFiles() files, 
-        @Body() formData: CourseData, 
+        @UploadedFiles() files,
+        @Body() formData: CourseData,
         @Request() req
     ) {
         const instructorId = req.user.id

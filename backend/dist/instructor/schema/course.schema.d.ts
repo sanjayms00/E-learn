@@ -35,6 +35,7 @@ export declare class Course extends Document {
     instructorId: Types.ObjectId;
     courseTags: string;
     content: string;
+    signedUrl: string;
     videos: Types.ObjectId[];
     courseLevel: string[];
     reviews: {

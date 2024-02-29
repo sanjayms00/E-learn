@@ -340,50 +340,11 @@ let CourseService = class CourseService {
     async editCourse(id) {
         const courseId = new mongoose_1.Types.ObjectId(id);
         try {
-            const course = await this.courseModel.aggregate([
-                {
-                    $match: {
-                        _id: courseId
-                    }
-                },
-                {
-                    $unwind: '$videos'
-                },
-                {
-                    $lookup: {
-                        from: 'videos',
-                        localField: "videos",
-                        foreignField: "_id",
-                        as: "videoData"
-                    }
-                },
-                {
-                    $unwind: '$videoData',
-                },
-                {
-                    $group: {
-                        _id: '$_id',
-                        courseName: { $first: '$courseName' },
-                        description: { $first: '$description' },
-                        price: { $first: '$price' },
-                        categoryId: { $first: '$categoryId' },
-                        content: { $first: '$content' },
-                        thumbnail: { $first: '$thumbnail' },
-                        trailer: { $first: '$trailer' },
-                        instructorId: { $first: '$instructorId' },
-                        courseTags: { $first: '$courseTags' },
-                        courseLevel: { $first: '$courseLevel' },
-                        videos: { $push: '$videoData' },
-                    }
-                }
-            ]);
-            if (course.length < 1)
+            const course = await this.courseModel.findOne({ _id: courseId });
+            if (!course)
                 throw new common_1.NotFoundException("Course not found");
-            const courseWithPreSignedUrls = await Promise.all(course.map(async (item) => {
-                item.signedUrl = await this.signedUrlService.generateSignedUrl(item.thumbnail);
-                return item;
-            }));
-            return courseWithPreSignedUrls[0];
+            course.signedUrl = await this.signedUrlService.generateSignedUrl(course.thumbnail);
+            return course;
         }
         catch (error) {
             throw new Error(error);
@@ -392,58 +353,65 @@ let CourseService = class CourseService {
     async editCourseContent(id) {
         try {
             const courseId = new mongoose_1.Types.ObjectId(id);
-            const course = await this.courseModel.aggregate([
-                {
-                    $match: {
-                        _id: courseId
+            const course = await this.courseModel.findById(courseId);
+            if (!course) {
+                throw new common_1.NotFoundException("Course not found");
+            }
+            if (course.videos && course.videos.length > 0) {
+                const course = await this.courseModel.aggregate([
+                    {
+                        $match: {
+                            _id: courseId
+                        }
+                    },
+                    {
+                        $unwind: '$videos'
+                    },
+                    {
+                        $lookup: {
+                            from: 'videos',
+                            localField: "videos",
+                            foreignField: "_id",
+                            as: "videoData"
+                        }
+                    },
+                    {
+                        $unwind: '$videoData',
+                    },
+                    {
+                        $group: {
+                            _id: '$_id',
+                            courseName: { $first: '$courseName' },
+                            description: { $first: '$description' },
+                            price: { $first: '$price' },
+                            categoryId: { $first: '$categoryId' },
+                            thumbnail: { $first: '$thumbnail' },
+                            instructorId: { $first: '$instructorId' },
+                            courseTags: { $first: '$courseTags' },
+                            courseLevel: { $first: '$courseLevel' },
+                            videos: { $push: '$videoData' },
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 1,
+                            courseName: 1,
+                            description: 1,
+                            price: 1,
+                            categoryId: 1,
+                            thumbnail: 1,
+                            instructorId: 1,
+                            courseTags: 1,
+                            courseLevel: 1,
+                            videos: '$videos'
+                        }
                     }
-                },
-                {
-                    $unwind: '$videos'
-                },
-                {
-                    $lookup: {
-                        from: 'videos',
-                        localField: "videos",
-                        foreignField: "_id",
-                        as: "videoData"
-                    }
-                },
-                {
-                    $unwind: '$videoData',
-                },
-                {
-                    $group: {
-                        _id: '$_id',
-                        courseName: { $first: '$courseName' },
-                        description: { $first: '$description' },
-                        price: { $first: '$price' },
-                        categoryId: { $first: '$categoryId' },
-                        thumbnail: { $first: '$thumbnail' },
-                        instructorId: { $first: '$instructorId' },
-                        courseTags: { $first: '$courseTags' },
-                        courseLevel: { $first: '$courseLevel' },
-                        videos: { $push: '$videoData' },
-                    }
-                },
-                {
-                    $project: {
-                        _id: 1,
-                        courseName: 1,
-                        description: 1,
-                        price: 1,
-                        categoryId: 1,
-                        thumbnail: 1,
-                        instructorId: 1,
-                        courseTags: 1,
-                        courseLevel: 1,
-                        videos: '$videos'
-                    }
-                }
-            ]);
-            if (course.length < 1)
-                throw new common_1.NotFoundException("No data found");
-            return course;
+                ]);
+                return course;
+            }
+            else {
+                return [course];
+            }
         }
         catch (error) {
             throw new Error(error);

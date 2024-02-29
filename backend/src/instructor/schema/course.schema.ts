@@ -46,6 +46,9 @@ export class Course extends Document {
   @Prop()
   content: string;
 
+  @Prop()
+  signedUrl: string;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Videos' }] })
   videos: Types.ObjectId[];
 
