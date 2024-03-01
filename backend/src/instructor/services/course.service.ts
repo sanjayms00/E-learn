@@ -129,57 +129,58 @@ export class CourseService {
             const fields = JSON.parse(otherData.fields)
 
             //upload videos
-            const uploadedVideos = await Promise.all(
-                videoFiles.map(async (videoFile, index) => {
-                    const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+            if (videoFiles.length > 0) {
+                const uploadedVideos = await Promise.all(
+                    videoFiles.map(async (videoFile, index) => {
+                        const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-                    const videoName = videoKey()
+                        const videoName = videoKey()
 
-                    // const compressedVideoBuffer = await this.compressVideo(videoFile.buffer)
+                        // const compressedVideoBuffer = await this.compressVideo(videoFile.buffer)
 
-                    const videoParams = {
-                        Bucket: process.env.BUCKET_NAME,
-                        Key: videoName,
-                        Body: videoFile.buffer,
-                        ContentType: videoFile.mimetype
-                    };
+                        const videoParams = {
+                            Bucket: process.env.BUCKET_NAME,
+                            Key: videoName,
+                            Body: videoFile.buffer,
+                            ContentType: videoFile.mimetype
+                        };
 
-                    const videoResult = await this.s3Client.send(
-                        new PutObjectCommand(videoParams)
-                    )
+                        const videoResult = await this.s3Client.send(
+                            new PutObjectCommand(videoParams)
+                        )
 
-                    if (!videoResult) throw new Error("unable to upload the video")
+                        if (!videoResult) throw new Error("unable to upload the video")
 
-                    const saveVideo = await this.videoModel.create({
-                        instructorId: instructorObjectId,
-                        index: index,
-                        title: fields[index].videoTitle,
-                        description: fields[index].videoDescription,
-                        file: videoName,
-                        courseId: course._id
-                    });
+                        const saveVideo = await this.videoModel.create({
+                            instructorId: instructorObjectId,
+                            index: index,
+                            title: fields[index].videoTitle,
+                            description: fields[index].videoDescription,
+                            file: videoName,
+                            courseId: course._id
+                        });
 
-                    if (!saveVideo) return new Error("Unable to save video");
+                        if (!saveVideo) return new Error("Unable to save video");
 
-                    const updateCourse = await this.courseModel.updateOne(
-                        { _id: course._id },
-                        {
-                            $push: { videos: saveVideo._id }
-                        }
-                    );
+                        const updateCourse = await this.courseModel.updateOne(
+                            { _id: course._id },
+                            {
+                                $push: { videos: saveVideo._id }
+                            }
+                        );
 
-                    if (!updateCourse) throw new Error("Video saving to course failed")
+                        if (!updateCourse) throw new Error("Video saving to course failed")
 
-                    return true
-                })
-            );
+                        return true
+                    })
+                );
 
-            if (!uploadedVideos) return new Error("upload failed")
-
+                if (!uploadedVideos) return new Error("upload failed")
+            }
             return { status: "success", message: "Course created successfully" };
+            
         } catch (error) {
-
-            throw error;
+            throw new Error(error);
         }
     }
 

@@ -113,41 +113,43 @@ let CourseService = class CourseService {
             if (!course)
                 throw new Error("Unable to create the course");
             const fields = JSON.parse(otherData.fields);
-            const uploadedVideos = await Promise.all(videoFiles.map(async (videoFile, index) => {
-                const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
-                const videoName = videoKey();
-                const videoParams = {
-                    Bucket: process.env.BUCKET_NAME,
-                    Key: videoName,
-                    Body: videoFile.buffer,
-                    ContentType: videoFile.mimetype
-                };
-                const videoResult = await this.s3Client.send(new client_s3_1.PutObjectCommand(videoParams));
-                if (!videoResult)
-                    throw new Error("unable to upload the video");
-                const saveVideo = await this.videoModel.create({
-                    instructorId: instructorObjectId,
-                    index: index,
-                    title: fields[index].videoTitle,
-                    description: fields[index].videoDescription,
-                    file: videoName,
-                    courseId: course._id
-                });
-                if (!saveVideo)
-                    return new Error("Unable to save video");
-                const updateCourse = await this.courseModel.updateOne({ _id: course._id }, {
-                    $push: { videos: saveVideo._id }
-                });
-                if (!updateCourse)
-                    throw new Error("Video saving to course failed");
-                return true;
-            }));
-            if (!uploadedVideos)
-                return new Error("upload failed");
+            if (videoFiles.length > 0) {
+                const uploadedVideos = await Promise.all(videoFiles.map(async (videoFile, index) => {
+                    const videoKey = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
+                    const videoName = videoKey();
+                    const videoParams = {
+                        Bucket: process.env.BUCKET_NAME,
+                        Key: videoName,
+                        Body: videoFile.buffer,
+                        ContentType: videoFile.mimetype
+                    };
+                    const videoResult = await this.s3Client.send(new client_s3_1.PutObjectCommand(videoParams));
+                    if (!videoResult)
+                        throw new Error("unable to upload the video");
+                    const saveVideo = await this.videoModel.create({
+                        instructorId: instructorObjectId,
+                        index: index,
+                        title: fields[index].videoTitle,
+                        description: fields[index].videoDescription,
+                        file: videoName,
+                        courseId: course._id
+                    });
+                    if (!saveVideo)
+                        return new Error("Unable to save video");
+                    const updateCourse = await this.courseModel.updateOne({ _id: course._id }, {
+                        $push: { videos: saveVideo._id }
+                    });
+                    if (!updateCourse)
+                        throw new Error("Video saving to course failed");
+                    return true;
+                }));
+                if (!uploadedVideos)
+                    return new Error("upload failed");
+            }
             return { status: "success", message: "Course created successfully" };
         }
         catch (error) {
-            throw error;
+            throw new Error(error);
         }
     }
     async updateCourseInformation(files, trailer, otherData, instructorId) {
