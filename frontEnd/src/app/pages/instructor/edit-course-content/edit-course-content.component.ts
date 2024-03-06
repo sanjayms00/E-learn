@@ -220,6 +220,9 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
           fieldGroup.get('files')?.patchValue(file);
         } else {
           this.toastr.error("The video format is not supported")
+          const fieldsArray = this.course.get('fields') as FormArray;
+          const fieldGroup = fieldsArray.at(index) as FormGroup;
+          fieldGroup.get('files')?.patchValue(null);
         }
       }
     }
