@@ -24,6 +24,7 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   profileSubscription !: Subscription
   profileImageSubscription !: Subscription
   visible = false
+  imageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   profileForm!: FormGroup
   imageChangedEvent: any = '';
   croppedImage!: any
@@ -144,7 +145,17 @@ export class StudentInfoComponent implements OnInit, OnDestroy {
   }
 
   fileChangeEvent(event: any): void {
+
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0];
+    if (!this.imageTypes.find(item => item === file.type)) {
+      this.toastr.error("File not supported")
+      return
+    }
+
+
     this.imageChangedEvent = event;
+
   }
 
   imageCropped(event: ImageCroppedEvent) {

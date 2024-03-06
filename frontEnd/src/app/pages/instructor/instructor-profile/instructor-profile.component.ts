@@ -24,6 +24,7 @@ export class InstructorProfileComponent implements OnInit {
   profile !: instructorInterface
   profileSubscription !: Subscription
   profileImageSubscription !: Subscription
+  imageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   visible = false
   profileForm!: FormGroup
   imageChangedEvent: any = '';
@@ -157,6 +158,14 @@ export class InstructorProfileComponent implements OnInit {
 
 
   fileChangeEvent(event: any): void {
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0];
+    if (!this.imageTypes.find(item => item === file.type)) {
+      this.toastr.error("File not supported")
+      return
+    }
+
+
     this.imageChangedEvent = event;
   }
 
