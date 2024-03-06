@@ -55,7 +55,8 @@
                 <!-- coursePrice start -->
                 <div class="my-8">
                     <span class="p-float-label">
-                        <input pInputText formControlName="coursePrice" style="width: 100%" appNumeric />
+                        <input type="number" pInputText formControlName="coursePrice" style="width: 100%" appNumeric
+                            min="1" max="9999" required />
                         <label for="coursePrice">Course price</label>
                     </span>
                     <ng-container
@@ -145,7 +146,7 @@
                 <input
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     aria-describedby="file_input_help" id="file_input" type="file" formControlName="files"
-                    (change)="onFileSelected($event)">
+                    (change)="onFileSelected($event)" accept="image/png, image/jpeg, image/jpg">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG only</p>
 
                 <ng-container
@@ -161,7 +162,7 @@
                 <input
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     aria-describedby="file_input_help" id="file_input" type="file" formControlName="trailer"
-                    (change)="onTrailerSelected($event)">
+                    (change)="onTrailerSelected($event)" accept="video/mp4">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">mp4 only</p>
                 <ng-container
                     *ngIf="course.controls['trailer'].touched && course.controls['trailer'].errors as trailerErrors">
@@ -206,7 +207,7 @@
                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                             upload*</label>
                         <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm"
-                            formControlName="files" />
+                            formControlName="files" accept="video/mp4" />
                         <div *ngIf="getFieldError(i, 'files')" class="text-red-600 font-medium">
                             {{ getFieldError(i, 'files') }}
                         </div>
@@ -236,11 +237,7 @@
                 </div>
             </div>
         </div>
-
-
     </form>
-
-
 </section>
 
 
@@ -248,3 +245,9 @@
 <ng-container *ngIf="submit">
     <app-spinner></app-spinner>
 </ng-container>
+
+
+<!-- {{ course.valid | json }}
+<pre>
+    {{ course.value | json }}
+</pre> -->

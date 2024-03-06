@@ -19,6 +19,7 @@ import { InstructorDashboardService } from './services/instructor-dashboard.serv
 import { SharpModule, SharpService } from 'nestjs-sharp';
 import { SignedUrlService } from 'src/common/service/signed-url.service';
 import { UploadService } from 'src/common/service/upload.service';
+import { studentSchema } from 'src/student/schema/student.schema';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UploadService } from 'src/common/service/upload.service';
     MongooseModule.forFeature([{ name: 'Instructor', schema: instructorSchema }]),
     MongooseModule.forFeature([{ name: 'Course', schema: courseSchema }]),
     MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
+    MongooseModule.forFeature([{ name: 'Student', schema: studentSchema }]),
     SharpModule
   ],
   controllers: [

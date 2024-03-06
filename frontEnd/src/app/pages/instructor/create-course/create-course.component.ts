@@ -116,9 +116,11 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
           const fieldsArray = this.course.get('fields') as FormArray;
           const fieldGroup = fieldsArray.at(index) as FormGroup;
           fieldGroup.get('files')?.patchValue(file);
-        }
-        else {
-          this.toastr.error("File not supported")
+        } else {
+          this.toastr.error("The video format is not supported")
+          const fieldsArray = this.course.get('fields') as FormArray;
+          const fieldGroup = fieldsArray.at(index) as FormGroup;
+          fieldGroup.get('files')?.patchValue(null);
         }
       }
     }
@@ -137,6 +139,7 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
       this.formData.append('files', file);
     } else {
       this.toastr.error("File not supported")
+      this.course.get('files')?.patchValue(null)
     }
   }
 
@@ -148,6 +151,7 @@ export class CreateCourseComponent implements OnInit, IDeactivateComponent {
       this.formData.append('trailer', file);
     } else {
       this.toastr.error("File not supported")
+      this.course.get('trailer')?.patchValue(null)
     }
   }
 

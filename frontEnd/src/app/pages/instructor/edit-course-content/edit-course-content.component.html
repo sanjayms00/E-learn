@@ -96,7 +96,7 @@
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Video
                                 upload*</label>
                             <input type="file" #fileInput (change)="onFileChange($event, i)" class="form-input text-sm"
-                                formControlName="files" />
+                                accept="video/mp4" />
                             <div *ngIf="getFieldError(i, 'files')" class="text-red-600 font-medium">
                                 {{ getFieldError(i, 'files') }}
                             </div>

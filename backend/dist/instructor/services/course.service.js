@@ -48,11 +48,12 @@ const crypto = __importStar(require("crypto"));
 const nestjs_sharp_1 = require("nestjs-sharp");
 const signed_url_service_1 = require("../../common/service/signed-url.service");
 let CourseService = class CourseService {
-    constructor(instructorModel, configService, courseModel, videoModel, sharpService, signedUrlService) {
+    constructor(instructorModel, configService, courseModel, videoModel, studentModel, sharpService, signedUrlService) {
         this.instructorModel = instructorModel;
         this.configService = configService;
         this.courseModel = courseModel;
         this.videoModel = videoModel;
+        this.studentModel = studentModel;
         this.sharpService = sharpService;
         this.signedUrlService = signedUrlService;
         this.s3Client = new client_s3_1.S3Client({
@@ -464,9 +465,9 @@ let CourseService = class CourseService {
             const deleteFromS3 = await this.s3Client.send(new client_s3_1.DeleteObjectCommand(videoParams));
             if (!deleteFromS3)
                 throw new Error('Unable to delete the video');
-            const courserObjId = new mongoose_1.Types.ObjectId(findVideo.courseId);
+            const courseObjId = new mongoose_1.Types.ObjectId(findVideo.courseId);
             const deleteVideo = await this.videoModel.deleteOne({ _id: videoObjId });
-            const deleteVideoFromCourse = await this.courseModel.updateOne({ _id: courserObjId }, {
+            const deleteVideoFromCourse = await this.courseModel.updateOne({ _id: courseObjId }, {
                 $pull: {
                     videos: videoObjId
                 }
@@ -490,8 +491,10 @@ exports.CourseService = CourseService = __decorate([
     __param(0, (0, mongoose_2.InjectModel)(instructor_schema_1.Instructor.name)),
     __param(2, (0, mongoose_2.InjectModel)(course_schema_1.Course.name)),
     __param(3, (0, mongoose_2.InjectModel)(video_schema_1.Video.name)),
+    __param(4, (0, mongoose_2.InjectModel)(video_schema_1.Video.name)),
     __metadata("design:paramtypes", [mongoose_1.Model,
         config_1.ConfigService,
+        mongoose_1.Model,
         mongoose_1.Model,
         mongoose_1.Model,
         nestjs_sharp_1.SharpService,

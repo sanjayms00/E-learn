@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Model, Types } from 'mongoose';
 import { Instructor } from 'src/instructor/schema/instructor.schema';
@@ -9,6 +9,8 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client
 import * as crypto from 'crypto';
 import { SharpService } from 'nestjs-sharp';
 import { SignedUrlService } from 'src/common/service/signed-url.service';
+import { Student } from 'src/student/schema/student.schema';
+import { types } from 'util';
 
 @Injectable()
 export class CourseService {
@@ -20,6 +22,7 @@ export class CourseService {
         private readonly configService: ConfigService,
         @InjectModel(Course.name) private courseModel: Model<Course>,
         @InjectModel(Video.name) private videoModel: Model<Video>,
+        @InjectModel(Video.name) private studentModel: Model<Student>,
         private sharpService: SharpService,
         private signedUrlService: SignedUrlService
     ) {
@@ -178,7 +181,7 @@ export class CourseService {
                 if (!uploadedVideos) return new Error("upload failed")
             }
             return { status: "success", message: "Course created successfully" };
-            
+
         } catch (error) {
             throw new Error(error);
         }
@@ -603,6 +606,7 @@ export class CourseService {
             if (!videoId) throw new Error('Id is not present')
 
             const videoObjId = new Types.ObjectId(videoId)
+
             //find video
             const findVideo = await this.videoModel.findOne({ _id: videoObjId })
 
@@ -617,12 +621,12 @@ export class CourseService {
 
             if (!deleteFromS3) throw new Error('Unable to delete the video')
 
-            const courserObjId = new Types.ObjectId(findVideo.courseId)
+            const courseObjId = new Types.ObjectId(findVideo.courseId)
 
             const deleteVideo = await this.videoModel.deleteOne({ _id: videoObjId })
 
             const deleteVideoFromCourse = await this.courseModel.updateOne(
-                { _id: courserObjId },
+                { _id: courseObjId },
                 {
                     $pull: {
                         videos: videoObjId
@@ -633,6 +637,18 @@ export class CourseService {
             const result = Promise.all([deleteVideo, deleteVideoFromCourse])
 
             if (!result) throw new Error('issue deleting the video')
+
+            //remove the video id from  watched
+            // const removeWatchedVideos = await this.studentModel.updateMany(
+            //     {
+            //         "courses.courseId": courseObjId
+            //     },
+            //     {
+            //         $pull: { 'courses.$[].watched': videoObjId }
+            //     }
+            // )
+
+            // console.log(removeWatchedVideos)
 
             const instructorCourseContentData = await this.editCourseContent(String(findVideo.courseId))
 

@@ -32,7 +32,7 @@ import { ChatService } from './shared/services/chat.service';
   declarations: [
     AppComponent,
     NotFoundComponent,
-    WelcomeComponent
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

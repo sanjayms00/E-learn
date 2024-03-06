@@ -28,6 +28,7 @@ const instructor_dashboard_service_1 = require("./services/instructor-dashboard.
 const nestjs_sharp_1 = require("nestjs-sharp");
 const signed_url_service_1 = require("../common/service/signed-url.service");
 const upload_service_1 = require("../common/service/upload.service");
+const student_schema_1 = require("../student/schema/student.schema");
 let InstructorModule = class InstructorModule {
     configure(consumer) {
         consumer
@@ -49,6 +50,7 @@ exports.InstructorModule = InstructorModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: 'Instructor', schema: instructor_schema_1.instructorSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: 'Course', schema: course_schema_1.courseSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: 'Video', schema: video_schema_1.VideoSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: 'Student', schema: student_schema_1.studentSchema }]),
             nestjs_sharp_1.SharpModule
         ],
         controllers: [

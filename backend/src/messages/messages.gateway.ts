@@ -10,6 +10,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
       'https://sanjayms.online/',
       'https://www.sanjayms.online/'
     ],
+    // origin: "*"
   }
 })
 export class MessagesGateway {

@@ -1,5 +1,5 @@
 import { Component, DestroyRef, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChapterInterface } from '../../../shared/interface/common.interface';
@@ -19,6 +19,7 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
 
   visible: boolean = false;
   position: any = 'center';
+  videoTypes = ['video/mp4'];
   data: ChapterInterface = {
     videoId: '',
     title: '',
@@ -154,6 +155,8 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
             this.toastr.error(err.message)
           }
         })
+    } else {
+      this.toastr.error("All chapters need to be filled")
     }
   }
 
@@ -208,11 +211,16 @@ export class EditCourseContentComponent implements OnInit, IDeactivateComponent 
     const fileInput = event.target as HTMLInputElement;
     if (fileInput) {
       const file = fileInput.files?.[0];
+
       if (file) {
-        this.formData.append('files', file);
-        const fieldsArray = this.course.get('fields') as FormArray;
-        const fieldGroup = fieldsArray.at(index) as FormGroup;
-        fieldGroup.get('files')?.patchValue(file);
+        if (this.videoTypes.find(item => item === file.type)) {
+          this.formData.append('files', file);
+          const fieldsArray = this.course.get('fields') as FormArray;
+          const fieldGroup = fieldsArray.at(index) as FormGroup;
+          fieldGroup.get('files')?.patchValue(file);
+        } else {
+          this.toastr.error("The video format is not supported")
+        }
       }
     }
 

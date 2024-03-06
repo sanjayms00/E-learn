@@ -30,15 +30,17 @@ import { Course } from 'src/instructor/schema/course.schema';
 import { Video } from 'src/instructor/schema/video.schema';
 import { SharpService } from 'nestjs-sharp';
 import { SignedUrlService } from 'src/common/service/signed-url.service';
+import { Student } from 'src/student/schema/student.schema';
 export declare class CourseService {
     private instructorModel;
     private readonly configService;
     private courseModel;
     private videoModel;
+    private studentModel;
     private sharpService;
     private signedUrlService;
     private s3Client;
-    constructor(instructorModel: Model<Instructor>, configService: ConfigService, courseModel: Model<Course>, videoModel: Model<Video>, sharpService: SharpService, signedUrlService: SignedUrlService);
+    constructor(instructorModel: Model<Instructor>, configService: ConfigService, courseModel: Model<Course>, videoModel: Model<Video>, studentModel: Model<Student>, sharpService: SharpService, signedUrlService: SignedUrlService);
     compressImage(inputBuffer: Buffer): Promise<Buffer>;
     uploadCourse(files: any, trailer: any, otherData: any, instructorId: any): Promise<Error | {
         status: string;

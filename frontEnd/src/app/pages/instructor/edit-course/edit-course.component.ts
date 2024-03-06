@@ -169,6 +169,7 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
       reader.readAsDataURL(file);
     } else {
       this.toastr.error("File not supported")
+      this.course.get('files')?.patchValue(null)
     }
   }
 
@@ -180,6 +181,7 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
       this.formData.append('trailer', file);
     } else {
       this.toastr.error("File not supported")
+      this.course.get('trailer')?.patchValue(null)
     }
   }
 

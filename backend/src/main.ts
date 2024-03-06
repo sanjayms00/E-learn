@@ -16,6 +16,7 @@ async function bootstrap() {
       'https://sanjayms.online/',
       'https://www.sanjayms.online/'
     ],
+    // origin: "*",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
