@@ -8,6 +8,9 @@ import { CategoryService } from '../../../core/services/admin/category.service';
 import { IDeactivateComponent } from '../../../shared/guards/form-leave.guard';
 import { categoryInterface, instructorCourse } from '../../../shared/interface/common.interface';
 import { CourseFormService } from '../../../shared/services/course-form.service';
+import { noSpaceAllowed } from 'src/app/shared/validators/noSpace.validator';
+
+
 
 @Component({
   selector: 'app-edit-course',
@@ -41,9 +44,9 @@ export class EditCourseComponent implements OnInit, IDeactivateComponent {
   ) {
 
     this.course = this.fb.group({
-      courseName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]],
-      courseDescription: [null, [Validators.required, Validators.maxLength(1000), Validators.minLength(100)]],
-      content: ['', Validators.required],
+      courseName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(10), noSpaceAllowed]],
+      courseDescription: [null, [Validators.required, Validators.maxLength(1000), Validators.minLength(100), noSpaceAllowed]],
+      content: ['', Validators.required, noSpaceAllowed],
       courseCategory: ['', Validators.required],
       coursePrice: [null, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(2), Validators.maxLength(4)]],
       courseTags: [null, [Validators.required, Validators.maxLength(100)]],

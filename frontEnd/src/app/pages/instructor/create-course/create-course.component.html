@@ -16,6 +16,9 @@
                 <span *ngIf="courseNameErrors['required']" class="text-red-600 font-medium">
                     Course name is required
                 </span>
+                <span *ngIf="courseNameErrors['noSpaceAllowed']" class="text-red-600 font-medium">
+                    Course name is required
+                </span>
                 <span *ngIf="courseNameErrors['maxlength']" class="text-red-600 font-medium">
                     Maximum 100 characters are allowed
                 </span>
@@ -40,6 +43,9 @@
                     <ng-container
                         *ngIf="course.controls['courseDescription'].touched && course.controls['courseDescription'].errors as courseDescriptionErrors">
                         <span *ngIf="courseDescriptionErrors['required']" class="text-red-600 font-medium">
+                            Course Description is required
+                        </span>
+                        <span *ngIf="courseDescriptionErrors['noSpaceAllowed']" class="text-red-600 font-medium">
                             Course Description is required
                         </span>
                         <span *ngIf="courseDescriptionErrors['maxlength']" class="text-red-600 font-medium">
@@ -91,6 +97,9 @@
                 <ng-container
                     *ngIf="course.controls['content'].touched && course.controls['content'].errors as contentErrors">
                     <span *ngIf="contentErrors['required']" class="text-red-600 font-medium">
+                        Course content is required
+                    </span>
+                    <span *ngIf="contentErrors['noSpaceAllowed']" class="text-red-600 font-medium">
                         Course content is required
                     </span>
                 </ng-container>
