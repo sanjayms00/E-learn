@@ -5,7 +5,6 @@ import { InstructorDashboardService } from '../services/instructor-dashboard.ser
 @Controller('dashboard')
 export class InstructorDashboardController {
 
-
     constructor(
         private dashboardService: InstructorDashboardService
     ) { }
@@ -15,9 +14,8 @@ export class InstructorDashboardController {
     async profieData(@Request() req) {
         const instructorId = req.user.id
         const dashData = await this.dashboardService.dashboardData(instructorId)
+
         return dashData
     }
-
-
 
 }

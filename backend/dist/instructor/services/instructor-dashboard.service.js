@@ -94,7 +94,7 @@ let InstructorDashboardService = class InstructorDashboardService {
             return {
                 courses: dashData[0].totalCount[0].count,
                 sold: dashData[0].sold[0].soldOutCourse,
-                rating: dashData[0].otherData[0].averageRating
+                rating: dashData[0].otherData[0]?.averageRating ?? 0
             };
         }
         catch (error) {

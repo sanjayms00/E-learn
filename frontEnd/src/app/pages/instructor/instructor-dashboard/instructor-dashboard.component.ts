@@ -21,7 +21,6 @@ export class InstructorDashboardComponent {
     }
 
     constructor(
-        private toastr: ToastrService,
         private dashboardService: DashboardService,
         private destroyRef: DestroyRef
     ) { }
