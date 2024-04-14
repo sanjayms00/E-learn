@@ -34,8 +34,7 @@ async function bootstrap() {
     app.setGlobalPrefix('api');
     app.enableCors({
         origin: [
-            'https://sanjayms.online/',
-            'https://www.sanjayms.online/'
+            'https://elearn.sanjayms.online/'
         ],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,

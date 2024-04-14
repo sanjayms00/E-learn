@@ -13,8 +13,9 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'https://sanjayms.online/',
-      'https://www.sanjayms.online/'
+      // 'https://sanjayms.online/',
+      // 'https://www.sanjayms.online/',
+      'https://elearn.sanjayms.online/'
     ],
     // origin: "*",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

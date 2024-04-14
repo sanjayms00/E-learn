@@ -152,8 +152,7 @@ exports.MessagesGateway = MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {
             origin: [
-                'https://sanjayms.online/',
-                'https://www.sanjayms.online/'
+                'https://elearn.sanjayms.online/'
             ],
         }
     }),
