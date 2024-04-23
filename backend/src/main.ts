@@ -13,8 +13,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      // 'https://sanjayms.online/',
-      // 'https://www.sanjayms.online/',
       'https://elearn.sanjayms.online/'
     ],
     // origin: "*",
