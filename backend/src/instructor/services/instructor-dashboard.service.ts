@@ -117,7 +117,7 @@ export class InstructorDashboardService {
                 {
                     $match: {
                         instructorId: objInstructorId,
-                        createdAt: { $gte: oneMonthAgo }
+                        createdAt: { $lte: today }
                     }
                 },
                 {

@@ -466,8 +466,8 @@ export class StudentCourseService {
                 ],
                 mode: 'payment',
                 success_url: `https://elearn.sanjayms.online/success`,
-                // success_url: `http://localhost:4200/success`,
                 cancel_url: `https://elearn.sanjayms.online/cancel`,
+                // success_url: `http://localhost:4200/success`,
                 // cancel_url: `http://localhost:4200/cancel`,
                 metadata: {
                     studentId: JSON.stringify(studentId),
