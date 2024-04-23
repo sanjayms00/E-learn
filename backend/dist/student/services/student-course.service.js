@@ -410,8 +410,8 @@ let StudentCourseService = class StudentCourseService {
                     },
                 ],
                 mode: 'payment',
-                success_url: `https://sanjayms.online/success`,
-                cancel_url: `https://sanjayms.online/cancel`,
+                success_url: `https://elearn.sanjayms.online/success`,
+                cancel_url: `https://elearn.sanjayms.online/cancel`,
                 metadata: {
                     studentId: JSON.stringify(studentId),
                     courseId: courseData.course._id
