@@ -70,6 +70,7 @@ export class StudentCourseController {
 
     @Post('webhook')
     async webhookStripe(@Req() req: RawBodyRequest<Request>) {
+        console.log("webhook called")
         const raw = req.rawBody;
         try {
             if (this.endpointSecret) {

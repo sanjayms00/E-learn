@@ -54,6 +54,7 @@ let StudentCourseController = class StudentCourseController {
         return await this.studentCourseService.checkout(courseData, req.user._id);
     }
     async webhookStripe(req) {
+        console.log("webhook called");
         const raw = req.rawBody;
         try {
             if (this.endpointSecret) {

@@ -425,6 +425,7 @@ let StudentCourseService = class StudentCourseService {
         }
     }
     async paymentSuccessService(paymentIntentId, studentId, courseId) {
+        console.log("success service", paymentIntentId, studentId, courseId);
         try {
             const courseExists = await this.studentModel.exists({
                 _id: studentId,

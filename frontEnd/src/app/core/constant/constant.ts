@@ -1,3 +1,4 @@
+//production 
 export const constant = {
     baseUrl: "https://elearn.sanjayms.online/api",
     noProfile: 'assets/images/no-profile.jpg',
@@ -5,6 +6,7 @@ export const constant = {
 }
 
 
+//development
 // export const constant = {
 //     baseUrl: "http://localhost:3000/api",
 //     noProfile: 'assets/images/no-profile.jpg',

@@ -466,7 +466,9 @@ export class StudentCourseService {
                 ],
                 mode: 'payment',
                 success_url: `https://elearn.sanjayms.online/success`,
+                // success_url: `http://localhost:4200/success`,
                 cancel_url: `https://elearn.sanjayms.online/cancel`,
+                // cancel_url: `http://localhost:4200/cancel`,
                 metadata: {
                     studentId: JSON.stringify(studentId),
                     courseId: courseData.course._id
@@ -482,7 +484,7 @@ export class StudentCourseService {
 
     //after payment save course
     async paymentSuccessService(paymentIntentId, studentId, courseId) {
-        // console.log("success service", paymentIntentId, studentId, courseId)
+        console.log("success service", paymentIntentId, studentId, courseId)
         try {
             const courseExists = await this.studentModel.exists({
                 _id: studentId,
