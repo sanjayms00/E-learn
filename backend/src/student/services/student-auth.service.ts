@@ -182,7 +182,7 @@ export class StudentAuthService {
       const tokenSaveResult = await this.createForgottenpasswordToken(email, token, student._id)
 
       //send mail
-      const url = `https://sanjayms.online/reset-password/${token}`;
+      const url = `https://elearn.sanjayms.online/reset-password/${token}`;
       // const url = `/reset-password/${token}`;
 
       const emailSent = await this.mailerlService.sendMail({
